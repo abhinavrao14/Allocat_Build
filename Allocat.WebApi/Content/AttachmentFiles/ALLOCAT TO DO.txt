@@ -1,0 +1,57 @@
+? How to calculate allocat fees?
+T) - allocat po number is replaced by hospital po number in order table
+
+--business logic to validate datatable
+--edit/non-edit mode
+--save into db
+
+--add more products
+--in add more products, client side validation to check whether he has entered code, selected size,type,preservation type, is available, price etc.
+
+--fill product master info
+--get unique preservation type from db
+
+check combination at server side tb products
+async for different dropdown
+
+update products object in angular after description popup close
+
+--whenever update any table, update last modified date and last modified by
+
+check user requesting rfq/PO/Product whether he is the one or not
+
+client side validation
+	order
+	RFQ
+	Product
+server side validation
+	order
+	RFQ
+	Product
+if attachment is there, response body should be there.
+if response is not there, do not insert response.
+
+
+Header sort in TB product 
+
+
+
+UserName
+Password
+FullName
+DomainScope
+MobileNumber If(provided by admin, then verified)
+EmailId If(provided by admin, then verified)
+
+
+Once user logs in successfully,
+We must ask these:
+PasswordQuestion
+PasswordAnswer
+SecurityQuestion
+SecurityAnswer
+
+and we also ask for (not mandatory)
+MobileNumber (if not verified)
+EmailId (if not verified)
+

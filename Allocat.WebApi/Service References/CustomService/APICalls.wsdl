@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="APICalls" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" />
+      <xsd:import schemaLocation="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net" />
+      <xsd:import schemaLocation="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.ResponseEntities" />
+      <xsd:import schemaLocation="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IAllocatCustomService_RegisterCustomerAndChargeProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterCustomerAndChargeProfile" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_RegisterCustomerAndChargeProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterCustomerAndChargeProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_RegisterCustomerAndChargeProfile_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q1:CustomException" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_ChargeCustomerProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChargeCustomerProfile" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_ChargeCustomerProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChargeCustomerProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_ChargeCustomerProfile_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q2:CustomException" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_UpdateCustomerProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCustomerProfile" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_UpdateCustomerProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCustomerProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_UpdateCustomerProfile_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q3:CustomException" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_UpdateCustomerPaymentProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCustomerPaymentProfile" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_UpdateCustomerPaymentProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCustomerPaymentProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_UpdateCustomerPaymentProfile_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q4:CustomException" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_UpdateCustomerShipingAddress_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCustomerShipingAddress" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_UpdateCustomerShipingAddress_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateCustomerShipingAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_UpdateCustomerShipingAddress_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q5:CustomException" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_RetrieveCustomerProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:RetrieveCustomerProfile" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_RetrieveCustomerProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RetrieveCustomerProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_RetrieveCustomerProfile_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q6:CustomException" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_RetrieveTransactionDetails_InputMessage">
+    <wsdl:part name="parameters" element="tns:RetrieveTransactionDetails" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_RetrieveTransactionDetails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RetrieveTransactionDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_RetrieveTransactionDetails_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q7:CustomException" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_DeleteCustomerProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCustomerProfile" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_DeleteCustomerProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCustomerProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_DeleteCustomerProfile_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q8:CustomException" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_DeleteCustomerPaymentProfile_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCustomerPaymentProfile" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_DeleteCustomerPaymentProfile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCustomerPaymentProfileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_DeleteCustomerPaymentProfile_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q9:CustomException" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_DeleteCustomerShippingAddress_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCustomerShippingAddress" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_DeleteCustomerShippingAddress_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteCustomerShippingAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAllocatCustomService_DeleteCustomerShippingAddress_CustomExceptionFault_FaultMessage">
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.Exceptions" name="detail" element="q10:CustomException" />
+  </wsdl:message>
+  <wsdl:portType name="IAllocatCustomService">
+    <wsdl:operation name="RegisterCustomerAndChargeProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/RegisterCustomerAndChargeProfile" message="tns:IAllocatCustomService_RegisterCustomerAndChargeProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/RegisterCustomerAndChargeProfileResponse" message="tns:IAllocatCustomService_RegisterCustomerAndChargeProfile_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/RegisterCustomerAndChargeProfileCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_RegisterCustomerAndChargeProfile_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChargeCustomerProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/ChargeCustomerProfile" message="tns:IAllocatCustomService_ChargeCustomerProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/ChargeCustomerProfileResponse" message="tns:IAllocatCustomService_ChargeCustomerProfile_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/ChargeCustomerProfileCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_ChargeCustomerProfile_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCustomerProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/UpdateCustomerProfile" message="tns:IAllocatCustomService_UpdateCustomerProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/UpdateCustomerProfileResponse" message="tns:IAllocatCustomService_UpdateCustomerProfile_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/UpdateCustomerProfileCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_UpdateCustomerProfile_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCustomerPaymentProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/UpdateCustomerPaymentProfile" message="tns:IAllocatCustomService_UpdateCustomerPaymentProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/UpdateCustomerPaymentProfileResponse" message="tns:IAllocatCustomService_UpdateCustomerPaymentProfile_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/UpdateCustomerPaymentProfileCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_UpdateCustomerPaymentProfile_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCustomerShipingAddress">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/UpdateCustomerShipingAddress" message="tns:IAllocatCustomService_UpdateCustomerShipingAddress_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/UpdateCustomerShipingAddressResponse" message="tns:IAllocatCustomService_UpdateCustomerShipingAddress_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/UpdateCustomerShipingAddressCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_UpdateCustomerShipingAddress_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveCustomerProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/RetrieveCustomerProfile" message="tns:IAllocatCustomService_RetrieveCustomerProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/RetrieveCustomerProfileResponse" message="tns:IAllocatCustomService_RetrieveCustomerProfile_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/RetrieveCustomerProfileCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_RetrieveCustomerProfile_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveTransactionDetails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/RetrieveTransactionDetails" message="tns:IAllocatCustomService_RetrieveTransactionDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/RetrieveTransactionDetailsResponse" message="tns:IAllocatCustomService_RetrieveTransactionDetails_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/RetrieveTransactionDetailsCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_RetrieveTransactionDetails_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCustomerProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/DeleteCustomerProfile" message="tns:IAllocatCustomService_DeleteCustomerProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/DeleteCustomerProfileResponse" message="tns:IAllocatCustomService_DeleteCustomerProfile_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/DeleteCustomerProfileCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_DeleteCustomerProfile_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCustomerPaymentProfile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/DeleteCustomerPaymentProfile" message="tns:IAllocatCustomService_DeleteCustomerPaymentProfile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/DeleteCustomerPaymentProfileResponse" message="tns:IAllocatCustomService_DeleteCustomerPaymentProfile_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/DeleteCustomerPaymentProfileCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_DeleteCustomerPaymentProfile_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCustomerShippingAddress">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAllocatCustomService/DeleteCustomerShippingAddress" message="tns:IAllocatCustomService_DeleteCustomerShippingAddress_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAllocatCustomService/DeleteCustomerShippingAddressResponse" message="tns:IAllocatCustomService_DeleteCustomerShippingAddress_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAllocatCustomService/DeleteCustomerShippingAddressCustomExceptionFault" name="CustomExceptionFault" message="tns:IAllocatCustomService_DeleteCustomerShippingAddress_CustomExceptionFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IAllocatCustomService" type="tns:IAllocatCustomService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RegisterCustomerAndChargeProfile">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/RegisterCustomerAndChargeProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ChargeCustomerProfile">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/ChargeCustomerProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCustomerProfile">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/UpdateCustomerProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCustomerPaymentProfile">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/UpdateCustomerPaymentProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateCustomerShipingAddress">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/UpdateCustomerShipingAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveCustomerProfile">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/RetrieveCustomerProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RetrieveTransactionDetails">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/RetrieveTransactionDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCustomerProfile">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/DeleteCustomerProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCustomerPaymentProfile">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/DeleteCustomerPaymentProfile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteCustomerShippingAddress">
+      <soap:operation soapAction="http://tempuri.org/IAllocatCustomService/DeleteCustomerShippingAddress" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="CustomExceptionFault">
+        <soap:fault use="literal" name="CustomExceptionFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="APICalls">
+    <wsdl:port name="BasicHttpBinding_IAllocatCustomService" binding="tns:BasicHttpBinding_IAllocatCustomService">
+      <soap:address location="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

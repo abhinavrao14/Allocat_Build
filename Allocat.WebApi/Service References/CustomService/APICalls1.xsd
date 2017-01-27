@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.ResponseEntities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Allocat.CustomService.Authorize.Net.BusinessEntities.ResponseEntities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="ResCustomerProfile">
+    <xs:sequence>
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="CustomerPaymentProfileIds" nillable="true" type="q1:ArrayOfstring" />
+      <xs:element minOccurs="0" name="CustomerProfileId" nillable="true" type="xs:string" />
+      <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="CustomerShippingProfileIds" nillable="true" type="q2:ArrayOfstring" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="RefId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SessionToken" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Transaction" nillable="true" type="tns:ResTransaction" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResCustomerProfile" nillable="true" type="tns:ResCustomerProfile" />
+  <xs:complexType name="ResTransaction">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AuthCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ErrorCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ErrorText" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ResponseCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TransactionId" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResTransaction" nillable="true" type="tns:ResTransaction" />
+  <xs:complexType name="ShippingAddress">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Address" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="City" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Company" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Country" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerAddressId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FaxNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FirstName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="LastName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PhoneNumber" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="State" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Zip" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ShippingAddress" nillable="true" type="tns:ShippingAddress" />
+  <xs:complexType name="ResCustomerProfileDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomerProfileId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="EmailId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchantCustomerId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PaymentP" nillable="true" type="tns:ArrayOfPaymentProfile" />
+      <xs:element minOccurs="0" name="RefId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SessionToken" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ShippingProfiles" nillable="true" type="tns:ArrayOfShippingAddress" />
+      <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SubscriptionIds" nillable="true" type="q3:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResCustomerProfileDetails" nillable="true" type="tns:ResCustomerProfileDetails" />
+  <xs:complexType name="ArrayOfPaymentProfile">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PaymentProfile" nillable="true" type="tns:PaymentProfile" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPaymentProfile" nillable="true" type="tns:ArrayOfPaymentProfile" />
+  <xs:complexType name="PaymentProfile">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BillTo" nillable="true" type="tns:ShippingAddress" />
+      <xs:element minOccurs="0" name="CustomerType" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DefaultPaymentProfile" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PaymentItem" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PaymentProfileId" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PaymentProfile" nillable="true" type="tns:PaymentProfile" />
+  <xs:complexType name="ArrayOfShippingAddress">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ShippingAddress" nillable="true" type="tns:ShippingAddress" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfShippingAddress" nillable="true" type="tns:ArrayOfShippingAddress" />
+  <xs:complexType name="ResTransactionDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AuthAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ErrorCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ErrorText" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ResponseCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SettleAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="SubmitTimeLocal" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="TransactionId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TransactionStatus" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TransactionType" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResTransactionDetails" nillable="true" type="tns:ResTransactionDetails" />
+</xs:schema>

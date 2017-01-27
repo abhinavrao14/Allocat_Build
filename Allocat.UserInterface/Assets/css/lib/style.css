@@ -1,0 +1,187 @@
+#searchfield { display: block; width: 100%; text-align: center; margin-bottom: 35px; }
+
+#searchfield form {
+  display: inline-block;
+  background: #eeefed;
+  padding: 0;
+  margin: 0;
+  padding: 5px;
+  border-radius: 3px;
+  margin: 5px 0 0 0;
+}
+#searchfield form .biginput {
+  width: 600px;
+  height: 40px;
+  padding: 0 10px 0 10px;
+  background-color: #fff;
+  border: 1px solid #c8c8c8;
+  border-radius: 3px;
+  color: #aeaeae;
+  font-weight:normal;
+  font-size: 1.5em;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+#searchfield form .biginput:focus {
+  color: #858585;
+}
+.autocomplete-suggestions { border: 1px solid #999; background: #fff; cursor: default; overflow: auto; }
+.autocomplete-suggestion { padding: 10px 5px; font-size: 1.2em; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #f0f0f0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399ff; }
+.para{
+	text-align:center; text-decoration:underline;
+}
+#nav{
+	height:62px;
+}
+#notification{
+	width: 300px;
+}
+.slimScrollDiv{
+	position: relative; overflow: hidden; width: auto; height: 250px;
+}
+.notifications-list{
+	overflow: hidden; width: auto; height: 250px;
+}
+.slimScrollBar{
+	background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;
+}
+.slimScrollRail{
+	width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;
+}
+#main-menu-inner{
+	overflow: hidden; width: auto; height: 100%;
+}
+#center{
+	text-align:center;
+}
+#table th {
+    vertical-align:middle;
+}
+#table td {
+    vertical-align:middle;
+}
+#table thead {
+   background-color: rgba(153, 153, 153, 0.21);
+}
+#search{
+	width:500px; margin:auto; margin-bottom:30px;
+}
+#autocomplete{
+	width:426px; height:30px; padding:10px;
+}
+#next{
+	float:right;
+}
+#icon{
+	font-size:25px; color:#dca14e;
+}
+#icon2{
+	font-size:25px; color:#67cea6;
+}
+.right{
+	float:right;
+}
+.left{
+	float:left;
+}
+#tblist{
+	margin:auto; width:65%; margin-bottom:30px; -moz-box-shadow:4px 4px 4px  #ccc; -webkit-box-shadow:4px 4px 4px  #ccc; box-shadow:4px 4px 4px  #ccc;
+}
+#from{
+	margin:auto; width:70%; margin-bottom:30px; -moz-box-shadow:4px 4px 4px  #ccc; -webkit-box-shadow:4px 4px 4px  #ccc; box-shadow:4px 4px 4px  #ccc;
+}
+#date{
+	width:400px; padding-bottom:30px;
+}
+#datepicker{
+	width:476px; padding-bottom:15px;
+}
+#paneltable{
+	margin-bottom:30px; -moz-box-shadow:4px 4px 4px  #ccc; -webkit-box-shadow:4px 4px 4px  #ccc; box-shadow:4px 4px 4px  #ccc;
+}
+#iconshare{
+	font-size: 25px; padding-right:10px; padding-left:30px;
+}
+#row{
+	margin-left: 2px; margin-right: -6px; margin-bottom: 10px;
+}
+#statusr{
+	border:1px; background-color:#f4b04f; width:50%; margin:auto; color:#ffffff;
+}
+#statuss{
+	border:1px; background-color:#5ebd5e; width:50%; margin:auto; color:#ffffff;
+}
+#statusn{
+	border:1px; background-color:#64bed8; width:70%; margin:auto; color:#ffffff;
+}
+#statusc{
+	border:1px; background-color:#9788a7; width:50%; margin:auto; color:#ffffff;
+}
+#statusd{
+	border:1px; background-color:#f59b90; width:50%; margin:auto; color:#ffffff;
+}
+#filter{
+    margin-bottom:30px; -moz-box-shadow:4px 4px 4px  #ccc; -webkit-box-shadow:4px 4px 4px  #ccc; box-shadow:4px 4px 4px  #ccc;
+}
+#label{
+	font-weight:bold; float:left; padding-right:12px;
+}
+#select{
+	width:50%; height:28px;
+}
+#span{
+	 width:130px; float:left; text-align:right; padding-right:2px; font-weight:bold;
+}
+#row{
+	margin-bottom:15px;
+}
+.form-group{
+	padding-left:10px; padding-right:10px;
+}
+.chat
+{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat li
+{
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #B3A9A9;
+}
+
+.chat li.left .chat-body
+{
+    margin-left: 60px;
+}
+
+.chat li.right .chat-body
+{
+    margin-right: 60px;
+}
+
+
+.chat li .chat-body p
+{
+    margin: 0;
+    color: #777777;
+}
+
+.panel .slidedown .glyphicon, .chat .glyphicon
+{
+    margin-right: 5px;
+}
+
+.status{
+    font-weight:600;
+    display:inline-block;
+}
+
+
+
+

@@ -1,0 +1,257 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+
+}
+<script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
+<script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+
+<style>
+    @@media only screen and (min-width: 951px) {
+        .icn {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 950px) {
+        #c1 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 951px) {
+        #r1 {
+            display: none;
+        }
+    }
+
+	@@media only screen and (max-width: 900px) {
+        #c2 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 901px) {
+        #r2 {
+            display: none;
+        }
+    }
+
+	@@media only screen and (max-width: 850px) {
+        #c3 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 851px) {
+        #r3 {
+            display: none;
+        }
+    }
+
+	@@media only screen and (max-width: 800px) {
+        #c4 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 801px) {
+        #r4 {
+            display: none;
+        }
+    }
+
+	@@media only screen and (max-width: 750px) {
+        #c5 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 751px) {
+        #r5 {
+            display: none;
+        }
+    }
+</style>
+
+
+<div ng-controller="OrderController">
+    <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
+    <ul class="breadcrumb breadcrumb-page">
+        <div class="breadcrumb-label text-light-gray">You are here: </div>
+        <li>
+            <a href="@Url.Action("Index", "Home", new { Area = "TissueBank" })">
+                <span class="mm-text"><u>Home</u></span>
+            </a>
+        </li>
+        <li class="active"><a href="#"><u>Reports Panel</u></a></li>
+        <li class="active"><a href="">Purchase Order</a></li>
+    </ul>
+    <div class="page-header">
+        <div class="row">
+            <!-- Page header, center on small screens -->
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm">Purchase Order</h1>
+        </div>
+    </div>
+
+    <div class="table-header">
+        <div class="table-caption">
+            <div class="row">
+                <div class="col-md-2" style="text-align:center; border-right:1px solid #8ba4c2; height:31px;">
+                    Total Orders({{TotalOrders}})
+                </div>
+                <div class="col-md-4" style="text-align:center; border-right:1px solid #8ba4c2; height:31px; margin-bottom:3px">
+                    <input class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="SearchBy" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search()">
+                </div>
+                <div class="col-md-4">
+                    <ul class="pagination">
+                        <li><a href="#">«</a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">6</a></li>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <label class="filter-col" style="margin-right:0;" for="pref-perpage">Per Page: </label>
+                    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalOrders<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span ng-if="dataLoading" style="color:darkgreen;">Please Wait..</span>
+    <span ng-if="Orders.length==0" style="color:darkgreen;">Sorry..No Orders.</span>
+    <table ng-if="Orders.length!=0" class="table table-hover table-striped" id="tablestyle">
+        <thead id="headerstyle">
+            <tr>
+                <th></th>
+                <th style="text-align:center">
+                    <div style="cursor:pointer" ng-click="Sort('OrderId')">
+                        <span ng-show="SortExpression  == 'OrderId' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'OrderId' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        Order ID
+                    </div>
+                </th>
+                <th id="c1" style="text-align:center">
+                    <div style="cursor:pointer" ng-click="Sort('CreatedDate')">
+                        <span ng-show="SortExpression  == 'CreatedDate' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'CreatedDate' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        Order Date
+                    </div>
+                </th>
+                <th id="c2" style="text-align:center">
+                    <div style="cursor:pointer" ng-click="Sort('NeedByDate')">
+                        <span ng-show="SortExpression  == 'NeedByDate' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'NeedByDate' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        Need By Date
+                    </div>
+                </th>
+                <th id="c3" style="text-align:center">RFQ ID</th>
+                <th id="c5" style="text-align:center">Product Code</th>
+                <th id="c4" style="text-align:center">Product Name</th>
+                <th style="text-align:center">
+                    <div style="cursor:pointer" ng-click="Sort('StatusName')">
+                        <span ng-show="SortExpression  == 'StatusName' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'StatusName' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        Status
+                    </div>
+                </th>
+                <th style="text-align:center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat-start="Order in Orders">
+                <td>
+                    <button class="icn" ng-if="Order.expanded" ng-click="Order.expanded = false" id="button1">-</button>
+                    <button class="icn" ng-if="!Order.expanded" ng-click="Order.expanded = true" id="button2">+</button>
+                </td>
+                <td style="vertical-align:middle"> {{Order.OrderId}}</td>
+                <td id="c1" style="vertical-align:middle">{{Order.CreatedDate | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td id="c2" style="vertical-align:middle">{{Order.NeedByDate | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td id="c3" style="vertical-align:middle">{{Order.RequestForQuoteId==null ? 'N/A' : Order.RequestForQuoteId}}</td>
+                <td id="c5" style="vertical-align:middle">{{Order.ProductCode}}</td>
+                <td id="c4" style="vertical-align:middle">{{Order.ProductMasterName}}</td>
+                <td style="display:flex; justify-content:center">
+                    <div id="pending" ng-if="Order.StatusName == 'Pending'">
+                        Pending
+                    </div>
+                    <div id="acknowledged" ng-if="Order.StatusName == 'Acknowledged'">
+                        Acknowledged
+                    </div>
+                    <div id="closed" ng-if="Order.StatusName == 'Closed'">
+                        Closed
+                    </div>
+                    <div id="declined" ng-if="Order.StatusName == 'Declined By TissueBank'">
+                        Declined By Tissue Bank
+                    </div>
+                </td>
+                <td style="vertical-align:middle">
+                    @{
+                        var ViewCompleteUrl = Url.Action("Manage", "Order", new { OrderId = "{{Order.OrderId}}" });
+                        ViewCompleteUrl = HttpUtility.UrlDecode(ViewCompleteUrl);
+                    }
+                    <a data-ng-href="@ViewCompleteUrl"><span title="Manage" style="cursor:pointer"><i class="fa fa-pencil-square-o"style="font-size:18px; color:#4bacd0"></i></span></a>
+                </td>
+            </tr>
+            <tr ng-if="Order.expanded" ng-repeat-end="">
+                <td colspan="7">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <table class="table table-hover table-striped">
+                                <tr id="r1">
+                                    <td><b>Order Date</b></td>
+                                    <td><i>{{Order.CreatedDate | date : 'yyyy-MM-dd HH:mm:ss'}}</i></td>
+                                </tr>
+                                <tr id="r2">
+                                    <td><b>Need By Date</b></td>
+                                    <td><i>{{Order.NeedByDate | date : 'yyyy-MM-dd HH:mm:ss'}}</i></td>
+                                </tr>
+                                <tr id="r3">
+                                    <td><b>RFQ ID</b></td>
+                                    <td><i>{{Order.RequestForQuoteId==null ? 'N/A' : Order.RequestForQuoteId}}</i></td>
+                                </tr>
+                                <tr id="r4">
+                                    <td><b>Product Name</b></td>
+                                    <td><i>{{Order.ProductMasterName}}</i></td>
+                                </tr>
+                                <tr id="r5">
+                                    <td><b>Product Code</b></td>
+                                    <td><i>{{Order.ProductCode}}</i></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="table-footer">
+        <div class="table-caption">
+            <div class="row">
+                <div class="col-md-2" style="text-align:center; border-right:1px solid #8ba4c2; height:31px;">
+                    Total Orders({{TotalOrders}})
+                </div>
+                <div class="col-md-4" style="text-align:center; border-right:1px solid #8ba4c2; height:31px; margin-bottom:3px">
+                    <input class="form-control ng-pristine ng-valid ng-empty ng-touched" ng-model="SearchBy" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search()">
+                </div>
+                <div class="col-md-4">
+                    <ul class="pagination">
+                        <li><a href="#">«</a></li>
+                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">6</a></li>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <label class="filter-col" style="margin-right:0;" for="pref-perpage">Per Page: </label>
+                    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalOrders<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="notifies" notifybar></div>
+</div>

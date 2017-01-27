@@ -1,0 +1,407 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+<script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
+<script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+<style>
+    .error {
+        color: red;
+        border-color: red;
+    }
+</style>
+<style>
+    table {
+        width: 100%;
+    }
+
+     @@media only screen and (max-width: 450px) {
+        #mainrow {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 451px) {
+        #otherrow {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 1050px) {
+        #c1 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 1051px) {
+        #r1 {
+            display: none;
+        }
+    }
+
+	@@media only screen and (max-width: 1000px) {
+        #c2 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 1001px) {
+        #r2 {
+            display: none;
+        }
+    }
+
+	@@media only screen and (max-width: 950px) {
+        #c3 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 951px) {
+        #r3 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 900px) {
+        #c4 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 901px) {
+        #r4 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 850px) {
+        #c5 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 851px) {
+        #r5 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 800px) {
+        #c6 {
+            display: none;
+        }
+    }
+	@@media only screen and (min-width: 801px) {
+        #r6 {
+            display: none;
+        }
+    }
+</style>	
+
+@if (@ViewBag.user.InfoId != null)
+{
+    <input type="hidden" for="ProductMasterId" id="ProductMasterId" value="@ViewBag.ProductMasterId" />
+    <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
+    <input type="hidden" for="UserId" id="UserId" value="@ViewBag.user.UserId" />
+}
+else
+{
+    <input type="hidden" for="ProductMasterId" id="ProductMasterId" value="" />
+}
+
+<div ng-controller="ProductDetailController">
+    <ul class="breadcrumb breadcrumb-page">
+        <div class="breadcrumb-label text-light-gray">You are here: </div>
+        <li>
+            <a tabindex="-1" href="@Url.Action("Index", "Home", new { Area = "TissueBank" })">
+                <span class="mm-text">Home</span>
+            </a>
+        </li>
+        <li class="active">
+            <a tabindex="-1" href="@Url.Action("Index", "Product", new { Area = "TissueBank" })">
+                <span class="mm-text"><u>Product Management</u></span>
+            </a>
+        </li>
+        <li class="active"><a href="#">Manage Product</a></li>
+    </ul>
+    <div class="page-header">
+        <div class="row">
+            <!-- Page header, center on small screens -->
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"> Manage Products</h1>
+        </div>
+    </div> <!-- / .page-header -->
+
+    <div class="panel" style="margin-bottom:30px">
+        <div class="panel-heading">
+            <b>Product Details</b>
+        </div>
+        <div class="panel-body panel-padding">
+            <div class="row">
+                <div class="col-md-3" style="display:inline-block; margin-bottom:15px">
+                    <image src="~/Assets/image/product.jpg" style="width:200px; height:150px;" />
+                </div>
+                <div class="col-md-9" style="display:inline-block">
+                    <div style="margin-bottom:10px"><label id="span">Product Name :</label> <span style="padding-left:15px">{{ProductMaster_TissueBank.ProductMasterName}}</span></div>
+                    <div style="margin-bottom:10px"><label id="span">Family :</label> <span style="padding-left:15px;">{{ProductMaster_TissueBank.FamilyProductMasterName==null ? 'N/A' : ProductMaster_TissueBank.FamilyProductMasterName}}</span></div>
+                    <div style="margin-bottom:10px"><label id="span">Domain Scope :</label> <span style="padding-left:15px;">Dental</span></div>
+                    <div style="margin-bottom:10px"><label id="span">Product Description :</label> <span style="padding-left:15px;">{{ProductMaster_TissueBank.ProductMasterDescription==null ? 'N/A' : ProductMaster_TissueBank.ProductMasterDescription}}</span></div>
+                    <div style="margin-bottom:10px"><label id="span">Product Features :</label> <span style="padding-left:15px;">{{ProductMaster_TissueBank.ProductMasterFeatures==null ? 'N/A' : ProductMaster_TissueBank.ProductMasterFeatures}}</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form name="form_ConfirmOnExit" confirm-on-exit>
+        <div class="row" style="margin-bottom:10px">
+            <div class="col-md-12">
+                <span style="font-size:18px">Available Products <b>(4 Products)</b></span>
+            </div>
+        </div>
+
+        <div class="table-header">
+            <div class="table-caption">
+                <div class="row">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-info" ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true"><i class="fa fa-plus"></i> Add</button>
+                        <button type="button" class="btn btn-danger" ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                        <button type="button" class="btn btn-info" ng-show="editMode" ng-click="form_ConfirmOnExit.$valid && save()"><i class="fa fa-check"></i> Save</button>
+                        <button type="button" class="btn btn-danger" ng-show="editMode" ng-click="cancel()"><i class="fa fa-times"></i> Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-hover table-striped" id="tablestyle" style="text-align:left">
+            <thead id="headerstyle">
+                <tr>
+                    <th></th>
+                    <th>Product Type</th>
+                    <th id="c5">Size</th>
+                    <th id="c4">Product Code</th>
+                    <th id="c3">Preservation Type</th>
+                    <th id="c6">Unit Price($)</th>
+                    <th id="c2">Available For Sale</th>
+                    <th id="c1">Source</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat-start="Product in ProductsByProductMasterId">
+                    <td style="vertical-align:middle">
+                        <button class="icn" ng-if="Product.expanded" ng-click="Product.expanded = false" id="button1">-</button>
+                        <button class="icn" ng-if="!Product.expanded" ng-click="Product.expanded = true" id="button2">+</button>
+                    </td>
+                    <td style="vertical-align:middle">
+                        <span ng-hide="editMode">{{Product.ProductType}}</span>
+                        <select ng-hide="!editMode" ng-model="Product.ProductType" ng-required="true" ng-options="ProductTypeOption for ProductTypeOption in ProductTypeOptions">
+                            <option value="" label="-ProductType-"></option>
+                        </select>
+                    </td>
+                    <td id="c5" style="vertical-align:middle; width:15%">
+                        <span ng-hide="editMode">{{Product.ProductSize}}</span>
+                        <select ng-hide="!editMode" ng-model="Product.ProductSize" required ng-options="ProductSizeOptions for ProductSizeOptions in ProductSizeOptions">
+                            <option value="" label="-ProductSize-"></option>
+                        </select>
+                    </td>
+                    <td id="c4" style="vertical-align:middle">
+                        <span ng-hide="editMode">{{Product.ProductCode}}</span>
+                        <input ng-hide="!editMode" ng-model="Product.ProductCode" ng-pattern="ProductCodeExp" placeholder="Enter ProductCode" required>
+                    </td>
+                    <td id="c3" style="vertical-align:middle">
+                        <span ng-hide="editMode">{{Product.PreservationType}}</span>
+                        <select ng-hide="!editMode" ng-model="Product.PreservationType" required ng-options="PreservationTypeOption for PreservationTypeOption in PreservationTypeOptions">
+                            <option value="" label="-PreservationType-"></option>
+                        </select>
+                    </td>
+                    <td id="c6" style="vertical-align:middle">
+                        <span ng-hide="editMode">{{Product.UnitPrice==null ? 'N/A' : Product.UnitPrice | currency}}</span>
+                        <input ng-hide="!editMode" ng-model="Product.UnitPrice" placeholder="Enter Unit Price" type="number" />
+                    </td>
+                    <td id="c2" style="vertical-align:middle; width:9%">
+                        <span ng-hide="editMode">{{Product.IsAvailableForSale}}</span>
+                        <select ng-hide="!editMode" ng-model="Product.IsAvailableForSale" required ng-change="print(Product.IsAvailableForSale)" ng-options="IsAvailableOption for IsAvailableOption in IsAvailableOptions">
+                            <option value="" label="-Availability-"></option>
+                        </select>
+                    </td>
+                    <td id="c1" style="vertical-align:middle">
+                        <span ng-hide="editMode">{{Product.SourceName}}</span>
+                        <select ng-hide="!editMode" ng-model="Product.SourceId" required ng-options="value.SourceId as value.SourceName for (key, value) in SourceOptions">
+                            <option value="" label="-Source-"></option>
+                        </select>
+                    </td>
+                </tr>
+                <tr ng-if="Product.expanded" ng-repeat-end="">
+                    <td colspan="7">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <table class="table table-hover table-striped" id="mainrow">
+                                    <tr>
+                                        <td><b>Product Description</b></td>
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.ProductDescription}}</span>
+                                            <input ng-hide="!editMode" ng-model="Product.ProductDescription" placeholder="Enter Product Description" type="text" />
+                                        </td>
+                                    </tr>
+                                    <tr id="r1">
+                                        <td><b>Source</b></td>
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.SourceName}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.SourceId" required ng-options="value.SourceId as value.SourceName for (key, value) in SourceOptions">
+                                                <option value="" label="-Source-"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="r2">
+                                        <td><b>Available For Sale</b></td>
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.IsAvailableForSale}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.IsAvailableForSale" required ng-change="print(Product.IsAvailableForSale)" ng-options="IsAvailableOption for IsAvailableOption in IsAvailableOptions">
+                                                <option value="" label="-Availability-"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="r3">
+                                        <td><b>Preservation Type</b></td>
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.PreservationType}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.PreservationType" required ng-options="PreservationTypeOption for PreservationTypeOption in PreservationTypeOptions">
+                                                <option value="" label="-PreservationType-"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="r4">
+                                        <td><b>Product Code</b></td>
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.ProductCode}}</span>
+                                            <input ng-hide="!editMode" ng-model="Product.ProductCode" ng-pattern="ProductCodeExp" placeholder="Enter ProductCode" required>
+                                        </td>
+                                    </tr>
+                                    <tr id="r5">
+                                        <td><b>Size</b></td>
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.SourceName}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.SourceId" required ng-options="value.SourceId as value.SourceName for (key, value) in SourceOptions">
+                                                <option value="" label="-Source-"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="r6">
+                                        <td><b>Unit Price</b></td>
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.UnitPrice==null ? 'N/A' : Product.UnitPrice | currency}}</span>
+                                            <input ng-hide="!editMode" ng-model="Product.UnitPrice" placeholder="Enter Unit Price" type="number" />
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <table class="table table-hover table-striped" id="otherrow">
+                                    <tr>
+                                        <td><b>Product Description</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.ProductDescription}}</span>
+                                            <input ng-hide="!editMode" ng-model="Product.ProductDescription" placeholder="Enter Product Description" type="text" />
+                                        </td>
+                                    </tr>
+                                    <tr id="r1">
+                                        <td><b>Source</b></td>
+                                    </tr>
+                                    <tr id="r1">
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.SourceName}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.SourceId" required ng-options="value.SourceId as value.SourceName for (key, value) in SourceOptions">
+                                                <option value="" label="-Source-"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="r2">
+                                        <td><b>Available For Sale</b></td>
+                                    </tr>
+                                    <tr id="r2">
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.IsAvailableForSale}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.IsAvailableForSale" required ng-change="print(Product.IsAvailableForSale)" ng-options="IsAvailableOption for IsAvailableOption in IsAvailableOptions">
+                                                <option value="" label="-Availability-"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="r3">
+                                        <td><b>Preservation Type</b></td>
+                                    </tr>
+                                    <tr id="r3">
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.PreservationType}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.PreservationType" required ng-options="PreservationTypeOption for PreservationTypeOption in PreservationTypeOptions">
+                                                <option value="" label="-PreservationType-"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="r4">
+                                        <td><b>Product Code</b></td>
+                                    </tr>
+                                    <tr id="r4">
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.ProductCode}}</span>
+                                            <input ng-hide="!editMode" ng-model="Product.ProductCode" ng-pattern="ProductCodeExp" placeholder="Enter ProductCode" required>
+                                        </td>
+                                    </tr>
+                                    <tr id="r5">
+                                        <td><b>Size</b></td>
+                                    </tr>
+                                    <tr id="r5">
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.SourceName}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.SourceId" required ng-options="value.SourceId as value.SourceName for (key, value) in SourceOptions">
+                                                <option value="" label="-Source-"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr id="r6">
+                                        <td><b>Unit Price</b></td>
+                                    </tr>
+                                    <tr id="r6">
+                                        <td>
+                                            <span ng-hide="editMode">{{Product.UnitPrice==null ? 'N/A' : Product.UnitPrice | currency}}</span>
+                                            <input ng-hide="!editMode" ng-model="Product.UnitPrice" placeholder="Enter Unit Price" type="number" />
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+               
+
+
+            </tbody>
+        </table>
+</form>
+    <div class="notifies" notifybar></div>
+</div>
+
+<modal id="myModal" class="modal fade" role="dialog" visible="showModal">
+    <!-- template for modal -->
+    <div class="form-group">
+        @*<div class="col-md-6">Tissue Bank</div>
+            <div class="col-md-6">{{tissueBank.tissueBank.TissueBankName}}</div>*@
+        <div class="col-md-12">
+            <textarea style="width:100%" ng-model="selectedDescription"> </textarea>
+        </div>
+        <div class="col-md-12">
+            <input type="button" class="btn btn-primary" ng-click="ok()" value="OK" />
+            <input type="button" class="btn btn-warning" ng-click="cancel()" value="Cancel" />
+        </div>
+    </div>
+
+</modal>
+<script type="text/ng-template" id="firstDialogId">
+    <div class="ngdialog-message">
+        <h3>Add/Edit Description</h3>
+        <textarea style="width:100%" ng-model="ngDialogData.selectedDescription"> </textarea>
+    </div>
+    <div class="ngdialog-buttons">
+        <button type="button" class="ngdialog-button ngdialog-button-primary"
+                ng-click="Submit()">
+            Submit
+        </button>
+        <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="Cancel()">Cancel</button>
+    </div>
+</script>

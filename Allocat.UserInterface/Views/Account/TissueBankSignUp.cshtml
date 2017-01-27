@@ -1,0 +1,108 @@
+﻿@model Allocat.Web.Models.SignUpViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/Assets/css/lib/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/lib/pages.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/custom/pixel-admin.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/custom/rtl.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/lib/themes.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <style>
+        #signin-demo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            z-index: 10000;
+            background: rgba(0, 0, 0, .6);
+            padding: 6px;
+            border-radius: 3px;
+        }
+
+            #signin-demo img {
+                cursor: pointer;
+                height: 40px;
+            }
+
+                #signin-demo img:hover {
+                    opacity: .5;
+                }
+
+            #signin-demo div {
+                color: #fff;
+                font-size: 10px;
+                font-weight: 600;
+                padding-bottom: 6px;
+            }
+    </style>
+</head>
+<body class="theme-default page-signin">
+    <div id="page-signin-bg">
+        <div class="overlay"></div>
+        <img src="~/Assets/image/allocat_bg.jpg" class="img-responsive" style="width:100%; height:100%" alt="">
+    </div>
+    <div class="signin-container">
+
+        <div class="signin-form">
+            <div class="signin-text">
+                <span>Tissue Bank - User SignUp</span>
+            </div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true)
+
+                <div class="form-group w-icon">
+                    @Html.TextBoxFor(model => model.FullName, new { @class = "form-control input-lg", @placeholder = "Full Name" })
+                    <span class="fa fa-user signin-form-icon"></span>
+                    @Html.ValidationMessageFor(model => model.FullName)
+                </div>
+
+                <div class="form-group w-icon">
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control input-lg", @placeholder = "User Name" })
+                    <span class="fa fa-user signin-form-icon"></span>
+                    @Html.ValidationMessageFor(model => model.UserName)
+                </div>
+
+                <div class="form-group w-icon">
+                    @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control input-lg", @placeholder = "EmailId" })
+                    <span class="fa fa-envelope signin-form-icon"></span>
+                    @Html.ValidationMessageFor(model => model.EmailId)
+                </div>
+                <div class="form-group w-icon">
+                    @Html.DropDownList("SecurityQuestion", ViewBag.SecurityQuestions as SelectList, "-Select Security Question-", new { @class = "form-control input-lg",@style= "padding-left: 50px;" })
+                    @*@Html.TextBoxFor(model => model.SecurityQuestion, new { @class = "form-control input-lg", @placeholder = "Security Question" })*@
+                    <span class="fa fa-question signin-form-icon"></span>
+                    @Html.ValidationMessageFor(model => model.SecurityQuestion)
+                </div>
+
+                <div class="form-group w-icon">
+                    @Html.TextBoxFor(model => model.SecurityAnswer, new { @class = "form-control input-lg", @placeholder = "Security Answer" })
+                    <span class="fa fa-lock signin-form-icon"></span>
+                    @Html.ValidationMessageFor(model => model.SecurityAnswer)
+                </div>
+
+
+                <div class="form-actions">
+                    <input type="submit" value="Sign Up" class="signin-btn bg-primary" />
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="not-a-member">
+        <a href="@Url.Action("Index", "Account", new { Area = "" })">
+            <i class="fa fa-lock signin-form-icon"></i>
+            &nbsp;&nbsp;Back To Login
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Successful</title>
+</head>
+<body>
+    <h1>An email is sent to entered email id.Please verify your account by clicking a link in it. This email also contains your temporary password to log in.Please change it once you logs in.</h1>
+
+    <a href="@Url.Action("Index", "Account", new { Area = "" })">
+        <i class="dropdown-icon fa fa-user-plus"></i>
+        &nbsp;&nbsp;Back to Login
+   </a>
+
+</body>
+</html>

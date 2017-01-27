@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="dae17b5e-6e64-476a-adb6-8efa1336a1d6" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="APICalls.xsd" MetadataType="Schema" ID="1ba96cd2-473f-40e3-b62f-d78e9c4d2e49" SourceId="1" SourceUrl="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd2" />
+    <MetadataFile FileName="APICalls1.xsd" MetadataType="Schema" ID="7d59f14b-9a41-44be-aba8-5facbd6d02b3" SourceId="1" SourceUrl="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd3" />
+    <MetadataFile FileName="APICalls2.xsd" MetadataType="Schema" ID="7c68940e-133d-40f3-b708-9874b8cadd92" SourceId="1" SourceUrl="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd4" />
+    <MetadataFile FileName="APICalls3.xsd" MetadataType="Schema" ID="89ffac4a-bf1a-41db-a811-edc5f2e5c64e" SourceId="1" SourceUrl="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd5" />
+    <MetadataFile FileName="APICalls.disco" MetadataType="Disco" ID="1abcea81-8736-4b7f-b21b-74da8632dbd1" SourceId="1" SourceUrl="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?disco" />
+    <MetadataFile FileName="APICalls.wsdl" MetadataType="Wsdl" ID="6b9299bc-f4d4-45a7-9dbc-d5ae8379f711" SourceId="1" SourceUrl="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?wsdl" />
+    <MetadataFile FileName="APICalls4.xsd" MetadataType="Schema" ID="11b7d3ba-61ff-4c90-9750-541e7e16c033" SourceId="1" SourceUrl="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd0" />
+    <MetadataFile FileName="APICalls5.xsd" MetadataType="Schema" ID="22a38585-6739-4aa6-8c85-4e0b6dce70f5" SourceId="1" SourceUrl="http://dc74b22765d945188bf492795f868334.cloudapp.net/APICalls.svc?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

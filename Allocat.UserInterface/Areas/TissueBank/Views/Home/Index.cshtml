@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+<style>
+    .blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@@keyframes blinker {  
+  50% { opacity: 0; }
+}
+</style>
+
+<script>
+    (function blink() {
+        $('.blink_me').fadeOut(500).fadeIn(500, blink);
+    })();
+</script>
+@if (ViewBag.user.InfoId ==0)
+            {
+    <a style="color:red;text-align:center;font-size:17px" class="blink_me" href="@Url.Action("Index", "TissueBankProfile", new { Area = "TissueBank" })">
+        You have not added your Tissue Bank yet.<br /> Click here to add now and explore thousands of Allografts online.
+    </a>
+}

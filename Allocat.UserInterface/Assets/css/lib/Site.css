@@ -1,0 +1,248 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    /*max-width: 280px;*/
+}
+
+
+
+#loaderDiv {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1100;
+    background-color: white;
+    opacity: .6;
+}
+
+.ajax-loader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -32px; /* -1 * image width / 2 */
+    margin-top: -32px; /* -1 * image height / 2 */
+    display: block;
+}
+
+.notifies {
+    position: fixed;
+    top: 20px;
+    right: 0;
+    z-index: 99999;
+}
+
+
+.warning-tag {
+    border: 1px;
+    background-color: #8a98b0;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.sucess-tag {
+    border: 1px;
+    background-color: #08c8d1;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.on-going-tag {
+    border: 1px;
+    background-color: #64bed8;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.closed-tag {
+    border: 1px;
+    background-color: #20b2aa;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.status{
+    font-weight:600;
+    display:inline-block;
+}
+
+.ack{
+     border: 1px;
+    background-color: #08c8d1;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 25px;
+    height: 25px;
+    display:inline-block; 
+    width:140px
+}
+
+.declined{
+     border: 1px;
+    background-color: #08c8d1;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 25px;
+    height: 25px;
+    display:inline-block; 
+    width:140px
+}
+
+.receive {
+    border: 1px;
+    background-color: 	#75b0b2;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.sent {
+    border: 1px;
+    background-color: 	#a8bdc1;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.on-going {
+    border: 1px;
+    background-color: #64bed8;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.decline {
+    border: 1px;
+    background-color: #2f506e;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.close {
+    border: 1px;
+    background-color: #20b2aa;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.on-going-tag{
+     border: 1px;
+    background-color: #64bed8;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    display:inline-block; 
+    width:100px
+}
+
+.received-tag{
+     border: 1px;
+    background-color: #75b0b2;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    display:inline-block; 
+    width:100px
+}
+
+.sent-tag{
+     border: 1px;
+    background-color: #a8bdc1;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    display:inline-block; 
+    width:100px
+}
+
+.decline-tag{
+     border: 1px;
+    background-color: #2f506e;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.placed-tag{
+     border: 1px;
+    background-color: #20b2aa;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    display:inline-block; 
+    width:100px
+}
+
+.ack-tag {
+    border: 1px;
+    background-color: #08c8d1;
+    margin: auto;
+    color: #ffffff;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+}
+
+.error-msg
+{
+    color:red;
+}
+
+
