@@ -248,6 +248,7 @@
     <Content Include="Service References\CustomService\Allocat.WebApi.CustomService.ResTransactionDetails.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\Allocat - Web Deploy.pubxml" />
     <None Include="Service References\CustomService\APICalls.disco" />
     <None Include="Service References\CustomService\configuration91.svcinfo" />
     <None Include="Service References\CustomService\configuration.svcinfo" />

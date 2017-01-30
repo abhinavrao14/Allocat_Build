@@ -336,7 +336,9 @@
     <Content Include="Assets\icons\responsivenav.eot" />
     <Content Include="Assets\icons\responsivenav.ttf" />
     <Content Include="Assets\icons\responsivenav.woff" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -349,6 +351,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\Allocat - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\Allocat - Web Deploy.pubxml" />
     <Content Include="Views\Account\TissueBankSignUp.cshtml" />
     <Content Include="Views\Response\TissueBankUser_SignUp_Successful.cshtml" />
