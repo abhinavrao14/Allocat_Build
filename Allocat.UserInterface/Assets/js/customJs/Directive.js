@@ -115,28 +115,25 @@ app.directive('overwriteEmail', function () {
     };
 });
 
-app.directive('hideme', ['$http', '$timeout', function ($http, $timeout) {
-    return {
-        transclude: true,
-        restrict: 'E',
-        template: '<div id="loaderDiv"  ng-show="showEl"><div class="ajax-loader" ng-transclude></div></div>',
+app.directive('loading', ['$http', function ($http) {
+        return {
+            restrict: 'A',
+            link: function (scope, elm, attrs) {
+                scope.isLoading = function () {
+                    return $http.pendingRequests.length > 0;
+                };
 
-        link: function ($scope, $elm, $attrs) {
-            $scope.isLoading = function () {
-                return $http.pendingRequests.length > 0;
-            };
+                scope.$watch(scope.isLoading, function (v) {
+                    if (v) {
+                        elm.show();
+                    } else {
+                        elm.hide();
+                    }
+                });
+            }
+        };
 
-            $scope.$watch($scope.isLoading, function (v) {
-                if (v) {
-                    $scope.showEl = true;
-                } else {
-                    $scope.showEl = false;
-                }
-            });
-        }
-    };
-
-}]);
+    }]);
 
 app.directive('confirmOnExit', function () {
     return {
