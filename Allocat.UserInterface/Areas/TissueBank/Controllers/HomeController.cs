@@ -5,7 +5,7 @@ namespace Allocat.UserInterface.Areas.TissueBank.Controllers
 {
     public class HomeController : Controller
     {
-        [CustomAuthorize(Roles = "TISSUE BANK SUPER ADMIN, TISSUE BANK INVENTORY MANAGER")]
+        [CustomAuthorize(Roles = "TISSUE BANK SUPER ADMIN, TISSUE BANK INVENTORY MANAGER, TISSUE BANK INVENTORY MANAGER")]
         public ActionResult Index()
         {
             ViewBag.user = System.Web.HttpContext.Current.User;

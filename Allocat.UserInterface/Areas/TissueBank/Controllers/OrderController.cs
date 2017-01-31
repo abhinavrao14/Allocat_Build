@@ -1,8 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using Allocat.Web.Security;
+using System.Web.Mvc;
 
 namespace Allocat.UserInterface.Areas.TissueBank.Controllers
 {
-    //[CustomAuthorize(Roles = "TISSUE BANK SUPER ADMIN, TISSUE BANK FULFILMENT MANAGER")]
+    [CustomAuthorize(Roles = "TISSUE BANK SUPER ADMIN, TISSUE BANK FULFILMENT MANAGER")]
     public class OrderController : Controller
     {
         public ActionResult Index()

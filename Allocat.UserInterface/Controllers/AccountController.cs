@@ -150,14 +150,16 @@ namespace Allocat.UserInterface.Controllers
         [HttpPost]
         public ActionResult TissueBankSignUp(SignUpViewModel model)
         {
+            TransactionalInformation transaction = new TransactionalInformation();
+
+            TissueBankApiModel tbApiModel = new TissueBankApiModel();
+            TissueBankBusinessService tissueBankBusinessService = new TissueBankBusinessService(tbDataService);
+
             if (ModelState.IsValid)
             {
-                TransactionalInformation transaction = new TransactionalInformation();
 
-                TissueBankApiModel tbApiModel = new TissueBankApiModel();
-                TissueBankBusinessService tissueBankBusinessService = new TissueBankBusinessService(tbDataService);
 
-                tissueBankBusinessService.TissueBank_User_Registration(model.FullName, model.UserName, model.EmailId, model.SecurityQuestion, model.SecurityAnswer, out transaction);
+                  tissueBankBusinessService.TissueBank_User_Registration(model.FullName, model.UserName, model.EmailId, model.SecurityQuestion, model.SecurityAnswer, out transaction);
 
                 tbApiModel.ReturnMessage = transaction.ReturnMessage;
                 tbApiModel.ReturnStatus = transaction.ReturnStatus;
@@ -188,6 +190,12 @@ namespace Allocat.UserInterface.Controllers
             }
             else
             {
+                //filling up dropdown
+                KeyValueBusinessService keyValueBusinessService = new KeyValueBusinessService(keyValueDataService);
+                IEnumerable<KeyValue> KeyValues = keyValueBusinessService.Get("Question", out transaction);
+
+                ViewBag.SecurityQuestions = new SelectList(keyValueBusinessService.Get("Question", out transaction), "Key", "Value");
+
                 return View(model);
             }
         }

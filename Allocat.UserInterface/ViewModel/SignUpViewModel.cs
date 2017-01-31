@@ -9,10 +9,12 @@ namespace Allocat.Web.Models
     public class SignUpViewModel
     {
         [Required]
+        [RegularExpression(@"^[A-Za-z\s]+$", ErrorMessage = "Only alphabets with spaces allowed")]
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
 
         [Required]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Only alphabets allowed")]
         [Display(Name = "User Name")]
         public string UserName { get; set; }
 

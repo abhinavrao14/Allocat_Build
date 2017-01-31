@@ -86,7 +86,7 @@ app.service("DomainScopeService", function ($http, ResourceService) {
 
 app.factory('ResourceService', function () {
     return {
-        //webApiRootPath: 'http://allocat.net/Webapi/',
+        //webApiRootPath: 'http://allocat.net/Webapi/api/',
         //rootPath: 'http://allocat.net/',
         webApiRootPath: 'http://localhost:63744/api/'
         //rootPath: 'http://localhost:63744/',
@@ -104,7 +104,7 @@ app.factory('InputService', function () {
         , aATBLicenseNumberMaxLength: 30
         , name_AlphaSpacesPattern: /^[A-Za-z\s]+$/
         , addressPattern: /^[A-Za-z0-9\s]+$/
-        , userNamePattern: /^\S{3,}$/
+        , userNamePattern: /^[A-Za-z]+$/
         , emailPattern: /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
         , phoneNumberPattern: /^\d{3}\d{3}\d{4}/
         , expiryLength: 4
