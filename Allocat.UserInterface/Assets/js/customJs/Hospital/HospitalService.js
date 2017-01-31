@@ -2,7 +2,7 @@
 
     this.AddHospital = function (hospital_DTO) {
         var response = $http({
-            url: "http://allocat.net/Webapi/api/Hospital",
+            url: ResourceService.webApiRootPath+'Hospital',
             dataType: 'json',
             method: 'POST',
             data: hospital_DTO,

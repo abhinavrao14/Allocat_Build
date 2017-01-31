@@ -40,16 +40,16 @@
     </Reference>
     <Reference Include="MailSenderLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\MailSenderLibrary\bin\Debug\MailSenderLibrary.dll</HintPath>
+      <HintPath>..\..\AlloCAT MINE 27 JAN 2017\Code\Allocat.ApplicationService\bin\Debug\MailSenderLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common">
-      <HintPath>..\MailSenderLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+      <HintPath>..\..\AlloCAT MINE 27 JAN 2017\Code\Allocat.ApplicationService\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging">
-      <HintPath>..\MailSenderLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+      <HintPath>..\..\AlloCAT MINE 27 JAN 2017\Code\Allocat.ApplicationService\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Netmester.Mail.Serialization">
-      <HintPath>..\MailSenderLibrary\bin\Debug\Netmester.Mail.Serialization.dll</HintPath>
+      <HintPath>..\..\AlloCAT MINE 27 JAN 2017\MSMQMailService\MSMQMailService\bin\Debug\Netmester.Mail.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

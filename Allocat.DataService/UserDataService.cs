@@ -123,8 +123,7 @@ namespace Allocat.DataService
 
             var parameterTempUser_CUD = new SqlParameter("@TempUser_CUD", SqlDbType.Structured);
             parameterTempUser_CUD.TypeName = "dbo.TempUser_CUD";
-
-            
+            parameterTempUser_CUD.Value = TempUser_CUD;
 
             rowAffected = dbConnection.Database.ExecuteSqlCommand("exec dbo.sp_UserMngmt_TissueBank_CreateUpdateDelete @UserId, @UserName, @Password, @FullName,  @MobileNumber, @EmailId,@CreatedBy, @LastModifiedBy,@InfoId,@AllowLogin, @OperationType, @TempUser_CUD", parameterUserId, parameterUserName, parameterPassword, parameterFullName, parameterMobileNumber, parameterEmailId, parameterCreatedBy, parameterLastModifiedBy, parameterInfoId, parameterAllowLogin, parameterOperationType, parameterTempUser_CUD);
 
@@ -154,6 +153,24 @@ namespace Allocat.DataService
         public bool ValidateUniqueUserName(string UserName)
         {
             User user = dbConnection.User.FirstOrDefault(u => u.UserName == UserName);
+            if (user == null)
+                return true;
+
+            return false;
+        }
+
+        public bool ValidateSingleEmailId(string EmailId,int UserId)
+        {
+            User user = dbConnection.User.FirstOrDefault(c => c.EmailId == EmailId && c.UserId != UserId);
+            if (user == null)
+                return true;
+
+            return false;
+        }
+
+        public bool ValidateSingleUserName(string UserName, int UserId)
+        {
+            User user = dbConnection.User.FirstOrDefault(c => c.UserName == UserName && c.UserId != UserId);
             if (user == null)
                 return true;
 

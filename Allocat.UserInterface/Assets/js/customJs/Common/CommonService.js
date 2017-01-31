@@ -1,33 +1,33 @@
-﻿app.service("StateService", function ($http) {
+﻿app.service("StateService", function ($http, ResourceService) {
 
     this.GetStates = function () {
         var response = $http({
             method: 'Get',
-            url: 'http://allocat.net/Webapi/api/State'
+            url: ResourceService.webApiRootPath+'State'
         });
         return response;
     };
 });
 
 
-app.service("CityService", function ($http) {
+app.service("CityService", function ($http, ResourceService) {
 
     this.GetCities = function (StateId) {
         var response = $http({
             method: 'Get',
-            url: 'http://allocat.net/Webapi/api/City',
+            url: ResourceService.webApiRootPath+'City',
             params: { StateId: StateId }
         });
         return response;
     };
 });
 
-app.service("HospitalTypeService", function ($http) {
+app.service("HospitalTypeService", function ($http, ResourceService) {
 
     this.GetHospitalTypes = function () {
         var response = $http({
             method: 'Get',
-            url: 'http://allocat.net/Webapi/api/HospitalType'
+            url: ResourceService.webApiRootPath+'HospitalType'
         });
         return response;
     };
@@ -49,12 +49,12 @@ app.service("MsgService", function () {
     }
 });
 
-app.service("ProductMasterService", function ($http) {
+app.service("ProductMasterService", function ($http, ResourceService) {
 
     this.GetAllProductMaster = function (productMasterInquiryDTO) {
         var response = $http({
             method: 'GET',
-            url: 'http://allocat.net/Webapi/api/ProductMasterApi/GetProductMasters/',
+            url: ResourceService.webApiRootPath+'ProductMasterApi/GetProductMasters/',
             params: productMasterInquiryDTO
         });
         console.log(response);
@@ -64,7 +64,7 @@ app.service("ProductMasterService", function ($http) {
     this.getProductMasterById = function (ProductMasterId) {
         var response = $http({
             method: "get",
-            url: "http://allocat.net/Webapi/api/ProductMaster/",
+            url: ResourceService.webApiRootPath+'ProductMaster/',
             params: {
                 ProductMasterId: ProductMasterId
             }
@@ -73,13 +73,22 @@ app.service("ProductMasterService", function ($http) {
     }
 });
 
-app.service("DomainScopeService", function ($http) {
+app.service("DomainScopeService", function ($http, ResourceService) {
 
     this.getAllDomainScope = function () {
         var response = $http({
             method: 'Get',
-            url: 'http://allocat.net/Webapi/api/DomainScope/',
+            url: ResourceService.webApiRootPath+'DomainScope/',
         });
         return response;
+    };
+});
+
+app.factory('ResourceService', function () {
+    return {
+        //webApiRootPath: 'http://allocat.net/Webapi/'
+        //rootPath: 'http://allocat.net/'
+        webApiRootPath: 'http://localhost:63744/api/'
+        //rootPath: 'http://localhost:63744/'
     };
 });

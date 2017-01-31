@@ -11,8 +11,9 @@ namespace Allocat.UserInterface.Areas.TissueBank.Controllers
     public class UserController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string msg)
         {
+            ViewBag.msg = msg;
             ViewBag.user = System.Web.HttpContext.Current.User;
             return View();
         }

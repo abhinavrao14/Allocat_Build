@@ -303,7 +303,7 @@
                                     <div id="declined" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Declined By TissueBank'">Declined By Tissue Bank</div>
                                     <div id="declined" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Declined By Hospital'">Declined By Hospital</div>
                                     <div id="declined" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Declined By AllocatStaff'">Declined By AllocatStaff</div>
-                                    <div id="placed" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Placed PR''">Closed Placed PR</div>
+                                    <div id="placed" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Placed PR'">Closed Placed PR</div>
                                     <div id="placed" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Placed PO'">Closed Placed PO</div>
                                 </span> <br /><br />
                                 <span><b><u style="color:#4bacd0">View Product Details</u> </b></span>
@@ -327,7 +327,7 @@
                                             <div class="message-text" style="margin-bottom:10px;">
                                                 {{item.Body}}
                                                 <div ng-if="item.AttachmentName!=null">
-                                                    <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="http://allocat.net/Webapi/Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>
+                                                    <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="{{webApiRootPath}}Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -342,7 +342,7 @@
                                             <div class="message-text" style="border:1px solid #4bacd0; margin-bottom:10px;">
                                                 {{item.Body}}
                                                 <div ng-if="item.AttachmentName!=null">
-                                                    <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="http://allocat.net/Webapi/Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>
+                                                    <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="{{webApiRootPath}}Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>
                                                 </div>
                                             </div>
                                         </div>

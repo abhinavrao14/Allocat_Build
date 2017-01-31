@@ -15,5 +15,7 @@ namespace Allocat.DataServiceInterface
 
         bool ValidateUniqueEmailId(string EmailId);
         bool ValidateUniqueUserName(string UserName);
+        bool ValidateSingleEmailId(string EmailId, int UserId);
+        bool ValidateSingleUserName(string UserName, int UserId);
     }
 }

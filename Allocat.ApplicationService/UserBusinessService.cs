@@ -18,7 +18,7 @@ namespace Allocat.ApplicationService
         public IEnumerable<sp_UserMngmt_TissueBank_GetByTissueBankId_Result> GetUser(int TissueBankId, string SearchBy, int CurrentPage, int PageSize, string SortDirection, string SortExpression, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            UserBusinessRule userBusinessRule = new UserBusinessRule();
+            UserBusinessRule userBusinessRule = new UserBusinessRule(userDataService);
 
             IEnumerable<sp_UserMngmt_TissueBank_GetByTissueBankId_Result> lstUser = null;
 
@@ -59,7 +59,7 @@ namespace Allocat.ApplicationService
             transaction = new TransactionalInformation();
 
             IEnumerable<sp_UserMngmt_TissueBank_GetByUserId_Result> lstUserDetail = null;
-            UserBusinessRule userBusinessRule = new UserBusinessRule();
+            UserBusinessRule userBusinessRule = new UserBusinessRule(userDataService);
 
             try
             {
@@ -100,7 +100,7 @@ namespace Allocat.ApplicationService
             transaction = new TransactionalInformation();
 
             IEnumerable<sp_UserMngmt_GetUserRoleByUserId_Result> lstUserRole = null;
-            UserBusinessRule userBusinessRule = new UserBusinessRule();
+            UserBusinessRule userBusinessRule = new UserBusinessRule(userDataService);
 
             try
             {
@@ -136,17 +136,17 @@ namespace Allocat.ApplicationService
             return lstUserRole;
         }
 
-        public IEnumerable<TissueBankRoles_TissueBank> GetTissueBankRoles(string type,out TransactionalInformation transaction)
+        public IEnumerable<TissueBankRoles_TissueBank> GetTissueBankRoles(string type, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
             IEnumerable<TissueBankRoles_TissueBank> lstTissueBankRoles = null;
-            UserBusinessRule userBusinessRule = new UserBusinessRule();
+            UserBusinessRule userBusinessRule = new UserBusinessRule(userDataService);
 
             try
             {
                 userDataService.CreateSession();
-                lstTissueBankRoles = userDataService.GetTissueBankRoles(type,out transaction);
+                lstTissueBankRoles = userDataService.GetTissueBankRoles(type, out transaction);
                 transaction.ReturnStatus = userBusinessRule.ValidationStatus;
                 transaction.ReturnMessage = userBusinessRule.ValidationMessage;
                 transaction.ValidationErrors = userBusinessRule.ValidationErrors;
@@ -166,16 +166,16 @@ namespace Allocat.ApplicationService
             return lstTissueBankRoles;
         }
 
-        public void User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName,  string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD, out TransactionalInformation transaction)
+        public void User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            UserBusinessRule userBusinessRule = new UserBusinessRule();
+            UserBusinessRule userBusinessRule = new UserBusinessRule(userDataService);
 
             try
             {
                 userDataService.CreateSession();
 
-                userBusinessRule.ValidateUser_CUD(UserId, UserName, Password, FullName, MobileNumber, EmailId,  CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD);
+                userBusinessRule.ValidateUser_CUD(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD);
 
                 if (userBusinessRule.ValidationStatus == true)
                 {
@@ -195,23 +195,22 @@ namespace Allocat.ApplicationService
                         TempUser_CUD.Columns.Remove("RoleName");
                         TempUser_CUD.Columns.Add("UserId", typeof(int));
 
-                        for (int i = 0; i < TempUser_CUD.Rows.Count; ++i)
+                        if (OperationType == "insert")
                         {
-                            if (OperationType == "insert")
-                            {
+                            Password = Utility.Utilities.RandomAlphaNumeric(6);
+                            //BHASKAR SIR
+
+                            for (int i = 0; i < TempUser_CUD.Rows.Count; ++i)
                                 TempUser_CUD.Rows[i]["UserId"] = 0;
-
-                                //generating random 6 digit password 
-                                Password = Utility.Utilities.RandomAlphaNumeric(6);
-                            }
-                            else
-                            {
-                                TempUser_CUD.Rows[i]["UserId"] = UserId;
-                            }
                         }
-                    }
+                        else
+                        {
+                            for (int i = 0; i < TempUser_CUD.Rows.Count; ++i)
+                                TempUser_CUD.Rows[i]["UserId"] = UserId;
+                        }
 
-                    userDataService.User_CreateUpdateDelete(UserId, UserName, Password, FullName,MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, out transaction);
+                        userDataService.User_CreateUpdateDelete(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, out transaction);
+                    }
                 }
                 else
                 {

@@ -8,7 +8,7 @@
     photoManagerClient.$inject = ['$resource'];
 
     function photoManagerClient($resource) {
-        return $resource("http://allocat.net/Webapi/api/photo/:fileName",
+        return $resource(ResourceService.webApiRootPath+'photo/:fileName',
                 { id: "@fileName" },
                 {
                     'query': { method: 'GET' },

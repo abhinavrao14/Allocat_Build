@@ -1,4 +1,4 @@
-﻿app.controller("ProductController", function ($scope, ProductService, $window, MsgService) {
+﻿app.controller("ProductController", function ($scope, ProductService, $window, MsgService, ResourceService) {
 
     var TissueBankId = document.getElementById("TissueBankId").value;
 
@@ -6,6 +6,7 @@
         $scope.TissueBankId = TissueBankId;
     }
 
+    $scope.webApiRootPath = ResourceService.webApiRootPath;
     $scope.SortDirection = "ASC";
     $scope.SortExpression = "ProductMasterName";
     $scope.CurrentPage = 1;
@@ -110,6 +111,8 @@
         getProducts($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
+
+
     function message(type, title, content) {
         var notify = {
             type: type,
@@ -120,12 +123,13 @@
     }
 });
 
-app.controller("ProductDetailController", function ($filter, $scope, ProductDetailService, $window, ProductMasterService, MsgService) {
+app.controller("ProductDetailController", function ($filter, $scope, ProductDetailService, $window, ProductMasterService, MsgService , ResourceService) {
     $scope.editMode = false;
     $scope.addNewMode = false;
     $scope.IsAvailableOptions = ['Yes', 'No'];
     $scope.ProductCodeExp = /^\s*\w*\s*$/;
     $scope.dataLoading = true;
+    $scope.webApiRootPath = ResourceService.webApiRootPath;
 
     $scope.TissueBankId = document.getElementById("TissueBankId").value;
     $scope.CreatedBy = document.getElementById("UserId").value;
@@ -420,12 +424,14 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
 
 });
 
-app.controller("RFQController", function ($scope, RFQService, MsgService, $window) {
+app.controller("RFQController", function ($scope, RFQService, MsgService, $window, ResourceService) {
 
     var TissueBankId = document.getElementById("TissueBankId").value;
     if (TissueBankId != "") {
         $scope.TissueBankId = TissueBankId;
     }
+    $scope.webApiRootPath = ResourceService.webApiRootPath;
+
     $scope.SortDirection = '';
     $scope.SortExpression = '';
     $scope.CurrentPage = 1;
@@ -546,9 +552,10 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
     }
 });
 
-app.controller("RFQDetailController", function ($scope, RFQService, MsgService, $window, $timeout, appInfo) {
+app.controller("RFQDetailController", function ($scope, RFQService, MsgService, $window, $timeout, appInfo, ResourceService) {
     $scope.CreatedBy = document.getElementById("UserId").value;
     $scope.LastModifiedBy = document.getElementById("UserId").value;
+    $scope.webApiRootPath = ResourceService.webApiRootPath;
 
     appInfo.setInfo({ message: "No file selected." });
     appInfo.setInfo({ busy: false });
@@ -738,7 +745,8 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
     };
 });
 
-app.controller("OrderController", function ($scope, OrderService, MsgService, $window, $sce) {
+app.controller("OrderController", function ($scope, OrderService, MsgService, $window, $sce, ResourceService) {
+    $scope.webApiRootPath = ResourceService.webApiRootPath;
 
     var TissueBankId = document.getElementById("TissueBankId").value;
     if (TissueBankId != "") {
@@ -850,10 +858,12 @@ app.controller("OrderController", function ($scope, OrderService, MsgService, $w
     }
 });
 
-app.controller("OrderDetailController", function ($scope, OrderService, MsgService, $window, $timeout) {
+app.controller("OrderDetailController", function ($scope, OrderService, MsgService, $window, $timeout, ResourceService) {
     $scope.CreatedBy = document.getElementById("UserId").value;
     $scope.LastModifiedBy = document.getElementById("UserId").value;
     $scope.ShippingMethod = '';
+    $scope.webApiRootPath = ResourceService.webApiRootPath;
+
     var TissueBankId = document.getElementById("TissueBankId").value;
     if (TissueBankId != "") {
         $scope.TissueBankId = TissueBankId;
@@ -934,7 +944,7 @@ app.controller("OrderDetailController", function ($scope, OrderService, MsgServi
     }
 });
 
-app.controller("UserController", function ($scope, UserService, MsgService, $window, $sce) {
+app.controller("UserController", function ($scope, UserService, MsgService, $window, $sce, ResourceService) {
 
     $scope.TissueBankId = document.getElementById("InfoId").value;
 
@@ -950,6 +960,14 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
 
     $scope.PageSizes = [10, 20, 50, 100];
     $scope.PageSize = $scope.PageSizes[0];
+
+    var msg = document.getElementById("msg").value;
+
+    if (msg != "") {
+        document.getElementById("msg").value = '';
+        $scope.showMessage = true;
+    }
+
 
     function GetUsers(SearchBy, CurrentPage, PageSize, SortExpression, SortDirection) {
         var user_DTO = new Object();
@@ -1070,6 +1088,7 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
         $scope.Operation = 'Manage User';
     }
 
+    
     function GetUserDetail(UserId) {
         UserDetailService.GetUserDetail(UserId, "getUserDetail")
         .success(function (data, status, headers, config) {
@@ -1077,6 +1096,13 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
 
             console.log(data.UserDetail[0]);
             GetUserRoles(UserId);
+
+            if (data.UserDetail[0].AllowLogin) {
+                $scope.UserDetail.AllowLogin_Convert = 'Yes';
+            }
+            else {
+                $scope.UserDetail.AllowLogin_Convert = 'No';
+            }
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
@@ -1162,10 +1188,12 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
 
             response
            .success(function (data, status, headers, config) {
-               var Message = MsgService.makeMessage(data.ReturnMessage)
-               message('success', 'Success!', Message);
-               //default values
-               GetUserDetail($scope.S_UserId);
+               //var Message = MsgService.makeMessage(data.ReturnMessage)
+               //message('success', 'Success!', Message);
+               ////default values
+               //GetUserDetail($scope.S_UserId);
+               $window.location.href = '/TissueBank/User/Index?msg=success';
+               console.log(data);
            })
            .error(function (data, status, headers, config) {
                var Message = MsgService.makeMessage(data.ReturnMessage)
@@ -1207,10 +1235,6 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
     $scope.PasswordCancel = function () {
         $scope.showModal = false;
     };
-
-
-
-
 
     function message(type, title, content) {
         var notify = {

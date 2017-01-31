@@ -5,6 +5,7 @@
 }
 <script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
 <script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+
 <div ng-controller="UserDetailController">
     <input type="hidden" for="InfoId" id="InfoId" value="@ViewBag.user.InfoId" />
     <input type="hidden" for="S_UserId" id="S_UserId" value="@ViewBag.S_UserId" />
@@ -26,6 +27,9 @@
     <div class="page-header">
         <div class="row">
             <!-- Page header, center on small screens -->
+            <a href="@Url.Action("Index", "User", new { Area = "TissueBank" })">
+                <img src="~/Assets/image/back_go.png" />
+            </a>
             <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;{{Operation}}</h1>
         </div>
     </div>
@@ -34,7 +38,10 @@
             <div>
                 <h4 style="font-weight:bold; margin-bottom:30px">Profile Information</h4>
             </div>
-            <input type="button" style="float:right" class="btn btn-primary" value="Change Password" ng-click="OpenPasswordModel()" />
+            @if (ViewBag.S_UserId > 0)
+            {
+                <input type="button" style="float:right" class="btn btn-primary" value="Change Password" ng-click="OpenPasswordModel()" />
+            }
 
             <!--  $FORM ======================================================================  -->
             <form class="form-horizontal" novalidate ng-submit="Submit()" name="FormUser">
@@ -81,18 +88,20 @@
                     <div class="form-group">
                         <label for="inputEmail2" class="col-sm-2 control-label">Allow Login</label>
                         <div class="col-sm-6">
-                            <input type="checkbox" ng-checked="UserDetail.AllowLogin" ng-model="UserDetail.AllowLogin" data-toggle="toggle" data-onstyle="success" checked="checked" data-on="Yes" data-off="No">
-                            @*<input type="checkbox" ng-checked="UserDetail.AllowLogin" ng-model="UserDetail.AllowLogin">*@
+                            <input type="checkbox" ng-checked="UserDetail.AllowLogin" ng-model="UserDetail.AllowLogin">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-6">
-                            <p class="help-block"><b>Note: </b>Password will be sent to entered email id.</p>
+                    @if (ViewBag.S_UserId == 0)
+                    {
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <p class="help-block"><b>Note: </b>Password will be sent to entered email id.</p>
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div class="panel-footer text-center">
                         <div style="display:inline-block">
-                            <button type="submit" class="btn btn-primary" ng-disabled="FormUser.$invalid">Submit</button>
+                            <button type="submit" class="btn btn-primary" ng-disabled="FormUser.$invalid || UserRoles.length==0">Submit</button>
                         </div>
                         @{
                             var ViewUrl = Url.Action("Index", "User", new { Area = "TissueBank" });
@@ -115,6 +124,11 @@
         <div class="modal-body">
             <div class="bootbox-body">
                 <form novalidate name="form" ng-submit="PasswordSubmit()">
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <p class="help-block"><b>Note: </b>Password will be sent to registered email id.</p>
+                        </div>
+                    </div>
                     <input data-ng-model='UserDetail.Password' type="password" name='password' placeholder='password' required>
                     <span style="color:red" ng-show="form.password.$error.required">
                         Field required
@@ -137,4 +151,3 @@
     <div class="notifies" notifybar></div>
 
 </div>
-

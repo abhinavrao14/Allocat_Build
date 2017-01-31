@@ -233,7 +233,9 @@
     <Content Include="Assets\image\2.jpg" />
     <Content Include="Assets\image\allocat_bg.jpg" />
     <Content Include="Assets\image\attachmentIcon.png" />
+    <Content Include="Assets\image\back_go.png" />
     <Content Include="Assets\image\Icon.png" />
+    <Content Include="Assets\image\loader.gif" />
     <Content Include="Assets\image\product.jpg" />
     <Content Include="Assets\js\customJs\Common\CommonService.js" />
     <Content Include="Assets\js\customJs\Hospital\HospitalController.js" />
@@ -256,7 +258,6 @@
     <Content Include="Assets\js\lib\angularjs-datetime-picker.js" />
     <Content Include="Assets\fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\icons\responsivenav.svg" />
-    <Content Include="Assets\image\25.gif" />
     <Content Include="Assets\image\logo.png" />
     <Content Include="Assets\image\no-products-found.jpg" />
     <Content Include="Assets\image\Under-Construction-min.jpg" />
