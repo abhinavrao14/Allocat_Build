@@ -68,62 +68,84 @@ namespace Allocat.WebApi.Controllers
             ErrorBusinessService errorBusinessService = new ErrorBusinessService(errorDataService);
             StatusBusinessService statusBusinessService = new StatusBusinessService(statusDataService);
 
-            //Convert object to string to send as requestBody
-            string objToPass = Utility.Utilities.SerializeObject<TissueBankAdd_DTO>(tissueBankAdd_DTO);
-
-            //create transaction
-            int TransactionId = transactionBusinessService.Transaction_Create(DateTime.Now, 25, tissueBankAdd_DTO.UserId, objToPass, out transaction);
-
-            //Cutting $25 for registration
-            var response = CreateCustomerProfileAndCharge(tissueBankAdd_DTO);
-
-            // if response is not null then only save tissue bank detail in database and update transaction too.
-            if (response.CustomerProfileId != null)
+            //check TB registration request
+            if (tissueBankBusinessService.CheckTissueBank_Add(tissueBankAdd_DTO.TissueBankName, tissueBankAdd_DTO.ContactPersonFirstName, tissueBankAdd_DTO.ContactPersonLastName, tissueBankAdd_DTO.ContactPersonNumber, tissueBankAdd_DTO.ContactPersonEmailId, tissueBankAdd_DTO.FaxNumber, tissueBankAdd_DTO.TissueBankEmailId, tissueBankAdd_DTO.BusinessURL, tissueBankAdd_DTO.TissueBankAddress, tissueBankAdd_DTO.CityId, tissueBankAdd_DTO.ZipCode, tissueBankAdd_DTO.TissueBankStateLicense, tissueBankAdd_DTO.AATBLicenseNumber, tissueBankAdd_DTO.AATBExpirationDate, tissueBankAdd_DTO.AATBAccredationDate, tissueBankAdd_DTO.CreditCardNumber, tissueBankAdd_DTO.CreditCardType, tissueBankAdd_DTO.ExpiryDate, tissueBankAdd_DTO.CardCode, tissueBankAdd_DTO.CustomerProfileId, tissueBankAdd_DTO.CustomerPaymentProfileIds, tissueBankAdd_DTO.BillingAddress, tissueBankAdd_DTO.BillingCityId, tissueBankAdd_DTO.BillingZipCode, tissueBankAdd_DTO.BillingFaxNumber, tissueBankAdd_DTO.BillingEmailId, tissueBankAdd_DTO.BillingContactNumber, tissueBankAdd_DTO.BillingCity, tissueBankAdd_DTO.BillingState, tissueBankAdd_DTO.State, tissueBankAdd_DTO.City, tissueBankAdd_DTO.UserId, tissueBankAdd_DTO.TissueBankId, tissueBankAdd_DTO.TransactionId, tissueBankAdd_DTO.AuthTransactionId, tissueBankAdd_DTO.AuthCode, tissueBankAdd_DTO.StatusId, tissueBankAdd_DTO.TransactionCompleteDate, tissueBankAdd_DTO.ResponseBody, out transaction))
             {
-                //get status from database for Success
-                status = statusBusinessService.GetStatusByStatusName("Success");
+                //storing for authorize.net
+                string CreditCardNumber = tissueBankAdd_DTO.CreditCardNumber;
+                int CreditCardType = tissueBankAdd_DTO.CreditCardType;
+                string CardCode = tissueBankAdd_DTO.CardCode;
+                string ExpiryDate = tissueBankAdd_DTO.ExpiryDate;
 
-                #region static data of response from authorize .net
-                //tissueBankAdd_DTO.AuthTransactionId = "123454613";
-                //tissueBankAdd_DTO.CustomerProfileId = "56456123132";
-                //tissueBankAdd_DTO.CustomerPaymentProfileIds = "456123187";
-                //tissueBankAdd_DTO.AuthCode = "456456";
-                //tissueBankAdd_DTO.ResponseBody = "";
-                #endregion
-
-                tissueBankAdd_DTO.AuthTransactionId = response.Transaction.TransactionId;
-                tissueBankAdd_DTO.CustomerProfileId = response.CustomerProfileId;
-                tissueBankAdd_DTO.CustomerPaymentProfileIds = response.CustomerPaymentProfileIds[0];
-                tissueBankAdd_DTO.AuthCode = response.Transaction.AuthCode;
-                 
-                tissueBankAdd_DTO.StatusId = status.StatusId;
-                tissueBankAdd_DTO.TransactionCompleteDate = DateTime.Now;
-                tissueBankAdd_DTO.TransactionId = TransactionId;
-
-                //removing card detail from object and then storing response detail in db
-                tissueBankAdd_DTO.CreditCardNumber = tissueBankAdd_DTO.CreditCardNumber;
+                //removing card detail from object and then storing request detail in transaction table
+                tissueBankAdd_DTO.CreditCardNumber = tissueBankAdd_DTO.CreditCardNumber.Substring(tissueBankAdd_DTO.CreditCardNumber.Length - 4);
                 tissueBankAdd_DTO.CreditCardType = 0;
                 tissueBankAdd_DTO.CardCode = "";
                 tissueBankAdd_DTO.ExpiryDate = "";
 
-                tissueBankAdd_DTO.ResponseBody = Utility.Utilities.SerializeObject<ResCustomerProfile>(response);
+                //Convert object to string to send as requestBody
+                string objToPass = Utility.Utilities.SerializeObject<TissueBankAdd_DTO>(tissueBankAdd_DTO);
 
-                //add tissue bank
-                tissueBankBusinessService.TissueBank_Add(tissueBankAdd_DTO.TissueBankName, tissueBankAdd_DTO.ContactPersonFirstName, tissueBankAdd_DTO.ContactPersonLastName, tissueBankAdd_DTO.ContactPersonNumber, tissueBankAdd_DTO.ContactPersonEmailId, tissueBankAdd_DTO.FaxNumber, tissueBankAdd_DTO.TissueBankEmailId, tissueBankAdd_DTO.BusinessURL, tissueBankAdd_DTO.TissueBankAddress, tissueBankAdd_DTO.CityId, tissueBankAdd_DTO.ZipCode, tissueBankAdd_DTO.TissueBankStateLicense, tissueBankAdd_DTO.AATBLicenseNumber, tissueBankAdd_DTO.AATBExpirationDate, tissueBankAdd_DTO.AATBAccredationDate, tissueBankAdd_DTO.CreditCardNumber, tissueBankAdd_DTO.CreditCardType, tissueBankAdd_DTO.ExpiryDate, tissueBankAdd_DTO.CardCode, tissueBankAdd_DTO.CustomerProfileId, tissueBankAdd_DTO.CustomerPaymentProfileIds, tissueBankAdd_DTO.BillingAddress, tissueBankAdd_DTO.BillingCityId, tissueBankAdd_DTO.BillingZipCode, tissueBankAdd_DTO.BillingFaxNumber, tissueBankAdd_DTO.BillingEmailId, tissueBankAdd_DTO.BillingContactNumber, tissueBankAdd_DTO.BillingCity, tissueBankAdd_DTO.BillingState, tissueBankAdd_DTO.State, tissueBankAdd_DTO.City, tissueBankAdd_DTO.UserId, tissueBankAdd_DTO.TissueBankId, tissueBankAdd_DTO.TransactionId, tissueBankAdd_DTO.AuthTransactionId, tissueBankAdd_DTO.AuthCode, tissueBankAdd_DTO.StatusId, tissueBankAdd_DTO.TransactionCompleteDate, tissueBankAdd_DTO.ResponseBody, out transaction);
+                //create transaction
+                int TransactionId = transactionBusinessService.Transaction_Create(DateTime.Now, 25, tissueBankAdd_DTO.UserId, objToPass, out transaction);
 
-                tbApiModel.ReturnMessage = transaction.ReturnMessage;
-                tbApiModel.ReturnStatus = transaction.ReturnStatus;
+                //again restoring card details for authorize.net
+                tissueBankAdd_DTO.CreditCardNumber = CreditCardNumber;
+                tissueBankAdd_DTO.CreditCardType = CreditCardType;
+                tissueBankAdd_DTO.CardCode = CardCode;
+                tissueBankAdd_DTO.ExpiryDate = ExpiryDate;
+
+                //Cutting $25 for registration
+                var response = CreateCustomerProfileAndCharge(tissueBankAdd_DTO);
+
+                // if response is not null then only save tissue bank detail in database and update transaction too.
+                if (response.CustomerProfileId != null)
+                {
+                    //get status from database for Success
+                    status = statusBusinessService.GetStatusByStatusName("Success");
+
+                    #region static data of response from authorize .net
+                    //tissueBankAdd_DTO.AuthTransactionId = "123454613";
+                    //tissueBankAdd_DTO.CustomerProfileId = "56456123132";
+                    //tissueBankAdd_DTO.CustomerPaymentProfileIds = "456123187";
+                    //tissueBankAdd_DTO.AuthCode = "456456";
+                    //tissueBankAdd_DTO.ResponseBody = "";
+                    #endregion
+
+                    tissueBankAdd_DTO.AuthTransactionId = response.Transaction.TransactionId;
+                    tissueBankAdd_DTO.CustomerProfileId = response.CustomerProfileId;
+                    tissueBankAdd_DTO.CustomerPaymentProfileIds = response.CustomerPaymentProfileIds[0];
+                    tissueBankAdd_DTO.AuthCode = response.Transaction.AuthCode;
+
+                    tissueBankAdd_DTO.StatusId = status.StatusId;
+                    tissueBankAdd_DTO.TransactionCompleteDate = DateTime.Now;
+                    tissueBankAdd_DTO.TransactionId = TransactionId;
+
+                    //converting response into xml format
+                    tissueBankAdd_DTO.ResponseBody = Utility.Utilities.SerializeObject<ResCustomerProfile>(response);
+
+                    //add tissue bank
+                    tissueBankBusinessService.TissueBank_Add(tissueBankAdd_DTO.TissueBankName, tissueBankAdd_DTO.ContactPersonFirstName, tissueBankAdd_DTO.ContactPersonLastName, tissueBankAdd_DTO.ContactPersonNumber, tissueBankAdd_DTO.ContactPersonEmailId, tissueBankAdd_DTO.FaxNumber, tissueBankAdd_DTO.TissueBankEmailId, tissueBankAdd_DTO.BusinessURL, tissueBankAdd_DTO.TissueBankAddress, tissueBankAdd_DTO.CityId, tissueBankAdd_DTO.ZipCode, tissueBankAdd_DTO.TissueBankStateLicense, tissueBankAdd_DTO.AATBLicenseNumber, tissueBankAdd_DTO.AATBExpirationDate, tissueBankAdd_DTO.AATBAccredationDate, tissueBankAdd_DTO.CreditCardNumber, tissueBankAdd_DTO.CreditCardType, tissueBankAdd_DTO.ExpiryDate, tissueBankAdd_DTO.CardCode, tissueBankAdd_DTO.CustomerProfileId, tissueBankAdd_DTO.CustomerPaymentProfileIds, tissueBankAdd_DTO.BillingAddress, tissueBankAdd_DTO.BillingCityId, tissueBankAdd_DTO.BillingZipCode, tissueBankAdd_DTO.BillingFaxNumber, tissueBankAdd_DTO.BillingEmailId, tissueBankAdd_DTO.BillingContactNumber, tissueBankAdd_DTO.BillingCity, tissueBankAdd_DTO.BillingState, tissueBankAdd_DTO.State, tissueBankAdd_DTO.City, tissueBankAdd_DTO.UserId, tissueBankAdd_DTO.TissueBankId, tissueBankAdd_DTO.TransactionId, tissueBankAdd_DTO.AuthTransactionId, tissueBankAdd_DTO.AuthCode, tissueBankAdd_DTO.StatusId, tissueBankAdd_DTO.TransactionCompleteDate, tissueBankAdd_DTO.ResponseBody, out transaction);
+
+                    tbApiModel.ReturnMessage = transaction.ReturnMessage;
+                    tbApiModel.ReturnStatus = transaction.ReturnStatus;
+                }
+                else
+                {
+                    //get status from database for Success
+                    status = statusBusinessService.GetStatusByStatusName("Error");
+
+                    //if response is null then log error and update transaction too.
+                    string errorMessage = errorBusinessService.Error_Create(status.StatusId, response.Message, "", TransactionId, tissueBankAdd_DTO.UserId, response.MessageCode);
+
+                    tbApiModel.ReturnStatus = transaction.ReturnStatus = false;
+                    tbApiModel.ReturnMessage.Add(response.Message);
+                }
             }
             else
             {
-                //get status from database for Success
-                status = statusBusinessService.GetStatusByStatusName("Error");
-
-                //if response is null then log error and update transaction too.
-                string errorMessage = errorBusinessService.Error_Create(status.StatusId, response.Message, "", TransactionId, tissueBankAdd_DTO.UserId, response.MessageCode);
-
                 tbApiModel.ReturnStatus = transaction.ReturnStatus = false;
-                tbApiModel.ReturnMessage.Add(response.Message);
+                tbApiModel.ReturnMessage = transaction.ReturnMessage;
             }
 
             if (transaction.ReturnStatus == false)
@@ -153,8 +175,8 @@ namespace Allocat.WebApi.Controllers
             objCustomer.CardInfo = credit;
 
             objCustomer.EmailId = tissueBankAdd_DTO.ContactPersonEmailId;
-            objCustomer.LastName = tissueBankAdd_DTO.ContactPersonLastName; 
-            objCustomer.FirstName = tissueBankAdd_DTO.ContactPersonFirstName; 
+            objCustomer.LastName = tissueBankAdd_DTO.ContactPersonLastName;
+            objCustomer.FirstName = tissueBankAdd_DTO.ContactPersonFirstName;
 
             address.Address = tissueBankAdd_DTO.TissueBankAddress;
             address.City = tissueBankAdd_DTO.City;
@@ -263,7 +285,7 @@ namespace Allocat.WebApi.Controllers
         {
             CustomService.AllocatCustomServiceClient obj = new AllocatCustomServiceClient();
             // calling service method
-            bool response= obj.UpdateCustomerProfile(tissueBankUpdate_DTO.CustomerProfileId, null,null, tissueBankUpdate_DTO.ContactPersonEmailId);
+            bool response = obj.UpdateCustomerProfile(tissueBankUpdate_DTO.CustomerProfileId, null, null, tissueBankUpdate_DTO.ContactPersonEmailId);
             return response;
         }
 

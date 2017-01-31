@@ -119,6 +119,24 @@ namespace Allocat.DataService
             return false;
         }
 
+        public bool ValidateUniqueBillingEmailId(string BillingEmailId)
+        {
+            TissueBank tissueBank = dbConnection.TissueBank.FirstOrDefault(c => c.BillingEmailId == BillingEmailId);
+            if (tissueBank == null)
+                return true;
+
+            return false;
+        }
+
+        public bool ValidateUniqueBillingContactNumber(string BillingContactNumber)
+        {
+            TissueBank tissueBank = dbConnection.TissueBank.FirstOrDefault(c => c.BillingContactNumber == BillingContactNumber);
+            if (tissueBank == null)
+                return true;
+
+            return false;
+        }
+
         public bool ValidateUniqueAATBLicenseNumber(string AATBLicenseNumber)
         {
             TissueBank tissueBank = dbConnection.TissueBank.FirstOrDefault(c => c.AATBLicenseNumber == AATBLicenseNumber);

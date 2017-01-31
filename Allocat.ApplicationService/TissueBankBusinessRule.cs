@@ -20,6 +20,8 @@ namespace Allocat.ApplicationService
         {
             ValidateUniqueTissueBankEmailId(TissueBankEmailId);
             ValidateUniqueContactPersonNumber(ContactPersonNumber);
+            ValidateUniqueBillingEmailId(BillingEmailId);
+            ValidateUniqueBillingContactNumber(BillingContactNumber);
             ValidateUniqueAATBLicenseNumber(AATBLicenseNumber);
             ValidateUniqueTissueBankStateLicense(TissueBankStateLicense);
         }
@@ -76,6 +78,26 @@ namespace Allocat.ApplicationService
                 AddValidationError("ContactPersonNumber", "Contact Person Number : " + ContactPersonNumber + " already exists.");
             }
         }
+
+
+        private void ValidateUniqueBillingEmailId(string BillingEmailId)
+        {
+            Boolean valid = tbDataService.ValidateUniqueBillingEmailId(BillingEmailId);
+            if (valid == false)
+            {
+                AddValidationError("BillingEmailId", "Billing Email-Id : " + BillingEmailId + " already exists.");
+            }
+        }
+
+        private void ValidateUniqueBillingContactNumber(string BillingContactNumber)
+        {
+            Boolean valid = tbDataService.ValidateUniqueBillingContactNumber(BillingContactNumber);
+            if (valid == false)
+            {
+                AddValidationError("BillingContactNumber", "Billing Contact Number : " + BillingContactNumber + " already exists.");
+            }
+        }
+
 
         private void ValidateUniqueEmailId(string EmailId)
         {

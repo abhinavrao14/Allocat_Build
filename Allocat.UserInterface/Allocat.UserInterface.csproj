@@ -234,7 +234,6 @@
     <Content Include="Assets\image\allocat_bg.jpg" />
     <Content Include="Assets\image\attachmentIcon.png" />
     <Content Include="Assets\image\back_go.png" />
-    <Content Include="Assets\image\balls.gif" />
     <Content Include="Assets\image\Icon.png" />
     <Content Include="Assets\image\images.png" />
     <Content Include="Assets\image\loader.gif" />

@@ -86,9 +86,28 @@ app.service("DomainScopeService", function ($http, ResourceService) {
 
 app.factory('ResourceService', function () {
     return {
-        //webApiRootPath: 'http://allocat.net/Webapi/'
-        //rootPath: 'http://allocat.net/'
+        //webApiRootPath: 'http://allocat.net/Webapi/',
+        //rootPath: 'http://allocat.net/',
         webApiRootPath: 'http://localhost:63744/api/'
-        //rootPath: 'http://localhost:63744/'
+        //rootPath: 'http://localhost:63744/',
+    };
+});
+
+app.factory('InputService', function () {
+    return {
+        zipcodeLength: 5
+        ,creditCardMinLength: 4
+        , cvvLength: 3
+        , faxNumberMinLength: 5
+        , faxNumberMaxLength: 20
+        , tissueBankStateLicenseMaxLength: 50
+        , aATBLicenseNumberMaxLength: 30
+        , name_AlphaSpacesPattern: /^[A-Za-z\s]+$/
+        , addressPattern: /^[A-Za-z0-9\s]+$/
+        , userNamePattern: /^\S{3,}$/
+        , emailPattern: /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
+        , phoneNumberPattern: /^\d{3}\d{3}\d{4}/
+        , expiryLength: 4
+        //FaxNumberPattern: '^\+[0-9]{1,3}\([0-9]{3}\)[0-9]{7}$'
     };
 });
