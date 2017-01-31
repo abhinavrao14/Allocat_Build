@@ -277,3 +277,21 @@
     top: 44px;
     left: 436px;
 }
+.userfname{
+    max-width: 200px; word-wrap:break-word; min-width:150px; vertical-align: middle;
+}
+.username{
+    max-width: 150px; word-wrap:break-word; min-width:100px; vertical-align: middle;
+}
+.userid{
+    max-width: 200px; word-wrap:break-word; min-width:150px; vertical-align: middle;
+}
+.usernumber{
+    max-width: 150px; word-wrap:break-word; min-width:100px; vertical-align: middle;
+}
+.userrole{
+    max-width: 200px; word-wrap:break-word; min-width:150px; vertical-align: middle;
+}
+.useraction{
+    width:10%; vertical-align:middle; text-align:center;
+}

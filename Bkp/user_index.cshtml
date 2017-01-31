@@ -1,0 +1,226 @@
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+<script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
+<script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+<style>
+    #sel {
+        -moz-appearance: none;
+        -webkit-appearance: none;
+    }
+
+        #sel::-ms-expand {
+            display: none;
+        }
+</style>
+
+<style>
+    .table-hover > tbody > tr:hover > td, .table-hover > tbody > tr:hover > th {
+        background-color: #eee;
+        color: #111111;
+    }
+
+    }
+</style>
+
+<style>
+    @@media only screen and (max-width: 1050px) {
+        #c1 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (min-width: 1051px) {
+        #r1 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 900px) {
+        #c2 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (min-width: 901px) {
+        #r2 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 850px) {
+        #c3 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (min-width: 851px) {
+        #r3 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 375px) {
+        #c4 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (min-width: 376px) {
+        #r4 {
+            display: none;
+        }
+    }
+</style>
+<div ng-controller="UserController">
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner">
+            <img src="~/Assets/image/loader.gif" />
+        </div>
+    </div>
+    <input type="hidden" for="InfoId" id="InfoId" value="@ViewBag.user.InfoId" />
+    @if (ViewBag.msg != "")
+    {
+        <input type="hidden" for="msg" id="msg" value="@ViewBag.msg" />
+    }
+    <ul class="breadcrumb breadcrumb-page">
+        <div class="breadcrumb-label text-light-gray">You are here: </div>
+        <li>
+            <a href="@Url.Action("Index", "Home", new { Area = "TissueBank" })">
+                Home
+            </a>
+        </li>
+        <li class="active"><a href="#">User Management</a></li>
+    </ul>
+    <div class="page-header">
+        <div class="row">
+            <span ng-if="showMessage" style="color:green">Operation successful!</span>
+            <!-- Page header, center on small screens -->
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;User Management</h1>
+        </div>
+    </div> <!-- / .page-header -->
+
+    <div style="text-align:center; margin-bottom:30px; margin-top:30px;">
+        <h4><span style="font-size:20px">Company: </span> <b><i>@ViewBag.user.InfoName</i></b> </h4>
+    </div>
+
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="row" style="margin-top:20px;">
+                <div class="col-md-2" style="font-size:18px; margin-bottom:10px; width:15%">
+                    Total : {{TotalUsers}} Users
+                </div>
+                <div class="col-md-2" style="margin-bottom:10px; width:11%">
+                    <a href="@Url.Action("Manage", "User", new { Area = "TissueBank" })">
+                        <button class="btn btn-flat"><span class="fa fa-user-plus"></span> Add User</button>
+                    </a>
+                </div>
+                <div class="col-md-2" style="margin-bottom:10px;">
+                    <input class="form-control" ng-model="SearchBy" placeholder="Search" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search()" />
+                </div>
+                <div class="col-md-2" style="float:right">
+                    <label class="filter-col" style="margin-right:0;" for="pref-perpage">Per Page: </label>
+                    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:57%" ng-disabled="TotalUsers<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()"></select>
+                </div>
+                <div class="col-md-4" style="margin-bottom:10px; float:right">
+                    <ul class="pagination" style="float:right">
+                        <li ng-click="getFirstPage()" ng-if="CurrentPage>1"><a href="#">««</a></li>
+                        <li ng-click="getPreviousPage()" ng-if="CurrentPage>1"><a href="#">«</a></li>
+                        <li class="active"><a href="#">{{CurrentPage}}/{{TotalPage}} </a></li>
+                        <li ng-click="getNextPage()" ng-if="CurrentPage*PageSize<TotalUsers"><a href="#">»</a></li>
+                        <li ng-click="getLastPage()" ng-if="CurrentPage*PageSize<TotalUsers"><a href="#">»»</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <span ng-if="Users.length==0" style="color:darkgreen;">Sorry..No Users.</span>
+        <div class="panel-body" ng-if="Users.length!==0">
+            <table class="table table-hover table table-condensed">
+                <thead style="font-size:16px">
+                    <tr>
+                        <th>Full Name</th>
+                        <th>User Name</th>
+                        <th id="c3">User Email</th>
+                        <th id="c2">User Number</th>
+                        <th id="c1">User Role</th>
+                        @*<th id="c3">Locked Out</th>
+                            <th id="c3">Last Login Date</th>*@
+                        @*<th id="c3">DomainName</th>*@
+                        @*<th id="c2">Allow Login</th>*@
+                        <th id="c4">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat-start="user in Users">
+                        <td style="max-width: 200px; word-wrap:break-word; min-width:150px; vertical-align: middle;">
+                            <button class="icn" ng-if="user.expanded" ng-click="user.expanded = false" style="background-color:red; color:#ffffff; border-color:#ffffff; border-radius:5px; display: inline;">-</button>
+                            <button class="icn" ng-if="!user.expanded" ng-click="user.expanded = true" style="background-color:green; color:#ffffff; border-color:#ffffff; border-radius:5px; display: inline;">+</button>
+                            <p style="display: inline;">{{user.FullName}}</p>
+                        </td>
+                        <td style="max-width: 150px; word-wrap:break-word; min-width:100px; vertical-align: middle">{{user.UserName}}</td>
+                        <td id="c3" style="max-width: 200px; word-wrap:break-word; min-width:150px; vertical-align: middle">{{user.EmailId}}</td>
+                        <td id="c2" style="max-width: 150px; word-wrap:break-word; min-width:100px; vertical-align: middle">{{user.MobileNumber}}</td>
+                        <td id="c1" style="max-width: 200px; word-wrap:break-word; min-width:150px; vertical-align: middle">{{user.UserRoles}}</td>
+                        @*<td id="c3">{{user.IsLockedOut}}</td>
+                            <td id="c3">{{user.LastLoginDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>*@
+                        @*<td id="c3">{{user.DomainName}}</td>*@
+                        @*<td id="c3">{{user.AllowLogin}}</td>*@
+                        <td id="c4" style="width:10%; vertical-align:middle">
+                            @{
+                                var ManageUrl = Url.Action("Manage", "User", new { UserId = "{{user.UserId}}" });
+                                ManageUrl = HttpUtility.UrlDecode(ManageUrl);
+                            }
+                            <a data-ng-href="@ManageUrl"><i class="fa fa-pencil-square-o"></i> <u style="color:#2175ac;">Manage</u></a>
+                        </td>
+                    </tr>
+
+                    <tr ng-if="user.expanded" ng-repeat-end="">
+                        <td colspan="7">
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <tr>
+                                            <td><b>Locked Out</b></td>
+                                            <td><i>{{user.IsLockedOut}}</i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Last Login Date</b></td>
+                                            <td><i>{{user.LastLoginDate | date:'yyyy-MM-dd HH:mm:ss'}}</i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Allow Login</b></td>
+                                            <td><i>{{user.AllowLogin}}</i></td>
+                                        </tr>
+                                        <tr id="r1">
+                                            <td><b>User Role</b></td>
+                                            <td><i>{{user.UserRoles}}</i></td>
+                                        </tr>
+                                        <tr id="r2">
+                                            <td><b>User Number</b></td>
+                                            <td><i>{{user.MobileNumber}}</i></td>
+                                        </tr>
+                                        <tr id="r3">
+                                            <td><b>User Email</b></td>
+                                            <td><i>{{user.EmailId}}</i></td>
+                                        </tr>
+                                        <tr id="r4">
+                                            <td><b>Action</b></td>
+                                            <td><i><a data-ng-href="@ManageUrl"><i class="fa fa-pencil-square-o"></i> <u style="color:#2175ac;">Manage</u></a></i></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="notifies" notifybar></div>
+</div>
+
