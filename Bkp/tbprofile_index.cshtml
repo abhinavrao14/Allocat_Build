@@ -1,4 +1,4 @@
-﻿
+
 @{
     ViewBag.Title = "Tissue Bank Regsitration";
     Layout = "~/Views/Shared/_PanelLayout.cshtml";
@@ -10,13 +10,6 @@
         border: 1px solid rgba(255, 0, 0, 0.39);
     }
 </style>
-<style>
-    .image {
-   padding:2px;
-   border:1px solid #777;
-   background-color:#999;
-}
-</style>
 <div ng-controller="TissueBankProfileController">
     <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
     <input type="hidden" for="LoggedUserId" id="LoggedUserId" value="@ViewBag.user.UserId" />
@@ -24,16 +17,16 @@
     @*for new tissue bank registration*@
     @if (@ViewBag.user.InfoId == 0)
     {
-  
-        <div class="panel" style="width:85%; margin:auto">
-            <div class="panel-heading" id="headerstyle" style="text-align:center">
-                Add Tissue Bank
+        <div class="page-header">
+            <div class="row">
+                <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-list-alt"></i>&nbsp;&nbsp;Add Tissue Bank</h1>
             </div>
+        </div>
+        <div class="panel" style="width:85%; margin:auto">
             <form class="form-horizontal" name="formTissueBank" novalidate ng-submit="AddTb()">
-                <div style="border:1px solid #aaa; margin-bottom:40px; box-shadow:0px 2px 2px #888888;">
-                    <div class="col-md-12" id="tbtitle">
-                        <div style="display:inline-block"><img class="image"src="~/Assets/image/1.jpg" style="width:50px; height:50px; margin-top:-25px" /></div>
-                         <div style="display:inline-block; padding-right:10px"><span style="font-size:15px; font-weight:600">Setup Your Account</span><br /><span>Tell us a bit about you</span></div>
+                <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; margin-bottom:20px">
+                    <div class="col-md-12" style="text-align:center; margin-bottom:20px">
+                        <label class="control-label"><u style="font-size:16px">General Details</u></label>
                     </div>
                     <div class="row" style="padding:10px">
                         <div class="col-sm-6">
@@ -111,12 +104,12 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-                <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; margin-bottom:40px;">
-                    <div class="col-md-12" id="tbtitle">
-                        <div style="display:inline-block"><img class="image" src="~/Assets/image/license.png" style="width:50px; height:50px; margin-top:-25px" /></div>
-                        <div style="display:inline-block; padding-right:10px"><span style="font-size:15px; font-weight:600">License Details</span><br /><span>We'll use this information as your indetity </span></div>
+                <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; margin-bottom:20px">
+                    <div class="col-md-12" style="text-align:center; margin-bottom:20px">
+                        <label class="control-label"><u style="font-size:16px">License Details</u></label>
                     </div>
                     <div class="row" style="padding:10px">
                         <div class="col-sm-6">
@@ -159,11 +152,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; margin-bottom:40px;">
-                    <div class="col-md-12" id="tbtitle">
-                        <div style="display:inline-block"><img class="image" src="~/Assets/image/address.jpg" style="width:50px; height:50px; margin-top:-25px" /></div>
-                        <div style="display:inline-block; padding-right:10px"><span style="font-size:15px; font-weight:600">Billing Details</span><br /><span>We'll use this address for billing process </span></div>
+                <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; margin-bottom:20px">
+                    <div class="col-md-12" style="text-align:center; margin-bottom:20px">
+                        <label class="control-label"><u style="font-size:16px">Billing Details</u></label>
                     </div>
                     <div class="row" style="padding:10px">
                         <div class="col-sm-6">
@@ -274,6 +265,10 @@
                             </div>
                         </div>
                         <div class="col-sm-6">
+                        </div>
+                    </div>
+                    <div class="row" style="padding:10px">
+                        <div class="col-sm-6">
                             <div class="form-group no-margin-hr">
                                 <label class="control-label">ExpiryDate</label>
                                 <span class="error error-msg" ng-show="formTissueBank.ExpiryDate.$error.required">*</span><br />
@@ -283,8 +278,7 @@
                                 <span class="error error-msg" ng-show="formTissueBank.ExpiryDate.$error.maxlength">Please enter valid expiry date (MMYY) : 0824</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" style="padding:10px">
+
                         <div class="col-sm-6">
                             <div class="form-group no-margin-hr">
                                 <label class="control-label">CVV</label>
@@ -300,19 +294,20 @@
                         <div class="col-sm-12">
                             <div class="form-group no-margin-hr">
                                 <input type="checkbox" ng-required="true" name="isAgree" ng-model="tissueBank.isAgree" />
-                                <label class="control-label"><span class="error error-msg" ng-show="formTissueBank.isAgree.$error.required">*</span> I agree that $25 will be deducted from my credit card as Regitration-Fee.</label><br />   
+                                <label class="control-label">I agree that $25 will be deducted from my credit card as Regitration-Fee.</label><br />
+                                <span class="error error-msg" ng-show="formTissueBank.isAgree.$error.required">*</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="panel-footer text-center">
-                    <input type="submit" class="btn btn-info" value="Submit" ng-disabled="formTissueBank.$invalid" />
+                    <input type="submit" class="btn btn-success" value="Submit" ng-disabled="formTissueBank.$invalid" />
                     @{
                         var ViewUrl = Url.Action("Index", "Home", new { Area = "" });
                         ViewUrl = HttpUtility.UrlDecode(ViewUrl);
                     }
-                    <a data-ng-href="@ViewUrl" style="display:inline"><button type="button" class="btn btn-danger">Cancel</button></a>
+                    <a data-ng-href="@ViewUrl"><button type="button" class="btn btn-primary">Cancel</button></a>
                 </div>
             </form>
         </div>

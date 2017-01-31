@@ -278,7 +278,7 @@
     left: 436px;
 }
 
-<<<<<<< HEAD .userfname {
+.userfname {
     max-width: 200px;
     word-wrap: break-word;
     min-width: 150px;
@@ -322,4 +322,7 @@
 .inputTip {
     color: #82898c;
     font-size: 12px;
+}
+#tbtitle{
+    margin-bottom:20px; border-bottom: 1px solid #ddd; padding-bottom: 9px; background-color:#efefef;
 }

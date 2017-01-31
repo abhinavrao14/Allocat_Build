@@ -319,7 +319,7 @@
                             <div class="panel-body" ng-if="RequestResponses.length>0" style="padding:30px; height:200px; overflow-y:auto">
                                 <span ng-repeat="item in RequestResponses">
                                     <div class="message" ng-if="item.BodyType=='Request'">
-                                        <img src="~/Assets/image/1.jpg" alt="" class="message-avatar">
+                                        <img src="~/Assets/image/user.png" alt="" class="message-avatar">
                                         <div class="message-body">
                                             <div class="message-heading">
                                                 <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
@@ -334,7 +334,7 @@
                                     </div>
 
                                     <div class="message right" ng-if="item.BodyType=='Response'">
-                                        <img src="~/Assets/image/2.jpg" alt="" class="message-avatar">
+                                        <img src="~/Assets/image/user.png" alt="" class="message-avatar">
                                         <div class="message-body">
                                             <div class="message-heading">
                                                 <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
