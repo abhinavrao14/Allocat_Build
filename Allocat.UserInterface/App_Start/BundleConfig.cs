@@ -33,7 +33,7 @@ namespace Allocat.UserInterface
                       "~/Assets/js/lib/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Assets/css/lib/bootstrap.css",
+                      "~/Assets/css/lib/bootstrap.min.css",
                       "~/Assets/css/lib/Site.css"));
         }
     }
