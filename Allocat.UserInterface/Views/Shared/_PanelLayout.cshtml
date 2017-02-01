@@ -123,8 +123,8 @@
                         <div class="right clearfix" id="nav">
 
                             <ul class="nav navbar-nav pull-right right-navbar-nav">
-
-                                <li>
+<!--  SNEHA START   -->
+                                @*<li>
                                     <div style="padding-top:10px">
                                         <form action="" class="search-form">
                                             <div class="form-group has-feedback">
@@ -134,7 +134,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                </li>
+                                </li>*@
 
                                 <li class="nav-icon-btn nav-icon-btn-danger dropdown">
                                     @if (ViewBag.user.InfoId > 0)
@@ -163,8 +163,8 @@
                                     {
                                         <div class="dropdown-menu widget-notifications no-padding" style="width: 300px">
 
-                                            <div style="position: relative; overflow: hidden; width: auto; height: 250px;" class="slimScrollDiv">
-                                                <div style="overflow: hidden; width: auto; height: 250px;" class="notifications-list" id="main-navbar-notifications">
+                                            <div style="height:180px"class="slimScrollDiv">
+                                                <div style="overflow-y: scroll; width: auto; height: 180px;" class="notifications-list" id="main-navbar-notifications">
                                                     <div class="notification">
                                                         <div class="notification-description">You have <strong>9</strong> new orders.</div>
 
@@ -225,7 +225,7 @@
                                     }
                                 </li>
 
-
+<!--  SNEHA END -->
 
                                 <!-- /3. $END_NAVBAR_ICON_BUTTONS -->
 
