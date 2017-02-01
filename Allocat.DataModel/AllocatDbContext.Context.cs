@@ -658,7 +658,7 @@
 
             var businessURLParameter = businessURL != null ?
                 new SqlParameter("BusinessURL", businessURL) :
-                new SqlParameter("BusinessURL", typeof(string));
+                new SqlParameter("BusinessURL", DBNull.Value);
 
             var tissueBankAddressParameter = tissueBankAddress != null ?
                 new SqlParameter("TissueBankAddress", tissueBankAddress) :

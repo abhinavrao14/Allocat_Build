@@ -123,7 +123,7 @@
     }
 });
 
-app.controller("ProductDetailController", function ($filter, $scope, ProductDetailService, $window, ProductMasterService, MsgService , ResourceService) {
+app.controller("ProductDetailController", function ($filter, $scope, ProductDetailService, $window, ProductMasterService, MsgService, ResourceService) {
     $scope.editMode = false;
     $scope.addNewMode = false;
     $scope.IsAvailableOptions = ['Yes', 'No'];
@@ -1088,7 +1088,7 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
         $scope.Operation = 'Manage User';
     }
 
-    
+
     function GetUserDetail(UserId) {
         UserDetailService.GetUserDetail(UserId, "getUserDetail")
         .success(function (data, status, headers, config) {
@@ -1248,7 +1248,7 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
 
 });
 
-app.controller("TissueBankProfileController", function ($scope, TissueBankService, StateService, CityService, $window, MsgService) {
+app.controller("TissueBankProfileController", function ($scope, TissueBankService, StateService, CityService, $window, MsgService, InputService) {
     $scope.tissueBank = {};
     $scope.tissueBank.States = [];
     $scope.tissueBank.BillingStates = [];
@@ -1256,15 +1256,24 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
     $scope.tissueBank.LoggedUserId = document.getElementById("LoggedUserId").value;
 
     //angular validation
-    $scope.phoneNumber = /^\d{3}\d{3}\d{4}/;
-    $scope.validateEmail = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
-    $scope.tbNameValidate = /^[A-Za-z\s]+$/;
-    $scope.personName = /^[A-Za-z\s]+$/;
-    $scope.userName = /^\S{3,}$/;
+    $scope.phoneNumberPattern = InputService.phoneNumberPattern;
+    $scope.emailPattern = InputService.emailPattern;
+    $scope.name_AlphaSpacesPattern = InputService.name_AlphaSpacesPattern;
+    $scope.addressPattern = InputService.addressPattern;
+    $scope.userNamePattern = InputService.userNamePattern;
+
+    $scope.creditCardMinLength = InputService.creditCardMinLength;
+    $scope.cvvLength = InputService.cvvLength;
+    $scope.zipcodeLength = InputService.zipcodeLength;
+    $scope.faxNumberMinLength = InputService.faxNumberMinLength;
+    $scope.faxNumberMaxLength = InputService.faxNumberMaxLength;
+    $scope.aATBLicenseNumberMaxLength = InputService.aATBLicenseNumberMaxLength;
+    $scope.tissueBankStateLicenseMaxLength = InputService.tissueBankStateLicenseMaxLength;
+    $scope.expiryLength = InputService.expiryLength;
+
     $scope.dateOptions = {
         'starting-day': 1
     };
-    $scope.url = /(http(s)?:\\)?([\w-]+\.)+[\w-]+[.com|.in|.org]+(\[\?%&=]*)?/;
 
     if ($scope.tissueBank.TissueBankId == 0) {
         StateService.GetStates()
@@ -1291,7 +1300,7 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
             var err = '';
             err = ValidateTbSubmit();
 
-            if (ValidateTbSubmit() == '') {
+            if (err == '') {
                 var tissueBankAdd_DTO = {
                     TissueBankName: $scope.tissueBank.TissueBankName,
                     ContactPersonFirstName: $scope.tissueBank.ContactPersonFirstName,
@@ -1331,10 +1340,6 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
                 var response = TissueBankService.AddTb(tissueBankAdd_DTO);
                 response.success(function (data, status, headers, config) {
                     $window.location.href = '/Response/TissueBank_Registration_Successful';
-                    console.log(data);
-                    //var Message = MsgService.makeMessage(data.ReturnMessage)
-                    //message('success', 'Success!', Message);
-                    //  ClearFields();
                 }).error(function (data, status, headers, config) {
                     console.log(data.ReturnMessage);
                     var Message = MsgService.makeMessage(data.ReturnMessage)
@@ -1346,8 +1351,6 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
             }
         }
     };
-
-
 
     function ValidateTbSubmit() {
         var err = '';
@@ -1384,6 +1387,41 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
 
             if (AATBExpirationDate < AATBAccredationDate) {
                 err = 'AATB Expiration Date must be greated than AATB Accredation Date';
+            }
+        }
+
+
+        //checking home address and office address
+        if ($scope.tissueBank.TissueBankAddress == $scope.tissueBank.BillingAddress
+            || $scope.tissueBank.BillingFaxNumber == $scope.tissueBank.FaxNumber
+            || $scope.tissueBank.ContactPersonEmailId == $scope.tissueBank.BillingEmailId) {
+
+            if ($scope.tissueBank.TissueBankAddress == $scope.tissueBank.BillingAddress) {
+                if (err == '') {
+                    err = 'TissueBank Address and Billing Address must be different.';
+                }
+                else {
+                    err = err + '<br/>' + 'TissueBank Address and Billing Address must be different.';
+                }
+                $scope.tissueBank.BillingAddress = "";
+            }
+            if ($scope.tissueBank.BillingFaxNumber == $scope.tissueBank.FaxNumber) {
+                if (err == '') {
+                    err = 'Fax Number and Billing Fax Number must be different.';
+                }
+                else {
+                    err = err + '<br/>' + ' Fax Number and Billing Fax Number must be different.';
+                }
+                $scope.tissueBank.BillingFaxNumber = "";
+            }
+            if ($scope.tissueBank.ContactPersonEmailId == $scope.tissueBank.BillingEmailId) {
+                if (err == '') {
+                    err = 'Email-Id and Billing Email-Id must be different.';
+                }
+                else {
+                    err = err + '<br/>' + 'Email-Id and Billing Email-Id must be different.';
+                }
+                $scope.tissueBank.BillingEmailId = "";
             }
         }
 
@@ -1509,7 +1547,6 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
         }
     }
 
-
     GetBillingCities = function (stateId) {
         if (stateId != null) {
             CityService.GetCities(stateId)
@@ -1533,6 +1570,7 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
             $scope.tissueBank.BillingCities = null;
         }
     }
+
     function ClearFields() {
         $scope.tissueBank.TissueBankName = "";
         $scope.tissueBank.ContactPersonFirstName = "";

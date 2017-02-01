@@ -210,6 +210,7 @@
     <Content Include="Assets\css\lib\bootstrap-theme.min.css" />
     <Content Include="Assets\css\lib\bootstrap-toggle.css" />
     <Content Include="Assets\css\lib\bootstrap.css" />
+    <Content Include="Assets\css\lib\bootstrap.min.css" />
     <Content Include="Assets\css\lib\ChatCss.css" />
     <Content Include="Assets\css\lib\font-awesome.min.css" />
     <Content Include="Assets\css\lib\icon.css" />
@@ -283,6 +284,7 @@
     <Content Include="Assets\js\lib\jquery-1.10.2.min.js" />
     <Content Include="Assets\js\lib\jquery-1.9.1.min.js" />
     <Content Include="Assets\js\lib\jquery-1.js" />
+    <Content Include="Assets\js\lib\jquery-2.1.1.min.js" />
     <Content Include="Assets\js\lib\jquery-notify.min.js" />
     <Content Include="Assets\js\lib\jquery.autocomplete.min.js" />
     <Content Include="Assets\js\lib\jquery.js" />
