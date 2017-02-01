@@ -208,9 +208,8 @@ namespace Allocat.ApplicationService
                             for (int i = 0; i < TempUser_CUD.Rows.Count; ++i)
                                 TempUser_CUD.Rows[i]["UserId"] = UserId;
                         }
-
-                        userDataService.User_CreateUpdateDelete(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, out transaction);
                     }
+                    userDataService.User_CreateUpdateDelete(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, out transaction);
                 }
                 else
                 {

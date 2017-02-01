@@ -54,7 +54,7 @@ namespace Allocat.ApplicationService
 
         private void ValidateUniqueUserName(string UserName)
         {
-            Boolean valid = userDataService.ValidateUniqueEmailId(UserName);
+            Boolean valid = userDataService.ValidateUniqueUserName(UserName);
             if (valid == false)
             {
                 AddValidationError("User Name", "User Name : " + UserName + " already exists.");

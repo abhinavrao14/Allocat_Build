@@ -1063,7 +1063,7 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
     }
 });
 
-app.controller("UserDetailController", function ($scope, UserDetailService, MsgService, $window, $timeout) {
+app.controller("UserDetailController", function ($scope, UserDetailService, MsgService, $window, $timeout,InputService) {
     $scope.S_UserId = "";
     $scope.UserDetail = {};
     $scope.UserRoles = [];
@@ -1071,12 +1071,15 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
     $scope.Password = '';
 
     $scope.validateFullName = /^[A-Za-z\s]+$/;
-    $scope.validateNumber = /^\d{3}\d{3}\d{4}/;
     $scope.validateEmail = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
 
     $scope.InfoId = document.getElementById("InfoId").value;
     $scope.CreatedBy = document.getElementById("LoggedUserId").value;
     $scope.LastModifiedBy = document.getElementById("LoggedUserId").value;
+    $scope.phoneNumberPattern = InputService.phoneNumberPattern;
+    $scope.emailPattern = InputService.emailPattern;
+    $scope.name_AlphaSpacesPattern = InputService.name_AlphaSpacesPattern;
+    $scope.userNamePattern = InputService.userNamePattern;
 
     GetTissueBankRoles();
 

@@ -244,20 +244,28 @@
 
                                         <li><a href="#"><i class="fa fa-user"></i>&nbsp;&nbsp;@User.Identity.Name <text>'s Profile</text></a></li>
                                         <li>
-                                            @if (ViewBag.user.InfoId == 0)
-                                            {
-                                                <a href="@Url.Action("Index", "TissueBankProfile", new { Area = "TissueBank" })">
-                                                    <i class="dropdown-icon fa fa-user-plus"></i>
-                                                    &nbsp;&nbsp;Add Tissue Bank
-                                                </a>
+                                            @{
+                                                int pos = Array.IndexOf(ViewBag.user.roles, "TISSUE BANK SUPER ADMIN");
+                                                if (pos > -1)
+                                                {
+                                                    if (ViewBag.user.InfoId == 0)
+                                                    {
+                                                        <a href="@Url.Action("Index", "TissueBankProfile", new { Area = "TissueBank" })">
+                                                            <i class="dropdown-icon fa fa-user-plus"></i>
+                                                            &nbsp;&nbsp;Add Tissue Bank
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("Index", "TissueBankProfile", new { Area = "TissueBank" })">
+                                                            <i class="dropdown-icon fa fa-user-plus"></i>
+                                                            &nbsp;&nbsp;Manage Tissue Bank Profile
+                                                        </a>
+                                                    }
+                                                }
                                             }
-                                            else
-                                            {
-                                                <a href="@Url.Action("Index", "TissueBankProfile", new { Area = "TissueBank" })">
-                                                    <i class="dropdown-icon fa fa-user-plus"></i>
-                                                    &nbsp;&nbsp;Manage Tissue Bank Profile
-                                                </a>
-                                            }
+
+
                                         </li>
 
                                         <li class="divider"></li>
@@ -266,18 +274,16 @@
                                         <li>
                                             @if (ViewBag.user.InfoId > 0)
                                             {
-                                                <a href="@Url.Action("Index", "User", new { Area = "TissueBank" })">
-                                                    <i class="dropdown-icon fa fa-user-plus"></i>
-                                                    &nbsp;&nbsp;User Management
-                                                </a>
+                                                pos = Array.IndexOf(ViewBag.user.roles, "TISSUE BANK SUPER ADMIN");
+                                                if (pos > -1)
+                                                {
+                                                    <a href="@Url.Action("Index", "User", new { Area = "TissueBank" })">
+                                                        <i class="dropdown-icon fa fa-user-plus"></i>
+                                                        &nbsp;&nbsp;User Management
+                                                    </a>
+                                                }
                                             }
                                         </li>
-                                        @*<li>
-                                                <a href="@Url.Action("LogOut", "Account", new { Area = "" })">
-                                                    <i class="dropdown-icon fa fa-power-off"></i>
-                                                    &nbsp;&nbsp;Log Out
-                                                </a>
-                                            </li>*@
                                     </ul>
                                 </li>
                                 <li class="nav-icon-btn nav-icon-btn-danger">
@@ -293,7 +299,7 @@
         </div>
 
         @if (ViewBag.user.InfoId > 0)
-            {
+        {
 
             <div id="main-menu" role="navigation">
 
@@ -314,23 +320,69 @@
                                 <a href="#"><i class="menu-icon fa fa-dashboard"></i><span class="mm-text mmc-dropdown-delay animated fadeIn">Dashboard</span></a>
 
                             </li>
+                            @{
+                                pos = Array.IndexOf(ViewBag.user.roles, "TISSUE BANK SUPER ADMIN");
+                                if (pos > -1)
+                                {
+                                    <li class="mm-dropdown mm-dropdown-root">
+                                        <a href="#">
+                                            <i class="menu-icon fa fa-list-alt"></i>
+                                            <span class="mm-text mmc-dropdown-delay animated fadeIn">Reports Panel</span>
+                                        </a>
+                                        <ul class="mmc-dropdown-delay animated fadeInLeft">
+                                            <li>
+                                                <a href="@Url.Action("Index", "RequestForQuote", new { Area = "TissueBank" })"><span class="mm-text mmc-dropdown-delay animated fadeIn">RFQ</span></a>
+                                            </li>
+                                            <li>
+                                                <a tabindex="-1" href="@Url.Action("Index", "Order", new { Area = "TissueBank" })"><span class="mm-text">Purchase Order</span></a>
+                                            </li>
+                                        </ul>
 
-                            <li class="mm-dropdown mm-dropdown-root">
-
-                                <a href="#"><i class="menu-icon fa fa-list-alt"></i><span class="mm-text mmc-dropdown-delay animated fadeIn">Reports Panel</span></a>
-
-                                <ul class="mmc-dropdown-delay animated fadeInLeft">
-                                    <li>
-                                        <a href="@Url.Action("Index", "RequestForQuote" , new { Area="TissueBank" })"><span class="mm-text mmc-dropdown-delay animated fadeIn">RFQ</span></a>
                                     </li>
+                                }
+                                else
+                                {
+                                    pos = Array.IndexOf(ViewBag.user.roles, "TISSUE BANK FULFILMENT MANAGER");
+                                    if (pos > -1)
+                                    {
+                                        <li class="mm-dropdown mm-dropdown-root">
+                                            <a href="#">
+                                                <i class="menu-icon fa fa-list-alt"></i>
+                                                <span class="mm-text mmc-dropdown-delay animated fadeIn">Reports Panel</span>
+                                            </a>
+                                            <ul class="mmc-dropdown-delay animated fadeInLeft">
+                                                <li>
+                                                    <a href="@Url.Action("Index", "RequestForQuote", new { Area = "TissueBank" })"><span class="mm-text mmc-dropdown-delay animated fadeIn">RFQ</span></a>
+                                                </li>
+                                                <li>
+                                                    <a tabindex="-1" href="@Url.Action("Index", "Order", new { Area = "TissueBank" })"><span class="mm-text">Purchase Order</span></a>
+                                                </li>
+                                            </ul>
+
+                                        </li>
+                                    }
+                                }
+                            }
+                            @{
+                                pos = Array.IndexOf(ViewBag.user.roles, "TISSUE BANK SUPER ADMIN");
+                                if (pos > -1)
+                                {
                                     <li>
-                                        <a tabindex="-1" href="@Url.Action("Index", "Order" , new { Area="TissueBank" })"><span class="mm-text">Purchase Order</span></a>
+                                        <a href="@Url.Action("Index", "Product" , new { Area="TissueBank" })"><i class="menu-icon fa fa-cog"></i><span class="mm-text mmc-dropdown-delay animated fadeIn">Product Management</span></a>
                                     </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="@Url.Action("Index", "Product" , new { Area="TissueBank" })"><i class="menu-icon fa fa-cog"></i><span class="mm-text mmc-dropdown-delay animated fadeIn">Product Management</span></a>
-                            </li>
+                                }
+                                else
+                                {
+                                    pos = Array.IndexOf(ViewBag.user.roles, "TISSUE BANK INVENTORY MANAGER");
+                                    if (pos > -1)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Index", "Product" , new { Area="TissueBank" })"><i class="menu-icon fa fa-cog"></i><span class="mm-text mmc-dropdown-delay animated fadeIn">Product Management</span></a>
+                                        </li>
+                                    }
+                                }
+                            }
+
                         </ul> <!-- / .navigation -->
                     </div> <!-- / #main-menu-inner -->
                     <div style="background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 741px;" class="slimScrollBar"></div><div style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;" class="slimScrollRail"></div>
@@ -338,7 +390,7 @@
 
             </div> <!-- / #main-menu -->
         <!-- /4. $MAIN_MENU -->
-        }
+                                }
 
         <div id="content-wrapper">
 

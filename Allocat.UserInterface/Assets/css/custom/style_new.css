@@ -278,7 +278,7 @@
     left: 436px;
 }
 
-<<<<<<< HEAD .userfname {
+.userfname {
     max-width: 200px;
     word-wrap: break-word;
     min-width: 150px;
@@ -323,3 +323,32 @@
     color: #82898c;
     font-size: 12px;
 }
+
+/*  Author: Aditya
+    Created Date : 31 Jan 2017
+    Modified By : 
+    MOdified Date :
+*/
+/*start*/
+.field-validation-error {
+    color: #ff0000;
+        padding: 5px 42px;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors {
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+/*end*/

@@ -8,22 +8,19 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
 
     <link href="~/Assets/css/custom/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Assets/css/custom/pixel-admin.min.css" rel="stylesheet" />
     <link href="~/Assets/css/custom/rtl.min.css" rel="stylesheet" />
-   
     <link href="~/Assets/css/custom/themes.min.css" rel="stylesheet" />
-   
     <link href="~/Assets/css/lib/pages.min.css" rel="stylesheet" />
-
-    @*<link href="~/Assets/css/lib/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="~/Assets/css/lib/pages.min.css" rel="stylesheet" type="text/css">
-    <link href="~/Assets/css/custom/pixel-admin.min.css" rel="stylesheet" type="text/css">
-    <link href="~/Assets/css/custom/rtl.css" rel="stylesheet" type="text/css">
-    <link href="~/Assets/css/lib/themes.css" rel="stylesheet" type="text/css">*@
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link href="~/Assets/css/lib/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/custom/style_new.css" rel="stylesheet" />
+    <style>
+        .input-lg {
+                padding: 10px 52px !important;
+        }
+    </style>
 </head>
 <body class="theme-default page-signup">
     <div id="page-signup-bg">
@@ -38,39 +35,40 @@
         <div class="signup-form" style="margin-bottom:10px">
             <div class="signup-text">
                 <span>Create an account</span>
+               
             </div>
+            <span style="text-align: center;padding-left: 101px;color: rgb(222, 10, 10);">Please fill all fields.</span>    
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
 
                 @Html.ValidationSummary(true)
-
                 <div class="form-group w-icon">
-                    @Html.TextBoxFor(model => model.FullName, new { @class ="form-control input-lg", @placeholder = "Full Name" })
+                    @Html.TextBoxFor(model => model.FullName, new { @class = "form-control input-lg", @placeholder = "Enter Full Name", @required = "required" })
                     <span class="fa fa-info signup-form-icon"></span>
                     @Html.ValidationMessageFor(model => model.FullName)
                 </div>
 
                 <div class="form-group w-icon">
-                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control input-lg", @placeholder = "User Name" })
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control input-lg", @placeholder = "Enter User Name", @required = "required" })
                     <span class="fa fa-user signup-form-icon"></span>
                     @Html.ValidationMessageFor(model => model.UserName)
                 </div>
 
                 <div class="form-group w-icon">
-                    @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control input-lg", @placeholder = "EmailId" })
+                    @Html.TextBoxFor(model => model.EmailId, new { @class = "form-control input-lg", @type = "email", @placeholder = "Enter Email Id", @required = "required" })
                     <span class="fa fa-envelope signup-form-icon"></span>
                     @Html.ValidationMessageFor(model => model.EmailId)
                 </div>
                 <div class="form-group w-icon">
-                    @Html.DropDownList("SecurityQuestion", ViewBag.SecurityQuestions as SelectList, "-Select Security Question-", new { @class = "form-control input-lg", @style = "padding-left: 50px;" })
+                    @Html.DropDownList("SecurityQuestion", ViewBag.SecurityQuestions as SelectList, "-Select Security Question-", new { @class = "form-control input-lg", @style = "padding-left: 50px;", @required = "required" })
                     @*@Html.TextBoxFor(model => model.SecurityQuestion, new { @class = "form-control input-lg", @placeholder = "Security Question" })*@
                     <span class="fa fa-question signup-form-icon"></span>
                     @Html.ValidationMessageFor(model => model.SecurityQuestion)
                 </div>
 
                 <div class="form-group w-icon">
-                    @Html.TextBoxFor(model => model.SecurityAnswer, new { @class = "form-control input-lg", @placeholder = "Security Answer" })
+                    @Html.TextBoxFor(model => model.SecurityAnswer, new { @class = "form-control input-lg", @placeholder = "Security Answer", @required = "required" })
                     <span class="fa fa-lock signup-form-icon"></span>
                     @Html.ValidationMessageFor(model => model.SecurityAnswer)
                 </div>
@@ -86,11 +84,6 @@
                 <i class="fa fa-backward signup-form-icon" style="color:#ffffff; padding-right:5px;"></i> <span style="color:#ffffff"> Back To Login</span>
             </a>
         </div>
-
     </div>
-
-   
-
-    
 </body>
 </html>

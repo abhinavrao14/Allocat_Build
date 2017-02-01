@@ -11,14 +11,14 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
-    @*<link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">*@
     <!-- Pixel Admin's stylesheets -->
-    <link href="~/Assets/css/lib/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/lib/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Assets/css/lib/pages.min.css" rel="stylesheet" type="text/css">
     <link href="~/Assets/css/custom/pixel-admin.min.css" rel="stylesheet" type="text/css">
-    <link href="~/Assets/css/custom/rtl.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/custom/rtl.min.css" rel="stylesheet" type="text/css">
     <link href="~/Assets/css/lib/themes.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link href="~/Assets/css/lib/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Assets/css/custom/style_new.css" rel="stylesheet" />
     <style>
         #signin-demo {
             position: fixed;
@@ -45,6 +45,10 @@
                 font-weight: 600;
                 padding-bottom: 6px;
             }
+
+
+
+        
     </style>
 </head>
 <body class="theme-default page-signin">
@@ -142,10 +146,9 @@
         <!-- Right side -->
     </div>
     <!-- / Container -->
-
     @*<div class="not-a-member">
-        SignUp as Hospital? <a href="#">Click Here</a>
-    </div>*@
+            SignUp as Hospital? <a href="#">Click Here</a>
+        </div>*@
     <div class="not-a-member">
         SignUp as Tissue bank?
         <a href="@Url.Action("TissueBankSignUp", "Account", new { Area = "" })">
