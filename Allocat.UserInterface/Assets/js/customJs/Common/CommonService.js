@@ -86,9 +86,9 @@ app.service("DomainScopeService", function ($http, ResourceService) {
 
 app.factory('ResourceService', function () {
     return {
-        //webApiRootPath: 'http://allocat.net/Webapi/api/'
+        webApiRootPath: 'http://allocat.net/Webapi/api/'
         //rootPath: 'http://allocat.net/',
-        webApiRootPath: 'http://localhost:63744/api/'
+        //webApiRootPath: 'http://localhost:63744/api/'
         //rootPath: 'http://localhost:63744/',
     };
 });

@@ -413,7 +413,7 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
     }
     $scope.webApiRootPath = ResourceService.webApiRootPath;
 
-    $scope.SortDirection = '';
+    $scope.SortDirection = 'ASC';
     $scope.SortExpression = '';
     $scope.CurrentPage = 1;
     $scope.SearchBy = '';
@@ -444,8 +444,13 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
 
             $scope.TotalRFQs = arr[0];
             $scope.RequestForQuotes = data.RequestForQuotes;
-            $scope.TotalPage = Math.ceil($scope.TotalRFQs / $scope.PageSize);
 
+            $scope.SortDirection = SortDirection;
+            $scope.SortExpression = SortExpression;
+            $scope.CurrentPage = CurrentPage;
+            $scope.SearchBy = SearchBy;
+
+            $scope.TotalPage = Math.ceil($scope.TotalRFQs / $scope.PageSize);
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
@@ -492,8 +497,9 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
         GetRFQs($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
-    $scope.PageSizeChanged = function () {
+    $scope.PageSizeChanged = function (PageSize) {
         $scope.CurrentPage = 1;
+        $scope.PageSize = PageSize;
         GetRFQs($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
@@ -625,9 +631,9 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
 
     $scope.Edit_Cancel = function () {
 
-        //if ($window.UploadedAttachmentName == "") {
-        //    $window.UploadedAttachmentName == null;
-        //}
+        if ($window.UploadedAttachmentName == null) {
+            $window.UploadedAttachmentName == "";
+        }
 
         if ($scope.form_ConfirmOnExit.$dirty == true || $window.UploadedAttachmentName != "") {
             if ($window.confirm("You have some unsaved changes.Do you really want to cancel?")) {
@@ -700,7 +706,8 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
         response
        .success(function (data, status, headers, config) {
            $scope.editMode = false;
-
+           $window.UploadedAttachmentName = "";
+           $scope.form_ConfirmOnExit.$dirty = false;
            //default values
            $scope.ResponseBody = '';
            GetRequestDetailByRequestForQuoteId(RequestForQuoteId);

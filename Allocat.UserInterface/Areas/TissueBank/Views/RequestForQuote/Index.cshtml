@@ -22,45 +22,49 @@
             display: none;
         }
     }
-	@@media only screen and (min-width: 851px) {
+
+    @@media only screen and (min-width: 851px) {
         #r1 {
             display: none;
         }
     }
 
-	@@media only screen and (max-width: 800px) {
+    @@media only screen and (max-width: 800px) {
         #c2 {
             display: none;
         }
     }
-	@@media only screen and (min-width: 801px) {
+
+    @@media only screen and (min-width: 801px) {
         #r2 {
             display: none;
         }
     }
 
-	@@media only screen and (max-width: 750px) {
+    @@media only screen and (max-width: 750px) {
         #c3 {
             display: none;
         }
     }
-	@@media only screen and (min-width: 751px) {
+
+    @@media only screen and (min-width: 751px) {
         #r3 {
             display: none;
         }
     }
 
-	@@media only screen and (max-width: 700px) {
+    @@media only screen and (max-width: 700px) {
         #c4 {
             display: none;
         }
     }
-	@@media only screen and (min-width: 701px) {
+
+    @@media only screen and (min-width: 701px) {
         #r4 {
             display: none;
         }
     }
-</style>	
+</style>
 
 <div ng-controller="RFQController">
     <div class="loading-spiner-holder customloader" data-loading>
@@ -85,8 +89,6 @@
             <h1 class="col-sm-4 text-center text-left-sm">RFQ</h1>
         </div>
     </div>
-    dataLoading{{dataLoading}}
-    RequestForQuotes{{RequestForQuotes.length}}
     <div class="table-header" ng-if="dataLoading!=true">
         <div class="table-caption">
             <div class="row">
@@ -95,23 +97,17 @@
                 </div>
                 <div class="col-md-4" id="searchbox">
                     <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" />
-                    <input ng-model="me" type="text" />
                 </div>
                 <div class="col-md-4">
-                    <ul class="pagination">
-                        <li><a href="#">«</a></li>
-                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">6</a></li>
-                        <li><a href="#">»</a></li>
-                    </ul>
+                    <a href="#"><input type="button" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <a href="#">{{CurrentPage}}/{{TotalPage}} </a>
+                    <a href="#"><input type="button" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
+                    <a href="#"><input type="button" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
                 </div>
                 <div class="col-md-2">
                     <label class="filter-col">Per Page: </label>
-                    <select class="form-control" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()" id="select"></select>
+                    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged(PageSize)"></select>
                 </div>
             </div>
         </div>
@@ -243,36 +239,31 @@
         </tbody>
     </table>
     <div ng-if="(RequestForQuotes.length==0 && dataLoading) || RequestForQuotes.length==0" style="color:darkgreen;">Sorry..No Products.</div>
-    @*<div class="table-footer" ng-if="dataLoading!=true">
+    <div class="table-header" ng-if="dataLoading!=true">
         <div class="table-caption">
             <div class="row">
                 <div class="col-md-2" id="title">
                     Total RFQs({{TotalRFQs}})
                 </div>
                 <div class="col-md-4" id="searchbox">
-                    <input class="form-control" ng-model="SearchBy" placeholder="Search" onfocus="this.placeholder=''" onblur="this.placeholder='Search'" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search()" />
+                    <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" />
                 </div>
                 <div class="col-md-4">
-                    <ul class="pagination">
-                        <li><a href="#">«</a></li>
-                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">6</a></li>
-                        <li><a href="#">»</a></li>
-                    </ul>
+                    <a href="#"><input type="button" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <a href="#">{{CurrentPage}}/{{TotalPage}} </a>
+                    <a href="#"><input type="button" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
+                    <a href="#"><input type="button" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
                 </div>
                 <div class="col-md-2">
                     <label class="filter-col">Per Page: </label>
-                    <select class="form-control" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()" id="select"></select>
+                    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged(PageSize)"></select>
                 </div>
             </div>
         </div>
-    </div>*@
+    </div>
 
-<!-- $MODAL_POPUP ==========================================================================    -->
+    <!-- $MODAL_POPUP ==========================================================================    -->
     <div class="notifies" notifybar></div>
     <div id="uidemo-modals-alerts-info" class="modal modal-alert modal-info fade">
         <div class="modal-dialog">
@@ -303,7 +294,7 @@
                         <div class="col-md-3" id="statusdiv">
                             <div id="innerdiv">
                                 <span>
-                                    <b style="padding-right:15px;">Status: </b> 
+                                    <b style="padding-right:15px;">Status: </b>
                                     <div id="received" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Sent to TissueBank'">Received</div>
                                     <div id="sent" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Sent to Hospital'">Sent</div>
                                     <div id="negotiation" style="display:inline-block" ng-if="RFQDetail.StatusName == 'In-Negotiation'">In-Negotiation</div>
@@ -326,7 +317,8 @@
                             <div class="panel-body" ng-if="RequestResponses.length>0" style="padding:30px; height:200px; overflow-y:auto">
                                 <span ng-repeat="item in RequestResponses">
                                     <div class="message" ng-if="item.BodyType=='Request'">
-                                        <img src="~/Assets/image/user.png" alt="" class="message-avatar">
+                                        @*<img src="~/Assets/image/user.png" alt="" class="message-avatar">*@
+                                        <div class="circle chat-img pull-left">{{item.Initial}}</div>
                                         <div class="message-body">
                                             <div class="message-heading">
                                                 <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
@@ -341,12 +333,13 @@
                                     </div>
 
                                     <div class="message right" ng-if="item.BodyType=='Response'">
-                                        <img src="~/Assets/image/user.png" alt="" class="message-avatar">
+                                        @*<img src="~/Assets/image/user.png" alt="" class="message-avatar">*@
+                                        <div class="circle chat-img pull-right">{{item.Initial}}</div>
                                         <div class="message-body">
-                                            <div class="message-heading">
+                                            <div class="message-heading" style="text-align:right">
                                                 <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
                                             </div>
-                                            <div class="message-text" style="border:1px solid #4bacd0; margin-bottom:10px;">
+                                            <div class="message-text" style="border:1px solid #4bacd0; margin-bottom:10px;text-align:right">
                                                 {{item.Body}}
                                                 <div ng-if="item.AttachmentName!=null">
                                                     <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="{{webApiRootPath}}Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>
@@ -377,5 +370,5 @@
             </div> <!-- / .modal-content -->
         </div> <!-- / .modal-dialog -->
     </div> <!-- / .modal -->
-<!--  $END_MODAL_POPUP -->
+    <!--  $END_MODAL_POPUP -->
 </div>
