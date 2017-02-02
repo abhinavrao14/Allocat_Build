@@ -357,3 +357,20 @@
 }
 /*end*/
 
+/*  Author: Sneha
+    Created Date : 2 Feb 2017
+    Modified By : 
+    MOdified Date :
+*/
+/*start*/
+.circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 18px;
+        color: #fff;
+        line-height: 30px;
+        text-align: center;
+        background: #5bc0de;
+    }
+/*end*/
