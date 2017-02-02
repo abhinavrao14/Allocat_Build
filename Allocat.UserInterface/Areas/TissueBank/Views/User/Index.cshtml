@@ -7,7 +7,6 @@
 <script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
 
 <style>
-
      @@media only screen and (max-width: 400px) {
         #maintable {
             display: none;
@@ -166,10 +165,10 @@
                     <button class="icn" ng-if="!user.expanded" ng-click="user.expanded = true" style="display: inline;" id="button2">+</button>
                     <p style="display: inline;">{{user.FullName}}</p>
                 </td>
-                <td id="c4" class="username">{{user.UserName}}</td>
-                <td id="c3" class="userid">{{user.EmailId}}</td>
+                <td id="c4" class="username">{{user.UserName}} </td>
+                <td id="c3" class="userid" >{{user.EmailId}}</td>
                 <td id="c2" class="usernumber">{{user.MobileNumber}}</td>
-                <td id="c1" class="userrole">{{user.UserRoles}}</td>
+                <td id="c1" class="userrole" ><span ng-bind-html="user.UserRoles" ></span></td>
                 <td class="useraction">
                     @{
                         var ManageUrl = Url.Action("Manage", "User", new { UserId = "{{user.UserId}}" });
@@ -190,7 +189,7 @@
                                 </tr>
                                 <tr id="r1">
                                     <td><b>User Role</b></td>
-                                    <td><i>{{user.UserRoles}}</i></td>
+                                    <td><i><span ng-bind-html="user.UserRoles"></span></i></td>
                                 </tr>
                                 <tr id="r2">
                                     <td><b>User Number</b></td>
@@ -225,7 +224,7 @@
                                     <td><b>User Role</b></td>
                                 </tr>
                                 <tr id="r1">
-                                    <td>{{user.UserRoles}}</td>
+                                    <td><span ng-bind-html="user.UserRoles"></span></td>
                                 </tr>
                                 <tr id="r2">
                                     <td><b>User Number</b></td>

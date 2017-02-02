@@ -7,8 +7,24 @@
 <script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
 <script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
 <link href="~/Assets/css/lib/trix.css" rel="stylesheet" />
-
+<style>
+     .circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        font-size: 18px;
+        color: #fff;
+        line-height: 30px;
+        text-align: center;
+        background: #5bc0de;
+    }
+</style>
 <div ng-controller="RFQDetailController">
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner">
+            <img src="~/Assets/image/spin.gif" />
+        </div>
+    </div>
     @if (@ViewBag.user.InfoId != null)
     {
         <input type="hidden" for="RequestForQuoteId" id="RequestForQuoteId" value="@ViewBag.RequestForQuoteId" />
@@ -29,7 +45,11 @@
             </a>
         </li>
         <li class="active"><a href=""><u>Reports Panel</u></a></li>
-        <li class="active"><a href=""><u>RFQ</u></a></li>
+        <li>
+            <a tabindex="-1" href="@Url.Action("Index", "RequestForQuote", new { Area = "TissueBank" })">
+                <span class="mm-text">RFQ</span>
+            </a>
+        </li>
         <li class="active"><a href="">Manage RFQ</a></li>
     </ul>
     <div class="page-header">
@@ -130,27 +150,27 @@
                     <tr>
                         <td style="background-color:#ffffff;">
                             <div style="margin-bottom:10px">
-                                <label id="span" style="width:105px">Unit Price($) :</label> 
+                                <label id="span" style="width:105px">Unit Price :</label> 
                                 <span style="padding-left:15px">
-                                    <label ng-if="!editMode">{{RFQDetail.UnitPrice==null ? 'N/A' : RFQDetail.UnitPrice}}</label>
+                                    <label ng-if="!editMode">{{RFQDetail.UnitPrice==null ? 'N/A' : RFQDetail.UnitPrice | currency}}</label>
                                     <input type="number" ng-if="editMode" ng-change="CalculateTotal()" ng-model="RFQDetail.UnitPrice" />
                                 </span>
                             </div>
                             <div style="margin-bottom:10px">
-                                <label id="span" style="width:105px">Line Total($) :</label> 
-                                <span style="padding-left:15px;"> <label> {{RFQDetail.LineTotal==null ? 'N/A' : RFQDetail.LineTotal}}</label></span>
+                                <label id="span" style="width:105px">Line Total :</label> 
+                                <span style="padding-left:15px;"> <label> {{RFQDetail.LineTotal==null ? 'N/A' : RFQDetail.LineTotal | currency}}</label></span>
                             </div>
                             <div style="margin-bottom:10px">
                                 <label id="span" style="width:105px">Sales Tax :</label> 
-                                <span style="padding-left:15px;"> <label> {{RFQDetail.SalesTax==null ? 'N/A' : RFQDetail.SalesTax}}</label></span>
+                                <span style="padding-left:15px;"> <label> {{RFQDetail.SalesTax==null ? 'N/A' : RFQDetail.SalesTax | currency}}</label></span>
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td style="background-color:#353f4b; color:#ffffff">
                             <div style="float:left">  
-                                    <label id="span" style="width:115px">Total Amount($) :</label> 
-                                    <span style="padding-left:15px"><label> {{RFQDetail.Total==null ? 'N/A' : RFQDetail.Total}}</label></span>
+                                    <label id="span" style="width:115px">Total Amount :</label> 
+                                    <span style="padding-left:15px"><label> {{RFQDetail.Total==null ? 'N/A' : RFQDetail.Total | currency}}</label></span>
                             </div>
                             <div style="float:right">
                                     <label id="span" style="width:115px">Shippng Method :</label> 
@@ -174,7 +194,8 @@
                     <div class="panel-body" ng-if="RequestResponses.length>0" style="padding:30px; height:300px; overflow-y:auto">
                         <span ng-repeat="item in RequestResponses">
                             <div class="message" ng-if="item.BodyType=='Request'">
-                                <img src="~/Assets/image/user.png" alt="" class="message-avatar">
+                                @*<img src="~/Assets/image/user.png" alt="" class="message-avatar">*@
+                                <div class="circle chat-img pull-left">{{item.Initial}}</div>
                                 <div class="message-body">
                                     <div class="message-heading">
                                         <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
@@ -189,12 +210,13 @@
                             </div>
 
                             <div class="message right" ng-if="item.BodyType=='Response'">
-                                <img src="~/Assets/image/user.png" alt="" class="message-avatar">
+                                @*<img src="~/Assets/image/user.png" alt="" class="message-avatar">*@
+                                <div class="circle chat-img pull-right">{{item.Initial}}</div>
                                 <div class="message-body">
-                                    <div class="message-heading">
+                                    <div class="message-heading" style="text-align:right">
                                         <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
                                     </div>
-                                    <div class="message-text" style="border:1px solid #4bacd0; margin-bottom:10px;">
+                                    <div class="message-text" style="border:1px solid #4bacd0; margin-bottom:10px;text-align:right">
                                         {{item.Body}}
                                         <div ng-if="item.AttachmentName!=null">
                                             <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="{{webApiRootPath}}Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>

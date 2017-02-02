@@ -8,7 +8,7 @@
     photoManagerClient.$inject = ['$resource'];
 
     function photoManagerClient($resource) {
-        return $resource(ResourceService.webApiRootPath+'photo/:fileName',
+        return $resource('http://localhost:63744/api/photo/:fileName',
                 { id: "@fileName" },
                 {
                     'query': { method: 'GET' },

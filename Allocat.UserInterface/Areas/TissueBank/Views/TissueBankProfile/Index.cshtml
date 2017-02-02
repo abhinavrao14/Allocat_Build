@@ -12,10 +12,10 @@
 </style>
 <style>
     .image {
-   padding:2px;
-   border:1px solid #777;
-   background-color:#999;
-}
+        padding: 2px;
+        border: 1px solid #777;
+        background-color: #999;
+    }
 </style>
 <div ng-controller="TissueBankProfileController">
     <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
@@ -24,7 +24,7 @@
     @*for new tissue bank registration*@
     @if (@ViewBag.user.InfoId == 0)
     {
-  
+
         <div class="panel" style="width:85%; margin:auto">
             <div class="panel-heading" id="headerstyle" style="text-align:center">
                 Add Tissue Bank
@@ -32,8 +32,8 @@
             <form class="form-horizontal" name="formTissueBank" novalidate ng-submit="AddTb()">
                 <div style="border:1px solid #aaa; margin-bottom:40px; box-shadow:0px 2px 2px #888888;">
                     <div class="col-md-12" id="tbtitle">
-                        <div style="display:inline-block"><img class="image"src="~/Assets/image/1.jpg" style="width:50px; height:50px; margin-top:-25px" /></div>
-                         <div style="display:inline-block; padding-right:10px"><span style="font-size:15px; font-weight:600">Setup Your Account</span><br /><span>Tell us a bit about you</span></div>
+                        <div style="display:inline-block"><img class="image" src="~/Assets/image/1.jpg" style="width:50px; height:50px; margin-top:-25px" /></div>
+                        <div style="display:inline-block; padding-right:10px"><span style="font-size:15px; font-weight:600">Setup Your Account</span><br /><span>Tell us a bit about you</span></div>
                     </div>
                     <div class="row" style="padding:10px">
                         <div class="col-sm-6">
@@ -268,9 +268,10 @@
                             <div class="form-group no-margin-hr">
                                 <label class="control-label">Credit Card Number</label>
                                 <span class="error error-msg" ng-show="formTissueBank.CreditCardNumber.$error.required">*</span><br />
-                                <input type="number" class="form-control" ng-required="true" name="CreditCardNumber" ng-model="tissueBank.CreditCardNumber" placeholder="Enter Credit Card Number" ng-minlength="creditCardMinLength" />
+                                <input type="number" class="form-control" ng-required="true" name="CreditCardNumber" ng-model="tissueBank.CreditCardNumber" placeholder="Enter Credit Card Number" ng-minlength="creditCardMinLength" ng-maxlength="creditCardMaxLength" />
                                 <span class="inputTip">Ex: 8451238464545</span><br />
-                                <span class="error error-msg" ng-show="formTissueBank.CreditCardNumber.$error.minlength">Credit card must contain 4 or more digits </span>
+                                <span class="error error-msg" ng-show="formTissueBank.CreditCardNumber.$error.minlength">Credit card must contain between 12 to 19 digits </span>
+                                <span class="error error-msg" ng-show="formTissueBank.CreditCardNumber.$error.maxlength">Credit card must contain between 12 to 19 digits </span>
                             </div>
                         </div>
                         <div class="col-sm-6">
@@ -300,7 +301,7 @@
                         <div class="col-sm-12">
                             <div class="form-group no-margin-hr">
                                 <input type="checkbox" ng-required="true" name="isAgree" ng-model="tissueBank.isAgree" />
-                                <label class="control-label"><span class="error error-msg" ng-show="formTissueBank.isAgree.$error.required">*</span> I agree that $25 will be deducted from my credit card as Regitration-Fee.</label><br />   
+                                <label class="control-label"><span class="error error-msg" ng-show="formTissueBank.isAgree.$error.required">*</span> I agree that $25 will be deducted from my credit card as Regitration-Fee.</label><br />
                             </div>
                         </div>
                     </div>

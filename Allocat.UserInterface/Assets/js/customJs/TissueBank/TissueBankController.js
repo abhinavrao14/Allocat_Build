@@ -205,7 +205,6 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
         var Products = $scope.ProductsByProductMasterId;
 
         //  if ($scope.form_ConfirmOnExit.$dirty == true && $scope.form_ConfirmOnExit.$pristine == false) {
-
         //-------change LastModifiedBy of every row
         for (var i = 0; i < Products.length; i++) {
 
@@ -218,19 +217,16 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
             //            errStr = 'Row ' + i + 1 + ' is having invalid start date';
             //        }
             //        else {
-
             //            errStr = errStr + '<br/>Row ' + i + 1 + ' is having invalid start date';
             //        }
             //    }
             //}
-
             //if (Products[i].AvailabilityEndDate != null) {
             //    if (Products[i].AvailabilityEndDate.match(/^(\d{4})\-(\d{2})\-(\d{2})T(\d{2}):(\d{2}):(\d{2})$/) == null && (Products[i].AvailabilityEndDate.match(/^(\d{4})\-(\d{2})\-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/)) == null) {
             //        if (errStr == '') {
             //            errStr = 'Row ' + i + 1 + ' is having invalid end date';
             //        }
             //        else {
-
             //            errStr = errStr + '<br/>Row ' + i + 1 + ' is having invalid end date';
             //        }
             //    }
@@ -265,8 +261,7 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
         //$scope.editMode = false;
         //  //$scope.form_ConfirmOnExit.$dirty = false;
         //message('warning', 'Success!', 'No change made in products.');
-
-        ////-------get data again from database
+        //-------get data again from database
         //GetTissueBankProductsByProductMasterId($scope.TissueBankId, ProductMasterId);
         //console.log("not dirty");
         //  }
@@ -346,13 +341,11 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     //$scope.selectedTissueBankProductId = 0;
     //$scope.selectedDescription = "";
     //$scope.selectedIndex = 0;
-
     //$scope.ProductTypeOptions = ['AdMatrix1', 'AdMatrix2', 'Admatrix3'];
     //$scope.ProductSizeOptions = ['8 mm', '10 mm', '12 mm', '14 mm', 'L= 4cm W= 4cm T= 0.1mm', 'L= 4cm W= 6cm T= 0.1mm'];
     //$scope.SourceOptions = [{ 'SourceId': 1, 'SourceName': 'Synthetic' }, { 'SourceId': 2, 'SourceName': 'Allograft' }];
     //$scope.PreservationTypeOptions = ['Sterile', 'Saline', 'Preservon', 'Lyophilized',
     //                                'Irradiated', 'Frozen', 'Freeze-Dried', 'Desiccated'];
-
     //-------------save new functionality start
     //$scope.saveNew = function () {
     //    $scope.addNewMode = false;
@@ -360,9 +353,7 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     //    var products = $filter('filter')($scope.ProductsByProductMasterId, 'new');
     //    console.log(products);
     //    //console.log($scope.ProductsByProductMasterId);
-
     //    // var response = ProductDetailService.saveTissueBankProducts(products);
-
     //    // response
     //    //.success(function (data, status, headers, config) {
     //    //    console.log(data);
@@ -372,33 +363,24 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     //    //});
     //};
     //-------------save new functionality end
-
-
-    ////-------- description pop up start
+    //-------- description pop up start
     //$scope.Cancel = function () {
     //    ngDialog.close();
     //}
-
     //$scope.Submit = function () {
     //    ngDialog.close();
     //    //console.log($scope.ngDialogData.selectedDescription + "," + $scope.ngDialogData.selectedTissueBankProductId);
     //    //console.log($scope.ProductsByProductMasterId[0].ProductDescription);
-
     //    var arr = $filter('updateById')($scope.ProductsByProductMasterId, $scope.ngDialogData.selectedTissueBankProductId, $scope.ngDialogData.selectedDescription);
     //    $scope.ProductsByProductMasterId = arr;
     //    console.log($scope.ProductsByProductMasterId);
-
     //};
-
     //$scope.openDescriptionPopUp = function (ProductDescription, TissueBankProductId) {
     //    var new_dialog = ngDialog.open({ id: 'fromAService', template: 'firstDialogId', controller: 'ProductDetailController', data: { selectedDescription: ProductDescription, selectedTissueBankProductId: TissueBankProductId } });
-
     //    //console.log(ProductDescription + "," + TissueBankProductId);
     //};
-    ////------- description pop up end
-
-
-    ////------- remove product start
+    //------- description pop up end
+    //------- remove product start
     //$scope.checkAll = function () {
     //    if (!$scope.selectedAll) {
     //        $scope.selectedAll = true;
@@ -409,7 +391,6 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     //        ProductsByProductMasterId.selected = $scope.selectedAll;
     //    });
     //};
-
     //$scope.remove = function () {
     //    var newDataList = [];
     //    $scope.selectedAll = false;
@@ -420,7 +401,7 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     //    });
     //    $scope.ProductsByProductMasterId = newDataList;
     //};
-    ////------- remove product end
+    //------- remove product end
 
 });
 
@@ -435,7 +416,7 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
     $scope.SortDirection = '';
     $scope.SortExpression = '';
     $scope.CurrentPage = 1;
-    $scope.SearchBy = "";
+    $scope.SearchBy = '';
     $scope.descriptionLimit = 15;
     $scope.dataLoading = true;
     $scope.TotalRFQs = 0;
@@ -493,10 +474,10 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
         GetRFQs($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
-    $scope.search = function () {
-        GetRFQs($scope.SearchBy, 1, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+    $scope.search = function (SearchBy) {
         $scope.CurrentPage = 1;
         $scope.PageSize = $scope.PageSizes[0];
+        GetRFQs(SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
     $scope.Sort = function (SortExpression) {
@@ -604,7 +585,7 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
     }
 
     $scope.submitResponse = function () {
-        if ($window.UploadedAttachmentName != null && $window.UploadedAttachmentName != '') {
+        if ($window.UploadedAttachmentName != null && $window.UploadedAttachmentName != "") {
             if ($scope.ResponseBody == null || $scope.ResponseBody == '') {
                 $scope.showModal = true;
             }
@@ -644,11 +625,11 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
 
     $scope.Edit_Cancel = function () {
 
-        if ($window.UploadedAttachmentName == '') {
-            $window.UploadedAttachmentName == null;
-        }
+        //if ($window.UploadedAttachmentName == "") {
+        //    $window.UploadedAttachmentName == null;
+        //}
 
-        if ($scope.form_ConfirmOnExit.$dirty == true || $window.UploadedAttachmentName != '') {
+        if ($scope.form_ConfirmOnExit.$dirty == true || $window.UploadedAttachmentName != "") {
             if ($window.confirm("You have some unsaved changes.Do you really want to cancel?")) {
 
                 $scope.form_ConfirmOnExit.$dirty = false;
@@ -690,10 +671,9 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
                 return;
             }
         }
-
-        if ($window.UploadedAttachmentName == '') {
-            $window.UploadedAttachmentName == null;
-        }
+        //if ($window.UploadedAttachmentName == "") {
+        //    $window.UploadedAttachmentName == null;
+        //}
         var RFQ_TissueBank_Edit_DTO = {};
         RFQ_TissueBank_Edit_DTO.TissueBankId = $scope.TissueBankId;
         RFQ_TissueBank_Edit_DTO.ResponseBody = $scope.ResponseBody;
@@ -989,6 +969,10 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
             $scope.Users = data.Users;
             $scope.TotalPage = Math.ceil($scope.TotalUsers / $scope.PageSize);
 
+            for (var i = 0; i < $scope.Users.length; ++i) {
+                $scope.Users[i].UserRoles = $sce.trustAsHtml($scope.Users[i].UserRoles);
+            }
+
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
@@ -1063,7 +1047,7 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
     }
 });
 
-app.controller("UserDetailController", function ($scope, UserDetailService, MsgService, $window, $timeout,InputService) {
+app.controller("UserDetailController", function ($scope, UserDetailService, MsgService, $window, $timeout, InputService) {
     $scope.S_UserId = "";
     $scope.UserDetail = {};
     $scope.UserRoles = [];

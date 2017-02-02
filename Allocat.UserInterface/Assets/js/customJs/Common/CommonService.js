@@ -3,7 +3,7 @@
     this.GetStates = function () {
         var response = $http({
             method: 'Get',
-            url: ResourceService.webApiRootPath+'State'
+            url: ResourceService.webApiRootPath + 'State'
         });
         return response;
     };
@@ -15,7 +15,7 @@ app.service("CityService", function ($http, ResourceService) {
     this.GetCities = function (StateId) {
         var response = $http({
             method: 'Get',
-            url: ResourceService.webApiRootPath+'City',
+            url: ResourceService.webApiRootPath + 'City',
             params: { StateId: StateId }
         });
         return response;
@@ -27,7 +27,7 @@ app.service("HospitalTypeService", function ($http, ResourceService) {
     this.GetHospitalTypes = function () {
         var response = $http({
             method: 'Get',
-            url: ResourceService.webApiRootPath+'HospitalType'
+            url: ResourceService.webApiRootPath + 'HospitalType'
         });
         return response;
     };
@@ -54,7 +54,7 @@ app.service("ProductMasterService", function ($http, ResourceService) {
     this.GetAllProductMaster = function (productMasterInquiryDTO) {
         var response = $http({
             method: 'GET',
-            url: ResourceService.webApiRootPath+'ProductMasterApi/GetProductMasters/',
+            url: ResourceService.webApiRootPath + 'ProductMasterApi/GetProductMasters/',
             params: productMasterInquiryDTO
         });
         console.log(response);
@@ -64,7 +64,7 @@ app.service("ProductMasterService", function ($http, ResourceService) {
     this.getProductMasterById = function (ProductMasterId) {
         var response = $http({
             method: "get",
-            url: ResourceService.webApiRootPath+'ProductMaster/',
+            url: ResourceService.webApiRootPath + 'ProductMaster/',
             params: {
                 ProductMasterId: ProductMasterId
             }
@@ -78,7 +78,7 @@ app.service("DomainScopeService", function ($http, ResourceService) {
     this.getAllDomainScope = function () {
         var response = $http({
             method: 'Get',
-            url: ResourceService.webApiRootPath+'DomainScope/',
+            url: ResourceService.webApiRootPath + 'DomainScope/',
         });
         return response;
     };
@@ -86,9 +86,9 @@ app.service("DomainScopeService", function ($http, ResourceService) {
 
 app.factory('ResourceService', function () {
     return {
-        webApiRootPath: 'http://allocat.net/Webapi/api/'
+        //webApiRootPath: 'http://allocat.net/Webapi/api/'
         //rootPath: 'http://allocat.net/',
-        //webApiRootPath: 'http://localhost:63744/api/'
+        webApiRootPath: 'http://localhost:63744/api/'
         //rootPath: 'http://localhost:63744/',
     };
 });
@@ -96,7 +96,8 @@ app.factory('ResourceService', function () {
 app.factory('InputService', function () {
     return {
         zipcodeLength: 5
-        ,creditCardMinLength: 4
+        , creditCardMinLength: 12
+        , creditCardMaxLength: 19
         , cvvLength: 3
         , faxNumberMinLength: 5
         , faxNumberMaxLength: 20
