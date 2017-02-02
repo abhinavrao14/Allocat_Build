@@ -5,6 +5,7 @@
 }
 <script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
 <script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+<link href="~/Assets/css/lib/trix.css" rel="stylesheet" />
 
 <style>
     table {
@@ -89,22 +90,33 @@
             <h1 class="col-sm-4 text-center text-left-sm">RFQ</h1>
         </div>
     </div>
-    <div class="table-header" ng-if="dataLoading!=true">
+    <div class="table-header" style="padding-bottom:0px;" ng-if="dataLoading!=true">
         <div class="table-caption">
             <div class="row">
                 <div class="col-md-2" id="title">
                     Total RFQs({{TotalRFQs}})
                 </div>
-                <div class="col-md-4" id="searchbox">
-                    <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" />
+                <div class="col-md-5" id="searchbox">
+                    <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'" />
                 </div>
-                <div class="col-md-4">
+<!--  SNEHA START -->
+                <div class="col-md-3">
+                    <ul class="pagination">
+                       <li ng-click="getFirstPage()" ng-disabled="CurrentPage<=1"><a href="#">««</a></li>
+                       <li ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1"><a href="#">«</a></li>
+                       <li class="active"><a href="#">{{CurrentPage}}/{{TotalPage}}</a></li>
+                       <li ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs"><a href="#">»</a></li>
+                       <li ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs"><a href="#">»»</a></li>
+                    </ul>
+                </div>
+                @*<div class="col-md-4">
                     <a href="#"><input type="button" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
                     <a href="#"><input type="button" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
                     <a href="#">{{CurrentPage}}/{{TotalPage}} </a>
                     <a href="#"><input type="button" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
                     <a href="#"><input type="button" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
-                </div>
+                </div>*@
+<!--  SNEHA END  -->
                 <div class="col-md-2">
                     <label class="filter-col">Per Page: </label>
                     <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged(PageSize)"></select>
@@ -239,22 +251,33 @@
         </tbody>
     </table>
     <div ng-if="(RequestForQuotes.length==0 && dataLoading) || RequestForQuotes.length==0" style="color:darkgreen;">Sorry..No Products.</div>
-    <div class="table-header" ng-if="dataLoading!=true">
+    <div class="table-footer" style="padding-bottom:0px;" ng-if="dataLoading!=true">
         <div class="table-caption">
             <div class="row">
                 <div class="col-md-2" id="title">
                     Total RFQs({{TotalRFQs}})
                 </div>
-                <div class="col-md-4" id="searchbox">
-                    <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" />
+                <div class="col-md-5" id="searchbox">
+                    <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'"/>
                 </div>
-                <div class="col-md-4">
+<!--  SNEHA START  -->
+                <div class="col-md-3">
+                    <ul class="pagination">
+                        <li ng-click="getFirstPage()" ng-disabled="CurrentPage<=1"><a href="#">««</a></li>
+                        <li ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1"><a href="#">«</a></li>
+                        <li class="active"><a href="#">{{CurrentPage}}/{{TotalPage}}</a></li>
+                        <li ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs"><a href="#">»</a></li>
+                        <li ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs"><a href="#">»»</a></li>
+                    </ul>
+                </div>
+                @*<div class="col-md-4">
                     <a href="#"><input type="button" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
                     <a href="#"><input type="button" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
                     <a href="#">{{CurrentPage}}/{{TotalPage}} </a>
                     <a href="#"><input type="button" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
                     <a href="#"><input type="button" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
-                </div>
+                </div>*@
+<!--  SNEHA END  -->
                 <div class="col-md-2">
                     <label class="filter-col">Per Page: </label>
                     <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged(PageSize)"></select>
@@ -312,7 +335,7 @@
                     <div class="row">
                         <div class="panel widget-chat">
                             <div class="panel-heading" style="background-color:#353f4b; color:#ffffff!important">
-                                <span class="panel-title">Clinical Questions</span>
+                                <span class="panel-title" style="font-size:13px">Clinical Questions</span>
                             </div>
                             <div class="panel-body" ng-if="RequestResponses.length>0" style="padding:30px; height:200px; overflow-y:auto">
                                 <span ng-repeat="item in RequestResponses">

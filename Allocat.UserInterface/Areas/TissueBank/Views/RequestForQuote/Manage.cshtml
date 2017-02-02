@@ -7,18 +7,7 @@
 <script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
 <script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
 <link href="~/Assets/css/lib/trix.css" rel="stylesheet" />
-<style>
-     .circle {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        font-size: 18px;
-        color: #fff;
-        line-height: 30px;
-        text-align: center;
-        background: #5bc0de;
-    }
-</style>
+
 <div ng-controller="RFQDetailController">
     <div class="loading-spiner-holder customloader" data-loading>
         <div class="loading-spiner">
@@ -45,9 +34,9 @@
             </a>
         </li>
         <li class="active"><a href=""><u>Reports Panel</u></a></li>
-        <li>
+        <li class="active">
             <a tabindex="-1" href="@Url.Action("Index", "RequestForQuote", new { Area = "TissueBank" })">
-                <span class="mm-text">RFQ</span>
+                <span class="mm-text"><u>RFQ</u></span>
             </a>
         </li>
         <li class="active"><a href="">Manage RFQ</a></li>
@@ -105,7 +94,7 @@
                 <table class="table table-hover table-striped" id="tablestyle" style="text-align:left; min-height:230px;">
                     <thead id="headerstyle">
                         <tr>
-                            <th colspan="2"> Producted Requested</th>
+                            <th colspan="2"> Product Requested</th>
                         </tr>
                     </thead>
                     <tr>
