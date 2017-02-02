@@ -1269,6 +1269,13 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
         'starting-day': 1
     };
 
+    $scope.months = ["0" + 1, "0" + 2, "0" + 3, "0" + 4, "0" + 5, "0" + 6, "0" + 7, "0" + 8, "0" + 9, 10, 11, 12];
+    $scope.years = [];
+    var d = new Date().getFullYear().toString().substr(2, 2)
+    for (var year = d ; year <= 80; ++year) {
+        $scope.years.push(year);
+    }
+
     if ($scope.tissueBank.TissueBankId == 0) {
         StateService.GetStates()
            .success(function (data, status, headers, config) {
@@ -1279,6 +1286,10 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
                var Message = MsgService.makeMessage(data.ReturnMessage)
                message('error', 'Error!', Message);
            });
+    }
+
+    $scope.check = function () {
+        console.log($scope.expiryMonth.toString() + $scope.expiryYear.toString());
     }
 
     $scope.GetCities = function (stateId) {
@@ -1313,7 +1324,7 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
                     AATBExpirationDate: $scope.tissueBank.AATBExpirationDate,
                     CreditCardNumber: $scope.tissueBank.CreditCardNumber,
                     CreditCardType: 0,
-                    ExpiryDate: $scope.tissueBank.ExpiryDate,
+                    ExpiryDate: $scope.expiryMonth.toString() + $scope.expiryYear.toString(),
                     CardCode: $scope.tissueBank.CardCode,
                     BillingAddress: $scope.tissueBank.BillingAddress,
                     BillingCityId: $scope.tissueBank.BillingCity.CityID,

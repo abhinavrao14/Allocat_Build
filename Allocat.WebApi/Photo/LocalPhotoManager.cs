@@ -15,14 +15,15 @@ namespace Allocat.WebApi.Photo
 
         public LocalPhotoManager()
         {
-
-        }
-
-        public LocalPhotoManager(string workingFolder)
-        {
-            this.workingFolder = workingFolder;
+            this.workingFolder = "D:\\home\\site\\wwwroot\\Webapi\\Content\\AttachmentFiles";
             CheckTargetDirectory();
         }
+
+        //public LocalPhotoManager(string workingFolder)
+        //{
+        //    this.workingFolder =" D:\\home\\site\\wwwroot\\Webapi\\\Content\AttachmentFiles";
+        //    CheckTargetDirectory();
+        //}
 
         public async Task<IEnumerable<PhotoViewModel>> Get()
         {
