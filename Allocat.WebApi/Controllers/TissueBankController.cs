@@ -139,7 +139,7 @@ namespace Allocat.WebApi.Controllers
                         response.MessageCode = "Error Code from authorize.net is null.";
 
                     if (response.Message == null)
-                        response.Message = "Response from author    ize.net is null.";
+                        response.Message = "Response from authorize.net is null.";
 
                     //if response is null then log error and update transaction too.
                     string errorMessage = errorBusinessService.Error_Create(status.StatusId, response.Message, "", TransactionId, tissueBankAdd_DTO.UserId, response.MessageCode);
@@ -176,7 +176,7 @@ namespace Allocat.WebApi.Controllers
 
             credit.CreditCardNumber = tissueBankAdd_DTO.CreditCardNumber;
             credit.CreditCardType = tissueBankAdd_DTO.CreditCardType;
-            credit.CardCode = tissueBankAdd_DTO.ExpiryDate;
+            credit.CardCode = tissueBankAdd_DTO.CardCode;
             credit.ExpiryDate = tissueBankAdd_DTO.ExpiryDate;
             objCustomer.CardInfo = credit;
 
@@ -212,6 +212,48 @@ namespace Allocat.WebApi.Controllers
             address.PhoneNumber = tissueBankAdd_DTO.BillingContactNumber;
             address.State = tissueBankAdd_DTO.BillingState;
             objCustomer.OfficeAddress = address;
+
+            objCustomer.PaymentType = PaymentType.CreditCard;
+
+            //credit.CreditCardNumber = "2223000010309711";
+            //credit.CreditCardType = 0;
+            //credit.CardCode = "845";
+            //credit.ExpiryDate = "0527";
+            //objCustomer.CardInfo = credit;
+
+            //objCustomer.EmailId = "tt22@gmail.com";
+            //objCustomer.LastName = "Rao22";
+            //objCustomer.FirstName = "umesh rao22";
+
+            //address.Address = "1812";
+            //address.City = "dewas2";
+            //address.Company = "ROW2";
+            //address.Country = "US";
+            //address.ZipCode = "48596";
+            //address.Email = "tthome2@gmail.com";
+            //address.FaxNumber = "84952615482";
+            //address.FirstName = "Umesh2";
+            //address.LastName = "Rao2";
+            //address.PhoneNumber = "8085203453";
+            //address.State = "Utah";
+            //objCustomer.HomeAddress = address;
+
+            //address = null;
+            //address = new AddressInfo();
+
+            //address.Address = "Ujjain22";
+            //address.City = "Ujjain22";
+            //address.Company = "Row22";
+            //address.Country = "US";
+            //address.ZipCode = "87459";
+            //address.Email = "ttoffic2ee@gmail.com";
+            //address.FaxNumber = "8495668742345";
+            //address.FirstName = "Umesh245";
+            //address.LastName = "RAO25";
+            //address.PhoneNumber = "3454354354353";
+            //address.State = "Utah";
+            //objCustomer.OfficeAddress = address;
+
 
             objCustomer.PaymentType = PaymentType.CreditCard;
 
