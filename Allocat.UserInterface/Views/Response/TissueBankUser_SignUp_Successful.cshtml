@@ -9,14 +9,40 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Successful</title>
-</head>
-<body>
-    <h1>An email is sent to registered email id.Please verify your account by clicking a link in it. This email also contains your temporary password to log in.Please change it once you logs in.</h1>
 
-    <a href="@Url.Action("Index", "Account", new { Area = "" })">
-        <i class="dropdown-icon fa fa-user-plus"></i>
-        &nbsp;&nbsp;Back to Login
-   </a>
+    <link href="~/Assets/css/lib/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/lib/pixel-admin.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/lib/widgets.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/lib/rtl.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/lib/themes.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/custom/style.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/css/lib/pages.min.css" rel="stylesheet" type="text/css">
+
+</head>
+<body class="theme-default page-signin" style="background:#aaa!important;">
+    <div class="signin-container" style="width:420px">
+        <div class="panel panel-danger panel-dark panel-body-colorful widget-profile widget-profile-centered" style="border-color:#eee!important; box-shadow:-3px -2px 1px 0px #d6d6d6;">
+            <div class="panel-heading" style="background:#4bacd0; border-color:#d6d6d6;">
+                <img src="~/Assets/image/user.png" alt="" class="widget-profile-avatar">
+                    <div class="widget-profile-header">
+                        <span>Welcome, User</span><br>       
+                    </div>
+            </div>
+            <div class="panel-body" style="background:#4bacd0;">
+                <div class="widget-profile-text" style="padding:10px; font-size:16px">
+                    An email is sent to registered email id. Please verify your account by clicking a link in it. This email also contains your temporary password to log in. Please change it once you logs in.
+                </div>
+            </div>
+        </div> 
+    </div>
+
+    <div class="not-a-member" style="text-decoration:none">
+        <a href="@Url.Action("Index", "Account", new { Area = "" })">
+            <i class="fa fa-backward" aria-hidden="true"></i> Back to Login
+        </a>
+    </div>
+
+ 
 
 </body>
 </html>
