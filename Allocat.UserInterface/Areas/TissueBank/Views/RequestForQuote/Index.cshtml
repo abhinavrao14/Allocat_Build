@@ -63,6 +63,11 @@
 </style>	
 
 <div ng-controller="RFQController">
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner">
+            <img src="~/Assets/image/spin.gif" />
+        </div>
+    </div>
     <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
     <ul class="breadcrumb breadcrumb-page">
         <div class="breadcrumb-label text-light-gray">You are here: </div>
@@ -80,15 +85,17 @@
             <h1 class="col-sm-4 text-center text-left-sm">RFQ</h1>
         </div>
     </div>
-  
-    <div class="table-header">
+    dataLoading{{dataLoading}}
+    RequestForQuotes{{RequestForQuotes.length}}
+    <div class="table-header" ng-if="dataLoading!=true">
         <div class="table-caption">
             <div class="row">
                 <div class="col-md-2" id="title">
                     Total RFQs({{TotalRFQs}})
                 </div>
                 <div class="col-md-4" id="searchbox">
-                    <input class="form-control" ng-model="SearchBy" placeholder="Search" onfocus="this.placeholder=''" onblur="this.placeholder='Search'" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search()" />
+                    <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" />
+                    <input ng-model="me" type="text" />
                 </div>
                 <div class="col-md-4">
                     <ul class="pagination">
@@ -110,9 +117,9 @@
         </div>
     </div>
 
-    <span ng-if="dataLoading" style="color:darkgreen;">Please Wait..</span>
-    <span ng-if="RequestForQuotes.length==0 || dataLoading" style="color:darkgreen;">Sorry..No Products.</span>
-    <table ng-if="RequestForQuotes.length!=0 || dataLoading" class="table table-hover table-striped" id="tablestyle">
+    @*<span ng-if="dataLoading" style="color:darkgreen;">Please Wait..</span>*@
+    @*<span ng-if="(RequestForQuotes.length==0 && dataLoading) || RequestForQuotes.length==0" style="color:darkgreen;">Sorry..No Products.</span>*@
+    <table ng-if="dataLoading!=true || RequestForQuotes!=null" class="table table-hover table-striped" id="tablestyle">
         <thead id="headerstyle">
             <tr>
                 <th></th>
@@ -235,8 +242,8 @@
             </tr>
         </tbody>
     </table>
-
-    <div class="table-footer">
+    <div ng-if="(RequestForQuotes.length==0 && dataLoading) || RequestForQuotes.length==0" style="color:darkgreen;">Sorry..No Products.</div>
+    @*<div class="table-footer" ng-if="dataLoading!=true">
         <div class="table-caption">
             <div class="row">
                 <div class="col-md-2" id="title">
@@ -263,7 +270,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 
 <!-- $MODAL_POPUP ==========================================================================    -->
     <div class="notifies" notifybar></div>

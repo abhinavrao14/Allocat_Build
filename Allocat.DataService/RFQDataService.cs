@@ -61,6 +61,8 @@ namespace Allocat.DataService
             var parameterAttachmentName = new SqlParameter("@AttachmentName", SqlDbType.NVarChar);
             if (AttachmentName != null)
                 parameterAttachmentName.Value = AttachmentName;
+            else if (AttachmentName == "")
+                parameterAttachmentName.Value = DBNull.Value;
             else
                 parameterAttachmentName.Value = DBNull.Value;
 
