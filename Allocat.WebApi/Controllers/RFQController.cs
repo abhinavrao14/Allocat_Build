@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Web.Http;
 
 namespace Allocat.WebApi.Controllers
@@ -22,6 +23,8 @@ namespace Allocat.WebApi.Controllers
 
         public HttpResponseMessage Get([FromUri] RFQ_TissueBank_DTO rfq_TissueBank_DTO)
         {
+            //Thread.Sleep(2000);
+
             if (rfq_TissueBank_DTO.SearchBy == null) rfq_TissueBank_DTO.SearchBy = string.Empty;
             if (rfq_TissueBank_DTO.SortDirection == null) rfq_TissueBank_DTO.SortDirection = string.Empty;
             if (rfq_TissueBank_DTO.SortExpression == null) rfq_TissueBank_DTO.SortExpression = string.Empty;
@@ -29,8 +32,8 @@ namespace Allocat.WebApi.Controllers
             RFQ_TissueBankApiModel rfq_TissueBankApiModel = new RFQ_TissueBankApiModel();
             TransactionalInformation transaction = new TransactionalInformation();
 
-            if (rfq_TissueBank_DTO.SortDirection == "") rfq_TissueBank_DTO.SortDirection = "ASC";
-            if (rfq_TissueBank_DTO.SortExpression == "") rfq_TissueBank_DTO.SortExpression = "ProductMasterName";
+            if (rfq_TissueBank_DTO.SortDirection == "") rfq_TissueBank_DTO.SortDirection = "DESC";
+            if (rfq_TissueBank_DTO.SortExpression == "") rfq_TissueBank_DTO.SortExpression = "RequestForQuoteId";
 
             RFQBusinessService rfqBusinessService = new RFQBusinessService(rfqDataService);
 

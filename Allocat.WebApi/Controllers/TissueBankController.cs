@@ -135,6 +135,12 @@ namespace Allocat.WebApi.Controllers
                     //get status from database for Success
                     status = statusBusinessService.GetStatusByStatusName("Error");
 
+                    if (response.MessageCode == null)
+                        response.MessageCode = "Error Code from authorize.net is null.";
+
+                    if (response.Message == null)
+                        response.Message = "Response from author    ize.net is null.";
+
                     //if response is null then log error and update transaction too.
                     string errorMessage = errorBusinessService.Error_Create(status.StatusId, response.Message, "", TransactionId, tissueBankAdd_DTO.UserId, response.MessageCode);
 
