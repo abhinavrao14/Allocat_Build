@@ -25,9 +25,17 @@ namespace Allocat.ApplicationService
 
             try
             {
-                string Password = Utility.Utilities.RandomAlphaNumeric(6);
-
                 tbDataService.TissueBank_Add(TissueBankName, ContactPersonFirstName, ContactPersonLastName, ContactPersonNumber, ContactPersonEmailId, FaxNumber, TissueBankEmailId, BusinessURL, TissueBankAddress, CityId, ZipCode, TissueBankStateLicense, AATBLicenseNumber, AATBExpirationDate, AATBAccredationDate, CreditCardNumber, CustomerProfileId, CustomerPaymentProfileIds, BillingAddress, BillingCityId, BillingZipCode, BillingFaxNumber, BillingEmailId, BillingContactNumber, UserId, TissueBankId, TransactionId, AuthTransactionId, AuthCode, StatusId, TransactionCompleteDate, ResponseBody, out transaction);
+
+                if (transaction.ReturnStatus == true)
+                {
+                    SMTPEmail email = new SMTPEmail();
+                    MailBody mb = new MailBody();
+                    mb.ContactPersonName = ContactPersonFirstName + " " + ContactPersonFirstName;
+                    mb.ContactPersonEmailId = ContactPersonEmailId;
+                    mb.MailType = "TissueBank_Add";
+                    email.sendMail(mb);
+                }
             }
             catch (Exception ex)
             {
@@ -93,8 +101,6 @@ namespace Allocat.ApplicationService
                 if (tbBusinessRule.ValidationStatus == true)
                 {
                     string Password = Utilities.RandomAlphaNumeric(6);
-                    
-
                     int UserId = tbDataService.TissueBank_User_Registration(FullName, UserName, EmailId, SecurityQuestion, SecurityAnswer, Password, out transaction);
 
                     if (transaction.ReturnStatus == true)
@@ -157,7 +163,7 @@ namespace Allocat.ApplicationService
 
         }
 
-        public void TissueBank_Update(string TissueBankName, string ContactPersonFirstName, string ContactPersonLastName, string ContactPersonNumber, string ContactPersonEmailId, string FaxNumber, string TissueBankEmailId, string BusinessURL, string TissueBankAddress, int CityId, string ZipCode, string CustomerServiceLandLineNumber, string TaxPayerId, string TissueBankStateLicense, string AATBLicenseNumber, DateTime AATBExpirationDate, DateTime AATBAccredationDate, string CreditCardNumber, string CustomerProfileId, string CustomerPaymentProfileIds, string BillingAddress, int BillingCityId, string BillingZipCode, string BillingFaxNumber, string BillingEmailId, string BillingContactNumber, int UserId, int TissueBankId, int TransactionId, string AuthTransactionId, string AuthCode, int StatusId, DateTime TransactionCompleteDate, string ResponseBody, string OperationType, out TransactionalInformation transaction)
+        public bool CheckTissueBank_Update(string TissueBankName, string ContactPersonFirstName, string ContactPersonLastName, string ContactPersonNumber, string ContactPersonEmailId, string FaxNumber, string TissueBankEmailId, string BusinessURL, string TissueBankAddress, int CityId, string ZipCode, string CustomerServiceLandLineNumber, string TaxPayerId, string TissueBankStateLicense, string AATBLicenseNumber, DateTime AATBExpirationDate, DateTime AATBAccredationDate, string CreditCardNumber, string CustomerProfileId, string CustomerPaymentProfileIds, string BillingAddress, int BillingCityId, string BillingZipCode, string BillingFaxNumber, string BillingEmailId, string BillingContactNumber, int UserId, int TissueBankId, int TransactionId, string AuthTransactionId, string AuthCode, int StatusId, DateTime TransactionCompleteDate, string ResponseBody, string OperationType, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             TissueBankBusinessRule tbBusinessRule = new TissueBankBusinessRule(tbDataService);
@@ -169,10 +175,7 @@ namespace Allocat.ApplicationService
                 tbBusinessRule.ValidateTissueBank_Update(TissueBankName, ContactPersonFirstName, ContactPersonLastName, ContactPersonNumber, ContactPersonEmailId, FaxNumber, TissueBankEmailId, BusinessURL, TissueBankAddress, CityId, ZipCode, CustomerServiceLandLineNumber, TaxPayerId, TissueBankStateLicense, AATBLicenseNumber, AATBExpirationDate, AATBAccredationDate, CreditCardNumber, CustomerProfileId, CustomerPaymentProfileIds, BillingAddress, BillingCityId, BillingZipCode, BillingFaxNumber, BillingEmailId, BillingContactNumber, UserId, TissueBankId, TransactionId, AuthTransactionId, AuthCode, StatusId, TransactionCompleteDate, ResponseBody, OperationType);
                 if (tbBusinessRule.ValidationStatus == true)
                 {
-                    //send this password on mail
-                    string Password = Utility.Utilities.RandomAlphaNumeric(6);
-
-                    tbDataService.TissueBank_Update(TissueBankName, ContactPersonFirstName, ContactPersonLastName, ContactPersonNumber, ContactPersonEmailId, FaxNumber, TissueBankEmailId, BusinessURL, TissueBankAddress, CityId, ZipCode, CustomerServiceLandLineNumber, TaxPayerId, TissueBankStateLicense, AATBLicenseNumber, AATBExpirationDate, AATBAccredationDate, CreditCardNumber, CustomerProfileId, CustomerPaymentProfileIds, BillingAddress, BillingCityId, BillingZipCode, BillingFaxNumber, BillingEmailId, BillingContactNumber, UserId, TissueBankId, TransactionId, AuthTransactionId, AuthCode, StatusId, TransactionCompleteDate, ResponseBody, OperationType, out transaction);
+                    return true;
                 }
                 else
                 {
@@ -181,6 +184,48 @@ namespace Allocat.ApplicationService
                     transaction.ValidationErrors = tbBusinessRule.ValidationErrors;
                 }
 
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
+            }
+            finally
+            {
+                tbDataService.CloseSession();
+            }
+
+            return false;
+        }
+
+        public void TissueBank_Update(string TissueBankName, string ContactPersonFirstName, string ContactPersonLastName, string ContactPersonNumber, string ContactPersonEmailId, string FaxNumber, string TissueBankEmailId, string BusinessURL, string TissueBankAddress, int CityId, string ZipCode, string CustomerServiceLandLineNumber, string TaxPayerId, string TissueBankStateLicense, string AATBLicenseNumber, DateTime AATBExpirationDate, DateTime AATBAccredationDate, string CreditCardNumber, string CustomerProfileId, string CustomerPaymentProfileIds, string BillingAddress, int BillingCityId, string BillingZipCode, string BillingFaxNumber, string BillingEmailId, string BillingContactNumber, int UserId, int TissueBankId, int TransactionId, string AuthTransactionId, string AuthCode, int StatusId, DateTime TransactionCompleteDate, string ResponseBody, string OperationType, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+            try
+            {
+                tbDataService.CreateSession();
+
+                tbDataService.TissueBank_Update(TissueBankName, ContactPersonFirstName, ContactPersonLastName, ContactPersonNumber, ContactPersonEmailId, FaxNumber, TissueBankEmailId, BusinessURL, TissueBankAddress, CityId, ZipCode, CustomerServiceLandLineNumber, TaxPayerId, TissueBankStateLicense, AATBLicenseNumber, AATBExpirationDate, AATBAccredationDate, CreditCardNumber, CustomerProfileId, CustomerPaymentProfileIds, BillingAddress, BillingCityId, BillingZipCode, BillingFaxNumber, BillingEmailId, BillingContactNumber, UserId, TissueBankId, TransactionId, AuthTransactionId, AuthCode, StatusId, TransactionCompleteDate, ResponseBody, OperationType, out transaction);
+
+                if (transaction.ReturnStatus == true)
+                {
+                    SMTPEmail email = new SMTPEmail();
+                    MailBody mb = new MailBody();
+                    mb.ContactPersonName = ContactPersonFirstName + " " + ContactPersonFirstName;
+                    if (OperationType == "UpdateTissueBankDetail")
+                    {
+                        mb.ContactPersonEmailId = ContactPersonEmailId;
+                        mb.MailType = "UpdateTissueBankDetail";
+                    }
+                    else
+                    {
+                        mb.ContactPersonEmailId = BillingEmailId;
+                        mb.MailType = "UpdateBillingDetail";
+                    }
+                    email.sendMail(mb);
+                }
             }
             catch (Exception ex)
             {

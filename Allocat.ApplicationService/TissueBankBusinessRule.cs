@@ -28,10 +28,18 @@ namespace Allocat.ApplicationService
 
         public void ValidateTissueBank_Update(string TissueBankName, string ContactPersonFirstName, string ContactPersonLastName, string ContactPersonNumber, string ContactPersonEmailId, string FaxNumber, string TissueBankEmailId, string BusinessURL, string TissueBankAddress, int CityId, string ZipCode, string CustomerServiceLandLineNumber, string TaxPayerId, string TissueBankStateLicense, string AATBLicenseNumber, DateTime AATBExpirationDate, DateTime AATBAccredationDate, string CreditCardNumber, string CustomerProfileId, string CustomerPaymentProfileIds, string BillingAddress, int BillingCityId, string BillingZipCode, string BillingFaxNumber, string BillingEmailId, string BillingContactNumber, int UserId, int TissueBankId, int TransactionId, string AuthTransactionId, string AuthCode, int StatusId, DateTime TransactionCompleteDate, string ResponseBody, string OperationType)
         {
-            ValidateSingleTissueBankEmailId(TissueBankEmailId, TissueBankId);
-            ValidateSingleContactPersonNumber(ContactPersonNumber, TissueBankId);
-            ValidateSingleAATBLicenseNumber(AATBLicenseNumber, TissueBankId);
-            ValidateSingleTissueBankStateLicense(TissueBankStateLicense, TissueBankId);
+            if(OperationType== "UpdateTissueBankDetail")
+            {
+                ValidateSingleTissueBankEmailId(TissueBankEmailId, TissueBankId);
+                ValidateSingleContactPersonNumber(ContactPersonNumber, TissueBankId);
+                ValidateSingleAATBLicenseNumber(AATBLicenseNumber, TissueBankId);
+                ValidateSingleTissueBankStateLicense(TissueBankStateLicense, TissueBankId);
+            }
+            else
+            {
+                ValidateSingleBillingEmailId(BillingEmailId, TissueBankId);
+                ValidateSingleBillingContactNumber(BillingContactNumber, TissueBankId);
+            }
         }
 
         private void ValidateUniqueUserName(string UserName)
@@ -151,6 +159,24 @@ namespace Allocat.ApplicationService
             if (valid == false)
             {
                 AddValidationError("EmailId", "Email Id : " + EmailId + " already exists.");
+            }
+        }
+
+        private void ValidateSingleBillingContactNumber(string BillingContactNumber, int TissueBankId)
+        {
+            Boolean valid = tbDataService.ValidateSingleBillingContactNumber(BillingContactNumber, TissueBankId);
+            if (valid == false)
+            {
+                AddValidationError("BillingContactNumber", "Billing Contact Number : " + BillingContactNumber + " already exists.");
+            }
+        }
+
+        private void ValidateSingleBillingEmailId(string BillingEmailId, int TissueBankId)
+        {
+            Boolean valid = tbDataService.ValidateSingleBillingEmailId(BillingEmailId, TissueBankId);
+            if (valid == false)
+            {
+                AddValidationError("BillingEmailId", "Billing Email Id : " + BillingEmailId + " already exists.");
             }
         }
     }

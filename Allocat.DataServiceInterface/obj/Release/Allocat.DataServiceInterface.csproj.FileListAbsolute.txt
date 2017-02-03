@@ -1,0 +1,12 @@
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\bin\Release\Allocat.DataServiceInterface.dll.config
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\bin\Release\Allocat.DataServiceInterface.dll
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\bin\Release\Allocat.DataServiceInterface.pdb
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\bin\Release\Allocat.DataModel.dll
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\bin\Release\EntityFramework.dll
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\bin\Release\Allocat.DataModel.pdb
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\bin\Release\EntityFramework.xml
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\obj\Release\Allocat.DataServiceInterface.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\obj\Release\Allocat.DataServiceInterface.dll
+C:\Users\Admin\Desktop\new\Allocat.DataServiceInterface\obj\Release\Allocat.DataServiceInterface.pdb

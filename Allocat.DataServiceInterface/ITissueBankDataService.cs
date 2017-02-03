@@ -24,5 +24,8 @@ namespace Allocat.DataServiceInterface
         bool ValidateSingleContactPersonNumber(string ContactPersonNumber, int TissueBankId);
         bool ValidateSingleAATBLicenseNumber(string AATBLicenseNumber, int TissueBankId);
         bool ValidateSingleTissueBankStateLicense(string TissueBankStateLicense, int TissueBankId);
+
+        bool ValidateSingleBillingContactNumber(string BillingContactNumber, int TissueBankId);
+        bool ValidateSingleBillingEmailId(string BillingEmailId, int TissueBankId);
     }
 }

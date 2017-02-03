@@ -1202,7 +1202,7 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
 
     $scope.OpenPasswordModel = function () {
         $scope.showModal = true;
-       
+
     };
 
     $scope.PasswordSubmit = function (IsSendMail) {
@@ -1215,22 +1215,22 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
 
         console.log(userMngmnt_User_CUD_DTO);
 
-         var response = UserDetailService.SubmitUser(userMngmnt_User_CUD_DTO);
+        var response = UserDetailService.SubmitUser(userMngmnt_User_CUD_DTO);
 
-         response
-        .success(function (data, status, headers, config) {
-            var Message = MsgService.makeMessage(data.ReturnMessage)
-            message('success', 'Success!', Message);
-            $scope.showModal = false;
-        })
-        .error(function (data, status, headers, config) {
-            var Message = MsgService.makeMessage(data.ReturnMessage)
-            message('error', 'Error!', Message);
-        });
+        response
+       .success(function (data, status, headers, config) {
+           var Message = MsgService.makeMessage(data.ReturnMessage)
+           message('success', 'Success!', Message);
+           $scope.showModal = false;
+       })
+       .error(function (data, status, headers, config) {
+           var Message = MsgService.makeMessage(data.ReturnMessage)
+           message('error', 'Error!', Message);
+       });
 
-         $scope.UserDetail.Password = "";
-         $scope.password_verify = "";
-         $scope.IsSendMail = "";
+        $scope.UserDetail.Password = "";
+        $scope.password_verify = "";
+        $scope.IsSendMail = "";
     };
 
     $scope.PasswordCancel = function () {
@@ -1321,7 +1321,7 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
     $scope.Agreed = function () {
 
         $scope.showModal = false;
-        
+
         var err = '';
         err = ValidateTbSubmit();
 
@@ -1502,13 +1502,54 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
         err = ValidateTbSubmit();
 
         if (ValidateTbSubmit() == '') {
-            $scope.tissueBank.OperationType = 'UpdateTissueBankDetail';
-            $scope.tissueBank.TissueBankId = document.getElementById("TissueBankId").value;
-            $scope.tissueBank.UserId = document.getElementById("LoggedUserId").value;
-            var tissueBankAdd_DTO = $scope.tissueBank;
+            var tissueBankAdd_DTO = {
+                OperationType: 'UpdateTissueBankDetail'
+            , TissueBankId: document.getElementById("TissueBankId").value
+            , UserId: document.getElementById("LoggedUserId").value
+
+            , TissueBankName: $scope.tissueBank.TissueBankName
+, ContactPersonFirstName: $scope.tissueBank.ContactPersonFirstName
+, ContactPersonLastName: $scope.tissueBank.ContactPersonLastName
+, ContactPersonNumber: $scope.tissueBank.ContactPersonNumber
+, ContactPersonEmailId: $scope.tissueBank.ContactPersonEmailId
+, FaxNumber: $scope.tissueBank.FaxNumber
+, TissueBankEmailId: $scope.tissueBank.TissueBankEmailId
+, BusinessURL: $scope.tissueBank.BusinessURL
+, TissueBankAddress: $scope.tissueBank.TissueBankAddress
+, CityId: $scope.tissueBank.CityId
+, ZipCode: $scope.tissueBank.ZipCode
+, CustomerServiceLandLineNumber: $scope.tissueBank.CustomerServiceLandLineNumber
+, TaxPayerId: $scope.tissueBank.TaxPayerId
+, TissueBankStateLicense: $scope.tissueBank.TissueBankStateLicense
+, AATBLicenseNumber: $scope.tissueBank.AATBLicenseNumber
+, AATBExpirationDate: $scope.tissueBank.AATBExpirationDate
+, AATBAccredationDate: $scope.tissueBank.AATBAccredationDate
+, CreditCardNumber: $scope.tissueBank.CreditCardNumber
+, CreditCardType: $scope.tissueBank.CreditCardType
+, ExpiryDate: $scope.tissueBank.ExpiryDate
+, CardCode: $scope.tissueBank.CardCode
+, CustomerProfileId: $scope.tissueBank.CustomerProfileId
+, CustomerPaymentProfileIds: $scope.tissueBank.CustomerPaymentProfileIds
+                //, BillingAddress: $scope.tissueBank.BillingAddress
+, BillingCityId: $scope.tissueBank.BillingCityId
+                //, BillingZipCode: $scope.tissueBank.BillingZipCode
+                //, BillingFaxNumber: $scope.tissueBank.BillingFaxNumber
+                //, BillingEmailId: $scope.tissueBank.BillingEmailId
+                //, BillingContactNumber: $scope.tissueBank.BillingContactNumber
+                //, BillingCity: $scope.tissueBank.BillingCity
+                //, BillingState: $scope.tissueBank.BillingState
+ , BillingStateId: $scope.tissueBank.BillingStateId
+, State: $scope.tissueBank.State
+, City: $scope.tissueBank.City
+                //, TransactionId: $scope.tissueBank.TransactionId
+                //, AuthTransactionId: $scope.tissueBank.AuthTransactionId
+                //, AuthCode: $scope.tissueBank.AuthCode
+                //, StatusId: $scope.tissueBank.StatusId
+                //, TransactionCompleteDate: $scope.tissueBank.TransactionCompleteDate
+            }
 
             //NOTE: billing City name and billing state name is going empty
-            console.log($scope.tissueBank);
+            console.log(tissueBankAdd_DTO);
 
             var response = TissueBankService.UpdateTbDetail(tissueBankAdd_DTO);
             response.success(function (data, status, headers, config) {
@@ -1530,14 +1571,65 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
     };
 
     $scope.UpdateBillingDetail = function () {
-        $scope.tissueBank.OperationType = 'UpdateBillingDetail';
-        $scope.tissueBank.TissueBankId = document.getElementById("TissueBankId").value;
-        $scope.tissueBank.UserId = document.getElementById("LoggedUserId").value;
-        $scope.tissueBank.ExpiryDate = $scope.expiryMonth.toString() + $scope.expiryYear.toString();
-        //NOTE: billing City name and billing state name is going empty
-        console.log($scope.tissueBank);
+        var tissueBankAdd_DTO = {
 
-        var response = TissueBankService.UpdateTbDetail($scope.tissueBank);
+            OperationType: 'UpdateBillingDetail'
+           , TissueBankId: document.getElementById("TissueBankId").value
+           , UserId: document.getElementById("LoggedUserId").value
+
+                     , TissueBankName: $scope.tissueBank.TissueBankName
+            , ContactPersonFirstName: $scope.tissueBank.ContactPersonFirstName
+            , ContactPersonLastName: $scope.tissueBank.ContactPersonLastName
+            //            , ContactPersonNumber: $scope.tissueBank.ContactPersonNumber
+            //            , ContactPersonEmailId: $scope.tissueBank.ContactPersonEmailId
+            //            , FaxNumber: $scope.tissueBank.FaxNumber
+            //            , TissueBankEmailId: $scope.tissueBank.TissueBankEmailId
+            //            , BusinessURL: $scope.tissueBank.BusinessURL
+            //            , TissueBankAddress: $scope.tissueBank.TissueBankAddress
+            //            , CityId: $scope.tissueBank.CityId
+            //            , ZipCode: $scope.tissueBank.ZipCode
+            //, CustomerServiceLandLineNumber: $scope.tissueBank.CustomerServiceLandLineNumber
+            //, TaxPayerId: $scope.tissueBank.TaxPayerId
+            //, TissueBankStateLicense: $scope.tissueBank.TissueBankStateLicense
+            //, AATBLicenseNumber: $scope.tissueBank.AATBLicenseNumber
+            //, AATBExpirationDate: $scope.tissueBank.AATBExpirationDate
+            //, AATBAccredationDate: $scope.tissueBank.AATBAccredationDate
+, CreditCardNumber: $scope.tissueBank.CreditCardNumber
+
+, CreditCardType: $scope.tissueBank.CreditCardType
+, ExpiryDate: $scope.expiryMonth.toString() + $scope.expiryYear.toString()
+, CardCode: $scope.tissueBank.CardCode
+, CustomerProfileId: $scope.tissueBank.CustomerProfileId
+, CustomerPaymentProfileIds: $scope.tissueBank.CustomerPaymentProfileIds
+            , BillingAddress: $scope.tissueBank.BillingAddress
+, BillingCityId: $scope.tissueBank.BillingCityId
+            , BillingZipCode: $scope.tissueBank.BillingZipCode
+            , BillingFaxNumber: $scope.tissueBank.BillingFaxNumber
+            , BillingEmailId: $scope.tissueBank.BillingEmailId
+            , BillingContactNumber: $scope.tissueBank.BillingContactNumber
+            //, BillingCity: $scope.tissueBank.BillingCity
+            //, BillingState: $scope.tissueBank.BillingState
+, BillingStateId: $scope.tissueBank.BillingStateId
+            //, State: $scope.tissueBank.State
+            //, City: $scope.tissueBank.City
+            , TransactionId: $scope.tissueBank.TransactionId
+            , AuthTransactionId: $scope.tissueBank.AuthTransactionId
+            , AuthCode: $scope.tissueBank.AuthCode
+            , StatusId: $scope.tissueBank.StatusId
+            , TransactionCompleteDate: $scope.tissueBank.TransactionCompleteDate
+        }
+
+        //delete $scope.tissueBank.BillingCity;
+        //delete $scope.tissueBank.BillingState;
+
+        //$scope.tissueBank.OperationType = 'UpdateBillingDetail';
+        //$scope.tissueBank.TissueBankId = document.getElementById("TissueBankId").value;
+        //$scope.tissueBank.UserId = document.getElementById("LoggedUserId").value;
+        //$scope.tissueBank.ExpiryDate = $scope.expiryMonth.toString() + $scope.expiryYear.toString();
+        //NOTE: billing City name and billing state name is going empty
+        console.log(tissueBankAdd_DTO);
+
+        var response = TissueBankService.UpdateTbDetail(tissueBankAdd_DTO);
         response.success(function (data, status, headers, config) {
             console.log(data);
             var Message = MsgService.makeMessage(data.ReturnMessage)
@@ -1640,4 +1732,62 @@ app.filter('updateById', function () {
         return null;
     }
 });
+
+
+//TissueBankUpdateObject
+//var tissueBankAdd_DTO = {
+
+//    OperationType: 'UpdateBillingDetail'
+//         , TissueBankId: document.getElementById("TissueBankId").value
+//         , UserId: document.getElementById("LoggedUserId").value
+
+//                   , TissueBankName: $scope.tissueBank.TissueBankName
+//          , ContactPersonFirstName: $scope.tissueBank.ContactPersonFirstName
+//          , ContactPersonLastName: $scope.tissueBank.ContactPersonLastName
+//    //            , ContactPersonNumber: $scope.tissueBank.ContactPersonNumber
+//    //            , ContactPersonEmailId: $scope.tissueBank.ContactPersonEmailId
+//    //            , FaxNumber: $scope.tissueBank.FaxNumber
+//    //            , TissueBankEmailId: $scope.tissueBank.TissueBankEmailId
+//    //            , BusinessURL: $scope.tissueBank.BusinessURL
+//    //            , TissueBankAddress: $scope.tissueBank.TissueBankAddress
+//    //            , CityId: $scope.tissueBank.CityId
+//    //            , ZipCode: $scope.tissueBank.ZipCode
+//    //, CustomerServiceLandLineNumber: $scope.tissueBank.CustomerServiceLandLineNumber
+//    //, TaxPayerId: $scope.tissueBank.TaxPayerId
+//    //, TissueBankStateLicense: $scope.tissueBank.TissueBankStateLicense
+//    //, AATBLicenseNumber: $scope.tissueBank.AATBLicenseNumber
+//    //, AATBExpirationDate: $scope.tissueBank.AATBExpirationDate
+//    //, AATBAccredationDate: $scope.tissueBank.AATBAccredationDate
+//, CreditCardNumber: $scope.tissueBank.CreditCardNumber
+
+//, CreditCardType: $scope.tissueBank.CreditCardType
+//, ExpiryDate: $scope.expiryMonth.toString() + $scope.expiryYear.toString()
+//, CardCode: $scope.tissueBank.CardCode
+//, CustomerProfileId: $scope.tissueBank.CustomerProfileId
+//, CustomerPaymentProfileIds: $scope.tissueBank.CustomerPaymentProfileIds
+//          , BillingAddress: $scope.tissueBank.BillingAddress
+//, BillingCityId: $scope.tissueBank.BillingCityId
+//          , BillingZipCode: $scope.tissueBank.BillingZipCode
+//          , BillingFaxNumber: $scope.tissueBank.BillingFaxNumber
+//          , BillingEmailId: $scope.tissueBank.BillingEmailId
+//          , BillingContactNumber: $scope.tissueBank.BillingContactNumber
+//    //, BillingCity: $scope.tissueBank.BillingCity
+//    //, BillingState: $scope.tissueBank.BillingState
+//, BillingStateId: $scope.tissueBank.BillingStateId
+//    //, State: $scope.tissueBank.State
+//    //, City: $scope.tissueBank.City
+//          , TransactionId: $scope.tissueBank.TransactionId
+//          , AuthTransactionId: $scope.tissueBank.AuthTransactionId
+//          , AuthCode: $scope.tissueBank.AuthCode
+//          , StatusId: $scope.tissueBank.StatusId
+//          , TransactionCompleteDate: $scope.tissueBank.TransactionCompleteDate
+//}
+
+////delete $scope.tissueBank.BillingCity;
+////delete $scope.tissueBank.BillingState;
+
+////$scope.tissueBank.OperationType = 'UpdateBillingDetail';
+////$scope.tissueBank.TissueBankId = document.getElementById("TissueBankId").value;
+////$scope.tissueBank.UserId = document.getElementById("LoggedUserId").value;
+////$scope.tissueBank.ExpiryDate = $scope.expiryMonth.toString() + $scope.expiryYear.toString();
 

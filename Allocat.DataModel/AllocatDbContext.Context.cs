@@ -572,7 +572,7 @@
 
             var faxNumberParameter = faxNumber != null ?
                 new SqlParameter("FaxNumber", faxNumber) :
-                new SqlParameter("FaxNumber", typeof(string));
+                new SqlParameter("FaxNumber", DBNull.Value);
 
             var tissueBankEmailIdParameter = tissueBankEmailId != null ?
                 new SqlParameter("TissueBankEmailId", tissueBankEmailId) :
@@ -636,7 +636,7 @@
 
             var billingFaxNumberParameter = billingFaxNumber != null ?
                 new SqlParameter("BillingFaxNumber", billingFaxNumber) :
-                new SqlParameter("BillingFaxNumber", typeof(string));
+                new SqlParameter("BillingFaxNumber", DBNull.Value);
 
             var billingEmailIdParameter = billingEmailId != null ?
                 new SqlParameter("BillingEmailId", billingEmailId) :
@@ -714,7 +714,7 @@
 
             var billingFaxNumberParameter = billingFaxNumber != null ?
                 new SqlParameter("BillingFaxNumber", billingFaxNumber) :
-                new SqlParameter("BillingFaxNumber", typeof(string));
+                new SqlParameter("BillingFaxNumber", DBNull.Value);
 
             var billingEmailIdParameter = billingEmailId != null ?
                 new SqlParameter("BillingEmailId", billingEmailId) :
@@ -756,7 +756,7 @@
 
             var businessURLParameter = businessURL != null ?
                 new SqlParameter("BusinessURL", businessURL) :
-                new SqlParameter("BusinessURL", typeof(string));
+                new SqlParameter("BusinessURL", DBNull.Value);
 
             var tissueBankAddressParameter = tissueBankAddress != null ?
                 new SqlParameter("TissueBankAddress", tissueBankAddress) :

@@ -267,9 +267,9 @@ namespace Allocat.WebApi.Controllers
         [HttpPut]
         public HttpResponseMessage Put(TissueBankUpdate_DTO tissueBankUpdate_DTO)
         {
-          //  return Request.CreateResponse(HttpStatusCode.OK, 1);
+            //return Request.CreateResponse(HttpStatusCode.OK, 1);
 
-            //Initialisation
+            // Initialisation
             bool AuthResponse = false;
             TransactionalInformation transaction = new TransactionalInformation();
             TissueBankApiModel tbApiModel = new TissueBankApiModel();
@@ -289,37 +289,45 @@ namespace Allocat.WebApi.Controllers
             tissueBankUpdate_DTO.BillingCity = BillingCity.CityName;
             tissueBankUpdate_DTO.BillingState = BillingState.StateName;
 
-
-            // if response is not null then only save tissue bank detail in database and update transaction too.
-            if (tissueBankUpdate_DTO.OperationType == "UpdateTissueBankDetail")
+            //check TB registration request
+            if (tissueBankBusinessService.CheckTissueBank_Update(tissueBankUpdate_DTO.TissueBankName, tissueBankUpdate_DTO.ContactPersonFirstName, tissueBankUpdate_DTO.ContactPersonLastName, tissueBankUpdate_DTO.ContactPersonNumber, tissueBankUpdate_DTO.ContactPersonEmailId, tissueBankUpdate_DTO.FaxNumber, tissueBankUpdate_DTO.TissueBankEmailId, tissueBankUpdate_DTO.BusinessURL, tissueBankUpdate_DTO.TissueBankAddress, tissueBankUpdate_DTO.CityId, tissueBankUpdate_DTO.ZipCode, tissueBankUpdate_DTO.CustomerServiceLandLineNumber, tissueBankUpdate_DTO.TaxPayerId, tissueBankUpdate_DTO.TissueBankStateLicense, tissueBankUpdate_DTO.AATBLicenseNumber, tissueBankUpdate_DTO.AATBExpirationDate, tissueBankUpdate_DTO.AATBAccredationDate, tissueBankUpdate_DTO.CreditCardNumber, tissueBankUpdate_DTO.CustomerProfileId, tissueBankUpdate_DTO.CustomerPaymentProfileIds, tissueBankUpdate_DTO.BillingAddress, tissueBankUpdate_DTO.BillingCityId, tissueBankUpdate_DTO.BillingZipCode, tissueBankUpdate_DTO.BillingFaxNumber, tissueBankUpdate_DTO.BillingEmailId, tissueBankUpdate_DTO.BillingContactNumber, tissueBankUpdate_DTO.UserId, tissueBankUpdate_DTO.TissueBankId, tissueBankUpdate_DTO.TransactionId, tissueBankUpdate_DTO.AuthTransactionId, tissueBankUpdate_DTO.AuthCode, tissueBankUpdate_DTO.StatusId, tissueBankUpdate_DTO.TransactionCompleteDate, tissueBankUpdate_DTO.ResponseBody, tissueBankUpdate_DTO.OperationType, out transaction))
             {
-                AuthResponse = UpdateCustomerProfile(tissueBankUpdate_DTO);
-            }
-            else
-            {
-                AuthResponse = UpdateCustomerPaymentProfile(tissueBankUpdate_DTO);
-            }
+                // if response is not null then only save tissue bank detail in database and update transaction too.
+                if (tissueBankUpdate_DTO.OperationType == "UpdateTissueBankDetail")
+                {
+                    AuthResponse = UpdateCustomerProfile(tissueBankUpdate_DTO);
+                }
+                else
+                {
+                    AuthResponse = UpdateCustomerPaymentProfile(tissueBankUpdate_DTO);
+                }
 
-            if (AuthResponse == true)
-            {
-                //get status from database for Success
-                status = statusBusinessService.GetStatusByStatusName("Success");
+                if (AuthResponse == true)
+                {
+                    //get status from database for Success
+                    status = statusBusinessService.GetStatusByStatusName("Success");
 
-                tissueBankUpdate_DTO.CreditCardNumber = tissueBankUpdate_DTO.CreditCardNumber;
-                tissueBankUpdate_DTO.CreditCardType = 0;
-                tissueBankUpdate_DTO.CardCode = "";
-                tissueBankUpdate_DTO.ExpiryDate = "";
+                    tissueBankUpdate_DTO.CreditCardNumber = tissueBankUpdate_DTO.CreditCardNumber.Substring(tissueBankUpdate_DTO.CreditCardNumber.Length - 4);
+                    tissueBankUpdate_DTO.CreditCardType = 0;
+                    tissueBankUpdate_DTO.CardCode = "";
+                    tissueBankUpdate_DTO.ExpiryDate = "";
 
-                //update tissue bank
-                tissueBankBusinessService.TissueBank_Update(tissueBankUpdate_DTO.TissueBankName, tissueBankUpdate_DTO.ContactPersonFirstName, tissueBankUpdate_DTO.ContactPersonLastName, tissueBankUpdate_DTO.ContactPersonNumber, tissueBankUpdate_DTO.ContactPersonEmailId, tissueBankUpdate_DTO.FaxNumber, tissueBankUpdate_DTO.TissueBankEmailId, tissueBankUpdate_DTO.BusinessURL, tissueBankUpdate_DTO.TissueBankAddress, tissueBankUpdate_DTO.CityId, tissueBankUpdate_DTO.ZipCode, tissueBankUpdate_DTO.CustomerServiceLandLineNumber, tissueBankUpdate_DTO.TaxPayerId, tissueBankUpdate_DTO.TissueBankStateLicense, tissueBankUpdate_DTO.AATBLicenseNumber, tissueBankUpdate_DTO.AATBExpirationDate, tissueBankUpdate_DTO.AATBAccredationDate, tissueBankUpdate_DTO.CreditCardNumber, tissueBankUpdate_DTO.CustomerProfileId, tissueBankUpdate_DTO.CustomerPaymentProfileIds, tissueBankUpdate_DTO.BillingAddress, tissueBankUpdate_DTO.BillingCityId, tissueBankUpdate_DTO.BillingZipCode, tissueBankUpdate_DTO.BillingFaxNumber, tissueBankUpdate_DTO.BillingEmailId, tissueBankUpdate_DTO.BillingContactNumber, tissueBankUpdate_DTO.UserId, tissueBankUpdate_DTO.TissueBankId, tissueBankUpdate_DTO.TransactionId, tissueBankUpdate_DTO.AuthTransactionId, tissueBankUpdate_DTO.AuthCode, tissueBankUpdate_DTO.StatusId, tissueBankUpdate_DTO.TransactionCompleteDate, tissueBankUpdate_DTO.ResponseBody, tissueBankUpdate_DTO.OperationType, out transaction);
+                    //update tissue bank
+                    tissueBankBusinessService.TissueBank_Update(tissueBankUpdate_DTO.TissueBankName, tissueBankUpdate_DTO.ContactPersonFirstName, tissueBankUpdate_DTO.ContactPersonLastName, tissueBankUpdate_DTO.ContactPersonNumber, tissueBankUpdate_DTO.ContactPersonEmailId, tissueBankUpdate_DTO.FaxNumber, tissueBankUpdate_DTO.TissueBankEmailId, tissueBankUpdate_DTO.BusinessURL, tissueBankUpdate_DTO.TissueBankAddress, tissueBankUpdate_DTO.CityId, tissueBankUpdate_DTO.ZipCode, tissueBankUpdate_DTO.CustomerServiceLandLineNumber, tissueBankUpdate_DTO.TaxPayerId, tissueBankUpdate_DTO.TissueBankStateLicense, tissueBankUpdate_DTO.AATBLicenseNumber, tissueBankUpdate_DTO.AATBExpirationDate, tissueBankUpdate_DTO.AATBAccredationDate, tissueBankUpdate_DTO.CreditCardNumber, tissueBankUpdate_DTO.CustomerProfileId, tissueBankUpdate_DTO.CustomerPaymentProfileIds, tissueBankUpdate_DTO.BillingAddress, tissueBankUpdate_DTO.BillingCityId, tissueBankUpdate_DTO.BillingZipCode, tissueBankUpdate_DTO.BillingFaxNumber, tissueBankUpdate_DTO.BillingEmailId, tissueBankUpdate_DTO.BillingContactNumber, tissueBankUpdate_DTO.UserId, tissueBankUpdate_DTO.TissueBankId, tissueBankUpdate_DTO.TransactionId, tissueBankUpdate_DTO.AuthTransactionId, tissueBankUpdate_DTO.AuthCode, tissueBankUpdate_DTO.StatusId, tissueBankUpdate_DTO.TransactionCompleteDate, tissueBankUpdate_DTO.ResponseBody, tissueBankUpdate_DTO.OperationType, out transaction);
 
-                tbApiModel.ReturnMessage = transaction.ReturnMessage;
-                tbApiModel.ReturnStatus = transaction.ReturnStatus;
+                    tbApiModel.ReturnMessage = transaction.ReturnMessage;
+                    tbApiModel.ReturnStatus = transaction.ReturnStatus;
+                }
+                else
+                {
+                    tbApiModel.ReturnStatus = transaction.ReturnStatus = false;
+                    tbApiModel.ReturnMessage.Add("Authorize .Net operation failed.");
+                }
             }
             else
             {
                 tbApiModel.ReturnStatus = transaction.ReturnStatus = false;
-                tbApiModel.ReturnMessage.Add("Authorize .Net operation failed.");
+                tbApiModel.ReturnMessage = transaction.ReturnMessage;
             }
 
             if (transaction.ReturnStatus == false)

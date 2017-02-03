@@ -65,6 +65,22 @@ namespace Allocat.Utility
                 html = @"<p>Your password is " + mb.Password + ".Please click on following link to verify your account.<br />  http://localhost:63729/Response/TissueBank_Verification_Successful?response=true&UserId=" + mb.UserId + "</p>";
                 Subject = "Allocat - Email Verification.";
             }
+            else if (mb.MailType == "UpdateTissueBankDetail")
+            {
+                html = @"<p>Your tissue bank detail is updated.Please check.</p>";
+                Subject = "Allocat - Tissue Bank Detail Updated.";
+            }
+            else if (mb.MailType == "UpdateBillingDetail")
+            {
+                html = @"<p>Billing information of your tissue Bank is updated.Please check.</p>";
+                Subject = "Allocat - Billig Detail of Tissue Bank Updated.";
+            }
+            else if (mb.MailType == "TissueBank_Add")
+            {
+                html = @"<p>$25 is successfully deducted from your account.</p>";
+                Subject = "Allocat - Registration Confirmed!";
+            }
+
         }
     }
 

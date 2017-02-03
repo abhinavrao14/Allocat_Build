@@ -1,0 +1,5 @@
+C:\Users\Admin\Desktop\new\Allocat.Utility\bin\Release\Allocat.Utility.dll
+C:\Users\Admin\Desktop\new\Allocat.Utility\bin\Release\Allocat.Utility.pdb
+C:\Users\Admin\Desktop\new\Allocat.Utility\obj\Release\Allocat.Utility.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\new\Allocat.Utility\obj\Release\Allocat.Utility.dll
+C:\Users\Admin\Desktop\new\Allocat.Utility\obj\Release\Allocat.Utility.pdb
