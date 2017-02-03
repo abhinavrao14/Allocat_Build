@@ -30,7 +30,7 @@
     @*for new tissue bank registration*@
     @if (@ViewBag.user.InfoId == 0)
     {
-        <!--  SNEHA START  -->
+
         <div class="panel-heading" id="headerstyle" style="text-align:center">
             Add Tissue Bank
         </div>
@@ -129,7 +129,7 @@
 
                     <div class="panel">
                         <div class="panel-body">
-                            <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; padding-bottom:20px">
+                            <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; padding-bottom:37px">
                                 <div class="col-md-12" id="tbtitle">
                                     <div style="display:inline-block"><img class="image" src="~/Assets/image/license.png" style="width:50px; height:50px; margin-top:-25px" /></div>
                                     <div style="display:inline-block; padding-right:10px"><span style="font-size:15px; font-weight:600">License Details</span><br /><span>We'll use this information as your indetity </span></div>
@@ -301,11 +301,11 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">ExpiryDate</label>
                                             <span class="error error-msg" ng-show="formTissueBank.expiryMonth.$error.required">*</span><br />
-                                            <select ng-model="expiryMonth" ng-required="true" name="expiryMonth" ng-options="expiryMonth for expiryMonth in months">
+                                            <select style="width:35%; height:25px" ng-model="expiryMonth" ng-required="true" name="expiryMonth" ng-options="expiryMonth for expiryMonth in months">
                                                 <option value="">-Month-</option>
                                             </select>
                                             <span class="error error-msg" ng-show="formTissueBank.expiryYear.$error.required">*</span>
-                                            <select ng-model="expiryYear" ng-required="true" name="expiryYear" ng-options="expiryYear for expiryYear in years">
+                                            <select style="width:35%; height:25px" ng-model="expiryYear" ng-required="true" name="expiryYear" ng-options="expiryYear for expiryYear in years">
                                                 <option value="">-Year-</option>
                                             </select>
                                             @*<input type="number" class="form-control" ng-required="true" name="ExpiryDate" ng-model="tissueBank.ExpiryDate" placeholder="Enter Expiry Date" ng-minlength="expiryLength" ng-maxlength="expiryLength" />*@
@@ -329,15 +329,16 @@
                                         </div>
                                     </div>
                                 </div>
+                               
                                 <div class="row" style="padding-left:22px">
                                     <div class="col-sm-12">
                                         <div class="form-group no-margin-hr">
                                             <input type="checkbox" ng-required="true" name="isAgree" ng-model="tissueBank.isAgree" />
-                                            <label class="control-label"><span class="error error-msg" ng-show="formTissueBank.isAgree.$error.required">*</span> I agree that $25 will be deducted from my credit card as Regitration-Fee.</label><br />
+                                            <label class="control-label"><span class="error error-msg" ng-show="formTissueBank.isAgree.$error.required">*</span> I agree that $25 will be deducted from my credit card as Registration-Fee.</label><br />
                                         </div>
                                     </div>
                                 </div>
-
+                              
                             </div>
                         </div>
                     </div>
@@ -360,7 +361,7 @@
     @if (@ViewBag.user.InfoId > 0)
     {
 
-        <div class="panel-heading" id="headerstyle" style="text-align:center">
+        <div class="panel-heading" id="headerstyle">
             Manage Tissue Bank Profile
         </div>
 
@@ -369,12 +370,12 @@
                 <div class="col-md-6">
                     <div class="panel">
                         <div class="panel-body">
-                            <div style="border:1px solid #aaa; margin-bottom:40px; box-shadow:0px 2px 2px #888888;">
+                            <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; padding-bottom:20px">
                                 <div class="col-md-12" id="tbtitle">
                                     <div style="display:inline-block"><img class="image" src="~/Assets/image/1.jpg" style="width:50px; height:50px; margin-top:-25px" /></div>
                                     <div style="display:inline-block; padding-right:10px"><span style="font-size:15px; font-weight:600">Setup Your Account</span><br /><span>Tell us a bit about you</span></div>
                                 </div>
-                                <div class="row" style="padding:10px">
+                                <div class="col-md-12">
                                     <div class="col-sm-6">
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">TissueBank Name</label>
@@ -390,7 +391,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="padding:10px">
+                                <div class="col-md-12">
                                     <div class="col-sm-6">
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">TissueBank Address </label>
@@ -409,7 +410,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="padding:10px">
+                                <div class="col-md-12">
                                     <div class="col-sm-6">
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">City</label>
@@ -431,7 +432,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="padding:10px">
+                                <div class="row" style="padding-right:22px; padding-left:22px;">
                                     <div class="col-sm-6">
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">Email-Id(Personal/TissueBank Email Id)</label>
@@ -450,7 +451,6 @@
                                             <span class="error error-msg" ng-show="formTissueBankDetail.FaxNumber.$error.maxlength">FaxNumber must be between 5 to 20 digits</span>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -460,12 +460,12 @@
                 <div class="col-md-6">
                     <div class="panel">
                         <div class="panel-body">
-                            <div style="border:1px solid #aaa; margin-bottom:40px; box-shadow:0px 2px 2px #888888;">
+                            <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; min-height: 437px;">
                                 <div class="col-md-12" id="tbtitle">
                                     <div style="display:inline-block"><img class="image" src="~/Assets/image/license.png" style="width:50px; height:50px; margin-top:-25px" /></div>
                                     <div style="display:inline-block; padding-right:10px"><span style="font-size:15px; font-weight:600">License Details</span><br /><span>We'll use this information as your indetity </span></div>
                                 </div>
-                                <div class="row" style="padding:10px">
+                                <div class="col-md-12">
                                     <div class="col-sm-6">
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">TissueBank State License</label>
@@ -483,7 +483,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="padding:10px">
+                                <div class="col-md-12">
                                     <div class="col-sm-6">
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">AATB Expiration Date</label>
@@ -501,9 +501,9 @@
                                             <span class="error error-msg" ng-show="formTissueBankDetail.AATBAccredationDate.$error.date">Please enter date in format(YYYY/MM/dd) : 2017/01/04</span>
                                         </div>
                                     </div>
-
+                                </div>
                                     @*new*@
-                                    <div class="row" style="padding:10px">
+                                    <div class="row" style="padding-left:22px; padding-right:22px;">
                                         <div class="col-sm-6">
                                             <div class="form-group no-margin-hr">
                                                 <label class="control-label">CustomerServiceLandLineNumber</label>
@@ -518,32 +518,30 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                             
                             </div>
                         </div>
                     </div>
                 </div>
-
+</div>
                 <div class="panel-footer text-center">
                     <input type="submit" class="btn btn-info" value="Update TissueBank Detail" ng-disabled="formTissueBankDetail.$invalid" />
                 </div>
-            </div>
+            
 
         </form>
 
 
 
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <h4 class="panel-title">
-                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Billing Information Details</a>
-                </h4>
+            <div class="panel-heading" id="headerstyle">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2"><span style="color:#ffffff">Billing Information Details</span></a>
             </div>
             <div id="collapse2" class="panel-collapse collapse">
                 <div class="panel-body">
                     <form class="form-horizontal" name="formBillingDetail" novalidate ng-submit="UpdateBillingDetail()">
-                        <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; margin-bottom:20px">
-                            <div class="row" style="padding:10px">
+                        <div style="border:1px solid #aaa; box-shadow:0px 2px 2px #888888; padding-bottom:20px">
+                            <div class="col-md-12">
                                 <div class="col-sm-6">
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">Contact Person Name</label>
@@ -561,7 +559,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="padding:10px">
+                            <div class="col-md-12">
                                 <div class="col-sm-6">
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">Contact Person Number (Mobile)</label>
@@ -581,7 +579,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="padding:10px">
+                            <div class="col-md-12">
                                 <div class="col-sm-6">
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">Billing Address </label>
@@ -600,7 +598,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="padding:10px">
+                            <div class="col-md-12">
                                 <div class="col-sm-6">
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">Billing City</label>
@@ -622,7 +620,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="padding:10px">
+                            <div class="col-md-12">
                                 <div class="col-sm-6">
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">Billing Fax Number</label>
@@ -642,7 +640,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="padding:10px">
+                            <div class="col-md-12">
                                 <div class="col-sm-6">
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">Credit Card Number</label>
@@ -654,30 +652,27 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                </div>
-                            </div>
-                            <div class="row" style="padding:10px">
-                                <div class="col-sm-6">
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">ExpiryDate</label>
                                         <span class="error error-msg" ng-show="formBillingDetail.expiryMonth.$error.required">*</span><br />
-                                        <select ng-model="expiryMonth" ng-required="true" name="expiryMonth" ng-options="expiryMonth for expiryMonth in months">
+                                        <select style="width:20%; height:25px" ng-model="expiryMonth" ng-required="true" name="expiryMonth" ng-options="expiryMonth for expiryMonth in months">
                                             <option value="">-Month-</option>
                                         </select>
                                         <span class="error error-msg" ng-show="formBillingDetail.expiryYear.$error.required">*</span>
-                                        <select ng-model="expiryYear" ng-required="true" name="expiryYear" ng-options="expiryYear for expiryYear in years">
+                                        <select style="width:20%; height:25px" ng-model="expiryYear" ng-required="true" name="expiryYear" ng-options="expiryYear for expiryYear in years">
                                             <option value="">-Year-</option>
                                         </select>
                                         <br />
                                         <span class="inputTip">Ex: 0820</span>
                                         @*<span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.required">*</span><br />
-                                        <input type="text" class="form-control" ng-required="true" name="ExpiryDate" ng-model="tissueBank.ExpiryDate" placeholder="Enter Expiry Date" ng-minlength="expiryLength" ng-maxlength="expiryLength" />
-                                        <span class="inputTip">Ex: 0820</span><br />
-                                        <span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.minlength">Please enter valid expiry date (MMYY) : 0824</span>
-                                        <span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.maxlength">Please enter valid expiry date (MMYY) : 0824</span>*@
+                                            <input type="text" class="form-control" ng-required="true" name="ExpiryDate" ng-model="tissueBank.ExpiryDate" placeholder="Enter Expiry Date" ng-minlength="expiryLength" ng-maxlength="expiryLength" />
+                                            <span class="inputTip">Ex: 0820</span><br />
+                                            <span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.minlength">Please enter valid expiry date (MMYY) : 0824</span>
+                                            <span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.maxlength">Please enter valid expiry date (MMYY) : 0824</span>*@
                                     </div>
                                 </div>
-
+                            </div>
+                            <div class="row" style="padding-right:22px; padding-left:22px">
                                 <div class="col-sm-6">
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">CVV</label>
@@ -690,6 +685,7 @@
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
 
                         <div class="panel-footer text-center">
