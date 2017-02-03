@@ -361,6 +361,7 @@
     <Content Include="Views\Response\TissueBank_Registration_Successful.cshtml" />
     <Content Include="Views\Response\AccessDenied.cshtml" />
     <Content Include="Views\Shared\_PanelLayout.cshtml" />
+    <Content Include="Views\Response\TissueBank_Verification_Successful.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -13,7 +13,7 @@ namespace Allocat.DataService
         public int Transaction_Create(DateTime TransactionInitiateDate, float Amount, int UserId, string RequestBody, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            IEnumerable<Decimal?> lstTransaction = dbConnection.usp_Transaction_Create(TransactionInitiateDate,Convert.ToDecimal(Amount), UserId, RequestBody);
+            IEnumerable<Decimal?> lstTransaction = dbConnection.usp_Transaction_Create(TransactionInitiateDate, Convert.ToDecimal(Amount), UserId, RequestBody);
 
             transaction.ReturnStatus = true;
             transaction.ReturnMessage.Add("Transaction Created.");

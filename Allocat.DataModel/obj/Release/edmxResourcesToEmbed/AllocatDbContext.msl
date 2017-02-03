@@ -1,0 +1,830 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AllocatDbModelStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="City">
+      <EntityTypeMapping TypeName="AllocatDbModel.City">
+        <MappingFragment StoreEntitySet="City">
+          <ScalarProperty Name="CityID" ColumnName="CityID" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="StateId" ColumnName="StateId" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Company">
+      <EntityTypeMapping TypeName="AllocatDbModel.Company">
+        <MappingFragment StoreEntitySet="Company">
+          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DomainScope">
+      <EntityTypeMapping TypeName="AllocatDbModel.DomainScope">
+        <MappingFragment StoreEntitySet="DomainScope">
+          <ScalarProperty Name="DomainScopeId" ColumnName="DomainScopeId" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Entity">
+      <EntityTypeMapping TypeName="AllocatDbModel.Entity">
+        <MappingFragment StoreEntitySet="Entity">
+          <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+          <ScalarProperty Name="EntityTypeId" ColumnName="EntityTypeId" />
+          <ScalarProperty Name="InfoId" ColumnName="InfoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EntityType">
+      <EntityTypeMapping TypeName="AllocatDbModel.EntityType">
+        <MappingFragment StoreEntitySet="EntityType">
+          <ScalarProperty Name="EntityTypeId" ColumnName="EntityTypeId" />
+          <ScalarProperty Name="EntityTypeName" ColumnName="EntityTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Error">
+      <EntityTypeMapping TypeName="AllocatDbModel.Error">
+        <MappingFragment StoreEntitySet="Error">
+          <ScalarProperty Name="ErrorId" ColumnName="ErrorId" />
+          <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+          <ScalarProperty Name="ErrorBody" ColumnName="ErrorBody" />
+          <ScalarProperty Name="ErrorDate" ColumnName="ErrorDate" />
+          <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+          <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Hospital">
+      <EntityTypeMapping TypeName="AllocatDbModel.Hospital">
+        <MappingFragment StoreEntitySet="Hospital">
+          <ScalarProperty Name="HospitalId" ColumnName="HospitalId" />
+          <ScalarProperty Name="HospitalName" ColumnName="HospitalName" />
+          <ScalarProperty Name="DomainScopeID" ColumnName="DomainScopeID" />
+          <ScalarProperty Name="HospitalTypeID" ColumnName="HospitalTypeID" />
+          <ScalarProperty Name="HospitalAddress" ColumnName="HospitalAddress" />
+          <ScalarProperty Name="HospitalCityId" ColumnName="HospitalCityId" />
+          <ScalarProperty Name="BusinessURL" ColumnName="BusinessURL" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="HospitalLandLineNo" ColumnName="HospitalLandLineNo" />
+          <ScalarProperty Name="RegistrationNumber" ColumnName="RegistrationNumber" />
+          <ScalarProperty Name="ContactPersonName" ColumnName="ContactPersonName" />
+          <ScalarProperty Name="ContactPersonNumber" ColumnName="ContactPersonNumber" />
+          <ScalarProperty Name="IsContactNumberVerified" ColumnName="IsContactNumberVerified" />
+          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+          <ScalarProperty Name="HospitalEmailId" ColumnName="HospitalEmailId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HospitalAddress">
+      <EntityTypeMapping TypeName="AllocatDbModel.HospitalAddress">
+        <MappingFragment StoreEntitySet="HospitalAddress">
+          <ScalarProperty Name="HospitalAddressId" ColumnName="HospitalAddressId" />
+          <ScalarProperty Name="HospitalId" ColumnName="HospitalId" />
+          <ScalarProperty Name="HospitalAddress1" ColumnName="HospitalAddress" />
+          <ScalarProperty Name="CityId" ColumnName="CityId" />
+          <ScalarProperty Name="ContactPersonName" ColumnName="ContactPersonName" />
+          <ScalarProperty Name="ContactPersonNumber" ColumnName="ContactPersonNumber" />
+          <ScalarProperty Name="ContactPersonEmailId" ColumnName="ContactPersonEmailId" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HospitalType">
+      <EntityTypeMapping TypeName="AllocatDbModel.HospitalType">
+        <MappingFragment StoreEntitySet="HospitalType">
+          <ScalarProperty Name="HospitalTypeID" ColumnName="HospitalTypeID" />
+          <ScalarProperty Name="HospitalTypeName" ColumnName="HospitalTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Notification">
+      <EntityTypeMapping TypeName="AllocatDbModel.Notification">
+        <MappingFragment StoreEntitySet="Notification">
+          <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+          <ScalarProperty Name="EntityTypeID" ColumnName="EntityTypeID" />
+          <ScalarProperty Name="NotificationBody" ColumnName="NotificationBody" />
+          <ScalarProperty Name="IsSeen" ColumnName="IsSeen" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NotificationTag">
+      <EntityTypeMapping TypeName="AllocatDbModel.NotificationTag">
+        <MappingFragment StoreEntitySet="NotificationTag">
+          <ScalarProperty Name="NotificationTagId" ColumnName="NotificationTagId" />
+          <ScalarProperty Name="NotificationTagName" ColumnName="NotificationTagName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Order">
+      <EntityTypeMapping TypeName="AllocatDbModel.Order">
+        <MappingFragment StoreEntitySet="Order">
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="TransactionNumber" ColumnName="TransactionNumber" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderLineTotal" ColumnName="OrderLineTotal" />
+          <ScalarProperty Name="PurchaseRequestId" ColumnName="PurchaseRequestId" />
+          <ScalarProperty Name="RFQId" ColumnName="RFQId" />
+          <ScalarProperty Name="AlloCATFees" ColumnName="AlloCATFees" />
+          <ScalarProperty Name="HospitalPoNumber" ColumnName="HospitalPoNumber" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="DeclineRemark" ColumnName="DeclineRemark" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetail">
+      <EntityTypeMapping TypeName="AllocatDbModel.OrderDetail">
+        <MappingFragment StoreEntitySet="OrderDetail">
+          <ScalarProperty Name="OrderDetailId" ColumnName="OrderDetailId" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="ProductEntityId" ColumnName="ProductEntityId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductEntity">
+      <EntityTypeMapping TypeName="AllocatDbModel.ProductEntity">
+        <MappingFragment StoreEntitySet="ProductEntity">
+          <ScalarProperty Name="ProductEntityId" ColumnName="ProductEntityId" />
+          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="HospitalId" ColumnName="HospitalId" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="LineTotal" ColumnName="LineTotal" />
+          <ScalarProperty Name="SalesTax" ColumnName="SalesTax" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="NeedByDate" ColumnName="NeedByDate" />
+          <ScalarProperty Name="TissueBankSendByDate" ColumnName="TissueBankSendByDate" />
+          <ScalarProperty Name="ShippingDetailId" ColumnName="ShippingDetailId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProductMaster">
+      <EntityTypeMapping TypeName="AllocatDbModel.ProductMaster">
+        <MappingFragment StoreEntitySet="ProductMaster">
+          <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
+          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+          <ScalarProperty Name="ProductMasterDescription" ColumnName="ProductMasterDescription" />
+          <ScalarProperty Name="ProductMasterFeatures" ColumnName="ProductMasterFeatures" />
+          <ScalarProperty Name="ProductMasterImageName" ColumnName="ProductMasterImageName" />
+          <ScalarProperty Name="ProductMasterThumbnailImageName" ColumnName="ProductMasterThumbnailImageName" />
+          <ScalarProperty Name="DomainScopeId" ColumnName="DomainScopeId" />
+          <ScalarProperty Name="FamilyId" ColumnName="FamilyId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseRequest">
+      <EntityTypeMapping TypeName="AllocatDbModel.PurchaseRequest">
+        <MappingFragment StoreEntitySet="PurchaseRequest">
+          <ScalarProperty Name="PurchaseRequestId" ColumnName="PurchaseRequestId" />
+          <ScalarProperty Name="ParentRequestForQuoteId" ColumnName="ParentRequestForQuoteId" />
+          <ScalarProperty Name="ProductEntityId" ColumnName="ProductEntityId" />
+          <ScalarProperty Name="AssignedToUserId" ColumnName="AssignedToUserId" />
+          <ScalarProperty Name="AssignedByUserId" ColumnName="AssignedByUserId" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Question">
+      <EntityTypeMapping TypeName="AllocatDbModel.Question">
+        <MappingFragment StoreEntitySet="Question">
+          <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+          <ScalarProperty Name="QuestionBody" ColumnName="QuestionBody" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReportType">
+      <EntityTypeMapping TypeName="AllocatDbModel.ReportType">
+        <MappingFragment StoreEntitySet="ReportType">
+          <ScalarProperty Name="ReportTypeId" ColumnName="ReportTypeId" />
+          <ScalarProperty Name="ReportTypeName" ColumnName="ReportTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Request">
+      <EntityTypeMapping TypeName="AllocatDbModel.Request">
+        <MappingFragment StoreEntitySet="Request">
+          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+          <ScalarProperty Name="HospitalId" ColumnName="HospitalId" />
+          <ScalarProperty Name="RequestForQuoteId" ColumnName="RequestForQuoteId" />
+          <ScalarProperty Name="RequestBody" ColumnName="RequestBody" />
+          <ScalarProperty Name="AttachmentName" ColumnName="AttachmentName" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RequestForQuote">
+      <EntityTypeMapping TypeName="AllocatDbModel.RequestForQuote">
+        <MappingFragment StoreEntitySet="RequestForQuote">
+          <ScalarProperty Name="RequestForQuoteId" ColumnName="RequestForQuoteId" />
+          <ScalarProperty Name="ProductEntityId" ColumnName="ProductEntityId" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="DeclineRemark" ColumnName="DeclineRemark" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Response">
+      <EntityTypeMapping TypeName="AllocatDbModel.Response">
+        <MappingFragment StoreEntitySet="Response">
+          <ScalarProperty Name="ResponseId" ColumnName="ResponseId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="RequestID" ColumnName="RequestID" />
+          <ScalarProperty Name="ResponseBody" ColumnName="ResponseBody" />
+          <ScalarProperty Name="AttachmentName" ColumnName="AttachmentName" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Role">
+      <EntityTypeMapping TypeName="AllocatDbModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="EntityTypeID" ColumnName="EntityTypeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShippingDetail">
+      <EntityTypeMapping TypeName="AllocatDbModel.ShippingDetail">
+        <MappingFragment StoreEntitySet="ShippingDetail">
+          <ScalarProperty Name="ShippingDetailId" ColumnName="ShippingDetailId" />
+          <ScalarProperty Name="ShippingMethod" ColumnName="ShippingMethod" />
+          <ScalarProperty Name="HospitalAddressId" ColumnName="HospitalAddressId" />
+          <ScalarProperty Name="ShippedDate" ColumnName="ShippedDate" />
+          <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Source">
+      <EntityTypeMapping TypeName="AllocatDbModel.Source">
+        <MappingFragment StoreEntitySet="Source">
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="State">
+      <EntityTypeMapping TypeName="AllocatDbModel.State">
+        <MappingFragment StoreEntitySet="State">
+          <ScalarProperty Name="StateId" ColumnName="StateId" />
+          <ScalarProperty Name="StateName" ColumnName="StateName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="AllocatDbModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="ReportTypeId" ColumnName="ReportTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TaggedNotification">
+      <EntityTypeMapping TypeName="AllocatDbModel.TaggedNotification">
+        <MappingFragment StoreEntitySet="TaggedNotification">
+          <ScalarProperty Name="TaggedNotificationId" ColumnName="TaggedNotificationId" />
+          <ScalarProperty Name="NotificationId" ColumnName="NotificationId" />
+          <ScalarProperty Name="NotificationTagId" ColumnName="NotificationTagId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TissueBank">
+      <EntityTypeMapping TypeName="AllocatDbModel.TissueBank">
+        <MappingFragment StoreEntitySet="TissueBank">
+          <ScalarProperty Name="ContactPersonLastName" ColumnName="ContactPersonLastName" />
+          <ScalarProperty Name="ContactPersonFirstName" ColumnName="ContactPersonFirstName" />
+          <ScalarProperty Name="BillingContactNumber" ColumnName="BillingContactNumber" />
+          <ScalarProperty Name="BillingEmailId" ColumnName="BillingEmailId" />
+          <ScalarProperty Name="BillingFaxNumber" ColumnName="BillingFaxNumber" />
+          <ScalarProperty Name="BillingZipCode" ColumnName="BillingZipCode" />
+          <ScalarProperty Name="BillingCityId" ColumnName="BillingCityId" />
+          <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+          <ScalarProperty Name="ContactPersonEmailId" ColumnName="ContactPersonEmailId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="TissueBankName" ColumnName="TissueBankName" />
+          <ScalarProperty Name="ContactPersonNumber" ColumnName="ContactPersonNumber" />
+          <ScalarProperty Name="TissueBankEmailId" ColumnName="TissueBankEmailId" />
+          <ScalarProperty Name="BusinessURL" ColumnName="BusinessURL" />
+          <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
+          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+          <ScalarProperty Name="TissueBankAddress" ColumnName="TissueBankAddress" />
+          <ScalarProperty Name="CityId" ColumnName="CityId" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="TissueBankStateLicense" ColumnName="TissueBankStateLicense" />
+          <ScalarProperty Name="CustomerServiceLandLineNumber" ColumnName="CustomerServiceLandLineNumber" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="TaxPayerId" ColumnName="TaxPayerId" />
+          <ScalarProperty Name="AATBLicenseNumber" ColumnName="AATBLicenseNumber" />
+          <ScalarProperty Name="AATBExpirationDate" ColumnName="AATBExpirationDate" />
+          <ScalarProperty Name="AATBAccredationDate" ColumnName="AATBAccredationDate" />
+          <ScalarProperty Name="CustomerProfileId" ColumnName="CustomerProfileId" />
+          <ScalarProperty Name="CustomerPaymentProfileIds" ColumnName="CustomerPaymentProfileIds" />
+          <ScalarProperty Name="IsAllocatMember" ColumnName="IsAllocatMember" />
+          <ScalarProperty Name="IsAccountVerified" ColumnName="IsAccountVerified" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TissueBankCreditCard">
+      <EntityTypeMapping TypeName="AllocatDbModel.TissueBankCreditCard">
+        <MappingFragment StoreEntitySet="TissueBankCreditCard">
+          <ScalarProperty Name="TissueBankCreditCardId" ColumnName="TissueBankCreditCardId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="CreditCardNumber" ColumnName="CreditCardNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TissueBankProduct">
+      <EntityTypeMapping TypeName="AllocatDbModel.TissueBankProduct">
+        <MappingFragment StoreEntitySet="TissueBankProduct">
+          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
+          <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
+          <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Transaction">
+      <EntityTypeMapping TypeName="AllocatDbModel.Transaction">
+        <MappingFragment StoreEntitySet="Transaction">
+          <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+          <ScalarProperty Name="AuthTransactionId" ColumnName="AuthTransactionId" />
+          <ScalarProperty Name="AuthCode" ColumnName="AuthCode" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="TransactionInitiateDate" ColumnName="TransactionInitiateDate" />
+          <ScalarProperty Name="TransactionCompleteDate" ColumnName="TransactionCompleteDate" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="RequestBody" ColumnName="RequestBody" />
+          <ScalarProperty Name="ResponseBody" ColumnName="ResponseBody" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="AllocatDbModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="EntityID" ColumnName="EntityID" />
+          <ScalarProperty Name="DomainScopeID" ColumnName="DomainScopeID" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
+          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+          <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
+          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+          <ScalarProperty Name="AllowLogin" ColumnName="AllowLogin" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRole">
+      <EntityTypeMapping TypeName="AllocatDbModel.UserRole">
+        <MappingFragment StoreEntitySet="UserRole">
+          <ScalarProperty Name="UserRoleID" ColumnName="UserRoleID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="sp_Order_TissueBank_Ack_Decline" FunctionName="AllocatDbModel.Store.sp_Order_TissueBank_Ack_Decline" />
+    <FunctionImportMapping FunctionImportName="sp_Order_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_Order_TissueBank_GetByTissueBankId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_Order_TissueBank_GetByTissueBankId_Result">
+          <ScalarProperty Name="Sno" ColumnName="Sno" />
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="RequestForQuoteId" ColumnName="RequestForQuoteId" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="NeedByDate" ColumnName="NeedByDate" />
+          <ScalarProperty Name="TissueBankSendByDate" ColumnName="TissueBankSendByDate" />
+          <ScalarProperty Name="OrderLineTotal" ColumnName="OrderLineTotal" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_OrderDetail_TissueBank_GetByOrderId" FunctionName="AllocatDbModel.Store.sp_OrderDetail_TissueBank_GetByOrderId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_OrderDetail_TissueBank_GetByOrderId_Result">
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+          <ScalarProperty Name="OrderLineTotal" ColumnName="OrderLineTotal" />
+          <ScalarProperty Name="RFQId" ColumnName="RFQId" />
+          <ScalarProperty Name="AlloCATFees" ColumnName="AlloCATFees" />
+          <ScalarProperty Name="HospitalPoNumber" ColumnName="HospitalPoNumber" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="DeclineRemark" ColumnName="DeclineRemark" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ProductEntityId" ColumnName="ProductEntityId" />
+          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+          <ScalarProperty Name="HospitalId" ColumnName="HospitalId" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="LineTotal" ColumnName="LineTotal" />
+          <ScalarProperty Name="SalesTax" ColumnName="SalesTax" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="NeedByDate" ColumnName="NeedByDate" />
+          <ScalarProperty Name="TissueBankSendByDate" ColumnName="TissueBankSendByDate" />
+          <ScalarProperty Name="HospitalName" ColumnName="HospitalName" />
+          <ScalarProperty Name="billingHospitalAddress" ColumnName="billingHospitalAddress" />
+          <ScalarProperty Name="billingFaxNumber" ColumnName="billingFaxNumber" />
+          <ScalarProperty Name="HospitalLandLineNo" ColumnName="HospitalLandLineNo" />
+          <ScalarProperty Name="RegistrationNumber" ColumnName="RegistrationNumber" />
+          <ScalarProperty Name="billingContactPersonName" ColumnName="billingContactPersonName" />
+          <ScalarProperty Name="billingContactPersonNumber" ColumnName="billingContactPersonNumber" />
+          <ScalarProperty Name="HospitalEmailId" ColumnName="HospitalEmailId" />
+          <ScalarProperty Name="shippingHospitalAddress" ColumnName="shippingHospitalAddress" />
+          <ScalarProperty Name="shippingContactPersonName" ColumnName="shippingContactPersonName" />
+          <ScalarProperty Name="shippingContactPersonNumber" ColumnName="shippingContactPersonNumber" />
+          <ScalarProperty Name="shippingContactPersonNumber1" ColumnName="shippingContactPersonNumber1" />
+          <ScalarProperty Name="shippingFaxNumber" ColumnName="shippingFaxNumber" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="shippingCityName" ColumnName="shippingCityName" />
+          <ScalarProperty Name="shippingZipCode" ColumnName="shippingZipCode" />
+          <ScalarProperty Name="shippingZipCode1" ColumnName="shippingZipCode1" />
+          <ScalarProperty Name="billingCityName" ColumnName="billingCityName" />
+          <ScalarProperty Name="shippingZipCode2" ColumnName="shippingZipCode2" />
+          <ScalarProperty Name="billingZipCode" ColumnName="billingZipCode" />
+          <ScalarProperty Name="billingStateName" ColumnName="billingStateName" />
+          <ScalarProperty Name="shippingStateName" ColumnName="shippingStateName" />
+          <ScalarProperty Name="RequestForQuoteId" ColumnName="RequestForQuoteId" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+          <ScalarProperty Name="ShippingMethod" ColumnName="ShippingMethod" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_Edit" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_Edit" />
+    <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_GetByTissueBankId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_RequestForQuote_TissueBank_GetByTissueBankId_Result">
+          <ScalarProperty Name="Sno" ColumnName="Sno" />
+          <ScalarProperty Name="RequestForQuoteId" ColumnName="RequestForQuoteId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId" FunctionName="AllocatDbModel.Store.sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result">
+          <ScalarProperty Name="RequestForQuoteId" ColumnName="RequestForQuoteId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="LineTotal" ColumnName="LineTotal" />
+          <ScalarProperty Name="SalesTax" ColumnName="SalesTax" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="NeedByDate" ColumnName="NeedByDate" />
+          <ScalarProperty Name="TissueBankSendByDate" ColumnName="TissueBankSendByDate" />
+          <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+          <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+          <ScalarProperty Name="HospitalName" ColumnName="HospitalName" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="ShippingMethod" ColumnName="ShippingMethod" />
+          <ScalarProperty Name="DeclineRemark" ColumnName="DeclineRemark" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_RequestResponse_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_RequestResponse_TissueBank_GetByTissueBankId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_RequestResponse_TissueBank_GetByTissueBankId_Result">
+          <ScalarProperty Name="BodyType" ColumnName="BodyType" />
+          <ScalarProperty Name="Initial" ColumnName="Initial" />
+          <ScalarProperty Name="Body" ColumnName="Body" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="AttachmentName" ColumnName="AttachmentName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_AddUpdate" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_AddUpdate" />
+    <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetByTissueBankId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result">
+          <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
+          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
+          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+          <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result">
+          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+          <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
+          <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
+          <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_User_Get" FunctionName="AllocatDbModel.Store.sp_User_Get">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_User_Get_Result">
+          <ScalarProperty Name="Sno" ColumnName="Sno" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="UserRoles" ColumnName="UserRoles" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="InfoType" ColumnName="InfoType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_User_GetEntityInfoByUserName" FunctionName="AllocatDbModel.Store.sp_User_GetEntityInfoByUserName">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_User_GetEntityInfoByUserName_Result">
+          <ScalarProperty Name="InfoType" ColumnName="InfoType" />
+          <ScalarProperty Name="InfoName" ColumnName="InfoName" />
+          <ScalarProperty Name="InfoId" ColumnName="InfoId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_User_GetRoleByUserName" FunctionName="AllocatDbModel.Store.sp_User_GetRoleByUserName" />
+    <FunctionImportMapping FunctionImportName="sp_UserDetail_GetByUserId" FunctionName="AllocatDbModel.Store.sp_UserDetail_GetByUserId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserDetail_GetByUserId_Result">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="EntityID" ColumnName="EntityID" />
+          <ScalarProperty Name="DomainScopeID" ColumnName="DomainScopeID" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
+          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+          <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
+          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+          <ScalarProperty Name="EntityTypeId" ColumnName="EntityTypeId" />
+          <ScalarProperty Name="InfoId" ColumnName="InfoId" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_UserMngmt_GetUserRoleByUserId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_GetUserRoleByUserId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserMngmt_GetUserRoleByUserId_Result">
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_CreateUpdateDelete" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_CreateUpdateDelete" />
+    <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_GetByTissueBankId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserMngmt_TissueBank_GetByTissueBankId_Result">
+          <ScalarProperty Name="Sno" ColumnName="Sno" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="AllowLogin" ColumnName="AllowLogin" />
+          <ScalarProperty Name="UserRoles" ColumnName="UserRoles" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_GetByUserId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_GetByUserId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserMngmt_TissueBank_GetByUserId_Result">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
+          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+          <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
+          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="AllowLogin" ColumnName="AllowLogin" />
+          <ScalarProperty Name="InfoId" ColumnName="InfoId" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_GetCountByTissueBankId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_GetCountByTissueBankId" />
+    <FunctionImportMapping FunctionImportName="sp_UserProfile_TissueBank_UpdateByUserId" FunctionName="AllocatDbModel.Store.sp_UserProfile_TissueBank_UpdateByUserId" />
+    <FunctionImportMapping FunctionImportName="sp_UserProfileDetail_TissueBank_GetByUserId" FunctionName="AllocatDbModel.Store.sp_UserProfileDetail_TissueBank_GetByUserId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserProfileDetail_TissueBank_GetByUserId_Result">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+          <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
+          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
+          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
+          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+          <ScalarProperty Name="InfoId" ColumnName="InfoId" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_Error_Create" FunctionName="AllocatDbModel.Store.usp_Error_Create" />
+    <FunctionImportMapping FunctionImportName="usp_Transaction_Create" FunctionName="AllocatDbModel.Store.usp_Transaction_Create" />
+    <FunctionImportMapping FunctionImportName="usp_Transaction_Update" FunctionName="AllocatDbModel.Store.usp_Transaction_Update" />
+    <FunctionImportMapping FunctionImportName="usp_TissueBank_Add" FunctionName="AllocatDbModel.Store.usp_TissueBank_Add" />
+    <FunctionImportMapping FunctionImportName="usp_TissueBank_Get" FunctionName="AllocatDbModel.Store.usp_TissueBank_Get">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.usp_TissueBank_Get_Result">
+          <ScalarProperty Name="TissueBankName" ColumnName="TissueBankName" />
+          <ScalarProperty Name="ContactPersonFirstName" ColumnName="ContactPersonFirstName" />
+          <ScalarProperty Name="ContactPersonLastName" ColumnName="ContactPersonLastName" />
+          <ScalarProperty Name="ContactPersonNumber" ColumnName="ContactPersonNumber" />
+          <ScalarProperty Name="ContactPersonEmailId" ColumnName="ContactPersonEmailId" />
+          <ScalarProperty Name="TissueBankEmailId" ColumnName="TissueBankEmailId" />
+          <ScalarProperty Name="BusinessURL" ColumnName="BusinessURL" />
+          <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
+          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
+          <ScalarProperty Name="TissueBankAddress" ColumnName="TissueBankAddress" />
+          <ScalarProperty Name="CityId" ColumnName="CityId" />
+          <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+          <ScalarProperty Name="TissueBankStateLicense" ColumnName="TissueBankStateLicense" />
+          <ScalarProperty Name="CustomerServiceLandLineNumber" ColumnName="CustomerServiceLandLineNumber" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="TaxPayerId" ColumnName="TaxPayerId" />
+          <ScalarProperty Name="AATBLicenseNumber" ColumnName="AATBLicenseNumber" />
+          <ScalarProperty Name="AATBExpirationDate" ColumnName="AATBExpirationDate" />
+          <ScalarProperty Name="AATBAccredationDate" ColumnName="AATBAccredationDate" />
+          <ScalarProperty Name="CustomerProfileId" ColumnName="CustomerProfileId" />
+          <ScalarProperty Name="CustomerPaymentProfileIds" ColumnName="CustomerPaymentProfileIds" />
+          <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+          <ScalarProperty Name="BillingCityId" ColumnName="BillingCityId" />
+          <ScalarProperty Name="BillingZipCode" ColumnName="BillingZipCode" />
+          <ScalarProperty Name="BillingFaxNumber" ColumnName="BillingFaxNumber" />
+          <ScalarProperty Name="BillingEmailId" ColumnName="BillingEmailId" />
+          <ScalarProperty Name="BillingContactNumber" ColumnName="BillingContactNumber" />
+          <ScalarProperty Name="IsAllocatMember" ColumnName="IsAllocatMember" />
+          <ScalarProperty Name="IsAccountVerified" ColumnName="IsAccountVerified" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+          <ScalarProperty Name="CreditCardNumber" ColumnName="CreditCardNumber" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="BillingCity" ColumnName="BillingCity" />
+          <ScalarProperty Name="BillingState" ColumnName="BillingState" />
+          <ScalarProperty Name="StateId" ColumnName="StateId" />
+          <ScalarProperty Name="BillingStateId" ColumnName="BillingStateId" />
+          <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+          <ScalarProperty Name="ModifiedByUser" ColumnName="ModifiedByUser" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_TissueBank_UpdateTissueBankDetail" FunctionName="AllocatDbModel.Store.usp_TissueBank_UpdateTissueBankDetail" />
+    <FunctionImportMapping FunctionImportName="usp_TissueBank_UpdateTissueBankBillingDetail" FunctionName="AllocatDbModel.Store.usp_TissueBank_UpdateTissueBankBillingDetail" />
+    <FunctionImportMapping FunctionImportName="usp_TissueBank_User_Registration" FunctionName="AllocatDbModel.Store.usp_TissueBank_User_Registration" />
+  </EntityContainerMapping>
+</Mapping>

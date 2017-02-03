@@ -24,7 +24,7 @@ namespace Allocat.ApplicationService
 
         }
 
-        public void ValidateUser_CUD(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD)
+        public void ValidateUser_CUD(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD,bool IsSendMail)
         {
             if (OperationType == "insert")
             {
@@ -77,6 +77,11 @@ namespace Allocat.ApplicationService
             {
                 AddValidationError("User Name", "User Name : " + UserName + " already exists.");
             }
+        }
+
+        public void ValidateUserEmailVerified(int UserId)
+        {
+
         }
     }
 }

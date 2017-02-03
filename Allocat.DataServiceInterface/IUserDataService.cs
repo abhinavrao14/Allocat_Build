@@ -12,6 +12,8 @@ namespace Allocat.DataServiceInterface
         IEnumerable<sp_UserMngmt_GetUserRoleByUserId_Result> GetUserRoleByUserId(int UserId, out TransactionalInformation transaction);
         int User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType,bool AllowLogin, DataTable TempUser_CUD, out TransactionalInformation transaction);
         IEnumerable<TissueBankRoles_TissueBank> GetTissueBankRoles(string type,out TransactionalInformation transaction);
+        void UserEmailVerified(int UserId, out TransactionalInformation transaction);
+        User GetUserById(int UserId, out TransactionalInformation transaction);
 
         bool ValidateUniqueEmailId(string EmailId);
         bool ValidateUniqueUserName(string UserName);

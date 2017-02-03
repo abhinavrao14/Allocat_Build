@@ -20,7 +20,11 @@
 <div ng-controller="TissueBankProfileController">
     <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
     <input type="hidden" for="LoggedUserId" id="LoggedUserId" value="@ViewBag.user.UserId" />
-
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner">
+            <img src="~/Assets/image/spin.gif" />
+        </div>
+    </div>
 
 
     @*for new tissue bank registration*@
@@ -90,8 +94,9 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">Zip Code</label>
                                             <span class="error error-msg" ng-show="formTissueBank.ZipCode.$error.required">*</span>
-                                            <input type="number" class="form-control" ng-model="tissueBank.ZipCode" name="ZipCode" ng-required="true" placeholder="Enter ZipCode" ng-minlength="zipcodeLength" ng-maxlength="zipcodeLength" />
+                                            <input type="text" class="form-control" ng-model="tissueBank.ZipCode"  ng-pattern="ZipCodePattern"  name="ZipCode" ng-required="true" placeholder="Enter ZipCode" ng-minlength="zipcodeLength" ng-maxlength="zipcodeLength" />
                                             <span class="inputTip">Ex: 84596</span><br />
+                                            <span class="error error-msg" ng-show="formTissueBank.ZipCode.$error.pattern">Only numbers are allowed</span><br />
                                             <span class="error error-msg" ng-show="formTissueBank.ZipCode.$error.minlength">ZipCode must be of 5 digits</span>
                                             <span class="error error-msg" ng-show="formTissueBank.ZipCode.$error.maxlength">ZipCode must be of 5 digits</span>
 
@@ -111,7 +116,8 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">Fax Number</label>
                                             <span class="error error-msg" ng-show="formTissueBank.FaxNumber.$error.required">*</span>
-                                            <input type="number" class="form-control" ng-model="tissueBank.FaxNumber" name="FaxNumber" ng-required="true" placeholder="Enter Fax Number" ng-minlength="faxNumberMinLength" ng-maxlength="faxNumberMaxLength" />
+                                            <input type="text" class="form-control" ng-model="tissueBank.FaxNumber" name="FaxNumber" ng-required="true" ng-pattern="faxNumberPattern" placeholder="Enter Fax Number" ng-minlength="faxNumberMinLength" ng-maxlength="faxNumberMaxLength" />
+                                            <span class="error error-msg" ng-show="formTissueBank.FaxNumber.$error.pattern">Only numbers are allowed</span><br />
                                             <span class="error error-msg" ng-show="formTissueBank.FaxNumber.$error.minlength">FaxNumber must be between 5 to 20 digits</span>
                                             <span class="error error-msg" ng-show="formTissueBank.FaxNumber.$error.maxlength">FaxNumber must be between 5 to 20 digits</span>
                                         </div>
@@ -252,8 +258,9 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">Billing City Zip Code</label>
                                             <span class="error error-msg" ng-show="formTissueBank.BillingZipCode.$error.required">*</span>
-                                            <input type="number" class="form-control" ng-model="tissueBank.BillingZipCode" name="BillingZipCode" ng-required="true" placeholder="Enter Billing Zip Code" ng-minlength="zipcodeLength" ng-maxlength="zipcodeLength" />
+                                            <input type="text" class="form-control" ng-model="tissueBank.BillingZipCode"  ng-pattern="ZipCodePattern"  name="BillingZipCode" ng-required="true" placeholder="Enter Billing Zip Code" ng-minlength="zipcodeLength" ng-maxlength="zipcodeLength" />
                                             <span class="inputTip">Ex: 84598</span><br />
+                                            <span class="error error-msg" ng-show="formTissueBankDetail.BillingZipCode.$error.pattern">Only numbers are allowed</span><br />
                                             <span class="error error-msg" ng-show="formTissueBank.BillingZipCode.$error.minlength">ZipCode must be of 5 digits</span>
                                             <span class="error error-msg" ng-show="formTissueBank.BillingZipCode.$error.maxlength">ZipCode must be of 5 digits</span>
                                         </div>
@@ -264,7 +271,8 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">Billing Fax Number</label>
                                             <span class="error error-msg" ng-show="formTissueBank.BillingFaxNumber.$error.required">*</span>
-                                            <input type="number" class="form-control" ng-model="tissueBank.BillingFaxNumber" name="BillingFaxNumber" ng-required="true" placeholder="Enter Billing Fax Number" ng-minlength="faxNumberMinLength" ng-maxlength="faxNumberMaxLength" />
+                                            <input type="text" class="form-control" ng-model="tissueBank.BillingFaxNumber" name="BillingFaxNumber" ng-required="true" ng-pattern="faxNumberPattern" placeholder="Enter Billing Fax Number" ng-minlength="faxNumberMinLength" ng-maxlength="faxNumberMaxLength" />
+                                            <span class="error error-msg" ng-show="formTissueBank.BillingFaxNumber.$error.pattern">Only numbers are allowed</span><br />
                                             <span class="error error-msg" ng-show="formTissueBank.BillingFaxNumber.$error.minlength">FaxNumber must be between 5 to 20 digits</span>
                                             <span class="error error-msg" ng-show="formTissueBank.BillingFaxNumber.$error.maxlength">FaxNumber must be between 5 to 20 digits</span>
                                         </div>
@@ -283,9 +291,10 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">Credit Card Number</label>
                                             <span class="error error-msg" ng-show="formTissueBank.CreditCardNumber.$error.required">*</span><br />
-                                            <input type="number" class="form-control" ng-required="true" name="CreditCardNumber" ng-model="tissueBank.CreditCardNumber" placeholder="Enter Credit Card Number" ng-minlength="creditCardMinLength" />
+                                            <input type="text" class="form-control" ng-required="true" name="CreditCardNumber" ng-pattern="CreditCardNumberPattern" ng-model="tissueBank.CreditCardNumber" placeholder="Enter Credit Card Number" ng-minlength="creditCardMinLength" />
                                             <span class="inputTip">Ex: 8451238464545</span><br />
-                                            <span class="error error-msg" ng-show="formTissueBank.CreditCardNumber.$error.minlength">Credit card must contain 4 or more digits </span>
+                                            <span class="error error-msg" ng-show="formTissueBankDetail.CreditCardNumber.$error.pattern">Only numbers are allowed</span><br />
+                                            <span class="error error-msg" ng-show="formTissueBank.CreditCardNumber.$error.minlength">Credit card must contain between 12 to 19 digits </span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -414,8 +423,9 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">Zip Code</label>
                                             <span class="error error-msg" ng-show="formTissueBankDetail.ZipCode.$error.required">*</span>
-                                            <input type="number" class="form-control" ng-model="tissueBank.ZipCode" name="ZipCode" ng-required="true" placeholder="Enter ZipCode" ng-minlength="zipcodeLength" ng-maxlength="zipcodeLength" />
+                                            <input type="text" class="form-control" ng-model="tissueBank.ZipCode" name="ZipCode" ng-pattern="ZipCodePattern" ng-required="true" placeholder="Enter ZipCode" ng-minlength="zipcodeLength" ng-maxlength="zipcodeLength" />
                                             <span class="inputTip">Ex: 84596</span><br />
+                                            <span class="error error-msg" ng-show="formTissueBankDetail.ZipCode.$error.pattern">Only numbers are allowed</span><br />
                                             <span class="error error-msg" ng-show="formTissueBankDetail.ZipCode.$error.minlength">ZipCode must be of 5 digits</span>
                                             <span class="error error-msg" ng-show="formTissueBankDetail.ZipCode.$error.maxlength">ZipCode must be of 5 digits</span>
                                         </div>
@@ -434,7 +444,8 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">Fax Number</label>
                                             <span class="error error-msg" ng-show="formTissueBankDetail.FaxNumber.$error.required">*</span>
-                                            <input type="number" class="form-control" ng-model="tissueBank.FaxNumber" name="FaxNumber" ng-required="true" placeholder="Enter Fax Number" ng-minlength="faxNumberMinLength" ng-maxlength="faxNumberMaxLength" />
+                                            <input type="text" class="form-control" ng-model="tissueBank.FaxNumber" name="FaxNumber" ng-required="true" placeholder="Enter Fax Number" ng-pattern="faxNumberPattern" ng-minlength="faxNumberMinLength" ng-maxlength="faxNumberMaxLength" />
+                                            <span class="error error-msg" ng-show="formTissueBankDetail.FaxNumber.$error.pattern">Only numbers are allowed</span><br />
                                             <span class="error error-msg" ng-show="formTissueBankDetail.FaxNumber.$error.minlength">FaxNumber must be between 5 to 20 digits</span>
                                             <span class="error error-msg" ng-show="formTissueBankDetail.FaxNumber.$error.maxlength">FaxNumber must be between 5 to 20 digits</span>
                                         </div>
@@ -496,7 +507,8 @@
                                         <div class="col-sm-6">
                                             <div class="form-group no-margin-hr">
                                                 <label class="control-label">CustomerServiceLandLineNumber</label>
-                                                <input type="number" class="form-control" name="CustomerServiceLandLineNumber" ng-model="tissueBank.CustomerServiceLandLineNumber" placeholder="Enter Customer Service LandLine Number" />
+                                                <input type="text" class="form-control"  ng-pattern="CustomerServiceLandLineNumberPattern"  name="CustomerServiceLandLineNumber" ng-model="tissueBank.CustomerServiceLandLineNumber" placeholder="Enter Customer Service LandLine Number" />
+                                                <span class="error error-msg" ng-show="formTissueBankDetail.CustomerServiceLandLineNumber.$error.pattern">Only numbers are allowed</span><br />
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -515,6 +527,7 @@
                 <div class="panel-footer text-center">
                     <input type="submit" class="btn btn-info" value="Update TissueBank Detail" ng-disabled="formTissueBankDetail.$invalid" />
                 </div>
+            </div>
 
         </form>
 
@@ -601,8 +614,9 @@
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">Billing Area Zip Code</label>
                                         <span class="error error-msg" ng-show="formBillingDetail.BillingZipCode.$error.required">*</span>
-                                        <input type="text" class="form-control" ng-model="tissueBank.BillingZipCode" name="BillingZipCode" ng-required="true" placeholder="Enter Billing Zip Code" ng-minlength="zipcodeLength" ng-maxlength="zipcodeLength" />
+                                        <input type="text" class="form-control" ng-model="tissueBank.BillingZipCode"  ng-pattern="ZipCodePattern"  name="BillingZipCode" ng-required="true" placeholder="Enter Billing Zip Code" ng-minlength="zipcodeLength" ng-maxlength="zipcodeLength" />
                                         <span class="inputTip">Ex: 84598</span><br />
+                                        <span class="error error-msg" ng-show="formBillingDetail.BillingZipCode.$error.pattern">Only numbers are allowed</span><br />
                                         <span class="error error-msg" ng-show="formBillingDetail.BillingZipCode.$error.minlength">ZipCode must be of 5 digits</span>
                                         <span class="error error-msg" ng-show="formBillingDetail.BillingZipCode.$error.maxlength">ZipCode must be of 5 digits</span>
                                     </div>
@@ -613,7 +627,8 @@
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">Billing Fax Number</label>
                                         <span class="error error-msg" ng-show="formBillingDetail.BillingFaxNumber.$error.required">*</span>
-                                        <input type="text" class="form-control" ng-model="tissueBank.BillingFaxNumber" name="BillingFaxNumber" ng-required="true" placeholder="Enter Billing Fax Number" ng-minlength="faxNumberMinLength" ng-maxlength="faxNumberMaxLength" />
+                                        <input type="text" class="form-control" ng-model="tissueBank.BillingFaxNumber" name="BillingFaxNumber" ng-required="true" ng-pattern="faxNumberPattern" placeholder="Enter Billing Fax Number" ng-minlength="faxNumberMinLength" ng-maxlength="faxNumberMaxLength" />
+                                        <span class="error error-msg" ng-show="formBillingDetail.BillingFaxNumber.$error.pattern">Only numbers are allowed</span><br />
                                         <span class="error error-msg" ng-show="formBillingDetail.BillingFaxNumber.$error.minlength">FaxNumber must be between 5 to 20 digits</span>
                                         <span class="error error-msg" ng-show="formBillingDetail.BillingFaxNumber.$error.maxlength">FaxNumber must be between 5 to 20 digits</span>
                                     </div>
@@ -632,9 +647,10 @@
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">Credit Card Number</label>
                                         <span class="error error-msg" ng-show="formBillingDetail.CreditCardNumber.$error.required">*</span><br />
-                                        <input type="text" class="form-control" ng-required="true" name="CreditCardNumber" ng-model="tissueBank.CreditCardNumber" placeholder="Enter Credit Card Number" ng-minlength="creditCardMinLength" />
+                                        <input type="text" class="form-control" ng-required="true" name="CreditCardNumber"  ng-pattern="CreditCardNumberPattern"  ng-model="tissueBank.CreditCardNumber" placeholder="Enter Credit Card Number" ng-minlength="creditCardMinLength" />
                                         <span class="inputTip">Ex: 8451238464545</span><br />
-                                        <span class="error error-msg" ng-show="formBillingDetail.CreditCardNumber.$error.minlength">Credit card must contain 4 or more digits </span>
+                                        <span class="error error-msg" ng-show="formBillingDetail.CreditCardNumber.$error.pattern">Only numbers are allowed</span><br />
+                                        <span class="error error-msg" ng-show="formBillingDetail.CreditCardNumber.$error.minlength">Credit card must contain between 12 to 19 digits </span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -644,11 +660,21 @@
                                 <div class="col-sm-6">
                                     <div class="form-group no-margin-hr">
                                         <label class="control-label">ExpiryDate</label>
-                                        <span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.required">*</span><br />
+                                        <span class="error error-msg" ng-show="formBillingDetail.expiryMonth.$error.required">*</span><br />
+                                        <select ng-model="expiryMonth" ng-required="true" name="expiryMonth" ng-options="expiryMonth for expiryMonth in months">
+                                            <option value="">-Month-</option>
+                                        </select>
+                                        <span class="error error-msg" ng-show="formBillingDetail.expiryYear.$error.required">*</span>
+                                        <select ng-model="expiryYear" ng-required="true" name="expiryYear" ng-options="expiryYear for expiryYear in years">
+                                            <option value="">-Year-</option>
+                                        </select>
+                                        <br />
+                                        <span class="inputTip">Ex: 0820</span>
+                                        @*<span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.required">*</span><br />
                                         <input type="text" class="form-control" ng-required="true" name="ExpiryDate" ng-model="tissueBank.ExpiryDate" placeholder="Enter Expiry Date" ng-minlength="expiryLength" ng-maxlength="expiryLength" />
                                         <span class="inputTip">Ex: 0820</span><br />
                                         <span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.minlength">Please enter valid expiry date (MMYY) : 0824</span>
-                                        <span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.maxlength">Please enter valid expiry date (MMYY) : 0824</span>
+                                        <span class="error error-msg" ng-show="formBillingDetail.ExpiryDate.$error.maxlength">Please enter valid expiry date (MMYY) : 0824</span>*@
                                     </div>
                                 </div>
 
@@ -657,6 +683,7 @@
                                         <label class="control-label">CVV</label>
                                         <span class="error error-msg" ng-show="formBillingDetail.CardCode.$error.required">*</span><br />
                                         <input type="text" class="form-control" ng-required="true" ng-minlength="cvvLength" ng-maxlength="cvvLength" name="CardCode" ng-model="tissueBank.CardCode" placeholder="Enter CVV" />
+
                                         <span class="inputTip">Ex: 854</span><br />
                                         <span class="error error-msg" ng-show="formBillingDetail.CardCode.$error.minlength">CVV must be of 3 digits</span>
                                         <span class="error error-msg" ng-show="formBillingDetail.CardCode.$error.maxlength">CVV must be of 3 digits</span>
@@ -669,11 +696,25 @@
                             <input type="submit" class="btn btn-success" value="Update Billing Detail" ng-disabled="formBillingDetail.$invalid" />
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
 
     }
+
+    <modal2 id="modal-Ack" class="modal fade" role="dialog" visible="showModal">
+        <div class="modal-header">
+            <h4 class="modal-title">Attachment Alert!</h4>
+        </div>
+        <div class="modal-body">
+            <div class="bootbox-body">
+                <p style="color:red">We will charge $25 as Registration-Fees. Are you agreed with this?</p>
+                <button type="button" class="btn btn-primary" ng-click="Agreed()">Agreed</button>
+                <button type="button" ng-click="NotAgreed()" class="btn btn-danger">Not Agreed</button>
+            </div>
+        </div>
+    </modal2>
+
+
     <div class="notifies" notifybar></div>
 </div>

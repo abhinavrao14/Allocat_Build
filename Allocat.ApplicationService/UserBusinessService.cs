@@ -1,5 +1,6 @@
 ﻿using Allocat.DataModel;
 using Allocat.DataServiceInterface;
+using Allocat.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -166,7 +167,7 @@ namespace Allocat.ApplicationService
             return lstTissueBankRoles;
         }
 
-        public void User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD, out TransactionalInformation transaction)
+        public void User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD, bool IsSendMail, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             UserBusinessRule userBusinessRule = new UserBusinessRule(userDataService);
@@ -175,7 +176,7 @@ namespace Allocat.ApplicationService
             {
                 userDataService.CreateSession();
 
-                userBusinessRule.ValidateUser_CUD(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD);
+                userBusinessRule.ValidateUser_CUD(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, IsSendMail);
 
                 if (userBusinessRule.ValidationStatus == true)
                 {
@@ -209,7 +210,76 @@ namespace Allocat.ApplicationService
                                 TempUser_CUD.Rows[i]["UserId"] = UserId;
                         }
                     }
-                    userDataService.User_CreateUpdateDelete(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, out transaction);
+                    int EffectedUserId = userDataService.User_CreateUpdateDelete(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, out transaction);
+
+                    //send mail
+                    if (OperationType == "changePass")
+                    {
+                        SMTPEmail email = new SMTPEmail();
+                        MailBody mb = new MailBody();
+
+                        if (IsSendMail == true)
+                        {
+                            TransactionalInformation tempTransction = new TransactionalInformation();
+                            User user = userDataService.GetUserById(EffectedUserId,out tempTransction);
+                            mb.Password = Password;
+                            mb.ContactPersonEmailId = user.EmailId;
+                            mb.ContactPersonName = user.FullName;
+                            mb.UserId = EffectedUserId;
+                            mb.MailType = "SendPassword";
+
+                            email.sendMail(mb);
+                        }
+                    }
+                    else if(OperationType=="insert")
+                    {
+                        SMTPEmail email = new SMTPEmail();
+                        MailBody mb = new MailBody();
+
+                        mb.Password = Password;
+                        mb.ContactPersonEmailId = EmailId;
+                        mb.ContactPersonName = FullName;
+                        mb.UserId = EffectedUserId;
+                        mb.MailType = "VerifyUserRegistration";
+
+                        email.sendMail(mb);
+                    }
+                }
+                else
+                {
+                    transaction.ReturnStatus = userBusinessRule.ValidationStatus;
+                    transaction.ReturnMessage = userBusinessRule.ValidationMessage;
+                    transaction.ValidationErrors = userBusinessRule.ValidationErrors;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
+            }
+            finally
+            {
+                userDataService.CloseSession();
+            }
+        }
+
+        public void UserEmailVerified(int UserId, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+            UserBusinessRule userBusinessRule = new UserBusinessRule(userDataService);
+
+            try
+            {
+                userDataService.CreateSession();
+
+                userBusinessRule.ValidateUserEmailVerified(UserId);
+
+                if (userBusinessRule.ValidationStatus == true)
+                {
+                    userDataService.UserEmailVerified(UserId, out transaction);
                 }
                 else
                 {

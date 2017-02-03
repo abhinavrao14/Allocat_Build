@@ -1,0 +1,16 @@
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\Allocat.DataService.dll.config
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\Allocat.DataService.dll
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\Allocat.DataService.pdb
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\Allocat.DataModel.dll
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\Allocat.DataServiceInterface.dll
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\Allocat.Utility.dll
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\EntityFramework.dll
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\Allocat.DataModel.pdb
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\Allocat.DataServiceInterface.pdb
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\Allocat.Utility.pdb
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\EntityFramework.xml
+C:\Users\Admin\Desktop\new\Allocat.DataService\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Admin\Desktop\new\Allocat.DataService\obj\Debug\Allocat.DataService.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\new\Allocat.DataService\obj\Debug\Allocat.DataService.dll
+C:\Users\Admin\Desktop\new\Allocat.DataService\obj\Debug\Allocat.DataService.pdb

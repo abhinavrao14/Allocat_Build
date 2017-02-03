@@ -4,6 +4,8 @@ using Allocat.Utility;
 using System;
 using System.Collections.Generic;
 using Allocat.ApplicationService.EmailService;
+using System.Net.Mail;
+using System.Net.Mime;
 
 namespace Allocat.ApplicationService
 {
@@ -23,24 +25,9 @@ namespace Allocat.ApplicationService
 
             try
             {
-                // tbDataService.CreateSession();
-
-                //tbBusinessRule.ValidateTissueBank_Add(TissueBankName, ContactPersonFirstName, ContactPersonLastName, ContactPersonNumber, ContactPersonEmailId, FaxNumber, TissueBankEmailId, BusinessURL, TissueBankAddress, CityId, ZipCode, TissueBankStateLicense, AATBLicenseNumber, AATBExpirationDate, AATBAccredationDate, CreditCardNumber, CreditCardType, ExpiryDate, CardCode, CustomerProfileId, CustomerPaymentProfileIds, BillingAddress, BillingCityId, BillingZipCode, BillingFaxNumber, BillingEmailId, BillingContactNumber, BillingCity, BillingState, State, City, UserId, TissueBankId, TransactionId, AuthTransactionId, AuthCode, StatusId, TransactionCompleteDate, ResponseBody);
-                //if (tbBusinessRule.ValidationStatus == true)
-                //{
-
-                //send this password on mail
                 string Password = Utility.Utilities.RandomAlphaNumeric(6);
 
                 tbDataService.TissueBank_Add(TissueBankName, ContactPersonFirstName, ContactPersonLastName, ContactPersonNumber, ContactPersonEmailId, FaxNumber, TissueBankEmailId, BusinessURL, TissueBankAddress, CityId, ZipCode, TissueBankStateLicense, AATBLicenseNumber, AATBExpirationDate, AATBAccredationDate, CreditCardNumber, CustomerProfileId, CustomerPaymentProfileIds, BillingAddress, BillingCityId, BillingZipCode, BillingFaxNumber, BillingEmailId, BillingContactNumber, UserId, TissueBankId, TransactionId, AuthTransactionId, AuthCode, StatusId, TransactionCompleteDate, ResponseBody, out transaction);
-                //}
-                //else
-                //{
-                //    transaction.ReturnStatus = tbBusinessRule.ValidationStatus;
-                //    transaction.ReturnMessage = tbBusinessRule.ValidationMessage;
-                //    transaction.ValidationErrors = tbBusinessRule.ValidationErrors;
-                //}
-
             }
             catch (Exception ex)
             {
@@ -106,15 +93,21 @@ namespace Allocat.ApplicationService
                 if (tbBusinessRule.ValidationStatus == true)
                 {
                     string Password = Utilities.RandomAlphaNumeric(6);
+                    
 
-                    tbDataService.TissueBank_User_Registration(FullName, UserName, EmailId, SecurityQuestion, SecurityAnswer, Password, out transaction);
+                    int UserId = tbDataService.TissueBank_User_Registration(FullName, UserName, EmailId, SecurityQuestion, SecurityAnswer, Password, out transaction);
 
                     if (transaction.ReturnStatus == true)
                     {
-                        //Send an email with generated Password --BHASKAR SIR EMAIL SERVICE--
-                        Email email = new Email();
-                        //get emailBody from email body type class
-                        email.SendEmail(EmailId);
+                        SMTPEmail email = new SMTPEmail();
+                        MailBody mb = new MailBody();
+                        mb.Password = Password;
+                        mb.ContactPersonEmailId = EmailId;
+                        mb.ContactPersonName = FullName;
+                        mb.UserId = UserId;
+                        mb.MailType = "VerifyUserRegistration";
+
+                        email.sendMail(mb);
                     }
                 }
                 else

@@ -1060,6 +1060,7 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
     $scope.UserRoles = [];
     $scope.Operation = 'Add User';
     $scope.Password = '';
+    $scope.IsSendMail = false;
 
     $scope.validateFullName = /^[A-Za-z\s]+$/;
     $scope.validateEmail = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
@@ -1201,33 +1202,42 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
 
     $scope.OpenPasswordModel = function () {
         $scope.showModal = true;
+       
     };
 
-    $scope.PasswordSubmit = function () {
+    $scope.PasswordSubmit = function (IsSendMail) {
         var userMngmnt_User_CUD_DTO = {};
         userMngmnt_User_CUD_DTO.UserId = $scope.S_UserId;
         userMngmnt_User_CUD_DTO.LastModifiedBy = $scope.LastModifiedBy;
         userMngmnt_User_CUD_DTO.Password = $scope.UserDetail.Password;
         userMngmnt_User_CUD_DTO.OperationType = 'changePass';
+        userMngmnt_User_CUD_DTO.IsSendMail = IsSendMail;
 
-        //console.log(userMngmnt_User_CUD_DTO);
+        console.log(userMngmnt_User_CUD_DTO);
 
-        var response = UserDetailService.SubmitUser(userMngmnt_User_CUD_DTO);
+         var response = UserDetailService.SubmitUser(userMngmnt_User_CUD_DTO);
 
-        response
-       .success(function (data, status, headers, config) {
-           var Message = MsgService.makeMessage(data.ReturnMessage)
-           message('success', 'Success!', Message);
-           $scope.showModal = false;
-       })
-       .error(function (data, status, headers, config) {
-           var Message = MsgService.makeMessage(data.ReturnMessage)
-           message('error', 'Error!', Message);
-       });
+         response
+        .success(function (data, status, headers, config) {
+            var Message = MsgService.makeMessage(data.ReturnMessage)
+            message('success', 'Success!', Message);
+            $scope.showModal = false;
+        })
+        .error(function (data, status, headers, config) {
+            var Message = MsgService.makeMessage(data.ReturnMessage)
+            message('error', 'Error!', Message);
+        });
+
+         $scope.UserDetail.Password = "";
+         $scope.password_verify = "";
+         $scope.IsSendMail = "";
     };
 
     $scope.PasswordCancel = function () {
         $scope.showModal = false;
+        $scope.UserDetail.Password = "";
+        $scope.password_verify = "";
+        $scope.IsSendMail = "";
     };
 
     function message(type, title, content) {
@@ -1255,6 +1265,10 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
     $scope.name_AlphaSpacesPattern = InputService.name_AlphaSpacesPattern;
     $scope.addressPattern = InputService.addressPattern;
     $scope.userNamePattern = InputService.userNamePattern;
+    $scope.faxNumberPattern = InputService.faxNumberPattern;
+    $scope.CustomerServiceLandLineNumberPattern = InputService.CustomerServiceLandLineNumberPattern;
+    $scope.CreditCardNumberPattern = InputService.CreditCardNumberPattern;
+    $scope.ZipCodePattern = InputService.ZipCodePattern;
 
     $scope.creditCardMinLength = InputService.creditCardMinLength;
     $scope.cvvLength = InputService.cvvLength;
@@ -1269,7 +1283,7 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
         'starting-day': 1
     };
 
-    $scope.months = ["0" + 1, "0" + 2, "0" + 3, "0" + 4, "0" + 5, "0" + 6, "0" + 7, "0" + 8, "0" + 9, 10, 11, 12];
+    $scope.months = ["0" + 1, "0" + 2, "0" + 3, "0" + 4, "0" + 5, "0" + 6, "0" + 7, "0" + 8, "0" + 9, "10", "11", "12"];
     $scope.years = [];
     var d = new Date().getFullYear().toString().substr(2, 2)
     for (var year = d ; year <= 80; ++year) {
@@ -1300,61 +1314,70 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
         GetBillingCities(stateId);
     };
 
-    $scope.AddTb = function () {
-        if ($window.confirm("We will charge $25 as Registration-Fees. Are you agreed with this?")) {
-            var err = '';
-            err = ValidateTbSubmit();
+    $scope.NotAgreed = function () {
+        $scope.showModal = false;
+    }
 
-            if (err == '') {
-                var tissueBankAdd_DTO = {
-                    TissueBankName: $scope.tissueBank.TissueBankName,
-                    ContactPersonFirstName: $scope.tissueBank.ContactPersonFirstName,
-                    ContactPersonLastName: $scope.tissueBank.ContactPersonLastName,
-                    ContactPersonNumber: $scope.tissueBank.ContactPersonNumber,
-                    ContactPersonEmailId: $scope.tissueBank.ContactPersonEmailId,
-                    FaxNumber: $scope.tissueBank.FaxNumber,
-                    TissueBankEmailId: $scope.tissueBank.ContactPersonEmailId,
-                    BusinessURL: $scope.tissueBank.BusinessURL,
-                    TissueBankAddress: $scope.tissueBank.TissueBankAddress,
-                    CityId: $scope.tissueBank.city.CityID,
-                    ZipCode: $scope.tissueBank.ZipCode,
-                    TissueBankStateLicense: $scope.tissueBank.TissueBankStateLicense,
-                    AATBAccredationDate: $scope.tissueBank.AATBAccredationDate,
-                    AATBLicenseNumber: $scope.tissueBank.AATBLicenseNumber,
-                    AATBExpirationDate: $scope.tissueBank.AATBExpirationDate,
-                    CreditCardNumber: $scope.tissueBank.CreditCardNumber,
-                    CreditCardType: 0,
-                    ExpiryDate: $scope.expiryMonth.toString() + $scope.expiryYear.toString(),
-                    CardCode: $scope.tissueBank.CardCode,
-                    BillingAddress: $scope.tissueBank.BillingAddress,
-                    BillingCityId: $scope.tissueBank.BillingCity.CityID,
-                    BillingZipCode: $scope.tissueBank.BillingZipCode,
-                    BillingFaxNumber: $scope.tissueBank.BillingFaxNumber,
-                    BillingEmailId: $scope.tissueBank.BillingEmailId,
-                    BillingContactNumber: $scope.tissueBank.BillingContactNumber,
-                    BillingCity: $scope.tissueBank.BillingCity.CityName,
-                    BillingState: $scope.tissueBank.BillingState.StateName,
-                    State: $scope.tissueBank.state.StateName,
-                    City: $scope.tissueBank.city.CityName,
-                    UserId: $scope.tissueBank.LoggedUserId,
-                    TissueBankId: $scope.tissueBank.TissueBankId
-                };
+    $scope.Agreed = function () {
 
-                console.log(tissueBankAdd_DTO);
+        $scope.showModal = false;
+        
+        var err = '';
+        err = ValidateTbSubmit();
 
-                var response = TissueBankService.AddTb(tissueBankAdd_DTO);
-                response.success(function (data, status, headers, config) {
-                    $window.location.href = '/Response/TissueBank_Registration_Successful';
-                }).error(function (data, status, headers, config) {
-                    console.log(data.ReturnMessage);
-                    var Message = MsgService.makeMessage(data.ReturnMessage)
-                    message('error', 'Error!', Message);
-                });
-            }
-            else {
-                message('error', 'Error!', err);
-            }
+        if (err == '') {
+            var tissueBankAdd_DTO = {
+                TissueBankName: $scope.tissueBank.TissueBankName,
+                ContactPersonFirstName: $scope.tissueBank.ContactPersonFirstName,
+                ContactPersonLastName: $scope.tissueBank.ContactPersonLastName,
+                ContactPersonNumber: $scope.tissueBank.ContactPersonNumber,
+                ContactPersonEmailId: $scope.tissueBank.ContactPersonEmailId,
+                FaxNumber: $scope.tissueBank.FaxNumber,
+                TissueBankEmailId: $scope.tissueBank.ContactPersonEmailId,
+                BusinessURL: $scope.tissueBank.BusinessURL,
+                TissueBankAddress: $scope.tissueBank.TissueBankAddress,
+                CityId: $scope.tissueBank.city.CityID,
+                ZipCode: $scope.tissueBank.ZipCode,
+                TissueBankStateLicense: $scope.tissueBank.TissueBankStateLicense,
+                AATBAccredationDate: $scope.tissueBank.AATBAccredationDate,
+                AATBLicenseNumber: $scope.tissueBank.AATBLicenseNumber,
+                AATBExpirationDate: $scope.tissueBank.AATBExpirationDate,
+                CreditCardNumber: $scope.tissueBank.CreditCardNumber,
+                CreditCardType: 0,
+                ExpiryDate: $scope.expiryMonth.toString() + $scope.expiryYear.toString(),
+                CardCode: $scope.tissueBank.CardCode,
+                BillingAddress: $scope.tissueBank.BillingAddress,
+                BillingCityId: $scope.tissueBank.BillingCity.CityID,
+                BillingZipCode: $scope.tissueBank.BillingZipCode,
+                BillingFaxNumber: $scope.tissueBank.BillingFaxNumber,
+                BillingEmailId: $scope.tissueBank.BillingEmailId,
+                BillingContactNumber: $scope.tissueBank.BillingContactNumber,
+                BillingCity: $scope.tissueBank.BillingCity.CityName,
+                BillingState: $scope.tissueBank.BillingState.StateName,
+                State: $scope.tissueBank.state.StateName,
+                City: $scope.tissueBank.city.CityName,
+                UserId: $scope.tissueBank.LoggedUserId,
+                TissueBankId: $scope.tissueBank.TissueBankId
+            };
+
+            console.log(tissueBankAdd_DTO);
+
+            var response = TissueBankService.AddTb(tissueBankAdd_DTO);
+            response.success(function (data, status, headers, config) {
+                $window.location.href = '/Response/TissueBank_Registration_Successful';
+            }).error(function (data, status, headers, config) {
+                console.log(data.ReturnMessage);
+                var Message = MsgService.makeMessage(data.ReturnMessage)
+                message('error', 'Error!', Message);
+            });
         }
+        else {
+            message('error', 'Error!', err);
+        }
+    };
+
+    $scope.AddTb = function () {
+        $scope.showModal = true;
     };
 
     function ValidateTbSubmit() {
@@ -1482,11 +1505,12 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
             $scope.tissueBank.OperationType = 'UpdateTissueBankDetail';
             $scope.tissueBank.TissueBankId = document.getElementById("TissueBankId").value;
             $scope.tissueBank.UserId = document.getElementById("LoggedUserId").value;
+            var tissueBankAdd_DTO = $scope.tissueBank;
 
             //NOTE: billing City name and billing state name is going empty
             console.log($scope.tissueBank);
 
-            var response = TissueBankService.UpdateTbDetail($scope.tissueBank);
+            var response = TissueBankService.UpdateTbDetail(tissueBankAdd_DTO);
             response.success(function (data, status, headers, config) {
                 console.log(data);
                 var Message = MsgService.makeMessage(data.ReturnMessage)
@@ -1509,7 +1533,7 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
         $scope.tissueBank.OperationType = 'UpdateBillingDetail';
         $scope.tissueBank.TissueBankId = document.getElementById("TissueBankId").value;
         $scope.tissueBank.UserId = document.getElementById("LoggedUserId").value;
-
+        $scope.tissueBank.ExpiryDate = $scope.expiryMonth.toString() + $scope.expiryYear.toString();
         //NOTE: billing City name and billing state name is going empty
         console.log($scope.tissueBank);
 

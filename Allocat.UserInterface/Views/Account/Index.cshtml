@@ -16,8 +16,8 @@
     <link href="~/Assets/css/lib/pages.min.css" rel="stylesheet" type="text/css">
     <link href="~/Assets/css/lib/pixel-admin.min.css" rel="stylesheet" type="text/css">
     <link href="~/Assets/css/lib/rtl.min.css" rel="stylesheet" type="text/css">
-	<link href="~/Assets/css/lib/themes.min.css" rel="stylesheet" type="text/css">
-   
+    <link href="~/Assets/css/lib/themes.min.css" rel="stylesheet" type="text/css">
+
     <link href="~/Assets/css/lib/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Assets/css/custom/style.css" rel="stylesheet" />
     <style>
@@ -46,11 +46,24 @@
                 font-weight: 600;
                 padding-bottom: 6px;
             }
-
-
-
-        
     </style>
+    <style>
+        .blink_me {
+            animation: blinker 1s linear infinite;
+        }
+
+        @@keyframes blinker {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <script>
+        (function blink() {
+            $('.blink_me').fadeOut(900).fadeIn(200, blink);
+        })();
+    </script>
 </head>
 <body class="theme-default page-signin">
     <div id="page-signin-bg">
@@ -60,91 +73,96 @@
     <div class="signin-container">
         @if (ViewBag.Status != null)
         {
-            <label>Tissue bank is registered successfully.Your credit card is charged $25. Please login to access your account.</label>
+            <div class="row blink_me" style="text-align:center; color:#ffffff; font-size:15px">
+                <label>Tissue bank is registered successfully.<br />Your credit card is charged $25. Please login to access your account.</label>
+            </div>
         }
-        <div class="signin-info">
-            <a href="index.html" class="logo">
-                <img src="~/Assets/image/logo.png" />
-            </a>
-            <!-- / .logo -->
-            <div class="slogan">
-                Simple. Straight. Powerful.
+        <div class="row">
+            <div class="signin-info">
+                <a href="index.html" class="logo">
+                    <img src="~/Assets/image/logo.png" />
+                </a>
+                <!-- / .logo -->
+                <div class="slogan">
+                    Simple. Straight. Powerful.
+                </div>
+                <!-- / .slogan -->
+                <ul>
+                    <li><i class="fa fa-sitemap signin-icon"></i> Helpful To Doctors</li>
+                    <li><i class="fa fa-file-text-o signin-icon"></i> Bonus For Tissue Banks</li>
+                    <li><i class="fa fa-outdent signin-icon"></i> Easy User Interface</li>
+                    <li><i class="fa fa-heart signin-icon"></i> Saves Time And Money</li>
+                </ul>
+                <!-- / Info list -->
             </div>
-            <!-- / .slogan -->
-            <ul>
-                <li><i class="fa fa-sitemap signin-icon"></i> Helpful To Doctors</li>
-                <li><i class="fa fa-file-text-o signin-icon"></i> Bonus For Tissue Banks</li>
-                <li><i class="fa fa-outdent signin-icon"></i> Easy User Interface</li>
-                <li><i class="fa fa-heart signin-icon"></i> Saves Time And Money</li>
-            </ul>
-            <!-- / Info list -->
-        </div>
-        <!-- / Left side -->
-        <!-- Right side -->
-        <div class="signin-form">
-            <div class="signin-text">
-                <span>Sign In to your account</span>
-            </div>
-            @using (Html.BeginForm())
+            <!-- / Left side -->
+            <!-- Right side -->
+            <div class="signin-form">
+                <div class="signin-text">
+                    <span>Sign In to your account</span>
+                </div>
+                @using (Html.BeginForm())
             {
-                @Html.AntiForgeryToken()
+                    @Html.AntiForgeryToken()
 
-                @Html.ValidationSummary(true)
+                    @Html.ValidationSummary(true)
 
-                <div class="form-group w-icon">
-                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control input-lg", @placeholder = "User Name" })
-                    @*@Html.EditorFor(model => model.Username)*@
-                    <span class="fa fa-user signin-form-icon"></span>
-                    @Html.ValidationMessageFor(model => model.Username)
-                </div>
-
-                <div class="form-group w-icon">
-                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-lg", @placeholder = "Password", @type = "password" })
-                    <span class="fa fa-lock signin-form-icon"></span>
-                    @Html.ValidationMessageFor(model => model.Password)
-                </div>
-
-                @*<div class="form-group">
-                        @Html.LabelFor(model => model.RememberMe, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.RememberMe)
-
-                            @Html.ValidationMessageFor(model => model.RememberMe)
-                        </div>
-                    </div>*@
-
-                <div class="form-actions" style="text-align:center">
-                    <input type="submit" value="Login" class="signin-btn bg-primary" />
-                </div>
-            }
-
-            <div class="password-reset-form" id="password-reset-form">
-                <div class="header">
-                    <div class="signin-text">
-                        <span>Password reset</span>
-                        <div class="close">&times;</div>
-                    </div>
-                    <!-- / .signin-text -->
-                </div>
-                <!-- / .header -->
-                <!-- Form -->
-                <form action="index.html" id="password-reset-form_id">
                     <div class="form-group w-icon">
-                        <input type="text" name="password_reset_email" id="p_email_id" class="form-control input-lg" placeholder="Enter your email">
-                        <span class="fa fa-envelope signin-form-icon"></span>
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control input-lg", @placeholder = "User Name" })
+                        @*@Html.EditorFor(model => model.Username)*@
+                        <span class="fa fa-user signin-form-icon"></span>
+                        @Html.ValidationMessageFor(model => model.Username)
                     </div>
-                    <!-- / Email -->
 
-                    <div class="form-actions">
-                        <input type="submit" value="SEND PASSWORD RESET LINK" class="signin-btn bg-primary">
+                    <div class="form-group w-icon">
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control input-lg", @placeholder = "Password", @type = "password" })
+                        <span class="fa fa-lock signin-form-icon"></span>
+                        @Html.ValidationMessageFor(model => model.Password)
                     </div>
-                    <!-- / .form-actions -->
-                </form>
-                <!-- / Form -->
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.RememberMe, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RememberMe)
+
+                                @Html.ValidationMessageFor(model => model.RememberMe)
+                            </div>
+                        </div>*@
+
+                    <div class="form-actions" style="text-align:center">
+                        <input type="submit" value="Login" class="signin-btn bg-primary" />
+                    </div>
+                }
+
+                <div class="password-reset-form" id="password-reset-form">
+                    <div class="header">
+                        <div class="signin-text">
+                            <span>Password reset</span>
+                            <div class="close">&times;</div>
+                        </div>
+                        <!-- / .signin-text -->
+                    </div>
+                    <!-- / .header -->
+                    <!-- Form -->
+                    <form action="index.html" id="password-reset-form_id">
+                        <div class="form-group w-icon">
+                            <input type="text" name="password_reset_email" id="p_email_id" class="form-control input-lg" placeholder="Enter your email">
+                            <span class="fa fa-envelope signin-form-icon"></span>
+                        </div>
+                        <!-- / Email -->
+
+                        <div class="form-actions">
+                            <input type="submit" value="SEND PASSWORD RESET LINK" class="signin-btn bg-primary">
+                        </div>
+                        <!-- / .form-actions -->
+                    </form>
+                    <!-- / Form -->
+                </div>
+                <!-- / Password reset form -->
             </div>
-            <!-- / Password reset form -->
+            <!-- Right side -->
         </div>
-        <!-- Right side -->
+
     </div>
     <!-- / Container -->
     @*<div class="not-a-member">

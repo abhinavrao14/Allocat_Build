@@ -87,6 +87,7 @@ app.service("DomainScopeService", function ($http, ResourceService) {
 app.factory('ResourceService', function () {
     return {
         //webApiRootPath: 'http://allocat.net/Webapi/api/'
+        //webApiContentRootPath: 'http://allocat.net/Webapi/'
         //rootPath: 'http://allocat.net/',
         webApiRootPath: 'http://localhost:63744/api/'
         //rootPath: 'http://localhost:63744/',
@@ -108,6 +109,10 @@ app.factory('InputService', function () {
         , userNamePattern: /^[A-Za-z]+$/
         , emailPattern: /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
         , phoneNumberPattern: /^\d{3}\d{3}\d{4}/
+        , faxNumberPattern: /^\d+$/
+        , ZipCodePattern: /^\d+$/
+        , CustomerServiceLandLineNumberPattern: /^\d+$/
+        , CreditCardNumberPattern: /^\d+$/
         , expiryLength: 4
         //FaxNumberPattern: '^\+[0-9]{1,3}\([0-9]{3}\)[0-9]{7}$'
     };

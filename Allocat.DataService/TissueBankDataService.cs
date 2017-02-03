@@ -13,40 +13,58 @@ namespace Allocat.DataService
         public int TissueBank_User_Registration(string FullName, string UserName, string EmailId, string SecurityQuestion, string SecurityAnswer, string Password, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            int rowAffected = 0;
+            IEnumerable<int?> IEUserId = dbConnection.usp_TissueBank_User_Registration(FullName, UserName, EmailId, SecurityQuestion, SecurityAnswer, Password);
 
-            var parameterFullName = new SqlParameter("@FullName", SqlDbType.VarChar);
-            parameterFullName.Value = FullName;
-
-            var parameterUserName = new SqlParameter("@UserName", SqlDbType.NVarChar);
-            parameterUserName.Value = UserName;
-
-            var parameterEmailId = new SqlParameter("@EmailId", SqlDbType.NVarChar);
-            parameterEmailId.Value = EmailId;
-
-            var parameterSecurityQuestion = new SqlParameter("@SecurityQuestion", SqlDbType.VarChar);
-            parameterSecurityQuestion.Value = SecurityQuestion;
-
-            var parameterSecurityAnswer = new SqlParameter("@SecurityAnswer", SqlDbType.VarChar);
-            parameterSecurityAnswer.Value = SecurityAnswer;
-
-            var parameterPassword = new SqlParameter("@Password", SqlDbType.VarChar);
-            parameterPassword.Value = Password;
-
-            rowAffected = dbConnection.Database.ExecuteSqlCommand("exec dbo.usp_TissueBank_User_Registration @FullName, @UserName, @EmailId, @SecurityQuestion, @SecurityAnswer, @Password", parameterFullName, parameterUserName, parameterEmailId, parameterSecurityQuestion, parameterSecurityAnswer, parameterPassword);
-
-            if (rowAffected > 0)
+            var UserId = IEUserId.FirstOrDefault();
+            int UserId_val = Convert.ToInt32(UserId.Value);
+            if (UserId_val > 0)
             {
                 transaction.ReturnStatus = true;
-                transaction.ReturnMessage.Add("Operation Successfull.");
+                transaction.ReturnMessage.Add("Tissue Bank Registered Successfully.");
             }
             else
             {
                 transaction.ReturnStatus = false;
                 transaction.ReturnMessage.Add("Database Error");
             }
+                
+            return UserId_val;
 
-            return rowAffected;
+            //transaction = new TransactionalInformation();
+            //int rowAffected = 0;
+
+            //var parameterFullName = new SqlParameter("@FullName", SqlDbType.VarChar);
+            //parameterFullName.Value = FullName;
+
+            //var parameterUserName = new SqlParameter("@UserName", SqlDbType.NVarChar);
+            //parameterUserName.Value = UserName;
+
+            //var parameterEmailId = new SqlParameter("@EmailId", SqlDbType.NVarChar);
+            //parameterEmailId.Value = EmailId;
+
+            //var parameterSecurityQuestion = new SqlParameter("@SecurityQuestion", SqlDbType.VarChar);
+            //parameterSecurityQuestion.Value = SecurityQuestion;
+
+            //var parameterSecurityAnswer = new SqlParameter("@SecurityAnswer", SqlDbType.VarChar);
+            //parameterSecurityAnswer.Value = SecurityAnswer;
+
+            //var parameterPassword = new SqlParameter("@Password", SqlDbType.VarChar);
+            //parameterPassword.Value = Password;
+
+            //rowAffected = dbConnection.Database.ExecuteSqlCommand("exec dbo.usp_TissueBank_User_Registration @FullName, @UserName, @EmailId, @SecurityQuestion, @SecurityAnswer, @Password", parameterFullName, parameterUserName, parameterEmailId, parameterSecurityQuestion, parameterSecurityAnswer, parameterPassword);
+
+            //if (rowAffected > 0)
+            //{
+            //    transaction.ReturnStatus = true;
+            //    transaction.ReturnMessage.Add("Operation Successfull.");
+            //}
+            //else
+            //{
+            //    transaction.ReturnStatus = false;
+            //    transaction.ReturnMessage.Add("Database Error");
+            //}
+
+            //return rowAffected;
 
         }
 

@@ -414,55 +414,6 @@
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_UserProfileDetail_TissueBank_GetByUserId_Result>("sp_UserProfileDetail_TissueBank_GetByUserId @UserId", userIdParameter);
         }
 
-        public virtual int sp_UserMngmt_TissueBank_CreateUpdateDelete(Nullable<int> userId, string userName, string password, string fullName, string mobileNumber, string emailId, Nullable<int> createdBy, Nullable<int> lastModifiedBy, Nullable<int> infoId, Nullable<bool> allowLogin, string operationType)
-        {
-            var userIdParameter = userId.HasValue ?
-                new ObjectParameter("UserId", userId) :
-                new ObjectParameter("UserId", typeof(int));
-
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-
-            var passwordParameter = password != null ?
-                new ObjectParameter("Password", password) :
-                new ObjectParameter("Password", typeof(string));
-
-            var fullNameParameter = fullName != null ?
-                new ObjectParameter("FullName", fullName) :
-                new ObjectParameter("FullName", typeof(string));
-
-            var mobileNumberParameter = mobileNumber != null ?
-                new ObjectParameter("MobileNumber", mobileNumber) :
-                new ObjectParameter("MobileNumber", typeof(string));
-
-            var emailIdParameter = emailId != null ?
-                new ObjectParameter("EmailId", emailId) :
-                new ObjectParameter("EmailId", typeof(string));
-
-            var createdByParameter = createdBy.HasValue ?
-                new ObjectParameter("CreatedBy", createdBy) :
-                new ObjectParameter("CreatedBy", typeof(int));
-
-            var lastModifiedByParameter = lastModifiedBy.HasValue ?
-                new ObjectParameter("LastModifiedBy", lastModifiedBy) :
-                new ObjectParameter("LastModifiedBy", typeof(int));
-
-            var infoIdParameter = infoId.HasValue ?
-                new ObjectParameter("InfoId", infoId) :
-                new ObjectParameter("InfoId", typeof(int));
-
-            var allowLoginParameter = allowLogin.HasValue ?
-                new ObjectParameter("AllowLogin", allowLogin) :
-                new ObjectParameter("AllowLogin", typeof(bool));
-
-            var operationTypeParameter = operationType != null ?
-                new ObjectParameter("OperationType", operationType) :
-                new ObjectParameter("OperationType", typeof(string));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_UserMngmt_TissueBank_CreateUpdateDelete", userIdParameter, userNameParameter, passwordParameter, fullNameParameter, mobileNumberParameter, emailIdParameter, createdByParameter, lastModifiedByParameter, infoIdParameter, allowLoginParameter, operationTypeParameter);
-        }
-
         public virtual ObjectResult<sp_UserMngmt_TissueBank_GetByTissueBankId_Result> sp_UserMngmt_TissueBank_GetByTissueBankId(Nullable<int> tissueBankId, string searchBy, Nullable<int> currentPage, Nullable<int> pageSize, string sortDirection, string sortExpression)
         {
             var tissueBankIdParameter = tissueBankId.HasValue ?
@@ -512,35 +463,6 @@
                 new SqlParameter("SearchBy", typeof(string));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<Nullable<int>>("sp_UserMngmt_TissueBank_GetCountByTissueBankId @TissueBankId, @SearchBy", tissueBankIdParameter, searchByParameter);
-        }
-
-        public virtual int usp_TissueBank_User_Registration(string fullName, string userName, string emailId, string securityQuestion, string securityAnswer, string password)
-        {
-            var fullNameParameter = fullName != null ?
-                new ObjectParameter("FullName", fullName) :
-                new ObjectParameter("FullName", typeof(string));
-
-            var userNameParameter = userName != null ?
-                new ObjectParameter("UserName", userName) :
-                new ObjectParameter("UserName", typeof(string));
-
-            var emailIdParameter = emailId != null ?
-                new ObjectParameter("EmailId", emailId) :
-                new ObjectParameter("EmailId", typeof(string));
-
-            var securityQuestionParameter = securityQuestion != null ?
-                new ObjectParameter("SecurityQuestion", securityQuestion) :
-                new ObjectParameter("SecurityQuestion", typeof(string));
-
-            var securityAnswerParameter = securityAnswer != null ?
-                new ObjectParameter("SecurityAnswer", securityAnswer) :
-                new ObjectParameter("SecurityAnswer", typeof(string));
-
-            var passwordParameter = password != null ?
-                new ObjectParameter("Password", password) :
-                new ObjectParameter("Password", typeof(string));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_TissueBank_User_Registration", fullNameParameter, userNameParameter, emailIdParameter, securityQuestionParameter, securityAnswerParameter, passwordParameter);
         }
 
         public virtual int usp_Transaction_Update(Nullable<int> tissueBankId, Nullable<int> transactionId, string authTransactionId, string authCode, Nullable<int> statusId, Nullable<System.DateTime> transactionCompleteDate, string responseBody, ObjectParameter returnMessage)
@@ -886,6 +808,35 @@
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<string>("usp_TissueBank_UpdateTissueBankDetail @TissueBankName,  @ContactPersonEmailId,  @TissueBankEmailId,  @BusinessURL,  @TissueBankAddress,  @CityId,  @ZipCode,  @TissueBankStateLicense,  @CustomerServiceLandLineNumber,  @FaxNumber,  @TaxPayerId,  @AATBLicenseNumber,  @AATBExpirationDate,  @AATBAccredationDate,  @UserId,  @TissueBankId", tissueBankNameParameter, contactPersonEmailIdParameter, tissueBankEmailIdParameter, businessURLParameter, tissueBankAddressParameter, cityIdParameter, zipCodeParameter, tissueBankStateLicenseParameter, customerServiceLandLineNumberParameter, faxNumberParameter, taxPayerIdParameter, aATBLicenseNumberParameter, aATBExpirationDateParameter, aATBAccredationDateParameter, userIdParameter, tissueBankIdParameter);
 
+        }
+
+        public virtual ObjectResult<Nullable<int>> usp_TissueBank_User_Registration(string fullName, string userName, string emailId, string securityQuestion, string securityAnswer, string password)
+        {
+            var fullNameParameter = fullName != null ?
+                new SqlParameter("FullName", fullName) :
+                new SqlParameter("FullName", typeof(string));
+
+            var userNameParameter = userName != null ?
+                new SqlParameter("UserName", userName) :
+                new SqlParameter("UserName", typeof(string));
+
+            var emailIdParameter = emailId != null ?
+                new SqlParameter("EmailId", emailId) :
+                new SqlParameter("EmailId", typeof(string));
+
+            var securityQuestionParameter = securityQuestion != null ?
+                new SqlParameter("SecurityQuestion", securityQuestion) :
+                new SqlParameter("SecurityQuestion", typeof(string));
+
+            var securityAnswerParameter = securityAnswer != null ?
+                new SqlParameter("SecurityAnswer", securityAnswer) :
+                new SqlParameter("SecurityAnswer", typeof(string));
+
+            var passwordParameter = password != null ?
+                new SqlParameter("Password", password) :
+                new SqlParameter("Password", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<Nullable<int>>("usp_TissueBank_User_Registration @FullName , @UserName , @EmailId , @SecurityQuestion , @SecurityAnswer , @Password", fullNameParameter, userNameParameter, emailIdParameter, securityQuestionParameter, securityAnswerParameter, passwordParameter);
         }
     }
 }

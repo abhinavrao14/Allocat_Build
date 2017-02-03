@@ -1,0 +1,1443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AllocatDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="CityID" />
+    </Key>
+    <Property Name="CityID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CityName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="StateId" Type="int" Nullable="false" />
+    <Property Name="ZipCode" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Company">
+    <Key>
+      <PropertyRef Name="CompanyId" />
+    </Key>
+    <Property Name="CompanyId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CompanyName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="DomainScope">
+    <Key>
+      <PropertyRef Name="DomainScopeId" />
+    </Key>
+    <Property Name="DomainScopeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DomainName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Entity">
+    <Key>
+      <PropertyRef Name="EntityId" />
+    </Key>
+    <Property Name="EntityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EntityTypeId" Type="int" />
+    <Property Name="InfoId" Type="int" />
+  </EntityType>
+  <EntityType Name="EntityType">
+    <Key>
+      <PropertyRef Name="EntityTypeId" />
+    </Key>
+    <Property Name="EntityTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EntityTypeName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Error">
+    <Key>
+      <PropertyRef Name="ErrorId" />
+    </Key>
+    <Property Name="ErrorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ErrorCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="ErrorBody" Type="nvarchar(max)" />
+    <Property Name="ErrorDate" Type="datetime" />
+    <Property Name="StackTrace" Type="nvarchar(max)" />
+    <Property Name="TransactionId" Type="int" />
+    <Property Name="UserId" Type="int" />
+  </EntityType>
+  <EntityType Name="Hospital">
+    <Key>
+      <PropertyRef Name="HospitalId" />
+    </Key>
+    <Property Name="HospitalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HospitalName" Type="nvarchar" MaxLength="100" />
+    <Property Name="DomainScopeID" Type="int" />
+    <Property Name="HospitalTypeID" Type="int" />
+    <Property Name="HospitalAddress" Type="nvarchar" MaxLength="300" />
+    <Property Name="HospitalCityId" Type="int" />
+    <Property Name="BusinessURL" Type="nvarchar" MaxLength="100" />
+    <Property Name="FaxNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="HospitalLandLineNo" Type="nvarchar" MaxLength="20" />
+    <Property Name="RegistrationNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="ContactPersonName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ContactPersonNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="IsContactNumberVerified" Type="bit" />
+    <Property Name="IsEmailVerified" Type="bit" />
+    <Property Name="HospitalEmailId" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="HospitalAddress">
+    <Key>
+      <PropertyRef Name="HospitalAddressId" />
+    </Key>
+    <Property Name="HospitalAddressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HospitalId" Type="int" />
+    <Property Name="HospitalAddress" Type="nvarchar" MaxLength="150" />
+    <Property Name="CityId" Type="int" />
+    <Property Name="ContactPersonName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ContactPersonNumber" Type="nvarchar" MaxLength="10" />
+    <Property Name="ContactPersonEmailId" Type="nvarchar" MaxLength="50" />
+    <Property Name="FaxNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="HospitalType">
+    <Key>
+      <PropertyRef Name="HospitalTypeID" />
+    </Key>
+    <Property Name="HospitalTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HospitalTypeName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="NotificationId" />
+    </Key>
+    <Property Name="NotificationId" Type="int" Nullable="false" />
+    <Property Name="EntityTypeID" Type="int" />
+    <Property Name="NotificationBody" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsSeen" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="NotificationTag">
+    <Key>
+      <PropertyRef Name="NotificationTagId" />
+    </Key>
+    <Property Name="NotificationTagId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NotificationTagName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TransactionNumber" Type="nvarchar" MaxLength="100" />
+    <Property Name="OrderDate" Type="datetime" />
+    <Property Name="OrderLineTotal" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="PurchaseRequestId" Type="int" />
+    <Property Name="RFQId" Type="int" />
+    <Property Name="AlloCATFees" Type="nchar" MaxLength="10" />
+    <Property Name="HospitalPoNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="StatusId" Type="int" />
+    <Property Name="DeclineRemark" Type="nvarchar" MaxLength="200" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="OrderDetailId" />
+    </Key>
+    <Property Name="OrderDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderId" Type="int" />
+    <Property Name="ProductEntityId" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductEntity">
+    <Key>
+      <PropertyRef Name="ProductEntityId" />
+    </Key>
+    <Property Name="ProductEntityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TissueBankProductId" Type="int" />
+    <Property Name="TissueBankId" Type="int" />
+    <Property Name="HospitalId" Type="int" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="UnitPrice" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="LineTotal" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="SalesTax" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="Total" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="NeedByDate" Type="date" />
+    <Property Name="TissueBankSendByDate" Type="date" />
+    <Property Name="ShippingDetailId" Type="int" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="ProductMaster">
+    <Key>
+      <PropertyRef Name="ProductMasterId" />
+    </Key>
+    <Property Name="ProductMasterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductMasterName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ProductMasterDescription" Type="nvarchar" MaxLength="300" />
+    <Property Name="ProductMasterFeatures" Type="nvarchar" MaxLength="300" />
+    <Property Name="ProductMasterImageName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ProductMasterThumbnailImageName" Type="nvarchar" MaxLength="50" />
+    <Property Name="DomainScopeId" Type="int" />
+    <Property Name="FamilyId" Type="int" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="PurchaseRequest">
+    <Key>
+      <PropertyRef Name="PurchaseRequestId" />
+    </Key>
+    <Property Name="PurchaseRequestId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentRequestForQuoteId" Type="int" />
+    <Property Name="ProductEntityId" Type="int" />
+    <Property Name="AssignedToUserId" Type="int" />
+    <Property Name="AssignedByUserId" Type="int" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="200" />
+    <Property Name="StatusId" Type="int" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="Question">
+    <Key>
+      <PropertyRef Name="QuestionId" />
+    </Key>
+    <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionBody" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="ReportType">
+    <Key>
+      <PropertyRef Name="ReportTypeId" />
+    </Key>
+    <Property Name="ReportTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReportTypeName" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Request">
+    <Key>
+      <PropertyRef Name="RequestID" />
+    </Key>
+    <Property Name="RequestID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="HospitalId" Type="int" />
+    <Property Name="RequestForQuoteId" Type="int" />
+    <Property Name="RequestBody" Type="nvarchar(max)" />
+    <Property Name="AttachmentName" Type="nvarchar" MaxLength="100" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="RequestForQuote">
+    <Key>
+      <PropertyRef Name="RequestForQuoteId" />
+    </Key>
+    <Property Name="RequestForQuoteId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProductEntityId" Type="int" />
+    <Property Name="StatusId" Type="int" />
+    <Property Name="DeclineRemark" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="Response">
+    <Key>
+      <PropertyRef Name="ResponseId" />
+    </Key>
+    <Property Name="ResponseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TissueBankId" Type="int" />
+    <Property Name="RequestID" Type="int" />
+    <Property Name="ResponseBody" Type="nvarchar(max)" />
+    <Property Name="AttachmentName" Type="nvarchar" MaxLength="100" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="100" />
+    <Property Name="EntityTypeID" Type="int" />
+  </EntityType>
+  <EntityType Name="ShippingDetail">
+    <Key>
+      <PropertyRef Name="ShippingDetailId" />
+    </Key>
+    <Property Name="ShippingDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShippingMethod" Type="nvarchar" MaxLength="100" />
+    <Property Name="HospitalAddressId" Type="int" />
+    <Property Name="ShippedDate" Type="datetime" />
+    <Property Name="ReceivedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Source">
+    <Key>
+      <PropertyRef Name="SourceId" />
+    </Key>
+    <Property Name="SourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SourceName" Type="nvarchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="State">
+    <Key>
+      <PropertyRef Name="StateId" />
+    </Key>
+    <Property Name="StateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StateName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="StatusId" />
+    </Key>
+    <Property Name="StatusId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatusCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="StatusName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ReportTypeId" Type="int" />
+  </EntityType>
+  <EntityType Name="TaggedNotification">
+    <Key>
+      <PropertyRef Name="TaggedNotificationId" />
+    </Key>
+    <Property Name="TaggedNotificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NotificationId" Type="int" />
+    <Property Name="NotificationTagId" Type="int" />
+  </EntityType>
+  <EntityType Name="TissueBank">
+    <Key>
+      <PropertyRef Name="TissueBankId" />
+    </Key>
+    <Property Name="TissueBankId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TissueBankName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ContactPersonFirstName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ContactPersonLastName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ContactPersonNumber" Type="nvarchar" MaxLength="20" />
+    <Property Name="ContactPersonEmailId" Type="nvarchar" MaxLength="50" />
+    <Property Name="TissueBankEmailId" Type="nvarchar" MaxLength="50" />
+    <Property Name="BusinessURL" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsMobileVerified" Type="bit" />
+    <Property Name="IsEmailVerified" Type="bit" />
+    <Property Name="TissueBankAddress" Type="nvarchar" MaxLength="300" />
+    <Property Name="CityId" Type="int" />
+    <Property Name="ZipCode" Type="varchar" MaxLength="10" />
+    <Property Name="TissueBankStateLicense" Type="nvarchar" MaxLength="50" />
+    <Property Name="CustomerServiceLandLineNumber" Type="nvarchar" MaxLength="30" />
+    <Property Name="FaxNumber" Type="nvarchar" MaxLength="50" />
+    <Property Name="TaxPayerId" Type="nvarchar" MaxLength="50" />
+    <Property Name="AATBLicenseNumber" Type="nvarchar" MaxLength="30" />
+    <Property Name="AATBExpirationDate" Type="date" />
+    <Property Name="AATBAccredationDate" Type="date" />
+    <Property Name="CustomerProfileId" Type="nvarchar" MaxLength="20" />
+    <Property Name="CustomerPaymentProfileIds" Type="nvarchar(max)" />
+    <Property Name="BillingAddress" Type="nvarchar" MaxLength="200" />
+    <Property Name="BillingCityId" Type="int" />
+    <Property Name="BillingZipCode" Type="nvarchar" MaxLength="10" />
+    <Property Name="BillingFaxNumber" Type="nvarchar" MaxLength="15" />
+    <Property Name="BillingEmailId" Type="nvarchar" MaxLength="50" />
+    <Property Name="BillingContactNumber" Type="nvarchar" MaxLength="15" />
+    <Property Name="IsAllocatMember" Type="bit" />
+    <Property Name="IsAccountVerified" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="TissueBankCreditCard">
+    <Key>
+      <PropertyRef Name="TissueBankCreditCardId" />
+    </Key>
+    <Property Name="TissueBankCreditCardId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TissueBankId" Type="int" />
+    <Property Name="CreditCardNumber" Type="nvarchar" MaxLength="4" />
+  </EntityType>
+  <EntityType Name="TissueBankProduct">
+    <Key>
+      <PropertyRef Name="TissueBankProductId" />
+    </Key>
+    <Property Name="TissueBankProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TissueBankId" Type="int" />
+    <Property Name="ProductMasterId" Type="int" />
+    <Property Name="ProductType" Type="nvarchar" MaxLength="200" />
+    <Property Name="ProductCode" Type="varchar" MaxLength="20" />
+    <Property Name="ProductSize" Type="nvarchar" MaxLength="500" />
+    <Property Name="PreservationType" Type="nvarchar" MaxLength="100" />
+    <Property Name="ProductDescription" Type="nvarchar" MaxLength="500" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="200" />
+    <Property Name="UnitPrice" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="SourceId" Type="int" />
+    <Property Name="IsAvailableForSale" Type="bit" />
+    <Property Name="AvailabilityStartDate" Type="datetime" />
+    <Property Name="AvailabilityEndDate" Type="datetime" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="TransactionId" />
+    </Key>
+    <Property Name="TransactionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AuthTransactionId" Type="nvarchar" MaxLength="50" />
+    <Property Name="AuthCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="StatusId" Type="int" />
+    <Property Name="TransactionInitiateDate" Type="datetime" />
+    <Property Name="TransactionCompleteDate" Type="datetime" />
+    <Property Name="Amount" Type="numeric" Precision="18" Scale="2" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="TissueBankId" Type="int" />
+    <Property Name="RequestBody" Type="nvarchar(max)" />
+    <Property Name="ResponseBody" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="200" />
+    <Property Name="EntityID" Type="int" />
+    <Property Name="DomainScopeID" Type="int" />
+    <Property Name="MobileNumber" Type="varchar" MaxLength="20" />
+    <Property Name="EmailId" Type="nvarchar" MaxLength="100" />
+    <Property Name="IsMobileVerified" Type="bit" />
+    <Property Name="IsEmailVerified" Type="bit" />
+    <Property Name="IsLockedOut" Type="bit" Nullable="false" />
+    <Property Name="LastLoginDate" Type="datetime" Nullable="false" />
+    <Property Name="LastPasswordChangedDate" Type="datetime" Nullable="false" />
+    <Property Name="LastLockoutDate" Type="datetime" />
+    <Property Name="FailedPasswordAttemptCount" Type="int" />
+    <Property Name="FailedPasswordAnswerAttemptCount" Type="int" />
+    <Property Name="PasswordQuestion" Type="nvarchar" MaxLength="256" />
+    <Property Name="PasswordAnswer" Type="nvarchar" MaxLength="128" />
+    <Property Name="SecurityQuestion" Type="varchar" MaxLength="100" />
+    <Property Name="SecurityAnswer" Type="varchar" MaxLength="100" />
+    <Property Name="AllowLogin" Type="bit" />
+    <Property Name="IsActive" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="LastModifiedDate" Type="datetime" />
+    <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="UserRoleID" />
+    </Key>
+    <Property Name="UserRoleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="RoleID" Type="int" />
+  </EntityType>
+  <Association Name="FK_City_State">
+    <End Role="State" Type="Self.State" Multiplicity="1" />
+    <End Role="City" Type="Self.City" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="State">
+        <PropertyRef Name="StateId" />
+      </Principal>
+      <Dependent Role="City">
+        <PropertyRef Name="StateId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Entity_EntityType">
+    <End Role="EntityType" Type="Self.EntityType" Multiplicity="0..1" />
+    <End Role="Entity" Type="Self.Entity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntityType">
+        <PropertyRef Name="EntityTypeId" />
+      </Principal>
+      <Dependent Role="Entity">
+        <PropertyRef Name="EntityTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Error_Transaction">
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="0..1" />
+    <End Role="Error" Type="Self.Error" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Transaction">
+        <PropertyRef Name="TransactionId" />
+      </Principal>
+      <Dependent Role="Error">
+        <PropertyRef Name="TransactionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Error_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Error" Type="Self.Error" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Error">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Hospital_City">
+    <End Role="City" Type="Self.City" Multiplicity="0..1" />
+    <End Role="Hospital" Type="Self.Hospital" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="Hospital">
+        <PropertyRef Name="HospitalCityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Hospital_DomainScope">
+    <End Role="DomainScope" Type="Self.DomainScope" Multiplicity="0..1" />
+    <End Role="Hospital" Type="Self.Hospital" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DomainScope">
+        <PropertyRef Name="DomainScopeId" />
+      </Principal>
+      <Dependent Role="Hospital">
+        <PropertyRef Name="DomainScopeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Hospital_HospitalType">
+    <End Role="HospitalType" Type="Self.HospitalType" Multiplicity="0..1" />
+    <End Role="Hospital" Type="Self.Hospital" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HospitalType">
+        <PropertyRef Name="HospitalTypeID" />
+      </Principal>
+      <Dependent Role="Hospital">
+        <PropertyRef Name="HospitalTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HospitalAddress_City">
+    <End Role="City" Type="Self.City" Multiplicity="0..1" />
+    <End Role="HospitalAddress" Type="Self.HospitalAddress" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="HospitalAddress">
+        <PropertyRef Name="CityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HospitalAddress_Hospital">
+    <End Role="Hospital" Type="Self.Hospital" Multiplicity="0..1" />
+    <End Role="HospitalAddress" Type="Self.HospitalAddress" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hospital">
+        <PropertyRef Name="HospitalId" />
+      </Principal>
+      <Dependent Role="HospitalAddress">
+        <PropertyRef Name="HospitalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Notification_EntityType">
+    <End Role="EntityType" Type="Self.EntityType" Multiplicity="0..1" />
+    <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntityType">
+        <PropertyRef Name="EntityTypeId" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="EntityTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_PurchaseRequest">
+    <End Role="PurchaseRequest" Type="Self.PurchaseRequest" Multiplicity="0..1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PurchaseRequest">
+        <PropertyRef Name="PurchaseRequestId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="PurchaseRequestId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_Order">
+    <End Role="Order" Type="Self.Order" Multiplicity="0..1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrderId" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetail_ProductEntity">
+    <End Role="ProductEntity" Type="Self.ProductEntity" Multiplicity="0..1" />
+    <End Role="OrderDetail" Type="Self.OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductEntity">
+        <PropertyRef Name="ProductEntityId" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="ProductEntityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductEntity_Hospital">
+    <End Role="Hospital" Type="Self.Hospital" Multiplicity="0..1" />
+    <End Role="ProductEntity" Type="Self.ProductEntity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hospital">
+        <PropertyRef Name="HospitalId" />
+      </Principal>
+      <Dependent Role="ProductEntity">
+        <PropertyRef Name="HospitalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductEntity_ShippingDetail">
+    <End Role="ShippingDetail" Type="Self.ShippingDetail" Multiplicity="0..1" />
+    <End Role="ProductEntity" Type="Self.ProductEntity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ShippingDetail">
+        <PropertyRef Name="ShippingDetailId" />
+      </Principal>
+      <Dependent Role="ProductEntity">
+        <PropertyRef Name="ShippingDetailId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductEntity_TissueBank">
+    <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="0..1" />
+    <End Role="ProductEntity" Type="Self.ProductEntity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TissueBank">
+        <PropertyRef Name="TissueBankId" />
+      </Principal>
+      <Dependent Role="ProductEntity">
+        <PropertyRef Name="TissueBankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductEntity_TissueBankProduct">
+    <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="0..1" />
+    <End Role="ProductEntity" Type="Self.ProductEntity" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TissueBankProduct">
+        <PropertyRef Name="TissueBankProductId" />
+      </Principal>
+      <Dependent Role="ProductEntity">
+        <PropertyRef Name="TissueBankProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductMaster_DomainScope">
+    <End Role="DomainScope" Type="Self.DomainScope" Multiplicity="0..1" />
+    <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DomainScope">
+        <PropertyRef Name="DomainScopeId" />
+      </Principal>
+      <Dependent Role="ProductMaster">
+        <PropertyRef Name="DomainScopeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductMaster_ProductMaster">
+    <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="0..1" />
+    <End Role="ProductMaster1" Type="Self.ProductMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductMaster">
+        <PropertyRef Name="ProductMasterId" />
+      </Principal>
+      <Dependent Role="ProductMaster1">
+        <PropertyRef Name="FamilyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseRequest_ProductEntity">
+    <End Role="ProductEntity" Type="Self.ProductEntity" Multiplicity="0..1" />
+    <End Role="PurchaseRequest" Type="Self.PurchaseRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductEntity">
+        <PropertyRef Name="ProductEntityId" />
+      </Principal>
+      <Dependent Role="PurchaseRequest">
+        <PropertyRef Name="ProductEntityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Purchaserequest_RequestForQuote">
+    <End Role="RequestForQuote" Type="Self.RequestForQuote" Multiplicity="0..1" />
+    <End Role="PurchaseRequest" Type="Self.PurchaseRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RequestForQuote">
+        <PropertyRef Name="RequestForQuoteId" />
+      </Principal>
+      <Dependent Role="PurchaseRequest">
+        <PropertyRef Name="ParentRequestForQuoteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseRequest_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="PurchaseRequest" Type="Self.PurchaseRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="PurchaseRequest">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_Hospital">
+    <End Role="Hospital" Type="Self.Hospital" Multiplicity="0..1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hospital">
+        <PropertyRef Name="HospitalId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="HospitalId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Request_RequestForQuote">
+    <End Role="RequestForQuote" Type="Self.RequestForQuote" Multiplicity="0..1" />
+    <End Role="Request" Type="Self.Request" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RequestForQuote">
+        <PropertyRef Name="RequestForQuoteId" />
+      </Principal>
+      <Dependent Role="Request">
+        <PropertyRef Name="RequestForQuoteId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequestForQuote_ProductEntity">
+    <End Role="ProductEntity" Type="Self.ProductEntity" Multiplicity="0..1" />
+    <End Role="RequestForQuote" Type="Self.RequestForQuote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductEntity">
+        <PropertyRef Name="ProductEntityId" />
+      </Principal>
+      <Dependent Role="RequestForQuote">
+        <PropertyRef Name="ProductEntityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequestForQuote_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="RequestForQuote" Type="Self.RequestForQuote" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="RequestForQuote">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Response_Request">
+    <End Role="Request" Type="Self.Request" Multiplicity="0..1" />
+    <End Role="Response" Type="Self.Response" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Request">
+        <PropertyRef Name="RequestID" />
+      </Principal>
+      <Dependent Role="Response">
+        <PropertyRef Name="RequestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Response_TissueBank">
+    <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="0..1" />
+    <End Role="Response" Type="Self.Response" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TissueBank">
+        <PropertyRef Name="TissueBankId" />
+      </Principal>
+      <Dependent Role="Response">
+        <PropertyRef Name="TissueBankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShippingDetail_ShippingDetail">
+    <End Role="HospitalAddress" Type="Self.HospitalAddress" Multiplicity="0..1" />
+    <End Role="ShippingDetail" Type="Self.ShippingDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HospitalAddress">
+        <PropertyRef Name="HospitalAddressId" />
+      </Principal>
+      <Dependent Role="ShippingDetail">
+        <PropertyRef Name="HospitalAddressId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Status_ReportType">
+    <End Role="ReportType" Type="Self.ReportType" Multiplicity="0..1" />
+    <End Role="Status" Type="Self.Status" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReportType">
+        <PropertyRef Name="ReportTypeId" />
+      </Principal>
+      <Dependent Role="Status">
+        <PropertyRef Name="ReportTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaggedNotification_Notification">
+    <End Role="Notification" Type="Self.Notification" Multiplicity="0..1" />
+    <End Role="TaggedNotification" Type="Self.TaggedNotification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Notification">
+        <PropertyRef Name="NotificationId" />
+      </Principal>
+      <Dependent Role="TaggedNotification">
+        <PropertyRef Name="NotificationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TaggedNotification_NotificationTag">
+    <End Role="NotificationTag" Type="Self.NotificationTag" Multiplicity="0..1" />
+    <End Role="TaggedNotification" Type="Self.TaggedNotification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NotificationTag">
+        <PropertyRef Name="NotificationTagId" />
+      </Principal>
+      <Dependent Role="TaggedNotification">
+        <PropertyRef Name="NotificationTagId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBank_City">
+    <End Role="City" Type="Self.City" Multiplicity="0..1" />
+    <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="City">
+        <PropertyRef Name="CityID" />
+      </Principal>
+      <Dependent Role="TissueBank">
+        <PropertyRef Name="CityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBankCreditCard_TissueBank">
+    <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="0..1" />
+    <End Role="TissueBankCreditCard" Type="Self.TissueBankCreditCard" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TissueBank">
+        <PropertyRef Name="TissueBankId" />
+      </Principal>
+      <Dependent Role="TissueBankCreditCard">
+        <PropertyRef Name="TissueBankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBankProduct_ProductMaster">
+    <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="0..1" />
+    <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductMaster">
+        <PropertyRef Name="ProductMasterId" />
+      </Principal>
+      <Dependent Role="TissueBankProduct">
+        <PropertyRef Name="ProductMasterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBankProduct_Source">
+    <End Role="Source" Type="Self.Source" Multiplicity="0..1" />
+    <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Source">
+        <PropertyRef Name="SourceId" />
+      </Principal>
+      <Dependent Role="TissueBankProduct">
+        <PropertyRef Name="SourceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBankProduct_TissueBank">
+    <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="0..1" />
+    <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TissueBank">
+        <PropertyRef Name="TissueBankId" />
+      </Principal>
+      <Dependent Role="TissueBankProduct">
+        <PropertyRef Name="TissueBankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="0..1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="StatusId" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="StatusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_TissueBank">
+    <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="0..1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TissueBank">
+        <PropertyRef Name="TissueBankId" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="TissueBankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_DomainScope">
+    <End Role="DomainScope" Type="Self.DomainScope" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DomainScope">
+        <PropertyRef Name="DomainScopeId" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="DomainScopeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Entity">
+    <End Role="Entity" Type="Self.Entity" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Entity">
+        <PropertyRef Name="EntityId" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="EntityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_EntityType">
+    <End Role="EntityType" Type="Self.EntityType" Multiplicity="0..1" />
+    <End Role="Role" Type="Self.Role" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EntityType">
+        <PropertyRef Name="EntityTypeId" />
+      </Principal>
+      <Dependent Role="Role">
+        <PropertyRef Name="EntityTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoleID_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRoleID_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="sp_Order_TissueBank_Ack_Decline" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderId" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="DeclineRemark" Type="nvarchar" Mode="In" />
+    <Parameter Name="ShippingMethod" Type="nvarchar" Mode="In" />
+    <Parameter Name="TissueBankSendByDate" Type="date" Mode="In" />
+    <Parameter Name="LastModifiedBy" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_Order_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+    <Parameter Name="SearchBy" Type="varchar" Mode="In" />
+    <Parameter Name="CurrentPage" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+    <Parameter Name="SortExpression" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_OrderDetail_TissueBank_GetByOrderId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="OrderId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_RequestForQuote_TissueBank_Edit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+    <Parameter Name="ResponseBody" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="AttachmentName" Type="nvarchar" Mode="In" />
+    <Parameter Name="CreatedBy" Type="int" Mode="In" />
+    <Parameter Name="LastModifiedBy" Type="int" Mode="In" />
+    <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="DeclineRemark" Type="nvarchar" Mode="In" />
+    <Parameter Name="Quantity" Type="int" Mode="In" />
+    <Parameter Name="UnitPrice" Type="numeric" Mode="In" />
+    <Parameter Name="LineTotal" Type="numeric" Mode="In" />
+    <Parameter Name="SalesTax" Type="numeric" Mode="In" />
+    <Parameter Name="Total" Type="numeric" Mode="In" />
+    <Parameter Name="TissueBankSendByDate" Type="date" Mode="In" />
+    <Parameter Name="ShippingMethod" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_RequestForQuote_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+    <Parameter Name="SearchBy" Type="varchar" Mode="In" />
+    <Parameter Name="CurrentPage" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+    <Parameter Name="SortExpression" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_RequestResponse_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_TissueBankProduct_TissueBank_AddUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="sp_TissueBankProduct_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+    <Parameter Name="SearchBy" Type="varchar" Mode="In" />
+    <Parameter Name="CurrentPage" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+    <Parameter Name="SortExpression" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+    <Parameter Name="ProductMasterId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_User_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RoleName" Type="varchar" Mode="In" />
+    <Parameter Name="GetType" Type="varchar" Mode="In" />
+    <Parameter Name="SearchBy" Type="varchar" Mode="In" />
+    <Parameter Name="CurrentPage" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+    <Parameter Name="SortExpression" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_User_GetEntityInfoByUserName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserName" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_User_GetRoleByUserName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserName" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_UserDetail_GetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="InfoType" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_UserMngmt_GetUserRoleByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_UserMngmt_TissueBank_CreateUpdateDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Password" Type="nvarchar" Mode="In" />
+    <Parameter Name="FullName" Type="nvarchar" Mode="In" />
+    <Parameter Name="MobileNumber" Type="varchar" Mode="In" />
+    <Parameter Name="EmailId" Type="nvarchar" Mode="In" />
+    <Parameter Name="CreatedBy" Type="int" Mode="In" />
+    <Parameter Name="LastModifiedBy" Type="int" Mode="In" />
+    <Parameter Name="InfoId" Type="int" Mode="In" />
+    <Parameter Name="AllowLogin" Type="bit" Mode="In" />
+    <Parameter Name="OperationType" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_UserMngmt_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+    <Parameter Name="SearchBy" Type="varchar" Mode="In" />
+    <Parameter Name="CurrentPage" Type="int" Mode="In" />
+    <Parameter Name="PageSize" Type="int" Mode="In" />
+    <Parameter Name="SortDirection" Type="varchar" Mode="In" />
+    <Parameter Name="SortExpression" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_UserMngmt_TissueBank_GetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_UserMngmt_TissueBank_GetCountByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+    <Parameter Name="SearchBy" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_UserProfile_TissueBank_UpdateByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="FullName" Type="nvarchar" Mode="In" />
+    <Parameter Name="MobileNumber" Type="varchar" Mode="In" />
+    <Parameter Name="EmailId" Type="nvarchar" Mode="In" />
+    <Parameter Name="IsMobileVerified" Type="bit" Mode="In" />
+    <Parameter Name="IsEmailVerified" Type="bit" Mode="In" />
+    <Parameter Name="LastLoginDate" Type="datetime" Mode="In" />
+    <Parameter Name="PasswordQuestion" Type="nvarchar" Mode="In" />
+    <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
+    <Parameter Name="SecurityQuestion" Type="varchar" Mode="In" />
+    <Parameter Name="SecurityAnswer" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_UserProfileDetail_TissueBank_GetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_Error_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="ErrorCode" Type="nvarchar" Mode="In" />
+    <Parameter Name="ErrorBody" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="StackTrace" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="TransactionId" Type="int" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_TissueBank_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ContactPersonFirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ContactPersonLastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ContactPersonNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="ContactPersonEmailId" Type="nvarchar" Mode="In" />
+    <Parameter Name="FaxNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="TissueBankEmailId" Type="nvarchar" Mode="In" />
+    <Parameter Name="BusinessURL" Type="nvarchar" Mode="In" />
+    <Parameter Name="TissueBankAddress" Type="nvarchar" Mode="In" />
+    <Parameter Name="CityId" Type="int" Mode="In" />
+    <Parameter Name="ZipCode" Type="varchar" Mode="In" />
+    <Parameter Name="TissueBankStateLicense" Type="nvarchar" Mode="In" />
+    <Parameter Name="AATBLicenseNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="AATBExpirationDate" Type="date" Mode="In" />
+    <Parameter Name="AATBAccredationDate" Type="date" Mode="In" />
+    <Parameter Name="CreditCardNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="CustomerProfileId" Type="nvarchar" Mode="In" />
+    <Parameter Name="CustomerPaymentProfileIds" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="BillingAddress" Type="nvarchar" Mode="In" />
+    <Parameter Name="BillingCityId" Type="int" Mode="In" />
+    <Parameter Name="BillingZipCode" Type="nvarchar" Mode="In" />
+    <Parameter Name="BillingFaxNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="BillingEmailId" Type="nvarchar" Mode="In" />
+    <Parameter Name="BillingContactNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+    <Parameter Name="TransactionId" Type="int" Mode="In" />
+    <Parameter Name="AuthTransactionId" Type="nvarchar" Mode="In" />
+    <Parameter Name="AuthCode" Type="nvarchar" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="TransactionCompleteDate" Type="datetime" Mode="In" />
+    <Parameter Name="ResponseBody" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="usp_TissueBank_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissuebankId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_TissueBank_UpdateTissueBankBillingDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ContactPersonFirstName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ContactPersonLastName" Type="nvarchar" Mode="In" />
+    <Parameter Name="BillingAddress" Type="nvarchar" Mode="In" />
+    <Parameter Name="BillingCityId" Type="int" Mode="In" />
+    <Parameter Name="BillingZipCode" Type="nvarchar" Mode="In" />
+    <Parameter Name="BillingFaxNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="BillingEmailId" Type="nvarchar" Mode="In" />
+    <Parameter Name="BillingContactNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="CreditCardNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_TissueBank_UpdateTissueBankDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ContactPersonEmailId" Type="nvarchar" Mode="In" />
+    <Parameter Name="TissueBankEmailId" Type="nvarchar" Mode="In" />
+    <Parameter Name="BusinessURL" Type="nvarchar" Mode="In" />
+    <Parameter Name="TissueBankAddress" Type="nvarchar" Mode="In" />
+    <Parameter Name="CityId" Type="int" Mode="In" />
+    <Parameter Name="ZipCode" Type="varchar" Mode="In" />
+    <Parameter Name="TissueBankStateLicense" Type="nvarchar" Mode="In" />
+    <Parameter Name="CustomerServiceLandLineNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="FaxNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="TaxPayerId" Type="nvarchar" Mode="In" />
+    <Parameter Name="AATBLicenseNumber" Type="nvarchar" Mode="In" />
+    <Parameter Name="AATBExpirationDate" Type="date" Mode="In" />
+    <Parameter Name="AATBAccredationDate" Type="date" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_TissueBank_User_Registration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FullName" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
+    <Parameter Name="EmailId" Type="nvarchar" Mode="In" />
+    <Parameter Name="SecurityQuestion" Type="nvarchar" Mode="In" />
+    <Parameter Name="SecurityAnswer" Type="nvarchar" Mode="In" />
+    <Parameter Name="Password" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="usp_Transaction_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TransactionInitiateDate" Type="datetime" Mode="In" />
+    <Parameter Name="Amount" Type="numeric" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="RequestBody" Type="nvarchar(max)" Mode="In" />
+  </Function>
+  <Function Name="usp_Transaction_Update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
+    <Parameter Name="TransactionId" Type="int" Mode="In" />
+    <Parameter Name="AuthTransactionId" Type="nvarchar" Mode="In" />
+    <Parameter Name="AuthCode" Type="nvarchar" Mode="In" />
+    <Parameter Name="StatusId" Type="int" Mode="In" />
+    <Parameter Name="TransactionCompleteDate" Type="datetime" Mode="In" />
+    <Parameter Name="ResponseBody" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="ReturnMessage" Type="varchar(max)" Mode="InOut" />
+  </Function>
+  <EntityContainer Name="AllocatDbModelStoreContainer">
+    <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DomainScope" EntityType="Self.DomainScope" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Entity" EntityType="Self.Entity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EntityType" EntityType="Self.EntityType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Error" EntityType="Self.Error" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Hospital" EntityType="Self.Hospital" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HospitalAddress" EntityType="Self.HospitalAddress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HospitalType" EntityType="Self.HospitalType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NotificationTag" EntityType="Self.NotificationTag" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderDetail" EntityType="Self.OrderDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductEntity" EntityType="Self.ProductEntity" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProductMaster" EntityType="Self.ProductMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PurchaseRequest" EntityType="Self.PurchaseRequest" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReportType" EntityType="Self.ReportType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RequestForQuote" EntityType="Self.RequestForQuote" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Response" EntityType="Self.Response" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShippingDetail" EntityType="Self.ShippingDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Source" EntityType="Self.Source" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaggedNotification" EntityType="Self.TaggedNotification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TissueBank" EntityType="Self.TissueBank" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TissueBankCreditCard" EntityType="Self.TissueBankCreditCard" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TissueBankProduct" EntityType="Self.TissueBankProduct" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_City_State" Association="Self.FK_City_State">
+      <End Role="State" EntitySet="State" />
+      <End Role="City" EntitySet="City" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Entity_EntityType" Association="Self.FK_Entity_EntityType">
+      <End Role="EntityType" EntitySet="EntityType" />
+      <End Role="Entity" EntitySet="Entity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Error_Transaction" Association="Self.FK_Error_Transaction">
+      <End Role="Transaction" EntitySet="Transaction" />
+      <End Role="Error" EntitySet="Error" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Error_User" Association="Self.FK_Error_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Error" EntitySet="Error" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Hospital_City" Association="Self.FK_Hospital_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="Hospital" EntitySet="Hospital" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Hospital_DomainScope" Association="Self.FK_Hospital_DomainScope">
+      <End Role="DomainScope" EntitySet="DomainScope" />
+      <End Role="Hospital" EntitySet="Hospital" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Hospital_HospitalType" Association="Self.FK_Hospital_HospitalType">
+      <End Role="HospitalType" EntitySet="HospitalType" />
+      <End Role="Hospital" EntitySet="Hospital" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HospitalAddress_City" Association="Self.FK_HospitalAddress_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="HospitalAddress" EntitySet="HospitalAddress" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HospitalAddress_Hospital" Association="Self.FK_HospitalAddress_Hospital">
+      <End Role="Hospital" EntitySet="Hospital" />
+      <End Role="HospitalAddress" EntitySet="HospitalAddress" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Notification_EntityType" Association="Self.FK_Notification_EntityType">
+      <End Role="EntityType" EntitySet="EntityType" />
+      <End Role="Notification" EntitySet="Notification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_PurchaseRequest" Association="Self.FK_Order_PurchaseRequest">
+      <End Role="PurchaseRequest" EntitySet="PurchaseRequest" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Status" Association="Self.FK_Order_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_Order" Association="Self.FK_OrderDetail_Order">
+      <End Role="Order" EntitySet="Order" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetail_ProductEntity" Association="Self.FK_OrderDetail_ProductEntity">
+      <End Role="ProductEntity" EntitySet="ProductEntity" />
+      <End Role="OrderDetail" EntitySet="OrderDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductEntity_Hospital" Association="Self.FK_ProductEntity_Hospital">
+      <End Role="Hospital" EntitySet="Hospital" />
+      <End Role="ProductEntity" EntitySet="ProductEntity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductEntity_ShippingDetail" Association="Self.FK_ProductEntity_ShippingDetail">
+      <End Role="ShippingDetail" EntitySet="ShippingDetail" />
+      <End Role="ProductEntity" EntitySet="ProductEntity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductEntity_TissueBank" Association="Self.FK_ProductEntity_TissueBank">
+      <End Role="TissueBank" EntitySet="TissueBank" />
+      <End Role="ProductEntity" EntitySet="ProductEntity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductEntity_TissueBankProduct" Association="Self.FK_ProductEntity_TissueBankProduct">
+      <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+      <End Role="ProductEntity" EntitySet="ProductEntity" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductMaster_DomainScope" Association="Self.FK_ProductMaster_DomainScope">
+      <End Role="DomainScope" EntitySet="DomainScope" />
+      <End Role="ProductMaster" EntitySet="ProductMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductMaster_ProductMaster" Association="Self.FK_ProductMaster_ProductMaster">
+      <End Role="ProductMaster" EntitySet="ProductMaster" />
+      <End Role="ProductMaster1" EntitySet="ProductMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseRequest_ProductEntity" Association="Self.FK_PurchaseRequest_ProductEntity">
+      <End Role="ProductEntity" EntitySet="ProductEntity" />
+      <End Role="PurchaseRequest" EntitySet="PurchaseRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Purchaserequest_RequestForQuote" Association="Self.FK_Purchaserequest_RequestForQuote">
+      <End Role="RequestForQuote" EntitySet="RequestForQuote" />
+      <End Role="PurchaseRequest" EntitySet="PurchaseRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseRequest_Status" Association="Self.FK_PurchaseRequest_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="PurchaseRequest" EntitySet="PurchaseRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_Hospital" Association="Self.FK_Request_Hospital">
+      <End Role="Hospital" EntitySet="Hospital" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Request_RequestForQuote" Association="Self.FK_Request_RequestForQuote">
+      <End Role="RequestForQuote" EntitySet="RequestForQuote" />
+      <End Role="Request" EntitySet="Request" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequestForQuote_ProductEntity" Association="Self.FK_RequestForQuote_ProductEntity">
+      <End Role="ProductEntity" EntitySet="ProductEntity" />
+      <End Role="RequestForQuote" EntitySet="RequestForQuote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequestForQuote_Status" Association="Self.FK_RequestForQuote_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="RequestForQuote" EntitySet="RequestForQuote" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Response_Request" Association="Self.FK_Response_Request">
+      <End Role="Request" EntitySet="Request" />
+      <End Role="Response" EntitySet="Response" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Response_TissueBank" Association="Self.FK_Response_TissueBank">
+      <End Role="TissueBank" EntitySet="TissueBank" />
+      <End Role="Response" EntitySet="Response" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShippingDetail_ShippingDetail" Association="Self.FK_ShippingDetail_ShippingDetail">
+      <End Role="HospitalAddress" EntitySet="HospitalAddress" />
+      <End Role="ShippingDetail" EntitySet="ShippingDetail" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Status_ReportType" Association="Self.FK_Status_ReportType">
+      <End Role="ReportType" EntitySet="ReportType" />
+      <End Role="Status" EntitySet="Status" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaggedNotification_Notification" Association="Self.FK_TaggedNotification_Notification">
+      <End Role="Notification" EntitySet="Notification" />
+      <End Role="TaggedNotification" EntitySet="TaggedNotification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TaggedNotification_NotificationTag" Association="Self.FK_TaggedNotification_NotificationTag">
+      <End Role="NotificationTag" EntitySet="NotificationTag" />
+      <End Role="TaggedNotification" EntitySet="TaggedNotification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBank_City" Association="Self.FK_TissueBank_City">
+      <End Role="City" EntitySet="City" />
+      <End Role="TissueBank" EntitySet="TissueBank" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBankCreditCard_TissueBank" Association="Self.FK_TissueBankCreditCard_TissueBank">
+      <End Role="TissueBank" EntitySet="TissueBank" />
+      <End Role="TissueBankCreditCard" EntitySet="TissueBankCreditCard" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBankProduct_ProductMaster" Association="Self.FK_TissueBankProduct_ProductMaster">
+      <End Role="ProductMaster" EntitySet="ProductMaster" />
+      <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBankProduct_Source" Association="Self.FK_TissueBankProduct_Source">
+      <End Role="Source" EntitySet="Source" />
+      <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBankProduct_TissueBank" Association="Self.FK_TissueBankProduct_TissueBank">
+      <End Role="TissueBank" EntitySet="TissueBank" />
+      <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_Status" Association="Self.FK_Transaction_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_TissueBank" Association="Self.FK_Transaction_TissueBank">
+      <End Role="TissueBank" EntitySet="TissueBank" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_User" Association="Self.FK_Transaction_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_DomainScope" Association="Self.FK_User_DomainScope">
+      <End Role="DomainScope" EntitySet="DomainScope" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Entity" Association="Self.FK_User_Entity">
+      <End Role="Entity" EntitySet="Entity" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_EntityType" Association="Self.FK_UserRole_EntityType">
+      <End Role="EntityType" EntitySet="EntityType" />
+      <End Role="Role" EntitySet="Role" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoleID_Role" Association="Self.FK_UserRoleID_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRoleID_User" Association="Self.FK_UserRoleID_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

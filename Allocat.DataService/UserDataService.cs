@@ -71,7 +71,7 @@ namespace Allocat.DataService
         public int User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            int rowAffected = 0;
+            int EffectedUserId = 0,rowAffected = 0;
             var parameterUserId = new SqlParameter("@UserId", SqlDbType.Int);
             parameterUserId.Value = UserId;
 
@@ -129,6 +129,19 @@ namespace Allocat.DataService
 
             if (rowAffected > 0)
             {
+                //get userid
+                if (OperationType == "changePass")
+                {
+                    EffectedUserId = UserId;
+                }
+                else if (OperationType == "insert")
+                {
+                    User user = (from u in dbConnection.User
+                                 where u.UserName == UserName
+                                 select u).FirstOrDefault();
+                    EffectedUserId = user.UserId;
+                }
+
                 transaction.ReturnStatus = true;
                 transaction.ReturnMessage.Add("Operation is executed successfully.");
             }
@@ -138,7 +151,44 @@ namespace Allocat.DataService
                 transaction.ReturnMessage.Add("Database Error");
             }
 
-            return rowAffected;
+            return EffectedUserId;
+        }
+
+        public void UserEmailVerified(int UserId, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            var User = dbConnection.User.Find(UserId);
+
+            if (User != null)
+            {
+                User.IsEmailVerified = true;
+                dbConnection.Entry(User).Property(t => t.IsEmailVerified).IsModified = true;
+                dbConnection.SaveChanges();
+
+                transaction.ReturnStatus = true;
+                transaction.ReturnMessage.Add("User Email Verified.");
+            }
+            else
+            {
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add("UseriId not found");
+            }
+        }
+
+        public User GetUserById(int UserId, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            User user = (from u in dbConnection.User
+                         where u.UserId == UserId
+                         select u).FirstOrDefault();
+
+            transaction.ReturnStatus = true;
+            transaction.ReturnMessage.Add("User found.");
+
+            return user;
+
         }
 
         public bool ValidateUniqueEmailId(string EmailId)
@@ -159,7 +209,7 @@ namespace Allocat.DataService
             return false;
         }
 
-        public bool ValidateSingleEmailId(string EmailId,int UserId)
+        public bool ValidateSingleEmailId(string EmailId, int UserId)
         {
             User user = dbConnection.User.FirstOrDefault(c => c.EmailId == EmailId && c.UserId != UserId);
             if (user == null)

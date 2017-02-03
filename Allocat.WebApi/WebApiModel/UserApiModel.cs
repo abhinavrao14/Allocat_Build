@@ -39,5 +39,6 @@ namespace Allocat.WebApi.WebApiModel
         public DataTable TempUser_CUD { get; set; }
         public string OperationType { get; set; }
         public bool AllowLogin { get; set; }
+        public bool IsSendMail { get; set; }
     }
 }

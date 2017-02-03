@@ -101,6 +101,8 @@ namespace Allocat.WebApi.Controllers
                 // if response is not null then only save tissue bank detail in database and update transaction too.
                 if (response.CustomerProfileId != null)
                 {
+                    tissueBankAdd_DTO.CreditCardNumber = tissueBankAdd_DTO.CreditCardNumber.Substring(tissueBankAdd_DTO.CreditCardNumber.Length - 4);
+
                     //get status from database for Success
                     status = statusBusinessService.GetStatusByStatusName("Success");
 
@@ -265,6 +267,8 @@ namespace Allocat.WebApi.Controllers
         [HttpPut]
         public HttpResponseMessage Put(TissueBankUpdate_DTO tissueBankUpdate_DTO)
         {
+          //  return Request.CreateResponse(HttpStatusCode.OK, 1);
+
             //Initialisation
             bool AuthResponse = false;
             TransactionalInformation transaction = new TransactionalInformation();
@@ -327,6 +331,7 @@ namespace Allocat.WebApi.Controllers
             {
                 return Request.CreateResponse<TissueBankApiModel>(HttpStatusCode.OK, tbApiModel);
             }
+
         }
 
         private bool UpdateCustomerProfile(TissueBankUpdate_DTO tissueBankUpdate_DTO)

@@ -97,7 +97,7 @@ namespace Allocat.WebApi.Controllers
 
             UserBusinessService userBusinessService = new UserBusinessService(userDataService);
 
-            userBusinessService.User_CreateUpdateDelete(userMngmnt_User_CUD_DTO.UserId, userMngmnt_User_CUD_DTO.UserName, userMngmnt_User_CUD_DTO.Password, userMngmnt_User_CUD_DTO.FullName, userMngmnt_User_CUD_DTO.MobileNumber, userMngmnt_User_CUD_DTO.EmailId,userMngmnt_User_CUD_DTO.CreatedBy, userMngmnt_User_CUD_DTO.LastModifiedBy,  userMngmnt_User_CUD_DTO.InfoId, userMngmnt_User_CUD_DTO.OperationType, userMngmnt_User_CUD_DTO.AllowLogin, userMngmnt_User_CUD_DTO.TempUser_CUD,  out transaction);
+            userBusinessService.User_CreateUpdateDelete(userMngmnt_User_CUD_DTO.UserId, userMngmnt_User_CUD_DTO.UserName, userMngmnt_User_CUD_DTO.Password, userMngmnt_User_CUD_DTO.FullName, userMngmnt_User_CUD_DTO.MobileNumber, userMngmnt_User_CUD_DTO.EmailId,userMngmnt_User_CUD_DTO.CreatedBy, userMngmnt_User_CUD_DTO.LastModifiedBy,  userMngmnt_User_CUD_DTO.InfoId, userMngmnt_User_CUD_DTO.OperationType, userMngmnt_User_CUD_DTO.AllowLogin, userMngmnt_User_CUD_DTO.TempUser_CUD, userMngmnt_User_CUD_DTO.IsSendMail, out transaction);
 
             userApiModel.ReturnMessage = transaction.ReturnMessage;
             userApiModel.ReturnStatus = transaction.ReturnStatus;
@@ -112,7 +112,5 @@ namespace Allocat.WebApi.Controllers
                 return Request.CreateResponse<UserApiModel>(HttpStatusCode.OK, userApiModel);
             }
         }
-
-
     }
 }

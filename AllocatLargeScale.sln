@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allocat.DataModel", "Allocat.DataModel\Allocat.DataModel.csproj", "{DE7DE002-15FF-4738-8410-A44F9B45FF4B}"
 EndProject
@@ -16,10 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allocat.UserInterface", "Allocat.UserInterface\Allocat.UserInterface.csproj", "{DB830B0D-946C-450B-A63B-5A33ADE26598}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allocat.WebApi", "Allocat.WebApi\Allocat.WebApi.csproj", "{F2B58162-F0E9-4F50-B516-54DFE81A1FAC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MailSenderLibrary", "MailSenderLibrary\MailSenderLibrary.csproj", "{B432F3BB-8A84-48E1-8714-007420CBCC9E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSMQMailService", "MSMQMailService\MSMQMailService.csproj", "{59DEA82B-2347-4773-A31A-6FE187443CE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,14 +51,6 @@ Global
 		{F2B58162-F0E9-4F50-B516-54DFE81A1FAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2B58162-F0E9-4F50-B516-54DFE81A1FAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2B58162-F0E9-4F50-B516-54DFE81A1FAC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B432F3BB-8A84-48E1-8714-007420CBCC9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B432F3BB-8A84-48E1-8714-007420CBCC9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B432F3BB-8A84-48E1-8714-007420CBCC9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B432F3BB-8A84-48E1-8714-007420CBCC9E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59DEA82B-2347-4773-A31A-6FE187443CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59DEA82B-2347-4773-A31A-6FE187443CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59DEA82B-2347-4773-A31A-6FE187443CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59DEA82B-2347-4773-A31A-6FE187443CE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

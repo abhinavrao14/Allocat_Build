@@ -383,12 +383,12 @@
                         var ReplyUrl = Url.Action("Manage", "RequestForQuote", new { RequestForQuoteId = "{{RFQDetail.RequestForQuoteId}}", editMode = "true" });
                         ReplyUrl = HttpUtility.UrlDecode(ReplyUrl);
                     }
-                    <button data-ng-href="@ReplyUrl" class="btn btn-info">Reply</button>
+                    <a data-ng-href="@ReplyUrl" class="btn btn-info">Reply</a>
                     @{
                         var ViewUrl = Url.Action("Manage", "RequestForQuote", new { RequestForQuoteId = "{{RFQDetail.RequestForQuoteId}}", editMode = "false" });
                         ViewUrl = HttpUtility.UrlDecode(ViewUrl);
                     }
-                    <button data-ng-href="@ViewUrl" class="btn btn-info">Manage RFQ</button>
+                    <a data-ng-href="@ViewUrl" class="btn btn-info">Manage RFQ</a>
                 </div>
             </div> <!-- / .modal-content -->
         </div> <!-- / .modal-dialog -->
