@@ -18,34 +18,7 @@ namespace Allocat.ApplicationService
             _productMasterDataService = dataService;
         }
 
-        //public List<ProductMaster> GetProductMasters(string ProductMasterName, DataGridPagingInformation paging, out TransactionalInformation transaction)
-        //{
-        //    transaction = new TransactionalInformation();
-
-        //    List<ProductMaster> productMasters = new List<ProductMaster>();
-
-        //    try
-        //    {
-        //        _productMasterDataService.CreateSession();
-        //        productMasters = _productMasterDataService.GetProductMasters(ProductMasterName, paging, out transaction);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        transaction.ReturnMessage = new List<string>();
-        //        string errorMessage = ex.Message;
-        //        transaction.ReturnStatus = false;
-        //        transaction.ReturnMessage.Add(errorMessage);
-        //    }
-        //    finally
-        //    {
-        //        _productMasterDataService.CloseSession();
-        //    }
-
-        //    return productMasters;
-
-        //}
-
-        public ProductMaster_TissueBank GetProductMaster_DomainFamily_ById(int ProductMasterId, out TransactionalInformation transaction)
+        public ProductMaster_TissueBank GetProductMaster_DomainFamily_ByTissueBankProductMasterId(int TissueBankProductMasterId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
@@ -54,7 +27,7 @@ namespace Allocat.ApplicationService
             try
             {
                 _productMasterDataService.CreateSession();
-                productMaster_TissueBank = _productMasterDataService.GetProductMaster_DomainFamily_ById(ProductMasterId, out transaction);
+                productMaster_TissueBank = _productMasterDataService.GetProductMaster_DomainFamily_ByTissueBankProductMasterId(TissueBankProductMasterId, out transaction);
             }
             catch (Exception ex)
             {

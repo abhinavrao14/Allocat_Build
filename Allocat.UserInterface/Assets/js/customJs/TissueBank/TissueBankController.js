@@ -26,7 +26,7 @@
 
     $scope.editMode = false;
 
-    function getProducts(SearchBy, CurrentPage, PageSize, SortExpression, SortDirection) {
+    function getTbProductMasters(SearchBy, CurrentPage, PageSize, SortExpression, SortDirection) {
         var productList_TissueBank_DTO = new Object();
 
         productList_TissueBank_DTO.TissueBankId = $scope.TissueBankId;
@@ -36,49 +36,71 @@
         productList_TissueBank_DTO.PageSize = PageSize;
         productList_TissueBank_DTO.SearchBy = SearchBy;
 
-        var response = ProductService.getProducts(productList_TissueBank_DTO);
+        var response = ProductService.getTbProductMasters(productList_TissueBank_DTO);
+
+        response
+        .success(function (data, status, headers, config) {
+            var str = data.ReturnMessage[0];
+            var arr = str.split(" ");
+            $scope.TotalTbProductMasters = arr[0];
+
+            $scope.TbProductMasters = data.TbProductMasters;
+
+            $scope.TotalPage = Math.ceil($scope.TotalTbProductMasters / $scope.PageSize);
+        }).error(function (data, status, headers, config) {
+            var Message = MsgService.makeMessage(data.ReturnMessage)
+            message('error', 'Error!', Message);
+        }).finally(function () {
+            $scope.dataLoading = false;
+        });
+    }
+
+
+    $scope.GetTbProduct = function (TissueBankProductMasterId) {
+        var response = ProductService.GetTbProduct(TissueBankProductMasterId);
 
         response
         .success(function (data, status, headers, config) {
             var str = data.ReturnMessage[0];
             var arr = str.split(" ");
 
-            $scope.TotalProducts = arr[0];
-
-            $scope.Products = data.Products;
-            $scope.TotalPage = Math.ceil($scope.TotalProducts / $scope.PageSize);
+            $scope.TotalTbProducts = arr[0];
+            console.log(data.TbProducts);
+            $scope.TbProducts = data.TbProducts;
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
         }).finally(function () {
             $scope.dataLoading = false;
-        });;
-    }
+        });
+    };
 
-    getProducts($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+
+    getTbProductMasters($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
 
     $scope.getPreviousPage = function () {
         $scope.CurrentPage = $scope.CurrentPage - 1;
-        getProducts($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+        getTbProductMasters($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
     $scope.getNextPage = function () {
         $scope.CurrentPage = $scope.CurrentPage + 1;
-        getProducts($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+        getTbProductMasters($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
     $scope.getLastPage = function () {
         $scope.CurrentPage = $scope.TotalPage;
-        getProducts($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+        getTbProductMasters($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
     $scope.getFirstPage = function () {
         $scope.CurrentPage = 1;
-        getProducts($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+        getTbProductMasters($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
-    $scope.search = function () {
-        getProducts($scope.SearchBy, 1, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+    $scope.search = function (SearchBy) {
+        $scope.SearchBy = SearchBy;
+        getTbProductMasters($scope.SearchBy, 1, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
         $scope.CurrentPage = 1;
         $scope.PageSize = $scope.PageSizes[0];
     };
@@ -103,12 +125,12 @@
             $scope.SortDirection = "DESC"
         }
 
-        getProducts($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+        getTbProductMasters($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
     $scope.PageSizeChanged = function () {
         $scope.CurrentPage = 1;
-        getProducts($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+        getTbProductMasters($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
 
@@ -135,12 +157,18 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     $scope.CreatedBy = document.getElementById("UserId").value;
     $scope.LastModifiedBy = document.getElementById("UserId").value;
 
-    var ProductMasterId = document.getElementById("ProductMasterId").value;
-    if (ProductMasterId != "") {
-        GetTissueBankProductsByProductMasterId($scope.TissueBankId, ProductMasterId);
+    var TissueBankProductMasterId = document.getElementById("TissueBankProductMasterId").value;
+    if (TissueBankProductMasterId != "") {
+        GetTissueBankProductsByProductMasterId(TissueBankProductMasterId);
     }
 
-    ProductMasterService.getProductMasterById(ProductMasterId)
+    var ProductMasterGetByIdDTO = {
+        Id: TissueBankProductMasterId,
+        OperationType: "GetByTissueBankProductMasterId"
+    };
+
+
+    ProductMasterService.getProductMasterById(ProductMasterGetByIdDTO)
         .success(function (data, status, headers, config) {
             $scope.ProductMaster_TissueBank = data.ProductMaster_TissueBank;
         })
@@ -158,7 +186,7 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
             message('error', 'Error!', Message);
         });
 
-    ProductDetailService.GetProductTypes(ProductMasterId)
+    ProductDetailService.GetProductTypes(TissueBankProductMasterId)
         .success(function (data, status, headers, config) {
             $scope.ProductTypeOptions = data.ProductTypes;
         })
@@ -167,7 +195,7 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
             message('error', 'Error!', Message);
         });
 
-    ProductDetailService.GetProductSizes(ProductMasterId)
+    ProductDetailService.GetProductSizes(TissueBankProductMasterId)
         .success(function (data, status, headers, config) {
             $scope.ProductSizeOptions = data.ProductSizes;
         })
@@ -186,29 +214,36 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
         });
 
 
-    function GetTissueBankProductsByProductMasterId(TissueBankId, ProductMasterId) {
+    function GetTissueBankProductsByProductMasterId(TissueBankProductMasterId) {
 
-        var response = ProductDetailService.GetTissueBankProductsByProductMasterId(TissueBankId, ProductMasterId);
+        var response = ProductDetailService.GetTissueBankProductsByProductMasterId(TissueBankProductMasterId);
 
         response.success(function (data, status, headers, config) {
-            $scope.ProductsByProductMasterId = data.ProductsByProductMasterId;
+            $scope.TbProducts = data.TbProducts;
+            console.log(data.TbProducts);
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
         }).finally(function () {
             $scope.dataLoading = false;
-        });;;
+        });
     }
 
     $scope.save = function () {
         var errStr = '';
-        var Products = $scope.ProductsByProductMasterId;
+        var Products = $scope.TbProducts;
+
+        
 
         //  if ($scope.form_ConfirmOnExit.$dirty == true && $scope.form_ConfirmOnExit.$pristine == false) {
         //-------change LastModifiedBy of every row
         for (var i = 0; i < Products.length; i++) {
 
             Products[i].LastModifiedBy = $scope.LastModifiedBy;
+            if(countInArray(Products,Products[i].ProductCode)>1)
+            {
+                errStr = errStr + 'Product Code :' + Products[i].ProductCode + ' exists twice <br />';
+            }
 
             //------start------date validation
             //if (Products[i].AvailabilityStartDate != null) {
@@ -234,24 +269,35 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
             //------end------date validation
         }
 
+        function countInArray(Products, ProductCode) {
+            var count = 0;
+            for (var i = 0; i < Products.length; i++) {
+                if (Products[i].ProductCode === ProductCode) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
         if (errStr == '') {
-            var response = ProductDetailService.saveTissueBankProducts(Products);
+            console.log(Products);
+           // var response = ProductDetailService.saveTissueBankProducts(Products);
 
-            response
-           .success(function (data, status, headers, config) {
-               var Message = MsgService.makeMessage(data.ReturnMessage)
-               message('success', 'Success!', Message);
+           // response
+           //.success(function (data, status, headers, config) {
+           //    var Message = MsgService.makeMessage(data.ReturnMessage)
+           //    message('success', 'Success!', Message);
 
-               $scope.editMode = false;
-               $scope.form_ConfirmOnExit.$dirty = false;
+           //    $scope.editMode = false;
+           //    $scope.form_ConfirmOnExit.$dirty = false;
 
-               //-------get data again from database
-               GetTissueBankProductsByProductMasterId($scope.TissueBankId, ProductMasterId);
-           })
-           .error(function (data, status, headers, config) {
-               var Message = MsgService.makeMessage(data.ReturnMessage)
-               message('error', 'Error!', Message);
-           });
+           //    //-------get data again from database
+           //    GetTissueBankProductsByProductMasterId(TissueBankProductMasterId);
+           //})
+           //.error(function (data, status, headers, config) {
+           //    var Message = MsgService.makeMessage(data.ReturnMessage)
+           //    message('error', 'Error!', Message);
+           //});
         }
         else {
             message('error', 'Error!', errStr);
@@ -270,10 +316,10 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     $scope.addNew = function () {
         $scope.addNewMode = true;
         $scope.form_ConfirmOnExit.$dirty = true;
-        $scope.ProductsByProductMasterId.push({
+        $scope.TbProducts.push({
             'TissueBankProductId': "0",
             'TissueBankId': $scope.TissueBankId,
-            'ProductMasterId': ProductMasterId,
+            'TissueBankProductMasterId': $scope.TbProducts[0].TissueBankProductMasterId,
             'ProductType': "",
             'ProductCode': "",
             'ProductSize': "",
@@ -296,7 +342,7 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
                 $scope.editMode = false;
 
                 //get data again from db
-                GetTissueBankProductsByProductMasterId($scope.TissueBankId, ProductMasterId);
+                GetTissueBankProductsByProductMasterId(TissueBankProductMasterId);
             }
         }
         else {
@@ -305,10 +351,10 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     };
 
     $scope.CheckTypeCombination = function (ProductType, ProductSize, index) {
-        for (var i = 0; i < $scope.ProductsByProductMasterId.length; ++i) {
-            if ($scope.ProductsByProductMasterId[i].ProductType == ProductType && index != i) {
-                if ($scope.ProductsByProductMasterId[i].ProductSize == ProductSize) {
-                    $scope.ProductsByProductMasterId[index].ProductType = null;
+        for (var i = 0; i < $scope.TbProducts.length; ++i) {
+            if ($scope.TbProducts[i].ProductType == ProductType && index != i) {
+                if ($scope.TbProducts[i].ProductSize == ProductSize) {
+                    $scope.TbProducts[index].ProductType = null;
                     message('error', 'Error!', ' Type:<b>' + ProductType + '</b> is already present for Size:<b>' + ProductSize + '</b>!');
                     break;
                 }
@@ -317,10 +363,10 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     };
 
     $scope.CheckSizeCombination = function (ProductType, ProductSize, index) {
-        for (var i = 0; i < $scope.ProductsByProductMasterId.length; ++i) {
-            if ($scope.ProductsByProductMasterId[i].ProductSize == ProductSize && index != i) {
-                if ($scope.ProductsByProductMasterId[i].ProductType == ProductType) {
-                    $scope.ProductsByProductMasterId[index].ProductSize = null;
+        for (var i = 0; i < $scope.TbProducts.length; ++i) {
+            if ($scope.TbProducts[i].ProductSize == ProductSize && index != i) {
+                if ($scope.TbProducts[i].ProductType == ProductType) {
+                    $scope.TbProducts[index].ProductSize = null;
                     message('error', 'Error!', 'Size:<b>' + ProductSize + '</b> is already present for Type:<b>' + ProductType + '</b>!');
                     break;
                 }
@@ -349,10 +395,10 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     //-------------save new functionality start
     //$scope.saveNew = function () {
     //    $scope.addNewMode = false;
-    //    //$scope.ProductsByProductMasterId.splice(length - 1, 1);
-    //    var products = $filter('filter')($scope.ProductsByProductMasterId, 'new');
+    //    //$scope.TbProducts.splice(length - 1, 1);
+    //    var products = $filter('filter')($scope.TbProducts, 'new');
     //    console.log(products);
-    //    //console.log($scope.ProductsByProductMasterId);
+    //    //console.log($scope.TbProducts);
     //    // var response = ProductDetailService.saveTissueBankProducts(products);
     //    // response
     //    //.success(function (data, status, headers, config) {
@@ -370,10 +416,10 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     //$scope.Submit = function () {
     //    ngDialog.close();
     //    //console.log($scope.ngDialogData.selectedDescription + "," + $scope.ngDialogData.selectedTissueBankProductId);
-    //    //console.log($scope.ProductsByProductMasterId[0].ProductDescription);
-    //    var arr = $filter('updateById')($scope.ProductsByProductMasterId, $scope.ngDialogData.selectedTissueBankProductId, $scope.ngDialogData.selectedDescription);
-    //    $scope.ProductsByProductMasterId = arr;
-    //    console.log($scope.ProductsByProductMasterId);
+    //    //console.log($scope.TbProducts[0].ProductDescription);
+    //    var arr = $filter('updateById')($scope.TbProducts, $scope.ngDialogData.selectedTissueBankProductId, $scope.ngDialogData.selectedDescription);
+    //    $scope.TbProducts = arr;
+    //    console.log($scope.TbProducts);
     //};
     //$scope.openDescriptionPopUp = function (ProductDescription, TissueBankProductId) {
     //    var new_dialog = ngDialog.open({ id: 'fromAService', template: 'firstDialogId', controller: 'ProductDetailController', data: { selectedDescription: ProductDescription, selectedTissueBankProductId: TissueBankProductId } });
@@ -387,19 +433,19 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     //    } else {
     //        $scope.selectedAll = false;
     //    }
-    //    angular.forEach($scope.ProductsByProductMasterId, function (ProductsByProductMasterId) {
-    //        ProductsByProductMasterId.selected = $scope.selectedAll;
+    //    angular.forEach($scope.TbProducts, function (TbProducts) {
+    //        TbProducts.selected = $scope.selectedAll;
     //    });
     //};
     //$scope.remove = function () {
     //    var newDataList = [];
     //    $scope.selectedAll = false;
-    //    angular.forEach($scope.ProductsByProductMasterId, function (selected) {
+    //    angular.forEach($scope.TbProducts, function (selected) {
     //        if (!selected.selected) {
     //            newDataList.push(selected);
     //        }
     //    });
-    //    $scope.ProductsByProductMasterId = newDataList;
+    //    $scope.TbProducts = newDataList;
     //};
     //------- remove product end
 
@@ -412,11 +458,12 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
         $scope.TissueBankId = TissueBankId;
     }
     $scope.webApiRootPath = ResourceService.webApiRootPath;
+    $scope.webApiContentRootPath = ResourceService.webApiContentRootPath;
 
     $scope.SortDirection = 'ASC';
     $scope.SortExpression = '';
     $scope.CurrentPage = 1;
-    $scope.SearchBy = '';
+    $scope.SearchBy = "";
     $scope.descriptionLimit = 15;
     $scope.dataLoading = true;
     $scope.TotalRFQs = 0;
@@ -482,7 +529,8 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
     $scope.search = function (SearchBy) {
         $scope.CurrentPage = 1;
         $scope.PageSize = $scope.PageSizes[0];
-        GetRFQs(SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+        $scope.SearchBy = SearchBy;
+        GetRFQs($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
     $scope.Sort = function (SortExpression) {
@@ -543,6 +591,8 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
     $scope.CreatedBy = document.getElementById("UserId").value;
     $scope.LastModifiedBy = document.getElementById("UserId").value;
     $scope.webApiRootPath = ResourceService.webApiRootPath;
+    $scope.webApiContentRootPath = ResourceService.webApiContentRootPath;
+    $scope.dataLoading = true;
 
     appInfo.setInfo({ message: "No file selected." });
     appInfo.setInfo({ busy: false });
@@ -572,6 +622,8 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
+        }).finally(function () {
+            $scope.dataLoading = false;
         });
     };
 
@@ -850,6 +902,7 @@ app.controller("OrderDetailController", function ($scope, OrderService, MsgServi
     $scope.LastModifiedBy = document.getElementById("UserId").value;
     $scope.ShippingMethod = '';
     $scope.webApiRootPath = ResourceService.webApiRootPath;
+    $scope.dataLoading = true;
 
     var TissueBankId = document.getElementById("TissueBankId").value;
     if (TissueBankId != "") {
@@ -870,6 +923,8 @@ app.controller("OrderDetailController", function ($scope, OrderService, MsgServi
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
+        }).finally(function () {
+            $scope.dataLoading = false;
         });
     };
 
@@ -945,7 +1000,7 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
     $scope.editMode = false;
     $scope.TotalPage = 0;
 
-    $scope.PageSizes = [10, 20, 50, 100];
+    $scope.PageSizes = [3,10, 20, 50, 100];
     $scope.PageSize = $scope.PageSizes[0];
 
     var msg = document.getElementById("msg").value;
@@ -1010,7 +1065,8 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
         GetUsers($scope.SearchBy, $scope.CurrentPage, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
     };
 
-    $scope.search = function () {
+    $scope.search = function (SearchBy) {
+        $scope.SearchBy = SearchBy;
         GetUsers($scope.SearchBy, 1, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
 
         $scope.CurrentPage = 1;
@@ -1061,6 +1117,7 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
     $scope.Operation = 'Add User';
     $scope.Password = '';
     $scope.IsSendMail = false;
+    $scope.dataLoading = true;
 
     $scope.validateFullName = /^[A-Za-z\s]+$/;
     $scope.validateEmail = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
@@ -1072,6 +1129,7 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
     $scope.emailPattern = InputService.emailPattern;
     $scope.name_AlphaSpacesPattern = InputService.name_AlphaSpacesPattern;
     $scope.userNamePattern = InputService.userNamePattern;
+    $scope.phoneNumberLength = InputService.phoneNumberLength;
 
     GetTissueBankRoles();
 
@@ -1101,6 +1159,8 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
+        }).finally(function () {
+            $scope.dataLoading = false;
         });
     };
 
@@ -1278,6 +1338,8 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
     $scope.aATBLicenseNumberMaxLength = InputService.aATBLicenseNumberMaxLength;
     $scope.tissueBankStateLicenseMaxLength = InputService.tissueBankStateLicenseMaxLength;
     $scope.expiryLength = InputService.expiryLength;
+    $scope.AATBLicenseNumberPattern = InputService.AATBLicenseNumberPattern;
+    $scope.TissueBankStateLicensePattern = InputService.TissueBankStateLicensePattern;
 
     $scope.dateOptions = {
         'starting-day': 1
@@ -1571,6 +1633,7 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
     };
 
     $scope.UpdateBillingDetail = function () {
+        $scope.dataLoading = true;
         var tissueBankAdd_DTO = {
 
             OperationType: 'UpdateBillingDetail'
@@ -1641,6 +1704,8 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
             console.log(data.ReturnMessage);
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
+        }).finally(function () {
+            $scope.dataLoading = false;
         });
     };
 

@@ -11,11 +11,11 @@ namespace Allocat.DataModel
 {
     using System;
     
-    public partial class sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result
+    public partial class sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result
     {
         public int TissueBankProductId { get; set; }
         public Nullable<int> TissueBankId { get; set; }
-        public Nullable<int> ProductMasterId { get; set; }
+        public Nullable<int> TissueBankProductMasterId { get; set; }
         public string ProductType { get; set; }
         public string ProductCode { get; set; }
         public string ProductSize { get; set; }

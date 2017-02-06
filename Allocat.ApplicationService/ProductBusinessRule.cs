@@ -11,11 +11,13 @@ namespace Allocat.ApplicationService
 {
     public class ProductBusinessRule : ValidationRules
     {
-        //IProductDataService productDataService;
-        public ProductBusinessRule()
+        IProductDataService productDataService;
+
+        public ProductBusinessRule(IProductDataService _productDataService)
         {
-            InitializeValidationRules();
+            productDataService = _productDataService;
         }
+
         public void ValidateProductsDataTable(DataTable tempTissueBankProduct_TissueBank)
         {
             foreach (DataRow dr in tempTissueBankProduct_TissueBank.AsEnumerable())
@@ -23,7 +25,7 @@ namespace Allocat.ApplicationService
                 //Required Validations
                 ValidateRequired(dr["TissueBankProductId"], "Tissue Bank Product Id");
                 ValidateRequired(dr["TissueBankId"], "Tissue Bank ID");
-                ValidateRequired(dr["ProductMasterId"], "Product Master Id");
+                ValidateRequired(dr["TissueBankProductMasterId"], "TissueBank ProductMaster Id");
                 ValidateRequired(dr["ProductType"], "Product Type");
                 ValidateRequired(dr["ProductCode"], "Product Code");
                 ValidateRequired(dr["ProductSize"], "Product Size");
@@ -50,5 +52,14 @@ namespace Allocat.ApplicationService
                 }
             }
         }
+
+        //private void ValidateUniqueProductCodeInTissueBank(string ProductCode, int TissueBankId)
+        //{
+        //    Boolean valid = productDataService.ValidateUniqueProductCodeInTissueBank(ProductCode, TissueBankId);
+        //    if (valid == false)
+        //    {
+        //        AddValidationError("ProductCode", "ProductCode : " + ProductCode + " already exists.");
+        //    }
+        //}
     }
 }

@@ -21,7 +21,7 @@
             display: none;
         }
     }
-	@@media only screen and (min-width: 451px) {
+    @@media only screen and (min-width: 451px) {
         #otherrow {
             display: none;
         }
@@ -32,29 +32,29 @@
             display: none;
         }
     }
-	@@media only screen and (min-width: 1051px) {
+    @@media only screen and (min-width: 1051px) {
         #r1 {
             display: none;
         }
     }
 
-	@@media only screen and (max-width: 1000px) {
+    @@media only screen and (max-width: 1000px) {
         #c2 {
             display: none;
         }
     }
-	@@media only screen and (min-width: 1001px) {
+    @@media only screen and (min-width: 1001px) {
         #r2 {
             display: none;
         }
     }
 
-	@@media only screen and (max-width: 950px) {
+    @@media only screen and (max-width: 950px) {
         #c3 {
             display: none;
         }
     }
-	@@media only screen and (min-width: 951px) {
+    @@media only screen and (min-width: 951px) {
         #r3 {
             display: none;
         }
@@ -65,7 +65,7 @@
             display: none;
         }
     }
-	@@media only screen and (min-width: 901px) {
+    @@media only screen and (min-width: 901px) {
         #r4 {
             display: none;
         }
@@ -76,7 +76,7 @@
             display: none;
         }
     }
-	@@media only screen and (min-width: 851px) {
+    @@media only screen and (min-width: 851px) {
         #r5 {
             display: none;
         }
@@ -87,25 +87,30 @@
             display: none;
         }
     }
-	@@media only screen and (min-width: 801px) {
+    @@media only screen and (min-width: 801px) {
         #r6 {
             display: none;
         }
     }
-</style>	
+</style>
 
 @if (@ViewBag.user.InfoId != null)
 {
-    <input type="hidden" for="ProductMasterId" id="ProductMasterId" value="@ViewBag.ProductMasterId" />
+    <input type="hidden" for="TissueBankProductMasterId" id="TissueBankProductMasterId" value="@ViewBag.TissueBankProductMasterId" />
     <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
     <input type="hidden" for="UserId" id="UserId" value="@ViewBag.user.UserId" />
 }
 else
 {
-    <input type="hidden" for="ProductMasterId" id="ProductMasterId" value="" />
+    <input type="hidden" for="TissueBankProductMasterId" id="TissueBankProductMasterId" value="" />
 }
 
 <div ng-controller="ProductDetailController">
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner">
+            <img src="~/Assets/image/spin.gif" />
+        </div>
+    </div>
     <ul class="breadcrumb breadcrumb-page">
         <div class="breadcrumb-label text-light-gray">You are here: </div>
         <li>
@@ -139,7 +144,7 @@ else
                 <div class="col-md-9" style="display:inline-block">
                     <div style="margin-bottom:10px"><label id="span">Product Name :</label> <span style="padding-left:15px">{{ProductMaster_TissueBank.ProductMasterName}}</span></div>
                     <div style="margin-bottom:10px"><label id="span">Family :</label> <span style="padding-left:15px;">{{ProductMaster_TissueBank.FamilyProductMasterName==null ? 'N/A' : ProductMaster_TissueBank.FamilyProductMasterName}}</span></div>
-                    <div style="margin-bottom:10px"><label id="span">Domain Scope :</label> <span style="padding-left:15px;">Dental</span></div>
+                    <div style="margin-bottom:10px"><label id="span">Domain Scope :</label> <span style="padding-left:15px;">{{ProductMaster_TissueBank.DomainName}}</span></div>
                     <div style="margin-bottom:10px"><label id="span" style="padding-right:10px">Product Description :</label> <span>{{ProductMaster_TissueBank.ProductMasterDescription==null ? 'N/A' : ProductMaster_TissueBank.ProductMasterDescription}}</span></div>
                     <div style="margin-bottom:10px"><label id="span">Product Features :</label> <span style="padding-left:15px;">{{ProductMaster_TissueBank.ProductMasterFeatures==null ? 'N/A' : ProductMaster_TissueBank.ProductMasterFeatures}}</span></div>
                 </div>
@@ -150,7 +155,7 @@ else
     <form name="form_ConfirmOnExit" confirm-on-exit>
         <div class="row" style="margin-bottom:10px">
             <div class="col-md-12">
-                <span style="font-size:18px">Available Products <b>(4 Products)</b></span>
+                <span style="font-size:18px">Available Products <b>({{TbProducts.length}} Products)</b></span>
             </div>
         </div>
 
@@ -158,10 +163,13 @@ else
             <div class="table-caption">
                 <div class="row">
                     <div class="col-md-3">
-                        <button type="button" class="btn btn-info" ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true"><i class="fa fa-plus"></i> Add</button>
-                        <button type="button" class="btn btn-danger" ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true"><i class="fa fa-pencil-square-o"></i> Edit</button>
-                        <button type="button" class="btn btn-info" ng-show="editMode" ng-click="form_ConfirmOnExit.$valid && save()"><i class="fa fa-check"></i> Save</button>
-                        <button type="button" class="btn btn-danger" ng-show="editMode" ng-click="cancel()"><i class="fa fa-times"></i> Cancel</button>
+                        @*<button type="button" class="btn btn-info" ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true"><i class="fa fa-plus"></i> Add</button>
+                            <button type="button" class="btn btn-danger" ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true"><i class="fa fa-pencil-square-o"></i> Edit</button>
+                            <button type="button" class="btn btn-info" ng-show="editMode" ng-click="form_ConfirmOnExit.$valid && save()"><i class="fa fa-check"></i> Save</button>
+                            <button type="button" class="btn btn-danger" ng-show="editMode" ng-click="cancel()"><i class="fa fa-times"></i> Cancel</button>*@
+                        <input ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true" type="button" class="btn btn-primary pull-right" value="Add/Edit" />
+                        <input ng-show="editMode" ng-click="cancel()" type="button" class="btn btn-flat pull-right" value="Cancel" />
+                        <button ng-show="editMode" ng-click="form_ConfirmOnExit.$valid && save()" class="btn btn-flat pull-right" style="background-color:#2175ac; color:#ffffff; width:100px;">Save</button>
                     </div>
                 </div>
             </div>
@@ -181,20 +189,20 @@ else
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat-start="Product in ProductsByProductMasterId">
+                <tr ng-repeat-start="Product in TbProducts">
                     <td style="vertical-align:middle">
                         <button class="icn" ng-if="Product.expanded" ng-click="Product.expanded = false" id="button1">-</button>
                         <button class="icn" ng-if="!Product.expanded" ng-click="Product.expanded = true" id="button2">+</button>
                     </td>
                     <td style="vertical-align:middle">
                         <span ng-hide="editMode">{{Product.ProductType}}</span>
-                        <select ng-hide="!editMode" ng-model="Product.ProductType" ng-required="true" ng-options="ProductTypeOption for ProductTypeOption in ProductTypeOptions">
+                        <select ng-hide="!editMode" ng-model="Product.ProductType" ng-change="CheckTypeCombination(Product.ProductType,Product.ProductSize,$index)" ng-required="true" ng-options="ProductTypeOption for ProductTypeOption in ProductTypeOptions">
                             <option value="" label="-ProductType-"></option>
                         </select>
                     </td>
                     <td id="c5" style="vertical-align:middle; width:15%">
                         <span ng-hide="editMode">{{Product.ProductSize}}</span>
-                        <select ng-hide="!editMode" ng-model="Product.ProductSize" required ng-options="ProductSizeOptions for ProductSizeOptions in ProductSizeOptions">
+                        <select ng-hide="!editMode" ng-model="Product.ProductSize" ng-change="CheckSizeCombination(Product.ProductType,Product.ProductSize,$index)" required ng-options="ProductSizeOptions for ProductSizeOptions in ProductSizeOptions">
                             <option value="" label="-ProductSize-"></option>
                         </select>
                     </td>
@@ -367,13 +375,13 @@ else
                         </div>
                     </td>
                 </tr>
-
-               
-
-
             </tbody>
         </table>
-</form>
+        <div class="form-group">
+            @*<input ng-hide="!TbProducts.length || !editMode" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove">*@
+            <button ng-hide="!editMode" ng-click="form_ConfirmOnExit.$valid && addNew()" class="btn btn-primary addnew pull-right">Add New</button>
+        </div>
+    </form>
     <div class="notifies" notifybar></div>
 </div>
 

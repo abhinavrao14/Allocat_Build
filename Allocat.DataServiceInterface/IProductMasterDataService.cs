@@ -9,6 +9,6 @@ namespace Allocat.DataServiceInterface
 {
     public interface IProductMasterDataService : IDataService, IDisposable
     {
-        ProductMaster_TissueBank GetProductMaster_DomainFamily_ById(int id, out TransactionalInformation transaction);
+        ProductMaster_TissueBank GetProductMaster_DomainFamily_ByTissueBankProductMasterId(int TissueBankProductMasterId, out TransactionalInformation transaction);
     }
 }

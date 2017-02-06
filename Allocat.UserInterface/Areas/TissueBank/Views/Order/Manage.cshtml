@@ -21,6 +21,11 @@
 </style>
 
 <div ng-controller="OrderDetailController">
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner">
+            <img src="~/Assets/image/spin.gif" />
+        </div>
+    </div>
     @if (@ViewBag.user.InfoId != null)
     {
         <input type="hidden" for="OrderId" id="OrderId" value="@ViewBag.OrderId" />

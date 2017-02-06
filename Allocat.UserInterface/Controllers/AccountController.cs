@@ -41,7 +41,7 @@ namespace Allocat.UserInterface.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = Context.User.Where(u => u.UserName == model.Username && u.Password == model.Password && u.AllowLogin == true && u.IsEmailVerified == true).FirstOrDefault();
+                var user = Context.User.Where(u => (u.UserName == model.Username || u.EmailId==model.Username) && u.Password == model.Password && u.AllowLogin == true && u.IsEmailVerified == true).FirstOrDefault();
 
                 if (user != null)
                 {
@@ -49,7 +49,7 @@ namespace Allocat.UserInterface.Controllers
 
                     if (userIsLockedOut == null)
                     {
-                        var roles = Context.sp_User_GetRoleByUserName(model.Username).ToArray();
+                        var roles = Context.sp_User_GetRoleByUserName(user.UserName).ToArray();
 
                         var lstUser = (from u in Context.User
                                        join e in Context.Entity on u.EntityID equals e.EntityId
@@ -66,7 +66,7 @@ namespace Allocat.UserInterface.Controllers
 
                         if (lstUser.Count != 0)
                         {
-                            EntityInfo = Context.sp_User_GetEntityInfoByUserName(model.Username).ToList();
+                            EntityInfo = Context.sp_User_GetEntityInfoByUserName(user.UserName).ToList();
                         }
                         else
                         {

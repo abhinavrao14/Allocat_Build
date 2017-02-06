@@ -22,7 +22,7 @@ namespace Allocat.DataModel
     
         public int TissueBankProductId { get; set; }
         public Nullable<int> TissueBankId { get; set; }
-        public Nullable<int> ProductMasterId { get; set; }
+        public Nullable<int> TissueBankProductMasterId { get; set; }
         public string ProductType { get; set; }
         public string ProductCode { get; set; }
         public string ProductSize { get; set; }
@@ -42,8 +42,8 @@ namespace Allocat.DataModel
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductEntity> ProductEntity { get; set; }
-        public virtual ProductMaster ProductMaster { get; set; }
         public virtual Source Source { get; set; }
         public virtual TissueBank TissueBank { get; set; }
+        public virtual TissueBankProductMaster TissueBankProductMaster { get; set; }
     }
 }

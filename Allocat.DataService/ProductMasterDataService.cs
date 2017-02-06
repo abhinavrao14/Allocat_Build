@@ -12,7 +12,7 @@ namespace Allocat.DataService
 {
     public class ProductMasterDataService : EntityFrameworkDataService, IProductMasterDataService
     {
-        public ProductMaster_TissueBank GetProductMaster_DomainFamily_ById(int ProductMasterId, out TransactionalInformation transaction)
+        public ProductMaster_TissueBank GetProductMaster_DomainFamily_ByTissueBankProductMasterId(int TissueBankProductMasterId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
@@ -21,7 +21,8 @@ namespace Allocat.DataService
                                                                  from ds in dsSet.DefaultIfEmpty()
                                                                  join pmFamily in dbConnection.ProductMaster on pm.FamilyId equals pmFamily.ProductMasterId into t1
                                                                  from rt1 in t1.DefaultIfEmpty()
-                                                                 where pm.ProductMasterId == ProductMasterId
+                                                                 join tbpm in dbConnection.TissueBankProductMaster on pm.ProductMasterId equals tbpm.ProductMasterId
+                                                                 where tbpm.TissueBankProductMasterId == TissueBankProductMasterId
                                                                  select new ProductMaster_TissueBank
                                                                  {
                                                                      ProductMasterId = pm.ProductMasterId,

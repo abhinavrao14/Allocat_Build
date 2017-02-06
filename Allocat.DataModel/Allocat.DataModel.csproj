@@ -157,10 +157,10 @@
     <Compile Include="sp_RequestResponse_TissueBank_GetByTissueBankId_Result.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result.cs">
+    <Compile Include="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result.cs">
+    <Compile Include="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_UserDetail_GetByUserId_Result.cs">
@@ -200,6 +200,9 @@
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="TissueBankProduct.cs">
+      <DependentUpon>AllocatDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TissueBankProductMaster.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="TissueBankRoles_TissueBank.cs" />

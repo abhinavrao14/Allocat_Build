@@ -343,18 +343,12 @@
     <EntitySetMapping Name="TissueBank">
       <EntityTypeMapping TypeName="AllocatDbModel.TissueBank">
         <MappingFragment StoreEntitySet="TissueBank">
-          <ScalarProperty Name="ContactPersonLastName" ColumnName="ContactPersonLastName" />
-          <ScalarProperty Name="ContactPersonFirstName" ColumnName="ContactPersonFirstName" />
-          <ScalarProperty Name="BillingContactNumber" ColumnName="BillingContactNumber" />
-          <ScalarProperty Name="BillingEmailId" ColumnName="BillingEmailId" />
-          <ScalarProperty Name="BillingFaxNumber" ColumnName="BillingFaxNumber" />
-          <ScalarProperty Name="BillingZipCode" ColumnName="BillingZipCode" />
-          <ScalarProperty Name="BillingCityId" ColumnName="BillingCityId" />
-          <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
-          <ScalarProperty Name="ContactPersonEmailId" ColumnName="ContactPersonEmailId" />
           <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
           <ScalarProperty Name="TissueBankName" ColumnName="TissueBankName" />
+          <ScalarProperty Name="ContactPersonFirstName" ColumnName="ContactPersonFirstName" />
+          <ScalarProperty Name="ContactPersonLastName" ColumnName="ContactPersonLastName" />
           <ScalarProperty Name="ContactPersonNumber" ColumnName="ContactPersonNumber" />
+          <ScalarProperty Name="ContactPersonEmailId" ColumnName="ContactPersonEmailId" />
           <ScalarProperty Name="TissueBankEmailId" ColumnName="TissueBankEmailId" />
           <ScalarProperty Name="BusinessURL" ColumnName="BusinessURL" />
           <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
@@ -371,6 +365,12 @@
           <ScalarProperty Name="AATBAccredationDate" ColumnName="AATBAccredationDate" />
           <ScalarProperty Name="CustomerProfileId" ColumnName="CustomerProfileId" />
           <ScalarProperty Name="CustomerPaymentProfileIds" ColumnName="CustomerPaymentProfileIds" />
+          <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+          <ScalarProperty Name="BillingCityId" ColumnName="BillingCityId" />
+          <ScalarProperty Name="BillingZipCode" ColumnName="BillingZipCode" />
+          <ScalarProperty Name="BillingFaxNumber" ColumnName="BillingFaxNumber" />
+          <ScalarProperty Name="BillingEmailId" ColumnName="BillingEmailId" />
+          <ScalarProperty Name="BillingContactNumber" ColumnName="BillingContactNumber" />
           <ScalarProperty Name="IsAllocatMember" ColumnName="IsAllocatMember" />
           <ScalarProperty Name="IsAccountVerified" ColumnName="IsAccountVerified" />
           <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -395,7 +395,7 @@
         <MappingFragment StoreEntitySet="TissueBankProduct">
           <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
           <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
-          <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
+          <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
           <ScalarProperty Name="ProductType" ColumnName="ProductType" />
           <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
           <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
@@ -412,6 +412,20 @@
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
           <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
           <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TissueBankProductMaster">
+      <EntityTypeMapping TypeName="AllocatDbModel.TissueBankProductMaster">
+        <MappingFragment StoreEntitySet="TissueBankProductMaster">
+          <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -594,44 +608,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_AddUpdate" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_AddUpdate" />
-    <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetByTissueBankId">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result">
-          <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
-          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
-          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
-          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
-          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
-          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-          <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
-          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
-          <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result">
-          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
-          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
-          <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
-          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
-          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
-          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
-          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
-          <ScalarProperty Name="SourceName" ColumnName="SourceName" />
-          <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
-          <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
-          <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_User_Get" FunctionName="AllocatDbModel.Store.sp_User_Get">
       <ResultMapping>
         <ComplexTypeMapping TypeName="AllocatDbModel.sp_User_Get_Result">
@@ -771,8 +747,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="usp_Error_Create" FunctionName="AllocatDbModel.Store.usp_Error_Create" />
-    <FunctionImportMapping FunctionImportName="usp_Transaction_Create" FunctionName="AllocatDbModel.Store.usp_Transaction_Create" />
-    <FunctionImportMapping FunctionImportName="usp_Transaction_Update" FunctionName="AllocatDbModel.Store.usp_Transaction_Update" />
     <FunctionImportMapping FunctionImportName="usp_TissueBank_Add" FunctionName="AllocatDbModel.Store.usp_TissueBank_Add" />
     <FunctionImportMapping FunctionImportName="usp_TissueBank_Get" FunctionName="AllocatDbModel.Store.usp_TissueBank_Get">
       <ResultMapping>
@@ -823,8 +797,46 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="usp_TissueBank_UpdateTissueBankDetail" FunctionName="AllocatDbModel.Store.usp_TissueBank_UpdateTissueBankDetail" />
     <FunctionImportMapping FunctionImportName="usp_TissueBank_UpdateTissueBankBillingDetail" FunctionName="AllocatDbModel.Store.usp_TissueBank_UpdateTissueBankBillingDetail" />
+    <FunctionImportMapping FunctionImportName="usp_TissueBank_UpdateTissueBankDetail" FunctionName="AllocatDbModel.Store.usp_TissueBank_UpdateTissueBankDetail" />
     <FunctionImportMapping FunctionImportName="usp_TissueBank_User_Registration" FunctionName="AllocatDbModel.Store.usp_TissueBank_User_Registration" />
+    <FunctionImportMapping FunctionImportName="usp_Transaction_Create" FunctionName="AllocatDbModel.Store.usp_Transaction_Create" />
+    <FunctionImportMapping FunctionImportName="usp_Transaction_Update" FunctionName="AllocatDbModel.Store.usp_Transaction_Update" />
+    <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result">
+          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+          <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
+          <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
+          <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result">
+          <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
+          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+          <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="ProductMasterImageName" ColumnName="ProductMasterImageName" />
+          <ScalarProperty Name="ProductMasterThumbnailImageName" ColumnName="ProductMasterThumbnailImageName" />
+          <ScalarProperty Name="ProductMasterDescription" ColumnName="ProductMasterDescription" />
+          <ScalarProperty Name="ProductMasterFeatures" ColumnName="ProductMasterFeatures" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

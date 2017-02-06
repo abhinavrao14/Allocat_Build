@@ -371,7 +371,7 @@
           </Key>
           <Property Name="TissueBankProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TissueBankId" Type="int" />
-          <Property Name="ProductMasterId" Type="int" />
+          <Property Name="TissueBankProductMasterId" Type="int" />
           <Property Name="ProductType" Type="nvarchar" MaxLength="200" />
           <Property Name="ProductCode" Type="varchar" MaxLength="20" />
           <Property Name="ProductSize" Type="nvarchar" MaxLength="500" />
@@ -388,6 +388,19 @@
           <Property Name="CreatedBy" Type="int" />
           <Property Name="LastModifiedDate" Type="datetime" />
           <Property Name="LastModifiedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="TissueBankProductMaster">
+          <Key>
+            <PropertyRef Name="TissueBankProductMasterId" />
+          </Key>
+          <Property Name="TissueBankProductMasterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TissueBankId" Type="int" Nullable="false" />
+          <Property Name="ProductMasterId" Type="int" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedBy" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
@@ -864,18 +877,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TissueBankProduct_ProductMaster">
-          <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="0..1" />
-          <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ProductMaster">
-              <PropertyRef Name="ProductMasterId" />
-            </Principal>
-            <Dependent Role="TissueBankProduct">
-              <PropertyRef Name="ProductMasterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_TissueBankProduct_Source">
           <End Role="Source" Type="Self.Source" Multiplicity="0..1" />
           <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
@@ -897,6 +898,66 @@
             </Principal>
             <Dependent Role="TissueBankProduct">
               <PropertyRef Name="TissueBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TissueBankProduct_TissueBankProduct">
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="0..1" />
+          <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TissueBankProductMaster">
+              <PropertyRef Name="TissueBankProductMasterId" />
+            </Principal>
+            <Dependent Role="TissueBankProduct">
+              <PropertyRef Name="TissueBankProductMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TissueBankProductMaster_ProductMaster">
+          <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="1" />
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductMaster">
+              <PropertyRef Name="ProductMasterId" />
+            </Principal>
+            <Dependent Role="TissueBankProductMaster">
+              <PropertyRef Name="ProductMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TissueBankProductMaster_TissueBankProductMaster">
+          <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="1" />
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TissueBank">
+              <PropertyRef Name="TissueBankId" />
+            </Principal>
+            <Dependent Role="TissueBankProductMaster">
+              <PropertyRef Name="TissueBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TissueBankProductMaster_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TissueBankProductMaster">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TissueBankProductMaster_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TissueBankProductMaster">
+              <PropertyRef Name="ModifiedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1047,17 +1108,16 @@
           <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_TissueBankProduct_TissueBank_AddUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="sp_TissueBankProduct_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TissueBankProductMasterId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TissueBankId" Type="int" Mode="In" />
           <Parameter Name="SearchBy" Type="varchar" Mode="In" />
           <Parameter Name="CurrentPage" Type="int" Mode="In" />
           <Parameter Name="PageSize" Type="int" Mode="In" />
           <Parameter Name="SortDirection" Type="varchar" Mode="In" />
           <Parameter Name="SortExpression" Type="varchar" Mode="In" />
-        </Function>
-        <Function Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="TissueBankId" Type="int" Mode="In" />
-          <Parameter Name="ProductMasterId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_User_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RoleName" Type="varchar" Mode="In" />
@@ -1257,6 +1317,7 @@
           <EntitySet Name="TissueBank" EntityType="Self.TissueBank" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TissueBankCreditCard" EntityType="Self.TissueBankCreditCard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TissueBankProduct" EntityType="Self.TissueBankProduct" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TissueBankProductMaster" EntityType="Self.TissueBankProductMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
@@ -1400,10 +1461,6 @@
             <End Role="TissueBank" EntitySet="TissueBank" />
             <End Role="TissueBankCreditCard" EntitySet="TissueBankCreditCard" />
           </AssociationSet>
-          <AssociationSet Name="FK_TissueBankProduct_ProductMaster" Association="Self.FK_TissueBankProduct_ProductMaster">
-            <End Role="ProductMaster" EntitySet="ProductMaster" />
-            <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
-          </AssociationSet>
           <AssociationSet Name="FK_TissueBankProduct_Source" Association="Self.FK_TissueBankProduct_Source">
             <End Role="Source" EntitySet="Source" />
             <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
@@ -1411,6 +1468,26 @@
           <AssociationSet Name="FK_TissueBankProduct_TissueBank" Association="Self.FK_TissueBankProduct_TissueBank">
             <End Role="TissueBank" EntitySet="TissueBank" />
             <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TissueBankProduct_TissueBankProduct" Association="Self.FK_TissueBankProduct_TissueBankProduct">
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+            <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TissueBankProductMaster_ProductMaster" Association="Self.FK_TissueBankProductMaster_ProductMaster">
+            <End Role="ProductMaster" EntitySet="ProductMaster" />
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TissueBankProductMaster_TissueBankProductMaster" Association="Self.FK_TissueBankProductMaster_TissueBankProductMaster">
+            <End Role="TissueBank" EntitySet="TissueBank" />
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TissueBankProductMaster_User" Association="Self.FK_TissueBankProductMaster_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TissueBankProductMaster_User1" Association="Self.FK_TissueBankProductMaster_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_Transaction_Status" Association="Self.FK_Transaction_Status">
             <End Role="Status" EntitySet="Status" />
@@ -1681,7 +1758,7 @@
           <NavigationProperty Name="DomainScope" Relationship="Self.FK_ProductMaster_DomainScope" FromRole="ProductMaster" ToRole="DomainScope" />
           <NavigationProperty Name="ProductMaster1" Relationship="Self.FK_ProductMaster_ProductMaster" FromRole="ProductMaster" ToRole="ProductMaster1" />
           <NavigationProperty Name="ProductMaster2" Relationship="Self.FK_ProductMaster_ProductMaster" FromRole="ProductMaster1" ToRole="ProductMaster" />
-          <NavigationProperty Name="TissueBankProduct" Relationship="Self.FK_TissueBankProduct_ProductMaster" FromRole="ProductMaster" ToRole="TissueBankProduct" />
+          <NavigationProperty Name="TissueBankProductMaster" Relationship="Self.FK_TissueBankProductMaster_ProductMaster" FromRole="ProductMaster" ToRole="TissueBankProductMaster" />
         </EntityType>
         <EntityType Name="PurchaseRequest">
           <Key>
@@ -1837,7 +1914,10 @@
           </Key>
           <Property Name="TissueBankId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TissueBankName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonFirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonLastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ContactPersonNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ContactPersonEmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TissueBankEmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="BusinessURL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IsMobileVerified" Type="Boolean" />
@@ -1854,6 +1934,12 @@
           <Property Name="AATBAccredationDate" Type="DateTime" Precision="0" />
           <Property Name="CustomerProfileId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="CustomerPaymentProfileIds" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BillingAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="BillingCityId" Type="Int32" />
+          <Property Name="BillingZipCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="BillingFaxNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="BillingEmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BillingContactNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
           <Property Name="IsAllocatMember" Type="Boolean" />
           <Property Name="IsAccountVerified" Type="Boolean" />
           <Property Name="IsActive" Type="Boolean" />
@@ -1866,16 +1952,8 @@
           <NavigationProperty Name="Response" Relationship="Self.FK_Response_TissueBank" FromRole="TissueBank" ToRole="Response" />
           <NavigationProperty Name="TissueBankCreditCard" Relationship="Self.FK_TissueBankCreditCard_TissueBank" FromRole="TissueBank" ToRole="TissueBankCreditCard" />
           <NavigationProperty Name="TissueBankProduct" Relationship="Self.FK_TissueBankProduct_TissueBank" FromRole="TissueBank" ToRole="TissueBankProduct" />
+          <NavigationProperty Name="TissueBankProductMaster" Relationship="Self.FK_TissueBankProductMaster_TissueBankProductMaster" FromRole="TissueBank" ToRole="TissueBankProductMaster" />
           <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_TissueBank" FromRole="TissueBank" ToRole="Transaction" />
-          <Property Name="ContactPersonEmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BillingAddress" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="BillingCityId" Type="Int32" />
-          <Property Name="BillingZipCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="BillingFaxNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="BillingEmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="BillingContactNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="ContactPersonFirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="ContactPersonLastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="TissueBankCreditCard">
           <Key>
@@ -1892,7 +1970,7 @@
           </Key>
           <Property Name="TissueBankProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TissueBankId" Type="Int32" />
-          <Property Name="ProductMasterId" Type="Int32" />
+          <Property Name="TissueBankProductMasterId" Type="Int32" />
           <Property Name="ProductType" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="ProductCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="ProductSize" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
@@ -1910,9 +1988,27 @@
           <Property Name="LastModifiedDate" Type="DateTime" Precision="3" />
           <Property Name="LastModifiedBy" Type="Int32" />
           <NavigationProperty Name="ProductEntity" Relationship="Self.FK_ProductEntity_TissueBankProduct" FromRole="TissueBankProduct" ToRole="ProductEntity" />
-          <NavigationProperty Name="ProductMaster" Relationship="Self.FK_TissueBankProduct_ProductMaster" FromRole="TissueBankProduct" ToRole="ProductMaster" />
           <NavigationProperty Name="Source" Relationship="Self.FK_TissueBankProduct_Source" FromRole="TissueBankProduct" ToRole="Source" />
           <NavigationProperty Name="TissueBank" Relationship="Self.FK_TissueBankProduct_TissueBank" FromRole="TissueBankProduct" ToRole="TissueBank" />
+          <NavigationProperty Name="TissueBankProductMaster" Relationship="Self.FK_TissueBankProduct_TissueBankProduct" FromRole="TissueBankProduct" ToRole="TissueBankProductMaster" />
+        </EntityType>
+        <EntityType Name="TissueBankProductMaster">
+          <Key>
+            <PropertyRef Name="TissueBankProductMasterId" />
+          </Key>
+          <Property Name="TissueBankProductMasterId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TissueBankId" Type="Int32" Nullable="false" />
+          <Property Name="ProductMasterId" Type="Int32" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ProductMaster" Relationship="Self.FK_TissueBankProductMaster_ProductMaster" FromRole="TissueBankProductMaster" ToRole="ProductMaster" />
+          <NavigationProperty Name="TissueBank" Relationship="Self.FK_TissueBankProductMaster_TissueBankProductMaster" FromRole="TissueBankProductMaster" ToRole="TissueBank" />
+          <NavigationProperty Name="TissueBankProduct" Relationship="Self.FK_TissueBankProduct_TissueBankProduct" FromRole="TissueBankProductMaster" ToRole="TissueBankProduct" />
+          <NavigationProperty Name="User" Relationship="Self.FK_TissueBankProductMaster_User" FromRole="TissueBankProductMaster" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_TissueBankProductMaster_User1" FromRole="TissueBankProductMaster" ToRole="User" />
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
@@ -1967,6 +2063,8 @@
           <NavigationProperty Name="DomainScope" Relationship="Self.FK_User_DomainScope" FromRole="User" ToRole="DomainScope" />
           <NavigationProperty Name="Entity" Relationship="Self.FK_User_Entity" FromRole="User" ToRole="Entity" />
           <NavigationProperty Name="Error" Relationship="Self.FK_Error_User" FromRole="User" ToRole="Error" />
+          <NavigationProperty Name="TissueBankProductMaster" Relationship="Self.FK_TissueBankProductMaster_User" FromRole="User" ToRole="TissueBankProductMaster" />
+          <NavigationProperty Name="TissueBankProductMaster1" Relationship="Self.FK_TissueBankProductMaster_User1" FromRole="User" ToRole="TissueBankProductMaster" />
           <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_User" FromRole="User" ToRole="Transaction" />
           <NavigationProperty Name="UserRole" Relationship="Self.FK_UserRoleID_User" FromRole="User" ToRole="UserRole" />
         </EntityType>
@@ -2340,14 +2438,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TissueBankProduct_ProductMaster">
-          <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="0..1" />
-          <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
+        <Association Name="FK_TissueBankProductMaster_ProductMaster">
+          <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="1" />
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ProductMaster">
               <PropertyRef Name="ProductMasterId" />
             </Principal>
-            <Dependent Role="TissueBankProduct">
+            <Dependent Role="TissueBankProductMaster">
               <PropertyRef Name="ProductMasterId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2496,6 +2594,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TissueBankProductMaster_TissueBankProductMaster">
+          <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="1" />
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TissueBank">
+              <PropertyRef Name="TissueBankId" />
+            </Principal>
+            <Dependent Role="TissueBankProductMaster">
+              <PropertyRef Name="TissueBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Transaction_TissueBank">
           <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="0..1" />
           <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
@@ -2505,6 +2615,42 @@
             </Principal>
             <Dependent Role="Transaction">
               <PropertyRef Name="TissueBankId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TissueBankProduct_TissueBankProduct">
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="0..1" />
+          <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TissueBankProductMaster">
+              <PropertyRef Name="TissueBankProductMasterId" />
+            </Principal>
+            <Dependent Role="TissueBankProduct">
+              <PropertyRef Name="TissueBankProductMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TissueBankProductMaster_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TissueBankProductMaster">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TissueBankProductMaster_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="TissueBankProductMaster">
+              <PropertyRef Name="ModifiedBy" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2563,6 +2709,7 @@
           <EntitySet Name="TissueBank" EntityType="Self.TissueBank" />
           <EntitySet Name="TissueBankCreditCard" EntityType="Self.TissueBankCreditCard" />
           <EntitySet Name="TissueBankProduct" EntityType="Self.TissueBankProduct" />
+          <EntitySet Name="TissueBankProductMaster" EntityType="Self.TissueBankProductMaster" />
           <EntitySet Name="Transaction" EntityType="Self.Transaction" />
           <EntitySet Name="User" EntityType="Self.User" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" />
@@ -2686,9 +2833,9 @@
             <End Role="ProductMaster" EntitySet="ProductMaster" />
             <End Role="ProductMaster1" EntitySet="ProductMaster" />
           </AssociationSet>
-          <AssociationSet Name="FK_TissueBankProduct_ProductMaster" Association="Self.FK_TissueBankProduct_ProductMaster">
+          <AssociationSet Name="FK_TissueBankProductMaster_ProductMaster" Association="Self.FK_TissueBankProductMaster_ProductMaster">
             <End Role="ProductMaster" EntitySet="ProductMaster" />
-            <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_Purchaserequest_RequestForQuote" Association="Self.FK_Purchaserequest_RequestForQuote">
             <End Role="RequestForQuote" EntitySet="RequestForQuote" />
@@ -2738,9 +2885,25 @@
             <End Role="TissueBank" EntitySet="TissueBank" />
             <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
           </AssociationSet>
+          <AssociationSet Name="FK_TissueBankProductMaster_TissueBankProductMaster" Association="Self.FK_TissueBankProductMaster_TissueBankProductMaster">
+            <End Role="TissueBank" EntitySet="TissueBank" />
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+          </AssociationSet>
           <AssociationSet Name="FK_Transaction_TissueBank" Association="Self.FK_Transaction_TissueBank">
             <End Role="TissueBank" EntitySet="TissueBank" />
             <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TissueBankProduct_TissueBankProduct" Association="Self.FK_TissueBankProduct_TissueBankProduct">
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+            <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TissueBankProductMaster_User" Association="Self.FK_TissueBankProductMaster_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TissueBankProductMaster_User1" Association="Self.FK_TissueBankProductMaster_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
           </AssociationSet>
           <AssociationSet Name="FK_Transaction_User" Association="Self.FK_Transaction_User">
             <End Role="User" EntitySet="User" />
@@ -2801,18 +2964,6 @@
           <Parameter Name="RequestForQuoteId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_TissueBankProduct_TissueBank_AddUpdate" />
-          <FunctionImport Name="sp_TissueBankProduct_TissueBank_GetByTissueBankId" ReturnType="Collection(AllocatDbModel.sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result)">
-            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
-            <Parameter Name="SearchBy" Mode="In" Type="String" />
-            <Parameter Name="CurrentPage" Mode="In" Type="Int32" />
-            <Parameter Name="PageSize" Mode="In" Type="Int32" />
-            <Parameter Name="SortDirection" Mode="In" Type="String" />
-            <Parameter Name="SortExpression" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId" ReturnType="Collection(AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result)">
-            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
-            <Parameter Name="ProductMasterId" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="sp_User_Get" ReturnType="Collection(AllocatDbModel.sp_User_Get_Result)">
             <Parameter Name="RoleName" Mode="In" Type="String" />
             <Parameter Name="GetType" Mode="In" Type="String" />
@@ -2888,22 +3039,6 @@
             <Parameter Name="TransactionId" Mode="In" Type="Int32" />
             <Parameter Name="UserId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="usp_Transaction_Create" ReturnType="Collection(Decimal)">
-            <Parameter Name="TransactionInitiateDate" Mode="In" Type="DateTime" />
-            <Parameter Name="Amount" Mode="In" Type="Decimal" />
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="RequestBody" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="usp_Transaction_Update">
-            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
-            <Parameter Name="TransactionId" Mode="In" Type="Int32" />
-            <Parameter Name="AuthTransactionId" Mode="In" Type="String" />
-            <Parameter Name="AuthCode" Mode="In" Type="String" />
-            <Parameter Name="StatusId" Mode="In" Type="Int32" />
-            <Parameter Name="TransactionCompleteDate" Mode="In" Type="DateTime" />
-            <Parameter Name="ResponseBody" Mode="In" Type="String" />
-            <Parameter Name="ReturnMessage" Mode="InOut" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="usp_TissueBank_Add" ReturnType="Collection(String)">
             <Parameter Name="TissueBankName" Mode="In" Type="String" />
             <Parameter Name="ContactPersonFirstName" Mode="In" Type="String" />
@@ -2941,6 +3076,19 @@
           <FunctionImport Name="usp_TissueBank_Get" ReturnType="Collection(AllocatDbModel.usp_TissueBank_Get_Result)">
           <Parameter Name="TissuebankId" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="usp_TissueBank_UpdateTissueBankBillingDetail" ReturnType="Collection(String)">
+            <Parameter Name="ContactPersonFirstName" Mode="In" Type="String" />
+            <Parameter Name="ContactPersonLastName" Mode="In" Type="String" />
+            <Parameter Name="BillingAddress" Mode="In" Type="String" />
+            <Parameter Name="BillingCityId" Mode="In" Type="Int32" />
+            <Parameter Name="BillingZipCode" Mode="In" Type="String" />
+            <Parameter Name="BillingFaxNumber" Mode="In" Type="String" />
+            <Parameter Name="BillingEmailId" Mode="In" Type="String" />
+            <Parameter Name="BillingContactNumber" Mode="In" Type="String" />
+            <Parameter Name="CreditCardNumber" Mode="In" Type="String" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="usp_TissueBank_UpdateTissueBankDetail" ReturnType="Collection(String)">
             <Parameter Name="TissueBankName" Mode="In" Type="String" />
             <Parameter Name="ContactPersonEmailId" Mode="In" Type="String" />
@@ -2959,19 +3107,6 @@
             <Parameter Name="UserId" Mode="In" Type="Int32" />
             <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="usp_TissueBank_UpdateTissueBankBillingDetail" ReturnType="Collection(String)">
-            <Parameter Name="ContactPersonFirstName" Mode="In" Type="String" />
-            <Parameter Name="ContactPersonLastName" Mode="In" Type="String" />
-            <Parameter Name="BillingAddress" Mode="In" Type="String" />
-            <Parameter Name="BillingCityId" Mode="In" Type="Int32" />
-            <Parameter Name="BillingZipCode" Mode="In" Type="String" />
-            <Parameter Name="BillingFaxNumber" Mode="In" Type="String" />
-            <Parameter Name="BillingEmailId" Mode="In" Type="String" />
-            <Parameter Name="BillingContactNumber" Mode="In" Type="String" />
-            <Parameter Name="CreditCardNumber" Mode="In" Type="String" />
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="usp_TissueBank_User_Registration" ReturnType="Collection(Int32)">
             <Parameter Name="FullName" Mode="In" Type="String" />
             <Parameter Name="UserName" Mode="In" Type="String" />
@@ -2979,6 +3114,33 @@
             <Parameter Name="SecurityQuestion" Mode="In" Type="String" />
             <Parameter Name="SecurityAnswer" Mode="In" Type="String" />
             <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Transaction_Create" ReturnType="Collection(Decimal)">
+            <Parameter Name="TransactionInitiateDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Amount" Mode="In" Type="Decimal" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="RequestBody" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_Transaction_Update">
+            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
+            <Parameter Name="TransactionId" Mode="In" Type="Int32" />
+            <Parameter Name="AuthTransactionId" Mode="In" Type="String" />
+            <Parameter Name="AuthCode" Mode="In" Type="String" />
+            <Parameter Name="StatusId" Mode="In" Type="Int32" />
+            <Parameter Name="TransactionCompleteDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ResponseBody" Mode="In" Type="String" />
+            <Parameter Name="ReturnMessage" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" ReturnType="Collection(AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result)">
+          <Parameter Name="TissueBankProductMasterId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" ReturnType="Collection(AllocatDbModel.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result)">
+            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
+            <Parameter Name="SearchBy" Mode="In" Type="String" />
+            <Parameter Name="CurrentPage" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="SortExpression" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_Order_TissueBank_GetByTissueBankId_Result">
@@ -3079,36 +3241,6 @@
           <Property Type="DateTime" Name="LastModifiedDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="AttachmentName" Nullable="true" MaxLength="100" />
         </ComplexType>
-        <ComplexType Name="sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result">
-          <Property Type="Int32" Name="StartLimit" Nullable="true" />
-          <Property Type="String" Name="ProductMasterName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="ProductType" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="ProductSize" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="PreservationType" Nullable="true" MaxLength="100" />
-          <Property Type="Decimal" Name="UnitPrice" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="String" Name="IsAvailableForSale" Nullable="false" MaxLength="3" />
-          <Property Type="Int32" Name="TissueBankProductId" Nullable="false" />
-          <Property Type="Int32" Name="ProductMasterId" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result">
-          <Property Type="Int32" Name="TissueBankProductId" Nullable="false" />
-          <Property Type="Int32" Name="TissueBankId" Nullable="true" />
-          <Property Type="Int32" Name="ProductMasterId" Nullable="true" />
-          <Property Type="String" Name="ProductType" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="ProductSize" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="PreservationType" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="500" />
-          <Property Type="Decimal" Name="UnitPrice" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Int32" Name="SourceId" Nullable="true" />
-          <Property Type="String" Name="SourceName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="IsAvailableForSale" Nullable="false" MaxLength="3" />
-          <Property Type="DateTime" Name="AvailabilityStartDate" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="AvailabilityEndDate" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="CreatedBy" Nullable="true" />
-          <Property Type="Int32" Name="LastModifiedBy" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="sp_User_Get_Result">
           <Property Type="Int64" Name="Sno" Nullable="true" />
           <Property Type="Int32" Name="UserId" Nullable="false" />
@@ -3170,7 +3302,7 @@
           <Property Type="DateTime" Name="LastLoginDate" Nullable="false" Precision="23" />
           <Property Type="String" Name="IsActive" Nullable="false" MaxLength="3" />
           <Property Type="String" Name="AllowLogin" Nullable="false" MaxLength="3" />
-          <Property Type="String" Name="UserRoles" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="UserRoles" Nullable="true" MaxLength="8000" />
           <Property Type="String" Name="DomainName" Nullable="true" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="sp_UserMngmt_TissueBank_GetByUserId_Result">
@@ -3259,6 +3391,34 @@
           <Property Type="Int32" Name="BillingStateId" Nullable="false" />
           <Property Type="String" Name="CreatedByUser" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ModifiedByUser" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result">
+          <Property Type="Int32" Name="TissueBankProductId" Nullable="false" />
+          <Property Type="Int32" Name="TissueBankId" Nullable="true" />
+          <Property Type="Int32" Name="TissueBankProductMasterId" Nullable="true" />
+          <Property Type="String" Name="ProductType" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ProductSize" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="PreservationType" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="SourceId" Nullable="true" />
+          <Property Type="String" Name="SourceName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="IsAvailableForSale" Nullable="false" MaxLength="3" />
+          <Property Type="DateTime" Name="AvailabilityStartDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="AvailabilityEndDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+          <Property Type="Int32" Name="LastModifiedBy" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result">
+          <Property Type="Int32" Name="StartLimit" Nullable="true" />
+          <Property Type="String" Name="ProductMasterName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TissueBankProductMasterId" Nullable="false" />
+          <Property Type="String" Name="DomainName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ProductMasterImageName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProductMasterThumbnailImageName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProductMasterDescription" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="ProductMasterFeatures" Nullable="true" MaxLength="300" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3608,18 +3768,12 @@
           <EntitySetMapping Name="TissueBank">
             <EntityTypeMapping TypeName="AllocatDbModel.TissueBank">
               <MappingFragment StoreEntitySet="TissueBank">
-                <ScalarProperty Name="ContactPersonLastName" ColumnName="ContactPersonLastName" />
-                <ScalarProperty Name="ContactPersonFirstName" ColumnName="ContactPersonFirstName" />
-                <ScalarProperty Name="BillingContactNumber" ColumnName="BillingContactNumber" />
-                <ScalarProperty Name="BillingEmailId" ColumnName="BillingEmailId" />
-                <ScalarProperty Name="BillingFaxNumber" ColumnName="BillingFaxNumber" />
-                <ScalarProperty Name="BillingZipCode" ColumnName="BillingZipCode" />
-                <ScalarProperty Name="BillingCityId" ColumnName="BillingCityId" />
-                <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
-                <ScalarProperty Name="ContactPersonEmailId" ColumnName="ContactPersonEmailId" />
                 <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
                 <ScalarProperty Name="TissueBankName" ColumnName="TissueBankName" />
+                <ScalarProperty Name="ContactPersonFirstName" ColumnName="ContactPersonFirstName" />
+                <ScalarProperty Name="ContactPersonLastName" ColumnName="ContactPersonLastName" />
                 <ScalarProperty Name="ContactPersonNumber" ColumnName="ContactPersonNumber" />
+                <ScalarProperty Name="ContactPersonEmailId" ColumnName="ContactPersonEmailId" />
                 <ScalarProperty Name="TissueBankEmailId" ColumnName="TissueBankEmailId" />
                 <ScalarProperty Name="BusinessURL" ColumnName="BusinessURL" />
                 <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
@@ -3636,6 +3790,12 @@
                 <ScalarProperty Name="AATBAccredationDate" ColumnName="AATBAccredationDate" />
                 <ScalarProperty Name="CustomerProfileId" ColumnName="CustomerProfileId" />
                 <ScalarProperty Name="CustomerPaymentProfileIds" ColumnName="CustomerPaymentProfileIds" />
+                <ScalarProperty Name="BillingAddress" ColumnName="BillingAddress" />
+                <ScalarProperty Name="BillingCityId" ColumnName="BillingCityId" />
+                <ScalarProperty Name="BillingZipCode" ColumnName="BillingZipCode" />
+                <ScalarProperty Name="BillingFaxNumber" ColumnName="BillingFaxNumber" />
+                <ScalarProperty Name="BillingEmailId" ColumnName="BillingEmailId" />
+                <ScalarProperty Name="BillingContactNumber" ColumnName="BillingContactNumber" />
                 <ScalarProperty Name="IsAllocatMember" ColumnName="IsAllocatMember" />
                 <ScalarProperty Name="IsAccountVerified" ColumnName="IsAccountVerified" />
                 <ScalarProperty Name="IsActive" ColumnName="IsActive" />
@@ -3660,7 +3820,7 @@
               <MappingFragment StoreEntitySet="TissueBankProduct">
                 <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
                 <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
-                <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
+                <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
                 <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
                 <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
@@ -3677,6 +3837,20 @@
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
                 <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TissueBankProductMaster">
+            <EntityTypeMapping TypeName="AllocatDbModel.TissueBankProductMaster">
+              <MappingFragment StoreEntitySet="TissueBankProductMaster">
+                <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+                <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+                <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3859,44 +4033,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_AddUpdate" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_AddUpdate" />
-          <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetByTissueBankId">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result">
-                <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
-                <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
-                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
-                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-                <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
-                <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
-                <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
-                <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result">
-                <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
-                <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
-                <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
-                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
-                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-                <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
-                <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
-                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
-                <ScalarProperty Name="SourceName" ColumnName="SourceName" />
-                <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
-                <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
-                <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_User_Get" FunctionName="AllocatDbModel.Store.sp_User_Get">
             <ResultMapping>
               <ComplexTypeMapping TypeName="AllocatDbModel.sp_User_Get_Result">
@@ -4036,8 +4172,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="usp_Error_Create" FunctionName="AllocatDbModel.Store.usp_Error_Create" />
-          <FunctionImportMapping FunctionImportName="usp_Transaction_Create" FunctionName="AllocatDbModel.Store.usp_Transaction_Create" />
-          <FunctionImportMapping FunctionImportName="usp_Transaction_Update" FunctionName="AllocatDbModel.Store.usp_Transaction_Update" />
           <FunctionImportMapping FunctionImportName="usp_TissueBank_Add" FunctionName="AllocatDbModel.Store.usp_TissueBank_Add" />
           <FunctionImportMapping FunctionImportName="usp_TissueBank_Get" FunctionName="AllocatDbModel.Store.usp_TissueBank_Get">
             <ResultMapping>
@@ -4088,9 +4222,47 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="usp_TissueBank_UpdateTissueBankDetail" FunctionName="AllocatDbModel.Store.usp_TissueBank_UpdateTissueBankDetail" />
           <FunctionImportMapping FunctionImportName="usp_TissueBank_UpdateTissueBankBillingDetail" FunctionName="AllocatDbModel.Store.usp_TissueBank_UpdateTissueBankBillingDetail" />
+          <FunctionImportMapping FunctionImportName="usp_TissueBank_UpdateTissueBankDetail" FunctionName="AllocatDbModel.Store.usp_TissueBank_UpdateTissueBankDetail" />
           <FunctionImportMapping FunctionImportName="usp_TissueBank_User_Registration" FunctionName="AllocatDbModel.Store.usp_TissueBank_User_Registration" />
+          <FunctionImportMapping FunctionImportName="usp_Transaction_Create" FunctionName="AllocatDbModel.Store.usp_Transaction_Create" />
+          <FunctionImportMapping FunctionImportName="usp_Transaction_Update" FunctionName="AllocatDbModel.Store.usp_Transaction_Update" />
+          <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result">
+                <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+                <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+                <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+                <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+                <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
+                <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
+                <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result">
+                <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
+                <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+                <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+                <ScalarProperty Name="ProductMasterImageName" ColumnName="ProductMasterImageName" />
+                <ScalarProperty Name="ProductMasterThumbnailImageName" ColumnName="ProductMasterThumbnailImageName" />
+                <ScalarProperty Name="ProductMasterDescription" ColumnName="ProductMasterDescription" />
+                <ScalarProperty Name="ProductMasterFeatures" ColumnName="ProductMasterFeatures" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -108,7 +108,7 @@
                     @Html.ValidationSummary(true)
 
                     <div class="form-group w-icon">
-                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control input-lg", @placeholder = "User Name" })
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control input-lg", @placeholder = "User Name/Email-Id" })
                         @*@Html.EditorFor(model => model.Username)*@
                         <span class="fa fa-user signin-form-icon"></span>
                         @Html.ValidationMessageFor(model => model.Username)

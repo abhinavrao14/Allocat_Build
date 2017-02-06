@@ -10,12 +10,16 @@ namespace Allocat.DataServiceInterface
 {
     public interface IProductDataService : IDataService, IDisposable
     {
-        IEnumerable<sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result> GetTbProductsByTissueBankId(int TissueBankId, string SearchBy, int CurrentPage, int PageSize, string SortDirection, string SortExpression, out TransactionalInformation transaction);
-        IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result> GetTissueBankProductsByProductMasterId(int TissueBankId, int ProductMasterId, out TransactionalInformation transaction);
+        IEnumerable<sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result> GetTissueBankProductMastersByTissueBankId(int TissueBankId, string SearchBy, int CurrentPage, int PageSize, string SortDirection, string SortExpression, out TransactionalInformation transaction);
+        IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> GetTissueBankProductsByTissueBankProductMasterId(int TissueBankProductMasterId, out TransactionalInformation transaction);
+
         int AddUpdateTissueBankProducts(DataTable tempTissueBankProduct_TissueBank, out TransactionalInformation transaction);
+
         List<string> GetPreservationTypes(out TransactionalInformation transaction);
         List<Source> GetSources(out TransactionalInformation transaction);
-        List<string> GetProductSizes(int ProductMasterId, out TransactionalInformation transaction);
-        List<string> GetProductTypes(int ProductMasterId, out TransactionalInformation transaction);
+        List<string> GetProductSizes(int TissueBankProductMasterId, out TransactionalInformation transaction);
+        List<string> GetProductTypes(int TissueBankProductMasterId, out TransactionalInformation transaction);
+
+        //bool ValidateUniqueProductCodeInTissueBank(string ProductCode, int TissueBankId);
     }
 }

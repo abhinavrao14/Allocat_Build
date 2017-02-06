@@ -139,8 +139,9 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">TissueBank State License</label>
                                             <span class="error error-msg" ng-show="formTissueBank.TissueBankStateLicense.$error.required">*</span>
-                                            <input type="text" class="form-control" ng-required="true" name="TissueBankStateLicense" ng-model="tissueBank.TissueBankStateLicense" ng-maxlength="tissueBankStateLicenseMaxLength" placeholder="Enter TissueBank State License" />
-                                            <span class="error error-msg" ng-show="formTissueBank.TissueBankStateLicense.$error.maxlength">Tissue Bank State License must be upto 50 digits</span>
+                                            <input type="text" class="form-control" ng-required="true" name="TissueBankStateLicense" ng-model="tissueBank.TissueBankStateLicense" ng-pattern="TissueBankStateLicensePattern" ng-maxlength="tissueBankStateLicenseMaxLength" placeholder="Enter TissueBank State License" />
+                                            <span class="error error-msg" ng-show="formTissueBank.TissueBankStateLicense.$error.maxlength">Tissue Bank State License must be upto 50 digits</span><br />
+                                            <span class="error error-msg" ng-show="formTissueBank.TissueBankStateLicense.$error.pattern">Only Alphaets and Numbers Allowed with spaces.</span>
 
                                         </div>
                                     </div>
@@ -148,8 +149,9 @@
                                         <div class="form-group no-margin-hr">
                                             <label class="control-label">AATB License Number</label>
                                             <span class="error error-msg" ng-show="formTissueBank.AATBLicenseNumber.$error.required">*</span>
-                                            <input type="text" class="form-control" ng-required="true" name="AATBLicenseNumber" ng-model="tissueBank.AATBLicenseNumber" ng-maxlength="aATBLicenseNumberMaxLength" placeholder="Enter AATB License Number" />
-                                            <span class="error error-msg" ng-show="formTissueBank.AATBLicenseNumber.$error.maxlength">AATB License Number must be upto 30 digits</span>
+                                            <input type="text" class="form-control" ng-required="true" name="AATBLicenseNumber" ng-model="tissueBank.AATBLicenseNumber" ng-pattern="AATBLicenseNumberPattern" ng-maxlength="aATBLicenseNumberMaxLength" placeholder="Enter AATB License Number" />
+                                            <span class="error error-msg" ng-show="formTissueBank.AATBLicenseNumber.$error.maxlength">AATB License Number must be upto 30 digits</span><br />
+                                            <span class="error error-msg" ng-show="formTissueBank.AATBLicenseNumber.$error.pattern">Only Alphaets and Numbers Allowed with spaces.</span>
                                         </div>
                                     </div>
                                 </div>

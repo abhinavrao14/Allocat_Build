@@ -38,10 +38,25 @@ namespace Allocat.DataService
             transaction = new TransactionalInformation();
             IEnumerable<sp_RequestForQuote_TissueBank_GetByTissueBankId_Result> lstRfq = dbConnection.sp_RequestForQuote_TissueBank_GetByTissueBankId(TissueBankId, SearchBy, CurrentPage, PageSize, SortDirection, SortExpression);
 
-            int numberOfRows = dbConnection.RequestForQuote.Count();
+            int numberOfRows = (from rfq in dbConnection.RequestForQuote
+                                join pe in dbConnection.ProductEntity on rfq.ProductEntityId equals pe.ProductEntityId
+                                join s in dbConnection.Status on rfq.StatusId equals s.StatusId
+                                join tbp in dbConnection.TissueBankProduct on pe.TissueBankProductId equals tbp.TissueBankProductId
+                                join tbpm in dbConnection.TissueBankProductMaster on tbp.TissueBankProductMasterId equals tbpm.TissueBankProductMasterId
+                                join tb in dbConnection.TissueBank on tbpm.TissueBankId equals tb.TissueBankId
+                                join pm in dbConnection.ProductMaster on tbpm.ProductMasterId equals pm.ProductMasterId
+                                where pe.TissueBankId == TissueBankId && (rfq.RequestForQuoteId.ToString().Contains(SearchBy)
+                                || rfq.LastModifiedDate.ToString().Contains(SearchBy)
+                                || tbp.ProductCode.ToString().Contains(SearchBy)
+                                || pm.ProductMasterName.ToString().Contains(SearchBy)
+                                || s.StatusName.ToString().Contains(SearchBy)
+                                || rfq.LastModifiedDate.ToString().Contains(SearchBy)
+                                || rfq.CreatedDate.ToString().Contains(SearchBy)
+                                )
+                                select rfq).Count();
 
             transaction.ReturnStatus = true;
-            transaction.ReturnMessage.Add(numberOfRows.ToString() + " Request For Quote found.");
+            transaction.ReturnMessage.Add(numberOfRows.ToString()+ " Request For Quote found.");
 
             return lstRfq;
         }

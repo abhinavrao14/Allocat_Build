@@ -33,7 +33,6 @@
     <style>
         a, button {
             font: 14px 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-            display: block;
             color: #333;
             margin-bottom: 10px;
         }
@@ -63,8 +62,8 @@
     <script src="~/Assets/js/lib/pixel-admin.js"></script>
     <script src="~/Assets/js/lib/jquery.autocomplete.min.js"></script>
     <script src="~/Assets/js/lib/currency-autocomplete.js"></script>
-
     <script src="~/Assets/js/lib/angular.min.js"></script>
+
     <script src="~/Assets/js/lib/angular-notify.min.js"></script>
     <script src="~/Assets/js/lib/angular-upload.js"></script>
     <script src="~/Assets/js/lib/xlsx.full.min.js"></script>
@@ -270,7 +269,7 @@
 
                                         <li class="divider"></li>
 
-                                        <li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Account Settings</a></li>
+                                        @*<li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Account Settings</a></li>*@
                                         <li>
                                             @if (ViewBag.user.InfoId > 0)
                                             {

@@ -1,6 +1,5 @@
 ﻿var UploadedExcelFile = '';
 var UploadedAttachmentName = '';
-//var app = angular.module("AllocatApp", ['angularNotify', 'ui.grid', 'lr.upload', 'ui.bootstrap', 'angular.filter', 'angularjs-datetime-picker', 'ngDialog']);
 var app = angular.module("AllocatApp", ['angularNotify', 'ui.grid', 'lr.upload', 'ui.bootstrap', 'angular.filter', 'angularjs-datetime-picker', 'ngDialog', 'angularTrix', 'app.photo', 'ngResource']);
 
 app.config(function ($httpProvider) {
@@ -21,3 +20,4 @@ app.config(['ngDialogProvider', function (ngDialogProvider) {
         appendTo: false
     });
 }]);
+

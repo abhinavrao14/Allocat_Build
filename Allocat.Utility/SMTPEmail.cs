@@ -23,7 +23,7 @@ namespace Allocat.Utility
                 mailMsg.To.Add(new MailAddress(mb.ContactPersonEmailId, mb.ContactPersonName));
 
                 // From
-                mailMsg.From = new MailAddress("sachan.amita33@gmail.com", "David Hill");
+                mailMsg.From = new MailAddress("sachan.amita33@gmail.com", "Allocat Support");
 
                 // Subject and multipart/alternative Body
                 
@@ -58,11 +58,13 @@ namespace Allocat.Utility
                 //body = reader.ReadToEnd();
 
                 html = @"<p>Your password is " + mb.Password + ".Please click on following link to login.<br /> http://localhost:63729/Account </p>";
+                //html = @"<p>Your password is " + mb.Password + ".Please click on following link to login.<br /> http://allocat.net/Account </p>";
                 Subject = "Allocat - Password Changed.";
             }
             else if (mb.MailType == "VerifyUserRegistration")
             {
                 html = @"<p>Your password is " + mb.Password + ".Please click on following link to verify your account.<br />  http://localhost:63729/Response/TissueBank_Verification_Successful?response=true&UserId=" + mb.UserId + "</p>";
+                //html = @"<p>Your password is " + mb.Password + ".Please click on following link to verify your account.<br />  http://allocat.net/Response/TissueBank_Verification_Successful?response=true&UserId=" + mb.UserId + "</p>";
                 Subject = "Allocat - Email Verification.";
             }
             else if (mb.MailType == "UpdateTissueBankDetail")

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
-  <parameter name="AllocatDbEntities-Web.config Connection String" description="AllocatDbEntities Connection String used in web.config by the application to access the database." defaultValue="Data Source=tcp:allocatserver.database.windows.net,1433;Initial Catalog=AllocatDb;User ID=Row;Password=Allocat@1234;multipleactiveresultsets=True;App=EntityFramework;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\Admin\\Desktop\\new\\Allocat\.WebApi\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AllocatDbEntities']/@connectionString" />
+  <parameter name="AllocatDbEntities-Web.config Connection String" description="AllocatDbEntities Connection String used in web.config by the application to access the database." defaultValue="Data Source=DESKTOP-USPCPQR\SINDHU;Initial Catalog=Allocat27Jan2017;Integrated security=true; multipleactiveresultsets=True;App=EntityFramework;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Admin\\Desktop\\Allocat_Build_3Feb2017\\Allocat\.WebApi\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AllocatDbEntities']/@connectionString" />
   </parameter>
 </parameters>

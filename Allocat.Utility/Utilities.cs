@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
@@ -30,7 +31,7 @@ namespace Allocat.Utility
 
         }
 
-        public  static DataTable ToDataTable<T>(IEnumerable<T> items)
+        public static DataTable ToDataTable<T>(IEnumerable<T> items)
         {
             var tb = new DataTable(typeof(T).Name);
 
@@ -202,6 +203,16 @@ namespace Allocat.Utility
                 xmlSerializer.Serialize(textWriter, toSerialize);
                 return textWriter.ToString();
             }
+        }
+
+        public static int GetIenumerableCount(this IEnumerable source)
+        {
+            int c = 0;
+            var e = source.GetEnumerator();
+            while (e.MoveNext())
+                c++;
+
+            return c;
         }
     }
 }

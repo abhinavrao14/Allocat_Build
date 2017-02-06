@@ -18,6 +18,8 @@ namespace Allocat.DataModel
         public User()
         {
             this.Error = new HashSet<Error>();
+            this.TissueBankProductMaster = new HashSet<TissueBankProductMaster>();
+            this.TissueBankProductMaster1 = new HashSet<TissueBankProductMaster>();
             this.Transaction = new HashSet<Transaction>();
             this.UserRole = new HashSet<UserRole>();
         }
@@ -53,6 +55,10 @@ namespace Allocat.DataModel
         public virtual Entity Entity { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Error> Error { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TissueBankProductMaster> TissueBankProductMaster { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TissueBankProductMaster> TissueBankProductMaster1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction> Transaction { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

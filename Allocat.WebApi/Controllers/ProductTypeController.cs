@@ -20,14 +20,14 @@ namespace Allocat.WebApi.Controllers
         {
             productDataService = new ProductDataService();
         }
-        public HttpResponseMessage Get(int ProductMasterId)
+        public HttpResponseMessage Get(int TissueBankProductMasterId)
         {
             Product_TissueBankApiModel rfq_TissueBankApiModel = new Product_TissueBankApiModel();
             TransactionalInformation transaction = new TransactionalInformation();
 
             ProductBusinessService productBusinessService = new ProductBusinessService(productDataService);
 
-            List<string> ProductTypes = productBusinessService.GetProductTypes(ProductMasterId, out transaction);
+            List<string> ProductTypes = productBusinessService.GetProductTypes(TissueBankProductMasterId, out transaction);
 
             rfq_TissueBankApiModel.ProductTypes = ProductTypes;
             rfq_TissueBankApiModel.IsAuthenicated = true;

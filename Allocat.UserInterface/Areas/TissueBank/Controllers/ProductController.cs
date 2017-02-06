@@ -18,7 +18,7 @@ namespace Allocat.UserInterface.Areas.TissueBank.Controllers
         [HttpGet]
         public ActionResult Manage(int Id)
         {
-            ViewBag.ProductMasterId = Id;
+            ViewBag.TissueBankProductMasterId = Id;
             ViewBag.user = System.Web.HttpContext.Current.User;
             return View();
         }

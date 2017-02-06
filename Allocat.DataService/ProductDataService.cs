@@ -34,37 +34,40 @@ namespace Allocat.DataService
             return rowAffected;
         }
 
-        public IEnumerable<sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result> GetTbProductsByTissueBankId(int TissueBankId, string SearchBy, int CurrentPage, int PageSize, string SortDirection, string SortExpression, out TransactionalInformation transaction)
+        public IEnumerable<sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result> GetTissueBankProductMastersByTissueBankId(int TissueBankId, string SearchBy, int CurrentPage, int PageSize, string SortDirection, string SortExpression, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            IEnumerable<sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result> lstTbProducts = dbConnection.sp_TissueBankProduct_TissueBank_GetByTissueBankId(TissueBankId, SearchBy, CurrentPage, PageSize, SortDirection, SortExpression);
 
-            int numberOfRows = 0;
-            if (SearchBy == "")
-            {
-                numberOfRows = (from tbProduct in dbConnection.TissueBankProduct
-                                where tbProduct.TissueBankId == TissueBankId
-                                select tbProduct).Count();
-            }
+            IEnumerable<sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result> lstTbProductMasters = dbConnection.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId(TissueBankId, SearchBy, CurrentPage, PageSize, SortDirection, SortExpression);
+
+            int Count = ((from tbpm in dbConnection.TissueBankProductMaster
+                          join tb in dbConnection.TissueBank on tbpm.TissueBankId equals tb.TissueBankId
+                          join tbp in dbConnection.TissueBankProduct on tbpm.TissueBankProductMasterId equals tbp.TissueBankProductMasterId
+                          join pm in dbConnection.ProductMaster on tbpm.ProductMasterId equals pm.ProductMasterId
+                          where tbpm.TissueBankId == TissueBankId && tbpm.IsActive == true && tb.IsActive == true && pm.IsActive == true && tbp.IsActive == true && pm.ProductMasterName.Contains(SearchBy)
+                          select tbpm).Distinct().Count());
 
             transaction.ReturnStatus = true;
-            transaction.ReturnMessage.Add(numberOfRows.ToString()+ " Products found.");
+            transaction.ReturnMessage.Add(Count + " Product Masters found.");
 
-            return lstTbProducts;
+            return lstTbProductMasters;
         }
 
-        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result> GetTissueBankProductsByProductMasterId(int TissueBankId, int ProductMasterId, out TransactionalInformation transaction)
+        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> GetTissueBankProductsByTissueBankProductMasterId(int TissueBankProductMasterId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
-            IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result> lstTbProducts = dbConnection.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId(TissueBankId, ProductMasterId);
+            IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> lstTbProducts = dbConnection.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId(TissueBankProductMasterId);
 
-            int numberOfRows = (from tbProduct in dbConnection.TissueBankProduct
-                                where tbProduct.TissueBankId == TissueBankId && tbProduct.ProductMasterId == ProductMasterId
-                                select tbProduct).Count();
+            int Count = ((from tbp in dbConnection.TissueBankProduct
+                          join tb in dbConnection.TissueBank on tbp.TissueBankId equals tb.TissueBankId
+                          join tbpm in dbConnection.TissueBankProductMaster on tbp.TissueBankProductMasterId equals tbpm.TissueBankProductMasterId
+                          join pm in dbConnection.ProductMaster on tbpm.ProductMasterId equals pm.ProductMasterId
+                          where tbpm.TissueBankProductMasterId == TissueBankProductMasterId && tbpm.IsActive == true && tb.IsActive == true && pm.IsActive == true && tbp.IsActive == true
+                          select tbp).Count());
 
             transaction.ReturnStatus = true;
-            transaction.ReturnMessage.Add(numberOfRows.ToString() + " products found.");
+            transaction.ReturnMessage.Add(Count + " TB Products found.");
 
             return lstTbProducts;
         }
@@ -97,12 +100,14 @@ namespace Allocat.DataService
             return lstSource;
         }
 
-        public List<string> GetProductSizes(int ProductMasterId, out TransactionalInformation transaction)
+        public List<string> GetProductSizes(int TissueBankProductMasterId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
             List<string> lstProductSize = ((from tbp in dbConnection.TissueBankProduct
-                                            where tbp.ProductMasterId == ProductMasterId
+                                            join tbpm in dbConnection.TissueBankProductMaster on tbp.TissueBankProductMasterId equals tbpm.TissueBankProductMasterId
+                                            join pm in dbConnection.ProductMaster on tbpm.ProductMasterId equals pm.ProductMasterId
+                                            where tbpm.TissueBankProductMasterId == TissueBankProductMasterId
                                             select tbp.ProductSize).Distinct()).ToList();
             transaction.ReturnStatus = true;
             transaction.ReturnMessage.Add(lstProductSize.Count.ToString() + " preservation-types found.");
@@ -110,17 +115,28 @@ namespace Allocat.DataService
             return lstProductSize;
         }
 
-        public List<string> GetProductTypes(int ProductMasterId, out TransactionalInformation transaction)
+        public List<string> GetProductTypes(int TissueBankProductMasterId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
             List<string> lstProductType = ((from tbp in dbConnection.TissueBankProduct
-                                            where tbp.ProductMasterId==ProductMasterId
+                                            join tbpm in dbConnection.TissueBankProductMaster on tbp.TissueBankProductMasterId equals tbpm.TissueBankProductMasterId
+                                            join pm in dbConnection.ProductMaster on tbpm.ProductMasterId equals pm.ProductMasterId
+                                            where tbpm.TissueBankProductMasterId == TissueBankProductMasterId
                                             select tbp.ProductType).Distinct()).ToList();
             transaction.ReturnStatus = true;
             transaction.ReturnMessage.Add(lstProductType.Count.ToString() + " product-types found.");
 
             return lstProductType;
         }
+
+        //public bool ValidateUniqueProductCodeInTissueBank(string ProductCode, int TissueBankId)
+        //{
+        //    TissueBankProduct tbp = dbConnection.TissueBankProduct.FirstOrDefault(t => t.ProductCode == ProductCode && t.TissueBankId!= TissueBankId);
+        //    if (tbp == null)
+        //        return true;
+
+        //    return false;
+        //}
     }
 }

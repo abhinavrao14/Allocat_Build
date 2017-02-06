@@ -21,12 +21,16 @@ namespace Allocat.DataModel
             this.Response = new HashSet<Response>();
             this.TissueBankCreditCard = new HashSet<TissueBankCreditCard>();
             this.TissueBankProduct = new HashSet<TissueBankProduct>();
+            this.TissueBankProductMaster = new HashSet<TissueBankProductMaster>();
             this.Transaction = new HashSet<Transaction>();
         }
     
         public int TissueBankId { get; set; }
         public string TissueBankName { get; set; }
+        public string ContactPersonFirstName { get; set; }
+        public string ContactPersonLastName { get; set; }
         public string ContactPersonNumber { get; set; }
+        public string ContactPersonEmailId { get; set; }
         public string TissueBankEmailId { get; set; }
         public string BusinessURL { get; set; }
         public Nullable<bool> IsMobileVerified { get; set; }
@@ -43,6 +47,12 @@ namespace Allocat.DataModel
         public Nullable<System.DateTime> AATBAccredationDate { get; set; }
         public string CustomerProfileId { get; set; }
         public string CustomerPaymentProfileIds { get; set; }
+        public string BillingAddress { get; set; }
+        public Nullable<int> BillingCityId { get; set; }
+        public string BillingZipCode { get; set; }
+        public string BillingFaxNumber { get; set; }
+        public string BillingEmailId { get; set; }
+        public string BillingContactNumber { get; set; }
         public Nullable<bool> IsAllocatMember { get; set; }
         public Nullable<bool> IsAccountVerified { get; set; }
         public Nullable<bool> IsActive { get; set; }
@@ -50,15 +60,6 @@ namespace Allocat.DataModel
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<System.DateTime> LastModifiedDate { get; set; }
         public Nullable<int> LastModifiedBy { get; set; }
-        public string ContactPersonEmailId { get; set; }
-        public string BillingAddress { get; set; }
-        public Nullable<int> BillingCityId { get; set; }
-        public string BillingZipCode { get; set; }
-        public string BillingFaxNumber { get; set; }
-        public string BillingEmailId { get; set; }
-        public string BillingContactNumber { get; set; }
-        public string ContactPersonFirstName { get; set; }
-        public string ContactPersonLastName { get; set; }
     
         public virtual City City { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -69,6 +70,8 @@ namespace Allocat.DataModel
         public virtual ICollection<TissueBankCreditCard> TissueBankCreditCard { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TissueBankProduct> TissueBankProduct { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TissueBankProductMaster> TissueBankProductMaster { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction> Transaction { get; set; }
     }

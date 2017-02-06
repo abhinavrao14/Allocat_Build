@@ -20,16 +20,16 @@ namespace Allocat.ApplicationService
             _productDataService = productDataService;
         }
 
-        public IEnumerable<sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result> GetProducts(int TissueBankId, string SearchBy, int CurrentPage, int PageSize, string SortDirection, string SortExpression, out TransactionalInformation transaction)
+        public IEnumerable<sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result> GetTissueBankProductMastersByTissueBankId(int TissueBankId, string SearchBy, int CurrentPage, int PageSize, string SortDirection, string SortExpression, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
-            IEnumerable<sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result> lstTbProducts = null;
+            IEnumerable<sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result> lstTbProductMasters = null;
 
             try
             {
                 _productDataService.CreateSession();
-                lstTbProducts = _productDataService.GetTbProductsByTissueBankId(TissueBankId, SearchBy, CurrentPage, PageSize, SortDirection, SortExpression, out transaction);
+                lstTbProductMasters = _productDataService.GetTissueBankProductMastersByTissueBankId(TissueBankId, SearchBy, CurrentPage, PageSize, SortDirection, SortExpression, out transaction);
             }
             catch (Exception ex)
             {
@@ -43,19 +43,19 @@ namespace Allocat.ApplicationService
                 _productDataService.CloseSession();
             }
 
-            return lstTbProducts;
+            return lstTbProductMasters;
         }
 
-        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result> GetTissueBankProductsByProductMasterId(int TissueBankId, int ProductMasterId, out TransactionalInformation transaction)
+        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> GetTissueBankProductsByTissueBankProductMasterId(int TissueBankProductMasterId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
-            IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result> lstTbProducts = null;
+            IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> lstTbProducts = null;
 
             try
             {
                 _productDataService.CreateSession();
-                lstTbProducts = _productDataService.GetTissueBankProductsByProductMasterId(TissueBankId, ProductMasterId, out transaction);
+                lstTbProducts = _productDataService.GetTissueBankProductsByTissueBankProductMasterId(TissueBankProductMasterId, out transaction);
             }
             catch (Exception ex)
             {
@@ -76,7 +76,7 @@ namespace Allocat.ApplicationService
         {
             transaction = new TransactionalInformation();
 
-            ProductBusinessRule productBusinessRule = new ProductBusinessRule();
+            ProductBusinessRule productBusinessRule = new ProductBusinessRule(_productDataService);
 
             try
             {
@@ -158,7 +158,7 @@ namespace Allocat.ApplicationService
             return lstSource;
         }
 
-        public List<string> GetProductSizes(int ProductMasterId, out TransactionalInformation transaction)
+        public List<string> GetProductSizes(int TissueBankProductMasterId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
@@ -167,7 +167,7 @@ namespace Allocat.ApplicationService
             try
             {
                 _productDataService.CreateSession();
-                lstProductSize = _productDataService.GetProductSizes(ProductMasterId, out transaction);
+                lstProductSize = _productDataService.GetProductSizes(TissueBankProductMasterId, out transaction);
             }
             catch (Exception ex)
             {
@@ -183,7 +183,7 @@ namespace Allocat.ApplicationService
             return lstProductSize;
         }
 
-        public List<string> GetProductTypes(int ProductMasterId, out TransactionalInformation transaction)
+        public List<string> GetProductTypes(int TissueBankProductMasterId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
@@ -192,7 +192,7 @@ namespace Allocat.ApplicationService
             try
             {
                 _productDataService.CreateSession();
-                lstProductType = _productDataService.GetProductTypes(ProductMasterId, out transaction);
+                lstProductType = _productDataService.GetProductTypes(TissueBankProductMasterId, out transaction);
             }
             catch (Exception ex)
             {
@@ -207,5 +207,7 @@ namespace Allocat.ApplicationService
             }
             return lstProductType;
         }
+
+      
     }
 }

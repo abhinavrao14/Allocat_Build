@@ -11,17 +11,15 @@ namespace Allocat.DataModel
 {
     using System;
     
-    public partial class sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result
+    public partial class sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result
     {
         public Nullable<int> StartLimit { get; set; }
         public string ProductMasterName { get; set; }
-        public string ProductType { get; set; }
-        public string ProductCode { get; set; }
-        public string ProductSize { get; set; }
-        public string PreservationType { get; set; }
-        public Nullable<decimal> UnitPrice { get; set; }
-        public string IsAvailableForSale { get; set; }
-        public int TissueBankProductId { get; set; }
-        public Nullable<int> ProductMasterId { get; set; }
+        public int TissueBankProductMasterId { get; set; }
+        public string DomainName { get; set; }
+        public string ProductMasterImageName { get; set; }
+        public string ProductMasterThumbnailImageName { get; set; }
+        public string ProductMasterDescription { get; set; }
+        public string ProductMasterFeatures { get; set; }
     }
 }

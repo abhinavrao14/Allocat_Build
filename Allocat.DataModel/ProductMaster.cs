@@ -18,7 +18,7 @@ namespace Allocat.DataModel
         public ProductMaster()
         {
             this.ProductMaster1 = new HashSet<ProductMaster>();
-            this.TissueBankProduct = new HashSet<TissueBankProduct>();
+            this.TissueBankProductMaster = new HashSet<TissueBankProductMaster>();
         }
     
         public int ProductMasterId { get; set; }
@@ -40,6 +40,6 @@ namespace Allocat.DataModel
         public virtual ICollection<ProductMaster> ProductMaster1 { get; set; }
         public virtual ProductMaster ProductMaster2 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TissueBankProduct> TissueBankProduct { get; set; }
+        public virtual ICollection<TissueBankProductMaster> TissueBankProductMaster { get; set; }
     }
 }

@@ -6,13 +6,13 @@ namespace Allocat.WebApi.WebApiModel
 {
     public class Product_TissueBankApiModel : TransactionalInformation
     {
-        public IEnumerable<sp_TissueBankProduct_TissueBank_GetByTissueBankId_Result> Products;
-        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId_Result> ProductsByProductMasterId;
-         public List<string> PreservationTypes;
-         public List<Source> Sources;
-         public List<string> ProductSizes;
+        public IEnumerable<sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result> TbProductMasters;
+        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> TbProducts;
+
+        public List<string> PreservationTypes;
+        public List<Source> Sources;
+        public List<string> ProductSizes;
         public List<string> ProductTypes;
-        //public ProductMaster ProductMaster;
     }
 
     public class ProductList_TissueBank_DTO
@@ -29,7 +29,7 @@ namespace Allocat.WebApi.WebApiModel
     {
         public int TissueBankProductId { get; set; }
         public Nullable<int> TissueBankId { get; set; }
-        public Nullable<int> ProductMasterId { get; set; }
+        public Nullable<int> TissueBankProductMasterId { get; set; }
         public string ProductType { get; set; }
         public string ProductCode { get; set; }
         public string ProductSize { get; set; }
