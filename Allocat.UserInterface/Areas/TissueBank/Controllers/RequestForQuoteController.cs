@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Allocat.UserInterface.Models;
 
 namespace Allocat.UserInterface.Areas.TissueBank.Controllers
 {
     [CustomAuthorize(Roles = "TISSUE BANK SUPER ADMIN, TISSUE BANK FULFILMENT MANAGER")]
+    [CustomActionFilter]
     public class RequestForQuoteController : Controller
     {
         public ActionResult Index()

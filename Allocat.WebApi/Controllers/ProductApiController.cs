@@ -13,14 +13,12 @@ using System;
 using System.Text;
 using System.Net.Mail;
 using System.Net.Mime;
-
+using Allocat.WebApi.CustomService;
 
 namespace Allocat.WebApi.Controllers
 {
     public class ProductApiController : ApiController
     {
-        protected string toEmail, EmailSubj, EmailMsg;
-
         IProductDataService productDataService;
 
         public ProductApiController()
@@ -28,27 +26,68 @@ namespace Allocat.WebApi.Controllers
             productDataService = new ProductDataService();
         }
 
+        //public HttpResponseMessage Get([FromUri] ProductList_TissueBank_DTO productList_TissueBank_DTO)
+        //{
+        //    //if (productList_TissueBank_DTO.SearchBy == null) productList_TissueBank_DTO.SearchBy = string.Empty;
+
+        //    Product_TissueBankApiModel product_TissueBankModel = new Product_TissueBankApiModel();
+        //    TransactionalInformation transaction = new TransactionalInformation();
+
+        //    ProductBusinessService productBusinessService = new ProductBusinessService(productDataService);
+
+        //    string ProductMasterCommaSeparated = productBusinessService.GetProductMasterBySearch
+        //        (productList_TissueBank_DTO.SearchBy, out transaction);
+
+        //    product_TissueBankModel.ProductMasterCommaSeparated = ProductMasterCommaSeparated;
+        //    product_TissueBankModel.ReturnStatus = transaction.ReturnStatus;
+        //    product_TissueBankModel.ReturnMessage = transaction.ReturnMessage;
+        //    product_TissueBankModel.IsAuthenicated = true;
+
+        //    if (transaction.ReturnStatus == true)
+        //    {
+        //        var response = Request.CreateResponse<Product_TissueBankApiModel>(HttpStatusCode.OK, product_TissueBankModel);
+        //        return response;
+        //    }
+
+        //    var badResponse = Request.CreateResponse<Product_TissueBankApiModel>(HttpStatusCode.BadRequest, product_TissueBankModel);
+        //    return badResponse;
+        //}
+
         public HttpResponseMessage Get([FromUri] ProductList_TissueBank_DTO productList_TissueBank_DTO)
         {
-            if (productList_TissueBank_DTO.SearchBy == null) productList_TissueBank_DTO.SearchBy = string.Empty;
-            if (productList_TissueBank_DTO.SortDirection == null) productList_TissueBank_DTO.SortDirection = string.Empty;
-            if (productList_TissueBank_DTO.SortExpression == null) productList_TissueBank_DTO.SortExpression = string.Empty;
-
             Product_TissueBankApiModel product_TissueBankModel = new Product_TissueBankApiModel();
             TransactionalInformation transaction = new TransactionalInformation();
-
-            if (productList_TissueBank_DTO.SortDirection == "") productList_TissueBank_DTO.SortDirection = "ASC";
-            if (productList_TissueBank_DTO.SortExpression == "") productList_TissueBank_DTO.SortExpression = "ProductMasterName";
-
             ProductBusinessService productBusinessService = new ProductBusinessService(productDataService);
 
-            IEnumerable<sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result> TbProductMasters = productBusinessService.GetTissueBankProductMastersByTissueBankId
-                (productList_TissueBank_DTO.TissueBankId, productList_TissueBank_DTO.SearchBy, productList_TissueBank_DTO.CurrentPage, productList_TissueBank_DTO.PageSize, productList_TissueBank_DTO.SortDirection, productList_TissueBank_DTO.SortExpression, out transaction);
+            if (productList_TissueBank_DTO.OperationType == "GetAll")
+            {
 
-            product_TissueBankModel.TbProductMasters = TbProductMasters;
-            product_TissueBankModel.ReturnStatus = transaction.ReturnStatus;
-            product_TissueBankModel.ReturnMessage = transaction.ReturnMessage;
-            product_TissueBankModel.IsAuthenicated = true;
+                if (productList_TissueBank_DTO.SearchBy == null) productList_TissueBank_DTO.SearchBy = string.Empty;
+                if (productList_TissueBank_DTO.SortDirection == null) productList_TissueBank_DTO.SortDirection = string.Empty;
+                if (productList_TissueBank_DTO.SortExpression == null) productList_TissueBank_DTO.SortExpression = string.Empty;
+
+                if (productList_TissueBank_DTO.SortDirection == "") productList_TissueBank_DTO.SortDirection = "ASC";
+                if (productList_TissueBank_DTO.SortExpression == "") productList_TissueBank_DTO.SortExpression = "ProductMasterName";
+
+
+                IEnumerable<sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result> TbProductMasters = productBusinessService.GetTissueBankProductMastersByTissueBankId
+                    (productList_TissueBank_DTO.TissueBankId, productList_TissueBank_DTO.SearchBy, productList_TissueBank_DTO.CurrentPage, productList_TissueBank_DTO.PageSize, productList_TissueBank_DTO.SortDirection, productList_TissueBank_DTO.SortExpression, out transaction);
+
+                product_TissueBankModel.TbProductMasters = TbProductMasters;
+                product_TissueBankModel.ReturnStatus = transaction.ReturnStatus;
+                product_TissueBankModel.ReturnMessage = transaction.ReturnMessage;
+                product_TissueBankModel.IsAuthenicated = true;
+            }
+            else if (productList_TissueBank_DTO.OperationType == "GetById")
+            {
+                IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> TbProducts = productBusinessService.GetTissueBankProductsByTissueBankProductMasterId
+                (productList_TissueBank_DTO.TissueBankProductMasterId, productList_TissueBank_DTO.TissueBankId, productList_TissueBank_DTO.InfoType, out transaction);
+
+                product_TissueBankModel.TbProducts = TbProducts;
+                product_TissueBankModel.ReturnStatus = transaction.ReturnStatus;
+                product_TissueBankModel.ReturnMessage = transaction.ReturnMessage;
+                product_TissueBankModel.IsAuthenicated = true;
+            }
 
             if (transaction.ReturnStatus == true)
             {
@@ -60,30 +99,30 @@ namespace Allocat.WebApi.Controllers
             return badResponse;
         }
 
-        public HttpResponseMessage Get([FromUri] int TissueBankProductMasterId)
-        {
-            Product_TissueBankApiModel product_TissueBankModel = new Product_TissueBankApiModel();
-            TransactionalInformation transaction = new TransactionalInformation();
+        //public HttpResponseMessage Get([FromUri] int TissueBankProductMasterId)
+        //{
+        //    Product_TissueBankApiModel product_TissueBankModel = new Product_TissueBankApiModel();
+        //    TransactionalInformation transaction = new TransactionalInformation();
 
-            ProductBusinessService productBusinessService = new ProductBusinessService(productDataService);
+        //    ProductBusinessService productBusinessService = new ProductBusinessService(productDataService);
 
-            IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> TbProducts = productBusinessService.GetTissueBankProductsByTissueBankProductMasterId
-                (TissueBankProductMasterId, out transaction);
+        //    IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> TbProducts = productBusinessService.GetTissueBankProductsByTissueBankProductMasterId
+        //        (TissueBankProductMasterId, out transaction);
 
-            product_TissueBankModel.TbProducts = TbProducts;
-            product_TissueBankModel.ReturnStatus = transaction.ReturnStatus;
-            product_TissueBankModel.ReturnMessage = transaction.ReturnMessage;
-            product_TissueBankModel.IsAuthenicated = true;
+        //    product_TissueBankModel.TbProducts = TbProducts;
+        //    product_TissueBankModel.ReturnStatus = transaction.ReturnStatus;
+        //    product_TissueBankModel.ReturnMessage = transaction.ReturnMessage;
+        //    product_TissueBankModel.IsAuthenicated = true;
 
-            if (transaction.ReturnStatus == true)
-            {
-                var response = Request.CreateResponse<Product_TissueBankApiModel>(HttpStatusCode.OK, product_TissueBankModel);
-                return response;
-            }
+        //    if (transaction.ReturnStatus == true)
+        //    {
+        //        var response = Request.CreateResponse<Product_TissueBankApiModel>(HttpStatusCode.OK, product_TissueBankModel);
+        //        return response;
+        //    }
 
-            var badResponse = Request.CreateResponse<Product_TissueBankApiModel>(HttpStatusCode.BadRequest, product_TissueBankModel);
-            return badResponse;
-        }
+        //    var badResponse = Request.CreateResponse<Product_TissueBankApiModel>(HttpStatusCode.BadRequest, product_TissueBankModel);
+        //    return badResponse;
+        //}
 
         [HttpPost]
         public HttpResponseMessage POST(IEnumerable<ProductAddUpdate_TissueBank_DTO> Products)

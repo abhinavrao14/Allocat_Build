@@ -8,6 +8,7 @@ namespace Allocat.WebApi.WebApiModel
     {
         public IEnumerable<sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result> TbProductMasters;
         public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> TbProducts;
+        public string ProductMasterCommaSeparated;
 
         public List<string> PreservationTypes;
         public List<Source> Sources;
@@ -23,6 +24,12 @@ namespace Allocat.WebApi.WebApiModel
         public int PageSize { get; set; }
         public string SortDirection { get; set; }
         public string SortExpression { get; set; }
+
+
+        public int TissueBankProductMasterId { get; set; }
+        public string InfoType { get; set; }
+        public string OperationType { get; set; }
+
     }
 
     public class ProductAddUpdate_TissueBank_DTO

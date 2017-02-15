@@ -20,14 +20,15 @@ namespace Allocat.UserInterface.Controllers
     {
         IKeyValueDataService keyValueDataService;
         ITissueBankDataService tbDataService;
+        IUserDataService userDataService;
         AllocatDbEntities Context = new AllocatDbEntities();
 
         public AccountController()
         {
             keyValueDataService = new KeyValueDataService();
             tbDataService = new TissueBankDataService();
+            userDataService = new UserDataService();
         }
-
 
         [AllowAnonymous]
         public ActionResult Index(string Status)
@@ -41,7 +42,7 @@ namespace Allocat.UserInterface.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = Context.User.Where(u => (u.UserName == model.Username || u.EmailId==model.Username) && u.Password == model.Password && u.AllowLogin == true && u.IsEmailVerified == true).FirstOrDefault();
+                var user = Context.User.Where(u => (u.UserName == model.Username || u.EmailId == model.Username) && u.Password == model.Password && u.AllowLogin == true && u.IsEmailVerified == true).FirstOrDefault();
 
                 if (user != null)
                 {
@@ -131,7 +132,6 @@ namespace Allocat.UserInterface.Controllers
             return RedirectToAction("Index", "Account", new { area = "" });
         }
 
-
         [AllowAnonymous]
         public ActionResult TissueBankSignUp()
         {
@@ -157,9 +157,7 @@ namespace Allocat.UserInterface.Controllers
 
             if (ModelState.IsValid)
             {
-
-
-                  tissueBankBusinessService.TissueBank_User_Registration(model.FullName, model.UserName, model.EmailId, model.SecurityQuestion, model.SecurityAnswer, out transaction);
+                tissueBankBusinessService.TissueBank_User_Registration(model.FullName, model.UserName, model.EmailId, model.SecurityQuestion, model.SecurityAnswer, out transaction);
 
                 tbApiModel.ReturnMessage = transaction.ReturnMessage;
                 tbApiModel.ReturnStatus = transaction.ReturnStatus;
@@ -199,5 +197,60 @@ namespace Allocat.UserInterface.Controllers
                 return View(model);
             }
         }
+
+        //[AllowAnonymous]
+        //public ActionResult ForgetPassword()
+        //{
+        //    if (Session["UserId"] != null)
+        //    {
+        //        ViewBag.UserId = Convert.ToInt16(Session["UserId"]);
+        //        return View();
+        //    }
+        //    else
+        //    {
+        //        return RedirectToAction("Index", "Account", new { area = "", Status = "Session is expired.Please do it again." });
+        //    }
+        //}
+
+        //[HttpPost]
+        //public ActionResult ForgetPassword(ForgetPasswordViewModel model)
+        //{
+        //    TransactionalInformation transaction = new TransactionalInformation();
+
+        //    UserApiModel userApiModel = new UserApiModel();
+        //    UserBusinessService userBusinessService = new UserBusinessService(userDataService);
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        userBusinessService.User_CreateUpdateDelete(0, "", "", "", "", model.EmailId, 0, 0, 0, "", false, null, false, out transaction);
+
+        //        userApiModel.ReturnMessage = transaction.ReturnMessage;
+        //        userApiModel.ReturnStatus = transaction.ReturnStatus;
+
+        //        if (transaction.ReturnStatus == false)
+        //        {
+        //            userApiModel.ValidationErrors = transaction.ValidationErrors;
+        //            for (int i = 0; i < transaction.ReturnMessage.Count; ++i)
+        //            {
+        //                ModelState.AddModelError("", transaction.ReturnMessage[i]);
+        //            }
+        //            return View();
+        //        }
+        //        else
+        //        {
+        //            return RedirectToAction("TissueBankUser_SignUp_Successful", "Response", new { area = "" });
+        //        }
+        //    }
+        //    else
+        //    {
+        //        //filling up dropdown
+        //        KeyValueBusinessService keyValueBusinessService = new KeyValueBusinessService(keyValueDataService);
+        //        IEnumerable<KeyValue> KeyValues = keyValueBusinessService.Get("Question", out transaction);
+
+        //        ViewBag.SecurityQuestions = new SelectList(keyValueBusinessService.Get("Question", out transaction), "Key", "Value");
+
+        //        return View(model);
+        //    }
+        //}
     }
 }

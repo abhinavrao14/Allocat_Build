@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+<style>
+    .blink_me {
+        animation: blinker 1s linear infinite;
+    }
+
+    @@keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+</style>
+
+<script>
+    (function blink() {
+        $('.blink_me').fadeOut(500).fadeIn(500, blink);
+    })();
+</script>
+@if (ViewBag.user.InfoId == 0)
+{
+    <body style="background:#4bacd0">
+        <div style="border:10px solid rgba(0,0,0,.1); width:45%; margin:auto; padding:20px; box-shadow:0px 5px 3px 20px rgba(255,255,255,.1)">
+            <a style="color:#ffffff;text-align:center;font-size:18px" class="blink_me" href="@Url.Action("Index", "TissueBankProfile", new { Area = "TissueBank" })">
+                You have not yet registered your tissuebank.<br /> Click here to register
+            </a>
+        </div>
+    </body>
+}

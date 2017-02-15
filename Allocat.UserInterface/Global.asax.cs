@@ -44,6 +44,11 @@ namespace Allocat.UserInterface
 
         protected void Application_BeginRequest()
         {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetExpires(DateTime.UtcNow.AddHours(-1));
+            Response.Cache.SetNoStore();
+
+
             if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
             {
                 Response.Flush();

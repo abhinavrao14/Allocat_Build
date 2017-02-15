@@ -1,9 +1,11 @@
 ﻿using Allocat.Web.Security;
 using System.Web.Mvc;
+using Allocat.UserInterface.Models;
 
 namespace Allocat.UserInterface.Areas.TissueBank.Controllers
 {
     [CustomAuthorize(Roles = "TISSUE BANK SUPER ADMIN, TISSUE BANK FULFILMENT MANAGER")]
+    [CustomActionFilter]
     public class OrderController : Controller
     {
         public ActionResult Index()

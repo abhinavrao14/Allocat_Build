@@ -19,6 +19,10 @@ namespace Allocat.WebApi.WebApiModel
         public int PageSize { get; set; }
         public string SortDirection { get; set; }
         public string SortExpression { get; set; }
+
+        public int RequestForQuoteId { get; set; }
+        public string InfoType { get; set; }
+        public string OperationType { get; set; }
     }
 
     public class RFQ_TissueBank_Edit_DTO

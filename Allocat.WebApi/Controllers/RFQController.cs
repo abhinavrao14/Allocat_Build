@@ -23,27 +23,38 @@ namespace Allocat.WebApi.Controllers
 
         public HttpResponseMessage Get([FromUri] RFQ_TissueBank_DTO rfq_TissueBank_DTO)
         {
-            //Thread.Sleep(2000);
-
-            if (rfq_TissueBank_DTO.SearchBy == null) rfq_TissueBank_DTO.SearchBy = string.Empty;
-            if (rfq_TissueBank_DTO.SortDirection == null) rfq_TissueBank_DTO.SortDirection = string.Empty;
-            if (rfq_TissueBank_DTO.SortExpression == null) rfq_TissueBank_DTO.SortExpression = string.Empty;
-
             RFQ_TissueBankApiModel rfq_TissueBankApiModel = new RFQ_TissueBankApiModel();
             TransactionalInformation transaction = new TransactionalInformation();
-
-            if (rfq_TissueBank_DTO.SortDirection == "") rfq_TissueBank_DTO.SortDirection = "DESC";
-            if (rfq_TissueBank_DTO.SortExpression == "") rfq_TissueBank_DTO.SortExpression = "RequestForQuoteId";
-
             RFQBusinessService rfqBusinessService = new RFQBusinessService(rfqDataService);
 
-            IEnumerable<sp_RequestForQuote_TissueBank_GetByTissueBankId_Result> RequestForQuotes = rfqBusinessService.GetRfqsByTissueBankId
-                (rfq_TissueBank_DTO.TissueBankId, rfq_TissueBank_DTO.SearchBy, rfq_TissueBank_DTO.CurrentPage, rfq_TissueBank_DTO.PageSize, rfq_TissueBank_DTO.SortDirection, rfq_TissueBank_DTO.SortExpression, out transaction);
+            if (rfq_TissueBank_DTO.OperationType == "GetAll")
+            {
+                if (rfq_TissueBank_DTO.SearchBy == null) rfq_TissueBank_DTO.SearchBy = string.Empty;
+                if (rfq_TissueBank_DTO.SortDirection == null) rfq_TissueBank_DTO.SortDirection = string.Empty;
+                if (rfq_TissueBank_DTO.SortExpression == null) rfq_TissueBank_DTO.SortExpression = string.Empty;
 
-            rfq_TissueBankApiModel.RequestForQuotes = RequestForQuotes;
-            rfq_TissueBankApiModel.ReturnStatus = transaction.ReturnStatus;
-            rfq_TissueBankApiModel.ReturnMessage = transaction.ReturnMessage;
-            rfq_TissueBankApiModel.IsAuthenicated = true;
+                if (rfq_TissueBank_DTO.SortDirection == "") rfq_TissueBank_DTO.SortDirection = "DESC";
+                if (rfq_TissueBank_DTO.SortExpression == "") rfq_TissueBank_DTO.SortExpression = "RequestForQuoteId";
+
+
+                IEnumerable<sp_RequestForQuote_TissueBank_GetByTissueBankId_Result> RequestForQuotes = rfqBusinessService.GetRfqsByTissueBankId
+                    (rfq_TissueBank_DTO.TissueBankId, rfq_TissueBank_DTO.SearchBy, rfq_TissueBank_DTO.CurrentPage, rfq_TissueBank_DTO.PageSize, rfq_TissueBank_DTO.SortDirection, rfq_TissueBank_DTO.SortExpression, out transaction);
+
+                rfq_TissueBankApiModel.RequestForQuotes = RequestForQuotes;
+                rfq_TissueBankApiModel.ReturnStatus = transaction.ReturnStatus;
+                rfq_TissueBankApiModel.ReturnMessage = transaction.ReturnMessage;
+                rfq_TissueBankApiModel.IsAuthenicated = true;
+            }
+            else if (rfq_TissueBank_DTO.OperationType == "GetById")
+            {
+                IEnumerable<sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result> RequestForQuoteDetail = rfqBusinessService.GetRfqDetailByRequestForQuoteId
+               (rfq_TissueBank_DTO.RequestForQuoteId, rfq_TissueBank_DTO.TissueBankId, rfq_TissueBank_DTO.InfoType, out transaction);
+
+                rfq_TissueBankApiModel.RequestForQuoteDetail = RequestForQuoteDetail;
+                rfq_TissueBankApiModel.ReturnStatus = transaction.ReturnStatus;
+                rfq_TissueBankApiModel.ReturnMessage = transaction.ReturnMessage;
+                rfq_TissueBankApiModel.IsAuthenicated = true;
+            }
 
             if (transaction.ReturnStatus == true)
             {
@@ -55,31 +66,6 @@ namespace Allocat.WebApi.Controllers
             return badResponse;
         }
 
-
-        public HttpResponseMessage Get([FromUri] int RequestForQuoteId)
-        {
-            RFQ_TissueBankApiModel rfq_TissueBankApiModel = new RFQ_TissueBankApiModel();
-            TransactionalInformation transaction = new TransactionalInformation();
-
-            RFQBusinessService rfqBusinessService = new RFQBusinessService(rfqDataService);
-
-            IEnumerable<sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result> RequestForQuoteDetail = rfqBusinessService.GetRfqDetailByRequestForQuoteId
-                (RequestForQuoteId, out transaction);
-
-            rfq_TissueBankApiModel.RequestForQuoteDetail = RequestForQuoteDetail;
-            rfq_TissueBankApiModel.ReturnStatus = transaction.ReturnStatus;
-            rfq_TissueBankApiModel.ReturnMessage = transaction.ReturnMessage;
-            rfq_TissueBankApiModel.IsAuthenicated = true;
-
-            if (transaction.ReturnStatus == true)
-            {
-                var response = Request.CreateResponse<RFQ_TissueBankApiModel>(HttpStatusCode.OK, rfq_TissueBankApiModel);
-                return response;
-            }
-
-            var badResponse = Request.CreateResponse<RFQ_TissueBankApiModel>(HttpStatusCode.BadRequest, rfq_TissueBankApiModel);
-            return badResponse;
-        }
 
         [HttpPost]
         public HttpResponseMessage Post(RFQ_TissueBank_Edit_DTO rfq_TissueBank_Edit_DTO)

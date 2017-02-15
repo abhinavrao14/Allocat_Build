@@ -19,22 +19,45 @@ namespace Allocat.ApplicationService
 
         }
 
-        public void ValidateUserDetailRequest(int UserId)
+        public void ValidateUserDetailRequest(int UserId, int InfoId, string InfoType)
         {
-
+            if (ValidateRequired(UserId, "UserId"))
+            {
+                //Regular Expression Validations
+                if (ValidateNumeric(UserId, "UserId"))
+                {
+                    if (InfoType == "TISSUEBANK")
+                    {
+                        ValidateUserDetailRequest(UserId, InfoId);
+                    }
+                }
+            }
         }
 
-        public void ValidateUser_CUD(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD,bool IsSendMail)
+        private void ValidateUserDetailRequest(int UserId, int TissueBankId)
+        {
+            Boolean valid = userDataService.ValidateUserDetailRequest(UserId, TissueBankId);
+            if (valid == false)
+            {
+                AddValidationError("UserId", "Access Denied");
+            }
+        }
+
+        public void ValidateUser_CUD(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD,bool IsSendMail, string PasswordQuestion, string PasswordAnswer, string SecurityQuestion, string SecurityAnswer)
         {
             if (OperationType == "insert")
             {
                 ValidateUniqueEmailId(EmailId);
                 ValidateUniqueUserName(UserName);
             }
-            else if (OperationType == "update")
+            else if (OperationType == "update" || OperationType == "UserUpdate")
             {
                 ValidateSingleEmailId(EmailId, UserId);
                 ValidateSingleUserName(UserName, UserId);
+            }
+            else if (OperationType == "ForgetPassword")
+            {
+                ValidateSingleEmailId(EmailId, UserId);
             }
         }
 

@@ -48,7 +48,7 @@ textarea {
 .notifies {
     position: fixed;
     top: 20px;
-    right: 0;
+    right: -25px;
     z-index: 99999;
 }
 

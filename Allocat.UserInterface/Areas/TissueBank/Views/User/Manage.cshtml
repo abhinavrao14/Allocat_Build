@@ -10,6 +10,13 @@
     <input type="hidden" for="InfoId" id="InfoId" value="@ViewBag.user.InfoId" />
     <input type="hidden" for="S_UserId" id="S_UserId" value="@ViewBag.S_UserId" />
     <input type="hidden" for="LoggedUserId" id="LoggedUserId" value="@ViewBag.user.UserId" />
+    <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
+    <div class="loading-spiner-holder customloader" id="loadingDiv" data-loading>
+        <div class="loading-spiner">
+            <img src="~/Assets/image/spin.gif" />
+        </div>
+    </div>
+
     <ul class="breadcrumb breadcrumb-page">
         <div class="breadcrumb-label text-light-gray">You are here: </div>
         <li>
@@ -26,8 +33,6 @@
     </ul>
     <div class="page-header">
         <div class="row">
-            <!-- Page header, center on small screens -->
-
             @*<a href="@Url.Action("Index", "User", new { Area = "TissueBank" })">
                     <img src="~/Assets/image/back_go.png" />
                 </a>*@
@@ -85,8 +90,8 @@
                                 <input type="text" class="form-control" name="MobileNumber" ng-model="UserDetail.MobileNumber" ng-required="true" ng-pattern="phoneNumberPattern" ng-minlength="phoneNumberLength" ng-maxlength="phoneNumberLength" />
                                 <span class="inputTip">Ex: 1234567890</span><br />
                                 <span class="error-msg" ng-show="FormUser.MobileNumber.$error.pattern">Please Enter Valid format: 1234567890</span><br />
-                                <span class="error-msg" ng-show="FormUser.MobileNumber.$error.minlength">Phone Number must be of 10 digits </span>
-                                <span class="error-msg" ng-show="FormUser.MobileNumber.$error.maxlength">Phone Number must be of 10 digits </span>
+                                <span class="error-msg" ng-show="FormUser.MobileNumber.$error.minlength">Phone Number must be of 11 digits </span>
+                                <span class="error-msg" ng-show="FormUser.MobileNumber.$error.maxlength">Phone Number must be of 11 digits </span>
                             </div>
                         </div>
                         <div class="form-group">
@@ -111,7 +116,7 @@
                                 </div>
                             </div>
                         }
-                        <div class="text-center">
+                        <div class="text-center" style="margin-bottom:15px">
                             <div style="display:inline-block">
                                 <button type="submit" class="btn btn-info" ng-disabled="FormUser.$invalid || UserRoles.length==0">Submit</button>
                             </div>

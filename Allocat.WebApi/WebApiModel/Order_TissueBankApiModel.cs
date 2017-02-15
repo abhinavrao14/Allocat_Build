@@ -18,6 +18,10 @@ namespace Allocat.WebApi.WebApiModel
         public int PageSize { get; set; }
         public string SortDirection { get; set; }
         public string SortExpression { get; set; }
+
+        public int OrderId { get; set; }
+        public string InfoType { get; set; }
+        public string OperationType { get; set; }
     }
 
     public class Order_Ack_Decline_DTO

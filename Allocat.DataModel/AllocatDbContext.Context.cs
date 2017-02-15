@@ -54,71 +54,6 @@
         public virtual DbSet<Transaction> Transaction { get; set; }
         public virtual DbSet<TissueBankProductMaster> TissueBankProductMaster { get; set; }
 
-        public virtual int sp_RequestForQuote_TissueBank_Edit(Nullable<int> tissueBankId, string responseBody, string attachmentName, Nullable<int> createdBy, Nullable<int> lastModifiedBy, Nullable<int> requestForQuoteId, Nullable<int> statusId, string declineRemark, Nullable<int> quantity, Nullable<decimal> unitPrice, Nullable<decimal> lineTotal, Nullable<decimal> salesTax, Nullable<decimal> total, Nullable<System.DateTime> tissueBankSendByDate, string shippingMethod)
-        {
-            var tissueBankIdParameter = tissueBankId.HasValue ?
-                new ObjectParameter("TissueBankId", tissueBankId) :
-                new ObjectParameter("TissueBankId", typeof(int));
-
-            var responseBodyParameter = responseBody != null ?
-                new ObjectParameter("ResponseBody", responseBody) :
-                new ObjectParameter("ResponseBody", typeof(string));
-
-            var attachmentNameParameter = attachmentName != null ?
-                new ObjectParameter("AttachmentName", attachmentName) :
-                new ObjectParameter("AttachmentName", typeof(string));
-
-            var createdByParameter = createdBy.HasValue ?
-                new ObjectParameter("CreatedBy", createdBy) :
-                new ObjectParameter("CreatedBy", typeof(int));
-
-            var lastModifiedByParameter = lastModifiedBy.HasValue ?
-                new ObjectParameter("LastModifiedBy", lastModifiedBy) :
-                new ObjectParameter("LastModifiedBy", typeof(int));
-
-            var requestForQuoteIdParameter = requestForQuoteId.HasValue ?
-                new ObjectParameter("RequestForQuoteId", requestForQuoteId) :
-                new ObjectParameter("RequestForQuoteId", typeof(int));
-
-            var statusIdParameter = statusId.HasValue ?
-                new ObjectParameter("StatusId", statusId) :
-                new ObjectParameter("StatusId", typeof(int));
-
-            var declineRemarkParameter = declineRemark != null ?
-                new ObjectParameter("DeclineRemark", declineRemark) :
-                new ObjectParameter("DeclineRemark", typeof(string));
-
-            var quantityParameter = quantity.HasValue ?
-                new ObjectParameter("Quantity", quantity) :
-                new ObjectParameter("Quantity", typeof(int));
-
-            var unitPriceParameter = unitPrice.HasValue ?
-                new ObjectParameter("UnitPrice", unitPrice) :
-                new ObjectParameter("UnitPrice", typeof(decimal));
-
-            var lineTotalParameter = lineTotal.HasValue ?
-                new ObjectParameter("LineTotal", lineTotal) :
-                new ObjectParameter("LineTotal", typeof(decimal));
-
-            var salesTaxParameter = salesTax.HasValue ?
-                new ObjectParameter("SalesTax", salesTax) :
-                new ObjectParameter("SalesTax", typeof(decimal));
-
-            var totalParameter = total.HasValue ?
-                new ObjectParameter("Total", total) :
-                new ObjectParameter("Total", typeof(decimal));
-
-            var tissueBankSendByDateParameter = tissueBankSendByDate.HasValue ?
-                new ObjectParameter("TissueBankSendByDate", tissueBankSendByDate) :
-                new ObjectParameter("TissueBankSendByDate", typeof(System.DateTime));
-
-            var shippingMethodParameter = shippingMethod != null ?
-                new ObjectParameter("ShippingMethod", shippingMethod) :
-                new ObjectParameter("ShippingMethod", typeof(string));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_RequestForQuote_TissueBank_Edit", tissueBankIdParameter, responseBodyParameter, attachmentNameParameter, createdByParameter, lastModifiedByParameter, requestForQuoteIdParameter, statusIdParameter, declineRemarkParameter, quantityParameter, unitPriceParameter, lineTotalParameter, salesTaxParameter, totalParameter, tissueBankSendByDateParameter, shippingMethodParameter);
-        }
-
         public virtual ObjectResult<sp_RequestForQuote_TissueBank_GetByTissueBankId_Result> sp_RequestForQuote_TissueBank_GetByTissueBankId(Nullable<int> tissueBankId, string searchBy, Nullable<int> currentPage, Nullable<int> pageSize, string sortDirection, string sortExpression)
         {
             var tissueBankIdParameter = tissueBankId.HasValue ?
@@ -227,35 +162,6 @@
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_OrderDetail_TissueBank_GetByOrderId_Result>("sp_OrderDetail_TissueBank_GetByOrderId @OrderId", orderIdParameter);
         }
 
-        public virtual int sp_Order_TissueBank_Ack_Decline(Nullable<int> orderId, Nullable<int> statusId, string declineRemark, string shippingMethod, Nullable<System.DateTime> tissueBankSendByDate, Nullable<int> lastModifiedBy)
-        {
-            var orderIdParameter = orderId.HasValue ?
-                new ObjectParameter("OrderId", orderId) :
-                new ObjectParameter("OrderId", typeof(int));
-
-            var statusIdParameter = statusId.HasValue ?
-                new ObjectParameter("StatusId", statusId) :
-                new ObjectParameter("StatusId", typeof(int));
-
-            var declineRemarkParameter = declineRemark != null ?
-                new ObjectParameter("DeclineRemark", declineRemark) :
-                new ObjectParameter("DeclineRemark", typeof(string));
-
-            var shippingMethodParameter = shippingMethod != null ?
-                new ObjectParameter("ShippingMethod", shippingMethod) :
-                new ObjectParameter("ShippingMethod", typeof(string));
-
-            var tissueBankSendByDateParameter = tissueBankSendByDate.HasValue ?
-                new ObjectParameter("TissueBankSendByDate", tissueBankSendByDate) :
-                new ObjectParameter("TissueBankSendByDate", typeof(System.DateTime));
-
-            var lastModifiedByParameter = lastModifiedBy.HasValue ?
-                new ObjectParameter("LastModifiedBy", lastModifiedBy) :
-                new ObjectParameter("LastModifiedBy", typeof(int));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Order_TissueBank_Ack_Decline", orderIdParameter, statusIdParameter, declineRemarkParameter, shippingMethodParameter, tissueBankSendByDateParameter, lastModifiedByParameter);
-        }
-
         public virtual ObjectResult<sp_UserDetail_GetByUserId_Result> sp_UseDetail_GetByUserId(Nullable<int> userId, string infoType)
         {
             var userIdParameter = userId.HasValue ?
@@ -362,15 +268,6 @@
                 new ObjectParameter("SecurityAnswer", typeof(string));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_UserProfile_TissueBank_UpdateByUserId", userIdParameter, userNameParameter, fullNameParameter, mobileNumberParameter, emailIdParameter, isMobileVerifiedParameter, isEmailVerifiedParameter, lastLoginDateParameter, passwordQuestionParameter, passwordAnswerParameter, securityQuestionParameter, securityAnswerParameter);
-        }
-
-        public virtual ObjectResult<sp_UserProfileDetail_TissueBank_GetByUserId_Result> sp_UserProfileDetail_TissueBank_GetByUserId(Nullable<int> userId)
-        {
-            var userIdParameter = userId.HasValue ?
-                new SqlParameter("UserId", userId) :
-                new SqlParameter("UserId", typeof(int));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_UserProfileDetail_TissueBank_GetByUserId_Result>("sp_UserProfileDetail_TissueBank_GetByUserId @UserId", userIdParameter);
         }
 
         public virtual ObjectResult<sp_UserMngmt_TissueBank_GetByTissueBankId_Result> sp_UserMngmt_TissueBank_GetByTissueBankId(Nullable<int> tissueBankId, string searchBy, Nullable<int> currentPage, Nullable<int> pageSize, string sortDirection, string sortExpression)
@@ -834,6 +731,224 @@
                 new SqlParameter("TissueBankProductMasterId", typeof(int));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result>("sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId @TissueBankProductMasterId", tissueBankProductMasterIdParameter);
+        }
+
+        public virtual int sp_Order_TissueBank_Ack_Decline(Nullable<int> orderId, Nullable<int> statusId, string declineRemark, string shippingMethod, Nullable<System.DateTime> tissueBankSendByDate, Nullable<int> lastModifiedBy, Nullable<int> transactionId, string authCode, string responseBody, string authTransactionId, Nullable<int> transactionStatusId, Nullable<int> tissueBankId)
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderId", orderId) :
+                new ObjectParameter("OrderId", typeof(int));
+
+            var statusIdParameter = statusId.HasValue ?
+                new ObjectParameter("StatusId", statusId) :
+                new ObjectParameter("StatusId", typeof(int));
+
+            var declineRemarkParameter = declineRemark != null ?
+                new ObjectParameter("DeclineRemark", declineRemark) :
+                new ObjectParameter("DeclineRemark", typeof(string));
+
+            var shippingMethodParameter = shippingMethod != null ?
+                new ObjectParameter("ShippingMethod", shippingMethod) :
+                new ObjectParameter("ShippingMethod", typeof(string));
+
+            var tissueBankSendByDateParameter = tissueBankSendByDate.HasValue ?
+                new ObjectParameter("TissueBankSendByDate", tissueBankSendByDate) :
+                new ObjectParameter("TissueBankSendByDate", typeof(System.DateTime));
+
+            var lastModifiedByParameter = lastModifiedBy.HasValue ?
+                new ObjectParameter("LastModifiedBy", lastModifiedBy) :
+                new ObjectParameter("LastModifiedBy", typeof(int));
+
+            var transactionIdParameter = transactionId.HasValue ?
+                new ObjectParameter("TransactionId", transactionId) :
+                new ObjectParameter("TransactionId", typeof(int));
+
+            var authCodeParameter = authCode != null ?
+                new ObjectParameter("AuthCode", authCode) :
+                new ObjectParameter("AuthCode", typeof(string));
+
+            var responseBodyParameter = responseBody != null ?
+                new ObjectParameter("ResponseBody", responseBody) :
+                new ObjectParameter("ResponseBody", typeof(string));
+
+            var authTransactionIdParameter = authTransactionId != null ?
+                new ObjectParameter("AuthTransactionId", authTransactionId) :
+                new ObjectParameter("AuthTransactionId", typeof(string));
+
+            var transactionStatusIdParameter = transactionStatusId.HasValue ?
+                new ObjectParameter("TransactionStatusId", transactionStatusId) :
+                new ObjectParameter("TransactionStatusId", typeof(int));
+
+            var tissueBankIdParameter = tissueBankId.HasValue ?
+                new ObjectParameter("TissueBankId", tissueBankId) :
+                new ObjectParameter("TissueBankId", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Order_TissueBank_Ack_Decline", orderIdParameter, statusIdParameter, declineRemarkParameter, shippingMethodParameter, tissueBankSendByDateParameter, lastModifiedByParameter, transactionIdParameter, authCodeParameter, responseBodyParameter, authTransactionIdParameter, transactionStatusIdParameter, tissueBankIdParameter);
+        }
+
+        public virtual ObjectResult<sp_UserProfileDetail_TissueBank_GetByUserId_Result> sp_UserProfileDetail_TissueBank_GetByUserId(Nullable<int> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_UserProfileDetail_TissueBank_GetByUserId_Result>("sp_UserProfileDetail_TissueBank_GetByUserId", userIdParameter);
+        }
+        public virtual ObjectResult<string> usp_ProductMaster_GetBySearch(string searchBy)
+        {
+            var searchByParameter = searchBy != null ?
+                new SqlParameter("SearchBy", searchBy) :
+                new SqlParameter("SearchBy", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<string>("usp_ProductMaster_GetBySearch @SearchBy", searchByParameter);
+        }
+
+        public virtual ObjectResult<string> sp_TissueBank_GetProductSizeByTissueBankProductMasterId(Nullable<int> tissueBankProductMasterId)
+        {
+            var tissueBankProductMasterIdParameter = tissueBankProductMasterId.HasValue ?
+                new SqlParameter("TissueBankProductMasterId", tissueBankProductMasterId) :
+                new SqlParameter("TissueBankProductMasterId", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<string>("sp_TissueBank_GetProductSizeByTissueBankProductMasterId @TissueBankProductMasterId", tissueBankProductMasterIdParameter);
+        }
+
+        public virtual ObjectResult<string> sp_TissueBank_GetProductTypeByTissueBankProductMasterId(Nullable<int> tissueBankProductMasterId)
+        {
+            var tissueBankProductMasterIdParameter = tissueBankProductMasterId.HasValue ?
+                new SqlParameter("TissueBankProductMasterId", tissueBankProductMasterId) :
+                new SqlParameter("TissueBankProductMasterId", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<string>("sp_TissueBank_GetProductTypeByTissueBankProductMasterId @TissueBankProductMasterId", tissueBankProductMasterIdParameter);
+        }
+
+        public virtual ObjectResult<string> sp_RequestForQuote_TissueBank_Edit(Nullable<int> tissueBankId, string responseBody, string attachmentName, Nullable<int> createdBy, Nullable<int> lastModifiedBy, Nullable<int> requestForQuoteId, Nullable<int> statusId, string declineRemark, Nullable<int> quantity, Nullable<decimal> unitPrice, Nullable<decimal> lineTotal, Nullable<decimal> salesTax, Nullable<decimal> total, Nullable<System.DateTime> tissueBankSendByDate, string shippingMethod)
+        {
+            var tissueBankIdParameter = tissueBankId.HasValue ?
+                new SqlParameter("TissueBankId", tissueBankId) :
+                new SqlParameter("TissueBankId", typeof(int));
+
+            var responseBodyParameter = responseBody != null ?
+                new SqlParameter("ResponseBody", responseBody) :
+                new SqlParameter("ResponseBody", DBNull.Value);
+
+            var attachmentNameParameter = attachmentName != null ?
+                new SqlParameter("AttachmentName", attachmentName) :
+                new SqlParameter("AttachmentName", DBNull.Value);
+
+            var createdByParameter = createdBy.HasValue ?
+                new SqlParameter("CreatedBy", createdBy) :
+                new SqlParameter("CreatedBy", typeof(int));
+
+            var lastModifiedByParameter = lastModifiedBy.HasValue ?
+                new SqlParameter("LastModifiedBy", lastModifiedBy) :
+                new SqlParameter("LastModifiedBy", typeof(int));
+
+            var requestForQuoteIdParameter = requestForQuoteId.HasValue ?
+                new SqlParameter("RequestForQuoteId", requestForQuoteId) :
+                new SqlParameter("RequestForQuoteId", typeof(int));
+
+            var statusIdParameter = statusId.HasValue ?
+                new SqlParameter("StatusId", statusId) :
+                new SqlParameter("StatusId", typeof(int));
+
+            var declineRemarkParameter = declineRemark != null ?
+                new SqlParameter("DeclineRemark", declineRemark) :
+                new SqlParameter("DeclineRemark", DBNull.Value);
+
+            var quantityParameter = quantity.HasValue ?
+                new SqlParameter("Quantity", quantity) :
+                new SqlParameter("Quantity", typeof(int));
+
+            var unitPriceParameter = unitPrice.HasValue ?
+                new SqlParameter("UnitPrice", unitPrice) :
+                new SqlParameter("UnitPrice", typeof(decimal));
+
+            var lineTotalParameter = lineTotal.HasValue ?
+                new SqlParameter("LineTotal", lineTotal) :
+                new SqlParameter("LineTotal", typeof(decimal));
+
+            var salesTaxParameter = salesTax.HasValue ?
+                new SqlParameter("SalesTax", salesTax) :
+                new SqlParameter("SalesTax", typeof(decimal));
+
+            var totalParameter = total.HasValue ?
+                new SqlParameter("Total", total) :
+                new SqlParameter("Total", typeof(decimal));
+
+            var tissueBankSendByDateParameter = tissueBankSendByDate.HasValue ?
+                new SqlParameter("TissueBankSendByDate", tissueBankSendByDate) :
+                new SqlParameter("TissueBankSendByDate", DBNull.Value);
+
+            var shippingMethodParameter = shippingMethod != null ?
+                new SqlParameter("ShippingMethod", shippingMethod) :
+                new SqlParameter("ShippingMethod", DBNull.Value);
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<string>("sp_RequestForQuote_TissueBank_Edit @TissueBankId, @ResponseBody, @AttachmentName, @CreatedBy , @LastModifiedBy, @RequestForQuoteId , @StatusId , @DeclineRemark , @Quantity , @UnitPrice , @LineTotal  , @SalesTax , @Total , @TissueBankSendByDate , @ShippingMethod", tissueBankIdParameter, responseBodyParameter, attachmentNameParameter, createdByParameter, lastModifiedByParameter, requestForQuoteIdParameter, statusIdParameter, declineRemarkParameter, quantityParameter, unitPriceParameter, lineTotalParameter, salesTaxParameter, totalParameter, tissueBankSendByDateParameter, shippingMethodParameter);
+        }
+
+        public virtual int sp_UserMngmt_TissueBank_CreateUpdateDelete(Nullable<int> userId, string userName, string password, string fullName, string mobileNumber, string emailId, Nullable<int> createdBy, Nullable<int> lastModifiedBy, Nullable<int> infoId, Nullable<bool> allowLogin, string operationType, string passwordQuestion, string passwordAnswer, string securityQuestion, string securityAnswer)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+
+            var passwordParameter = password != null ?
+                new ObjectParameter("Password", password) :
+                new ObjectParameter("Password", typeof(string));
+
+            var fullNameParameter = fullName != null ?
+                new ObjectParameter("FullName", fullName) :
+                new ObjectParameter("FullName", typeof(string));
+
+            var mobileNumberParameter = mobileNumber != null ?
+                new ObjectParameter("MobileNumber", mobileNumber) :
+                new ObjectParameter("MobileNumber", typeof(string));
+
+            var emailIdParameter = emailId != null ?
+                new ObjectParameter("EmailId", emailId) :
+                new ObjectParameter("EmailId", typeof(string));
+
+            var createdByParameter = createdBy.HasValue ?
+                new ObjectParameter("CreatedBy", createdBy) :
+                new ObjectParameter("CreatedBy", typeof(int));
+
+            var lastModifiedByParameter = lastModifiedBy.HasValue ?
+                new ObjectParameter("LastModifiedBy", lastModifiedBy) :
+                new ObjectParameter("LastModifiedBy", typeof(int));
+
+            var infoIdParameter = infoId.HasValue ?
+                new ObjectParameter("InfoId", infoId) :
+                new ObjectParameter("InfoId", typeof(int));
+
+            var allowLoginParameter = allowLogin.HasValue ?
+                new ObjectParameter("AllowLogin", allowLogin) :
+                new ObjectParameter("AllowLogin", typeof(bool));
+
+            var operationTypeParameter = operationType != null ?
+                new ObjectParameter("OperationType", operationType) :
+                new ObjectParameter("OperationType", typeof(string));
+
+            var passwordQuestionParameter = passwordQuestion != null ?
+                new ObjectParameter("PasswordQuestion", passwordQuestion) :
+                new ObjectParameter("PasswordQuestion", typeof(string));
+
+            var passwordAnswerParameter = passwordAnswer != null ?
+                new ObjectParameter("PasswordAnswer", passwordAnswer) :
+                new ObjectParameter("PasswordAnswer", typeof(string));
+
+            var securityQuestionParameter = securityQuestion != null ?
+                new ObjectParameter("SecurityQuestion", securityQuestion) :
+                new ObjectParameter("SecurityQuestion", typeof(string));
+
+            var securityAnswerParameter = securityAnswer != null ?
+                new ObjectParameter("SecurityAnswer", securityAnswer) :
+                new ObjectParameter("SecurityAnswer", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_UserMngmt_TissueBank_CreateUpdateDelete", userIdParameter, userNameParameter, passwordParameter, fullNameParameter, mobileNumberParameter, emailIdParameter, createdByParameter, lastModifiedByParameter, infoIdParameter, allowLoginParameter, operationTypeParameter, passwordQuestionParameter, passwordAnswerParameter, securityQuestionParameter, securityAnswerParameter);
         }
     }
 }

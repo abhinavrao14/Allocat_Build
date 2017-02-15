@@ -68,10 +68,10 @@ namespace Allocat.DataService
             return lstUserRole;
         }
 
-        public int User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD, out TransactionalInformation transaction)
+        public int User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD, string PasswordQuestion, string PasswordAnswer, string SecurityQuestion, string SecurityAnswer, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            int EffectedUserId = 0,rowAffected = 0;
+            int EffectedUserId = 0, rowAffected = 0;
             var parameterUserId = new SqlParameter("@UserId", SqlDbType.Int);
             parameterUserId.Value = UserId;
 
@@ -125,7 +125,33 @@ namespace Allocat.DataService
             parameterTempUser_CUD.TypeName = "dbo.TempUser_CUD";
             parameterTempUser_CUD.Value = TempUser_CUD;
 
-            rowAffected = dbConnection.Database.ExecuteSqlCommand("exec dbo.sp_UserMngmt_TissueBank_CreateUpdateDelete @UserId, @UserName, @Password, @FullName,  @MobileNumber, @EmailId,@CreatedBy, @LastModifiedBy,@InfoId,@AllowLogin, @OperationType, @TempUser_CUD", parameterUserId, parameterUserName, parameterPassword, parameterFullName, parameterMobileNumber, parameterEmailId, parameterCreatedBy, parameterLastModifiedBy, parameterInfoId, parameterAllowLogin, parameterOperationType, parameterTempUser_CUD);
+            var parameterPasswordQuestion = new SqlParameter("@PasswordQuestion", SqlDbType.NVarChar);
+            if (PasswordQuestion != null)
+                parameterPasswordQuestion.Value = PasswordQuestion;
+            else
+                parameterPasswordQuestion.Value = DBNull.Value;
+
+
+            var parameterPasswordAnswer = new SqlParameter("@PasswordAnswer", SqlDbType.NVarChar);
+            if (PasswordAnswer != null)
+                parameterPasswordAnswer.Value = PasswordAnswer;
+            else
+                parameterPasswordAnswer.Value = DBNull.Value;
+
+
+            var parameterSecurityQuestion = new SqlParameter("@SecurityQuestion", SqlDbType.NVarChar);
+            if (SecurityQuestion != null)
+                parameterSecurityQuestion.Value = SecurityQuestion;
+            else
+                parameterSecurityQuestion.Value = DBNull.Value;
+
+            var parameterSecurityAnswer = new SqlParameter("@SecurityAnswer", SqlDbType.NVarChar);
+            if (SecurityAnswer != null)
+                parameterSecurityAnswer.Value = SecurityAnswer;
+            else
+                parameterSecurityAnswer.Value = DBNull.Value;
+
+            rowAffected = dbConnection.Database.ExecuteSqlCommand("exec dbo.sp_UserMngmt_TissueBank_CreateUpdateDelete @UserId, @UserName, @Password, @FullName,  @MobileNumber, @EmailId,@CreatedBy, @LastModifiedBy,@InfoId,@AllowLogin, @OperationType, @TempUser_CUD , @PasswordQuestion, @PasswordAnswer, @SecurityQuestion , @SecurityAnswer", parameterUserId, parameterUserName, parameterPassword, parameterFullName, parameterMobileNumber, parameterEmailId, parameterCreatedBy, parameterLastModifiedBy, parameterInfoId, parameterAllowLogin, parameterOperationType, parameterTempUser_CUD, parameterPasswordQuestion, parameterPasswordAnswer, parameterSecurityQuestion, parameterSecurityAnswer);
 
             if (rowAffected > 0)
             {
@@ -225,6 +251,24 @@ namespace Allocat.DataService
                 return true;
 
             return false;
+        }
+
+        public bool ValidateUserDetailRequest(int UserId, int TissueBankId)
+        {
+            int count = (from u in dbConnection.User
+                         join e in dbConnection.Entity on u.EntityID equals e.EntityId
+                         join tb in dbConnection.TissueBank on e.InfoId equals tb.TissueBankId
+                         where u.UserId == UserId && e.InfoId == TissueBankId
+                         select u).Count();
+
+            if (count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
     }

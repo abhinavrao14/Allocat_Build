@@ -1,6 +1,6 @@
 ﻿var UploadedExcelFile = '';
 var UploadedAttachmentName = '';
-var app = angular.module("AllocatApp", ['angularNotify', 'ui.grid', 'lr.upload', 'ui.bootstrap', 'angular.filter', 'angularjs-datetime-picker', 'ngDialog', 'angularTrix', 'app.photo', 'ngResource']);
+var app = angular.module("AllocatApp", ['angularNotify', 'ui.grid', 'lr.upload', 'ui.bootstrap', 'angular.filter', 'angularjs-datetime-picker', 'ngDialog', 'angularTrix', 'app.photo', 'ngResource','ngMaterial', 'ngMessages', 'material.svgAssetsCache']);
 
 app.config(function ($httpProvider) {
     $httpProvider.defaults.headers.common = {};

@@ -16,78 +16,78 @@
         width: 100%;
     }
 
-     @@media only screen and (max-width: 450px) {
+     @@media only screen and (max-width: 1050px) {
         #mainrow {
             display: none;
         }
     }
-    @@media only screen and (min-width: 451px) {
+    @@media only screen and (min-width: 1051px) {
         #otherrow {
             display: none;
         }
     }
 
-    @@media only screen and (max-width: 1050px) {
+    @@media only screen and (max-width: 1150px) {
         #c1 {
             display: none;
         }
     }
-    @@media only screen and (min-width: 1051px) {
+    @@media only screen and (min-width: 1151px) {
         #r1 {
             display: none;
         }
     }
 
-    @@media only screen and (max-width: 1000px) {
+    @@media only screen and (max-width: 1050px) {
         #c2 {
             display: none;
         }
     }
-    @@media only screen and (min-width: 1001px) {
+    @@media only screen and (min-width: 1051px) {
         #r2 {
             display: none;
         }
     }
 
-    @@media only screen and (max-width: 950px) {
+    @@media only screen and (max-width: 1050px) {
         #c3 {
             display: none;
         }
     }
-    @@media only screen and (min-width: 951px) {
+    @@media only screen and (min-width: 1051px) {
         #r3 {
             display: none;
         }
     }
 
-    @@media only screen and (max-width: 900px) {
+    @@media only screen and (max-width: 950px) {
         #c4 {
             display: none;
         }
     }
-    @@media only screen and (min-width: 901px) {
+    @@media only screen and (min-width: 951px) {
         #r4 {
             display: none;
         }
     }
 
-    @@media only screen and (max-width: 850px) {
+    @@media only screen and (max-width: 900px) {
         #c5 {
             display: none;
         }
     }
-    @@media only screen and (min-width: 851px) {
+    @@media only screen and (min-width: 901px) {
         #r5 {
             display: none;
         }
     }
 
-    @@media only screen and (max-width: 800px) {
+    @@media only screen and (max-width: 850px) {
         #c6 {
             display: none;
         }
     }
-    @@media only screen and (min-width: 801px) {
+    @@media only screen and (min-width: 851px) {
         #r6 {
             display: none;
         }
@@ -99,6 +99,7 @@
     <input type="hidden" for="TissueBankProductMasterId" id="TissueBankProductMasterId" value="@ViewBag.TissueBankProductMasterId" />
     <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
     <input type="hidden" for="UserId" id="UserId" value="@ViewBag.user.UserId" />
+    <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
 }
 else
 {
@@ -106,7 +107,7 @@ else
 }
 
 <div ng-controller="ProductDetailController">
-    <div class="loading-spiner-holder customloader" data-loading>
+    <div class="loading-spiner-holder customloader" id="loadingDiv" data-loading>
         <div class="loading-spiner">
             <img src="~/Assets/image/spin.gif" />
         </div>
@@ -139,13 +140,15 @@ else
         <div class="panel-body panel-padding">
             <div class="row">
                 <div class="col-md-3" style="display:inline-block; margin-bottom:15px">
-                    <image src="~/Assets/image/{{ProductMaster_TissueBank.ProductMasterImageName}}" style="width:200px; height:150px;" />
+                    <image ng-if="ProductMaster_TissueBank.ProductMasterImageName!=null" ng-src="~/Assets/image/{{ProductMaster_TissueBank.ProductMasterImageName}}" style="width:200px; height:150px;" />
+                    <image ng-if="ProductMaster_TissueBank.ProductMasterImageName==null" src="~/Assets/image/no_product.png" style="width:150px; height:100px;" />
+                    @*<image src="~/Assets/image/{{ProductMaster_TissueBank.ProductMasterImageName}}" style="width:200px; height:150px;" />*@
                 </div>
-                <div class="col-md-9" style="display:inline-block">
+                <div class="col-md-9" style="display:inline-block; padding-left:30px">
                     <div style="margin-bottom:10px"><label id="span">Product Name :</label> <span style="padding-left:15px">{{ProductMaster_TissueBank.ProductMasterName}}</span></div>
                     <div style="margin-bottom:10px"><label id="span">Family :</label> <span style="padding-left:15px;">{{ProductMaster_TissueBank.FamilyProductMasterName==null ? 'N/A' : ProductMaster_TissueBank.FamilyProductMasterName}}</span></div>
                     <div style="margin-bottom:10px"><label id="span">Domain Scope :</label> <span style="padding-left:15px;">{{ProductMaster_TissueBank.DomainName}}</span></div>
-                    <div style="margin-bottom:10px"><label id="span" style="padding-right:10px">Product Description :</label> <span>{{ProductMaster_TissueBank.ProductMasterDescription==null ? 'N/A' : ProductMaster_TissueBank.ProductMasterDescription}}</span></div>
+                    <div style="margin-bottom:10px"><label style="padding-right:10px">Product Description :</label> <span>{{ProductMaster_TissueBank.ProductMasterDescription==null ? 'N/A' : ProductMaster_TissueBank.ProductMasterDescription}}</span></div>
                     <div style="margin-bottom:10px"><label id="span">Product Features :</label> <span style="padding-left:15px;">{{ProductMaster_TissueBank.ProductMasterFeatures==null ? 'N/A' : ProductMaster_TissueBank.ProductMasterFeatures}}</span></div>
                 </div>
             </div>
@@ -155,7 +158,7 @@ else
     <form name="form_ConfirmOnExit" confirm-on-exit>
         <div class="row" style="margin-bottom:10px">
             <div class="col-md-12">
-                <span style="font-size:18px">Available Products <b>({{TbProducts.length}} Products)</b></span>
+                <span style="font-size:18px">Available Products <b>({{TbProducts.length}})</b></span>
             </div>
         </div>
 
@@ -167,15 +170,16 @@ else
                             <button type="button" class="btn btn-danger" ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true"><i class="fa fa-pencil-square-o"></i> Edit</button>
                             <button type="button" class="btn btn-info" ng-show="editMode" ng-click="form_ConfirmOnExit.$valid && save()"><i class="fa fa-check"></i> Save</button>
                             <button type="button" class="btn btn-danger" ng-show="editMode" ng-click="cancel()"><i class="fa fa-times"></i> Cancel</button>*@
-                        <input ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true" type="button" class="btn btn-primary pull-right" value="Add/Edit" />
-                        <input ng-show="editMode" ng-click="cancel()" type="button" class="btn btn-flat pull-right" value="Cancel" />
-                        <button ng-show="editMode" ng-click="form_ConfirmOnExit.$valid && save()" class="btn btn-flat pull-right" style="background-color:#2175ac; color:#ffffff; width:100px;">Save</button>
+                        <input ng-show="!editMode" ng-hide="addNewMode" ng-click="editMode=true" type="button" class="btn btn-info" value="Add/Edit" />
+                        <input ng-show="editMode" ng-click="cancel()" type="button" class="btn btn-danger" value="Cancel" />
+                        <button ng-show="editMode" ng-click="form_ConfirmOnExit.$valid && save()" class="btn btn-info">Save</button>
                     </div>
+                    <span ng-show="editMode" style="float: right;font-size: 12px;color: #2175ac;">In Case of non availability of required Product type, kindly contact Allocat support.</span>
                 </div>
             </div>
         </div>
 
-        <table class="table table-hover table-striped" id="tablestyle" style="text-align:left">
+        <table class="table table-hover" id="tablestyle" style="text-align:left">
             <thead id="headerstyle">
                 <tr>
                     <th></th>
@@ -234,19 +238,19 @@ else
                     </td>
                 </tr>
                 <tr ng-if="Product.expanded" ng-repeat-end="">
-                    <td colspan="7">
-                        <div class="col-md-12">
+                    <td colspan="8">
+                        <div class="row">
                             <div class="col-md-6">
-                                <table class="table table-hover table-striped" id="mainrow">
+                                <table class="table table-hover" id="mainrow">
                                     <tr>
-                                        <td><b>Product Description</b></td>
+                                        <td><b>Product Description :</b></td>
                                         <td>
                                             <span ng-hide="editMode">{{Product.ProductDescription}}</span>
                                             <input ng-hide="!editMode" ng-model="Product.ProductDescription" placeholder="Enter Product Description" type="text" />
                                         </td>
                                     </tr>
                                     <tr id="r1">
-                                        <td><b>Source</b></td>
+                                        <td><b>Source :</b></td>
                                         <td>
                                             <span ng-hide="editMode">{{Product.SourceName}}</span>
                                             <select ng-hide="!editMode" ng-model="Product.SourceId" required ng-options="value.SourceId as value.SourceName for (key, value) in SourceOptions">
@@ -255,7 +259,7 @@ else
                                         </td>
                                     </tr>
                                     <tr id="r2">
-                                        <td><b>Available For Sale</b></td>
+                                        <td><b>Available For Sale :</b></td>
                                         <td>
                                             <span ng-hide="editMode">{{Product.IsAvailableForSale}}</span>
                                             <select ng-hide="!editMode" ng-model="Product.IsAvailableForSale" required ng-change="print(Product.IsAvailableForSale)" ng-options="IsAvailableOption for IsAvailableOption in IsAvailableOptions">
@@ -264,7 +268,7 @@ else
                                         </td>
                                     </tr>
                                     <tr id="r3">
-                                        <td><b>Preservation Type</b></td>
+                                        <td><b>Preservation Type :</b></td>
                                         <td>
                                             <span ng-hide="editMode">{{Product.PreservationType}}</span>
                                             <select ng-hide="!editMode" ng-model="Product.PreservationType" required ng-options="PreservationTypeOption for PreservationTypeOption in PreservationTypeOptions">
@@ -273,23 +277,23 @@ else
                                         </td>
                                     </tr>
                                     <tr id="r4">
-                                        <td><b>Product Code</b></td>
+                                        <td><b>Product Code :</b></td>
                                         <td>
                                             <span ng-hide="editMode">{{Product.ProductCode}}</span>
                                             <input ng-hide="!editMode" ng-model="Product.ProductCode" ng-pattern="ProductCodeExp" placeholder="Enter ProductCode" required>
                                         </td>
                                     </tr>
                                     <tr id="r5">
-                                        <td><b>Size</b></td>
+                                        <td><b>Size :</b></td>
                                         <td>
-                                            <span ng-hide="editMode">{{Product.SourceName}}</span>
-                                            <select ng-hide="!editMode" ng-model="Product.SourceId" required ng-options="value.SourceId as value.SourceName for (key, value) in SourceOptions">
-                                                <option value="" label="-Source-"></option>
+                                            <span ng-hide="editMode">{{Product.ProductSize}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.ProductSize" required ng-options="ProductSizeOptions for ProductSizeOptions in ProductSizeOptions">
+                                                <option value="" label="-ProductSize-"></option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr id="r6">
-                                        <td><b>Unit Price</b></td>
+                                        <td><b>Unit Price :</b></td>
                                         <td>
                                             <span ng-hide="editMode">{{Product.UnitPrice==null ? 'N/A' : Product.UnitPrice | currency}}</span>
                                             <input ng-hide="!editMode" ng-model="Product.UnitPrice" placeholder="Enter Unit Price" type="number" />
@@ -299,7 +303,7 @@ else
 
                                 <table class="table table-hover table-striped" id="otherrow">
                                     <tr>
-                                        <td><b>Product Description</b></td>
+                                        <td><b>Product Description :</b></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -308,7 +312,7 @@ else
                                         </td>
                                     </tr>
                                     <tr id="r1">
-                                        <td><b>Source</b></td>
+                                        <td><b>Source :</b></td>
                                     </tr>
                                     <tr id="r1">
                                         <td>
@@ -319,7 +323,7 @@ else
                                         </td>
                                     </tr>
                                     <tr id="r2">
-                                        <td><b>Available For Sale</b></td>
+                                        <td><b>Available For Sale :</b></td>
                                     </tr>
                                     <tr id="r2">
                                         <td>
@@ -330,7 +334,7 @@ else
                                         </td>
                                     </tr>
                                     <tr id="r3">
-                                        <td><b>Preservation Type</b></td>
+                                        <td><b>Preservation Type :</b></td>
                                     </tr>
                                     <tr id="r3">
                                         <td>
@@ -341,7 +345,7 @@ else
                                         </td>
                                     </tr>
                                     <tr id="r4">
-                                        <td><b>Product Code</b></td>
+                                        <td><b>Product Code :</b></td>
                                     </tr>
                                     <tr id="r4">
                                         <td>
@@ -350,18 +354,18 @@ else
                                         </td>
                                     </tr>
                                     <tr id="r5">
-                                        <td><b>Size</b></td>
+                                        <td><b>Size :</b></td>
                                     </tr>
                                     <tr id="r5">
                                         <td>
-                                            <span ng-hide="editMode">{{Product.SourceName}}</span>
-                                            <select ng-hide="!editMode" ng-model="Product.SourceId" required ng-options="value.SourceId as value.SourceName for (key, value) in SourceOptions">
-                                                <option value="" label="-Source-"></option>
+                                            <span ng-hide="editMode">{{Product.ProductSize}}</span>
+                                            <select ng-hide="!editMode" ng-model="Product.ProductSize" required ng-options="ProductSizeOptions for ProductSizeOptions in ProductSizeOptions">
+                                                <option value="" label="-ProductSize-"></option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr id="r6">
-                                        <td><b>Unit Price</b></td>
+                                        <td><b>Unit Price :</b></td>
                                     </tr>
                                     <tr id="r6">
                                         <td>
@@ -379,7 +383,7 @@ else
         </table>
         <div class="form-group">
             @*<input ng-hide="!TbProducts.length || !editMode" type="button" class="btn btn-danger pull-right" ng-click="remove()" value="Remove">*@
-            <button ng-hide="!editMode" ng-click="form_ConfirmOnExit.$valid && addNew()" class="btn btn-primary addnew pull-right">Add New</button>
+            <button ng-hide="!editMode" ng-click="form_ConfirmOnExit.$valid && addNew()" class="btn btn-info addnew pull-right" style="margin-top:10px">Add New</button>
         </div>
     </form>
     <div class="notifies" notifybar></div>

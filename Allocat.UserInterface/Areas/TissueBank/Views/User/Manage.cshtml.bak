@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+<script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
+<script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+
+<div ng-controller="UserDetailController">
+    <input type="hidden" for="InfoId" id="InfoId" value="@ViewBag.user.InfoId" />
+    <input type="hidden" for="S_UserId" id="S_UserId" value="@ViewBag.S_UserId" />
+    <input type="hidden" for="LoggedUserId" id="LoggedUserId" value="@ViewBag.user.UserId" />
+    <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner" id="imagediv">
+            <img src="~/Assets/image/spin.gif" class="loader" />
+        </div>
+    </div>
+
+    <ul class="breadcrumb breadcrumb-page">
+        <div class="breadcrumb-label text-light-gray">You are here: </div>
+        <li>
+            <a href="@Url.Action("Index", "Home", new { Area = "TissueBank" })">
+                <u>Home</u>
+            </a>
+        </li>
+        <li class="active">
+            <a href="@Url.Action("Index", "User", new { Area = "TissueBank" })">
+                <u>User Management</u>
+            </a>
+        </li>
+        <li class="active"><a href="#">{{Operation}}</a></li>
+    </ul>
+    <div class="page-header">
+        <div class="row">
+            @*<a href="@Url.Action("Index", "User", new { Area = "TissueBank" })">
+                    <img src="~/Assets/image/back_go.png" />
+                </a>*@
+
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm">{{Operation}}</h1>
+        </div>
+    </div>
+    <div class="panel" style="width:70%; margin:auto">
+        <div class="panel-heading" id="headerstyle" style="font-size:15px;font-weight:600;">
+            Profile Information
+        </div>
+        <div class="panel-body">
+            <div class="col-md-12">
+           <div class="col-md-3" style="margin-bottom:5px">
+               <img src="~/Assets/image/user.png" style="width:160px;height:160px" />
+           </div>  
+                <!--  $FORM ======================================================================  -->
+                <div class="col-md-9">
+                    <form class="form-horizontal" novalidate ng-submit="Submit()" name="FormUser">
+                        <div class="form-group">
+                            <label for="asdasdas" class="col-sm-4 control-label">Full Name <span class="error-msg" ng-show="FormUser.FullName.$error.required">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="FullName" ng-model="UserDetail.FullName" ng-pattern="name_AlphaSpacesPattern" ng-required="true">
+                                <span class="error-msg" ng-show="FormUser.FullName.$error.pattern">Only Alphabets With Spaces Allowed</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="asdasdas" class="col-sm-4 control-label">User Name <span class="error-msg" ng-show="FormUser.UserName.$error.required">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="UserName" ng-pattern="userNamePattern" ng-model="UserDetail.UserName" ng-required="true">
+                                <span class="error-msg" ng-show="FormUser.UserName.$error.pattern">Only Alphabets and Numbers Allowed</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">User Role <span class="error-msg" ng-show="UserRoles.length==0">*</span></label>
+                            <div class="col-sm-8">
+                                <div ng-repeat="tbRole in TissueBankRoles track by tbRole.RoleId">
+                                    <input type="checkbox"
+                                           value="{{tbRole.RoleId}}"
+                                           ng-checked="isChecked(tbRole)"
+                                           ng-click="Check(tbRole)" /> {{tbRole.RoleName}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail2" class="col-sm-4 control-label">Email <span class="error-msg" ng-show="FormUser.EmailId.$error.required">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" name="EmailId" ng-model="UserDetail.EmailId" ng-pattern="emailPattern" ng-required="true">
+                                <span class="error-msg" ng-show="FormUser.EmailId.$error.pattern">Please Enter Valid Format :abc@example.com </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail2" class="col-sm-4 control-label">Mobile Number <span class="error-msg" ng-show="FormUser.MobileNumber.$error.required">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="MobileNumber" ng-model="UserDetail.MobileNumber" ng-required="true" ng-pattern="phoneNumberPattern" ng-minlength="phoneNumberLength" ng-maxlength="phoneNumberLength" />
+                                <span class="inputTip">Ex: 1234567890</span><br />
+                                <span class="error-msg" ng-show="FormUser.MobileNumber.$error.pattern">Please Enter Valid format: 1234567890</span><br />
+                                <span class="error-msg" ng-show="FormUser.MobileNumber.$error.minlength">Phone Number must be of 11 digits </span>
+                                <span class="error-msg" ng-show="FormUser.MobileNumber.$error.maxlength">Phone Number must be of 11 digits </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail2" class="col-sm-4 control-label" style="padding-top:0px">Allow Login</label>
+                            <div class="col-md-4">
+                                <input type="checkbox" ng-checked="UserDetail.AllowLogin" ng-model="UserDetail.AllowLogin">
+                            </div>
+                            <div class="col-md-3">
+                                @if (ViewBag.S_UserId > 0)
+                                {
+                                    @*<input type="button" style="float:right" class="btn btn-primary" value="Change Password" ng-click="OpenPasswordModel()" />*@
+                                    <span style="float:right;margin-bottom:5px;color:#4bacd0;cursor:pointer" ng-click="OpenPasswordModel()"><u>Change Password</u></span>
+                                }
+                            </div>
+                        </div>
+
+                        @if (ViewBag.S_UserId == 0)
+                        {
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                    <p class="help-block"><b>Note: </b>Password will be sent to entered email id.</p>
+                                </div>
+                            </div>
+                        }
+                        <div class="text-center" style="margin-bottom:15px">
+                            <div style="display:inline-block">
+                                <button type="submit" class="btn btn-info" ng-disabled="FormUser.$invalid || UserRoles.length==0">Submit</button>
+                            </div>
+                            @{
+                                var ViewUrl = Url.Action("Index", "User", new { Area = "TissueBank" });
+                                ViewUrl = HttpUtility.UrlDecode(ViewUrl);
+                            }
+                            <div style="display:inline-block">
+                                <a data-ng-href="@ViewUrl"><button type="button" class="btn btn-danger">Cancel</button></a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- /. $END_FORM -->
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align:center; margin-top:20px">
+        <a href="@Url.Action("Index", "User", new { Area = "TissueBank" })">
+            <i class="fa fa-backward" aria-hidden="true" style="color:#4bacd0"></i> <u>Back To Main Page</u>
+        </a>
+    </div>
+
+    <modal2 id="modal-changePassword" class="modal fade" role="dialog" visible="showModal">
+        <div class="modal-header" id="headerstyle">
+            <h4 class="modal-title">Change Password</h4>
+        </div>
+        <div class="modal-body">
+            <div class="bootbox-body">
+                <form novalidate name="form" ng-submit="PasswordSubmit(IsSendMail)">
+                    <div class="form-group">
+                        <label class="col-sm-4">New Password <span style="color:red" ng-show="form.password.$error.required">*</span></label>
+                        <div class="col-md-8">
+                            <input data-ng-model='UserDetail.Password' type="password" name='password' required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4">Confirm Password <span style="color:red" ng-show="form.confirm_password.$error.required">*</span></label>
+                        <div class="col-md-8">
+                            <input ng-model='password_verify' type="password" name='confirm_password' required data-password-verify="UserDetail.Password">
+                            <span style="color:red" ng-show="form.confirm_password.$error.passwordVerify">
+                                Passwords doesnt match!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <input ng-model='IsSendMail' type="checkbox" name='IsSendMail'  >
+                            <label>Send a mail to this user with changed password.</label>
+                        </div>
+                    </div>
+                    <div class="model-footer" style="text-align:center">
+                        <input type="submit" class="btn btn-primary" ng-disabled="form.$invalid" value="Submit" />
+                        <button type="button" ng-click="PasswordCancel()" class="btn btn-danger">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </modal2>
+    <div class="notifies" notifybar></div>
+</div>

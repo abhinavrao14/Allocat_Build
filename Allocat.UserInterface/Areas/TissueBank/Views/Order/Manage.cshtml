@@ -6,22 +6,10 @@
 }
 <script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
 <script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
-
-<style>
-     @@media only screen and (max-width: 450px) {
-        .maintable {
-            display: none;
-        } 
-    }
-	@@media only screen and (min-width: 451px) {
-        .othertable {
-            display: none;
-        }
-    }
-</style>
+<link href="~/Assets/css/custom/order.css" rel="stylesheet" />
 
 <div ng-controller="OrderDetailController">
-    <div class="loading-spiner-holder customloader" data-loading>
+    <div class="loading-spiner-holder customloader" id="loadingDiv" data-loading>
         <div class="loading-spiner">
             <img src="~/Assets/image/spin.gif" />
         </div>
@@ -31,12 +19,13 @@
         <input type="hidden" for="OrderId" id="OrderId" value="@ViewBag.OrderId" />
         <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
         <input type="hidden" for="UserId" id="UserId" value="@ViewBag.user.UserId" />
+        <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
     }
     else
     {
         <input type="hidden" for="ProductMasterId" id="ProductMasterId" value="" />
     }
- 
+
     <ul class="breadcrumb breadcrumb-page">
         <div class="breadcrumb-label text-light-gray">You are here: </div>
         <li>
@@ -58,36 +47,36 @@
         </div>
     </div> <!-- / .page-header -->
 
-    <div class="row" style="margin-bottom:35px;">
+    <div class="row">
         <div class="col-md-5">
             <div class="panel">
                 <div class="panel-body panel-padding">
-                    <div style="margin-bottom:10px">
-                        <label id="span">Status :</label> 
-                        <span style="padding-left:15px">
+                    <div id="margin">
+                        <label id="span">Status :</label>
+                        <span id="padding">
                             <span class="label label-pa-purple" ng-if="OrderDetail.StatusName == 'Acknowledged'">
                                 Acknowledged
                             </span>
                         </span>
-                        <span style="padding-left:15px">
-                            <span style="padding-left:15px" class="label label-danger" ng-if="OrderDetail.StatusName == 'Pending'">
+                        <span>
+                            <span class="label label-danger" ng-if="OrderDetail.StatusName == 'Pending'">
                                 Pending
                             </span>
                         </span>
-                        <span style="padding-left:15px">
-                            <span style="padding-left:15px" class="label label-success" ng-if="OrderDetail.StatusName == 'Closed'">
-                                Closed
+                        <span>
+                            <span class="label label-success" ng-if="OrderDetail.StatusName == 'Received'">
+                                Received
                             </span>
                         </span>
-                        <span style="padding-left:15px">
-                            <span style="padding-left:15px" class="label label-warning" ng-if="OrderDetail.StatusName == 'Declined By TissueBank'">
+                        <span>
+                            <span class="label label-warning" ng-if="OrderDetail.StatusName == 'Declined By TissueBank'">
                                 Declined By Tissue Bank
                             </span>
                         </span>
                     </div>
-                    <div style="margin-bottom:10px"><label id="span">Need By  Date :</label> <span style="padding-left:15px;"> {{OrderDetail.NeedByDate | date:'yyyy-MM-dd'}}</span></div>
-                    <div style="margin-bottom:10px"><label id="span">Allocat PO Number :</label> <span style="padding-left:15px;"> {{OrderDetail.OrderId}}</span></div>
-                    <div style="margin-bottom:10px"><label id="span">PO Number :</label> <span style="padding-left:15px;"> {{OrderDetail.HospitalPoNumber ==null ? 'N/A' : OrderDetail.HospitalPoNumber}}</span></div>
+                    <div id="margin"><label id="span">Need By  Date :</label> <span id="padding"> {{OrderDetail.NeedByDate | date:'yyyy-MM-dd'}}</span></div>
+                    <div id="margin"><label id="span">Allocat PO Number :</label> <span id="padding"> {{OrderDetail.OrderId}}</span></div>
+                    <div id="margin"><label id="span">PO Number :</label> <span id="padding"> {{OrderDetail.HospitalPoNumber ==null ? 'N/A' : OrderDetail.HospitalPoNumber}}</span></div>
                 </div>
             </div>
             <div class="panel">
@@ -96,13 +85,17 @@
                 </div>
                 <div class="panel-body panel-padding">
                     <div class="row">
-                        <div class="col-md-6" style="margin-bottom:10px">
+                        <div class="col-md-6" id="margin">
                             <div>
                                 <span ng-if="OrderDetail.StatusName=='Acknowledged'">
                                     <span><b>Billing Address : </b></span>
                                     <div>{{OrderDetail.HospitalName}},</div>
                                     <div>{{OrderDetail.billingHospitalAddress}}</div>
-                                    <div>{{OrderDetail.billingFaxNumber}}</div>
+                                    <div>
+                                        {{OrderDetail.billingCityName}},
+                                        {{OrderDetail.billingStateName}},{{OrderDetail.billingZipCode}}
+                                    </div>
+                                    <div>Fax Number: {{OrderDetail.billingFaxNumber}}</div>
                                     <div>{{OrderDetail.billingContactPersonName}}-{{OrderDetail.billingContactPersonNumber}}</div>
                                 </span>
                             </div>
@@ -111,7 +104,7 @@
                                 <div>XXXXXXXXXXX,</div>
                                 <div>XXXXXXXXXXXXXXX</div>
                                 <div>XXXXXXXXXX</div>
-                                <div>XXXXX-XXXXXXXXXX</div> 
+                                <div>XXXXX-XXXXXXXXXX</div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -129,7 +122,7 @@
                                 <div>XXXXXXXXXXX,</div>
                                 <div>XXXXXXXXXXXXXXX</div>
                                 <div>XXXXXXXXXX</div>
-                                <div>XXXXX-XXXXXXXXXX</div> 
+                                <div>XXXXX-XXXXXXXXXX</div>
                             </div>
                         </div>
                     </div>
@@ -139,7 +132,7 @@
         <div class="col-md-1">
         </div>
         <div class="col-md-6">
-            <div class="panel" style="min-height:351px">
+            <div class="panel" style="min-height:363px">
                 <div class="panel-heading">
                     <span style="font-size:15px; font-weight:600">Buyer Information</span>
                 </div>
@@ -157,7 +150,7 @@
                         <div class="note note-warning">
                             <div class="row">
                                 <div class="col-md-2">
-                                    <img src="~/Assets/image/user.png" alt="" class="img-circle" style="width:55px; height:55px; border:2px solid #f97c65;">
+                                    <img src="~/Assets/image/user.png" alt="" class="img-circle" />
                                 </div>
                                 <div class="col-md-10">
                                     <label>Contact Person</label>
@@ -174,12 +167,12 @@
                             XXXXXXXXXXX, XXXXXXXXXX, {{OrderDetail.billingCityName}},
                         </div>
                         <div>Landline No: XXXXXXXXXX</div>
-                        <div>Phone: XXXXXXXXXX</div></br>
+                        <div>Phone: XXXXXXXXXX</div><br/>
 
                         <div class="note note-warning">
                             <div class="row">
                                 <div class="col-md-2">
-                                    <img src="~/Assets/image/user.png" alt="" class="img-circle" style="width:55px; height:55px; border:2px solid #f97c65;">
+                                    <img src="~/Assets/image/user.png" alt="" class="img-circle" />
                                 </div>
                                 <div class="col-md-10">
                                     <label>Contact Person</label>
@@ -198,11 +191,11 @@
     <table class="table table-hover table-striped maintable" id="tablestyle">
         <thead id="headerstyle">
             <tr>
-                <th style="text-align:center">Quantity</th>
-                <th style="text-align:center">TB Product ID</th>
-                <th style="text-align:center">Product Name</th>
-                <th style="text-align:center">Unit Price</th>
-                <th style="text-align:center">Line Total</th>
+                <th>Quantity</th>
+                <th>TB Product ID</th>
+                <th>Product Name</th>
+                <th>Unit Price</th>
+                <th>Line Total</th>
             </tr>
         </thead>
         <tbody>
@@ -246,27 +239,32 @@
 
 
     <form id="form_Ack" ng-submit="Acknowledge()">
-        <div class="row" style="background-color:#5e6e80; color:#ffffff; margin-left:0px; margin-right:0px">
+        <div class="row" id="price">
             <div class="col-md-12" style="padding-right:50px;">
                 <div class="col-md-4" style="float:right">
                     <ul class="list-group">
                         <li class="list list-group-item  no-border-hr padding-xs-hr no-bg no-border-radius">
-                            Sub Total <span class="pull-right">1500.00</span>
+                            Sub Total <span class="pull-right">{{OrderDetail.LineTotal | currency}}</span>
                         </li>
                         <li class="list-group-item no-border-hr padding-xs-hr no-bg">
-                            Sales Tax <span class="pull-right">10.00</span>
+                            Sales Tax <span class="pull-right">{{OrderDetail.SalesTax | currency}}</span>
                         </li>
                         <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
-                            Total <span class="pull-right">1510.00</span>
+                            Total <span class="pull-right">{{OrderDetail.Total | currency}}</span>
                         </li>
                         <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
-                            Shipping Method <span class="pull-right">FEDX</span>
+                            Shipping Method 
+                            <span class="pull-right">
+                                <span ng-if="OrderDetail.StatusName.indexOf('Pending')==-1">{{OrderDetail.ShippingMethod}}</span>
+                                <input style="width:150px;color: black;" type="text" ng-if="OrderDetail.StatusName.indexOf('Pending')>-1" ng-model="OrderDetail.ShippingMethod" ng-required="true" />
+                            </span>
                         </li>
                         <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg" style="margin-bottom:5px">
-                            Tissue Bank Send by Date <span class="pull-right">2017-01-31</span>
-                        </li>
-                        <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
-                            Time <span class="pull-right">00:00:00</span>
+                            Tissue Bank Send by Date 
+                            <span class="pull-right">
+                                <span ng-if="OrderDetail.StatusName.indexOf('Pending')==-1">{{OrderDetail.TissueBankSendByDate | date:'yyyy-MM-dd'}}</span>
+                                <input style="width:150px;color: black;" ng-if="OrderDetail.StatusName.indexOf('Pending')>-1" ng-model="OrderDetail.TissueBankSendByDate" ng-required="true" datetime-picker="" date-format="yyyy-MM-dd" close-on-select="false" size="30" class="ng-pristine ng-valid ng-valid-date ng-touched">
+                            </span>
                         </li>
                     </ul>
                 </div>
@@ -274,13 +272,14 @@
         </div>
 
         <div class="col-md-12" ng-if="OrderDetail.StatusName.indexOf('Pending')>-1">
-            <button type="submit" data-toggle="modal" data-target="#modal-Ack" class="btn btn-info">Acknowledge</button>
-            <button type="button" data-toggle="modal" data-target="#modal-decline" class="btn btn-danger">Decline Order</button>
+            <button type="submit" class="btn btn-info">Acknowledge</button>
+            <button type="button" ng-click="DeclineOrder()" class="btn btn-danger">Decline Order</button>
         </div>
+        <button type="button" ng-click="Received()" ng-if="OrderDetail.StatusName.indexOf('Acknowledged')>-1" class="btn btn-success">Received</button>
     </form>
 
     <div class="notifies" notifybar></div>
-    <div id="modal-decline" class="modal fade" role="dialog" style="display: none;">
+    @*<div id="modal-decline" class="modal fade" role="dialog" style="display: none;">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header" style="background-color:#353f4b; color:#ffffff;">
@@ -291,16 +290,35 @@
                         Please enter remark for declining Order.
                         <br />
                         <textarea ng-required="true" style="width: 100%;" ng-model="OrderDetail.DeclineRemark" id="Remark"></textarea>
-                        <br /><br/>
+                        <br /><br />
                         <button type="submit" class="btn btn-info">Decline Order</button>
                         <button type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-danger">Cancel</button>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
+    <modal2 id="modal-Decline" class="modal fade" role="dialog" visible="showDeclineModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#353f4b; color:#ffffff;">
+                    <h4 class="modal-title">Decline Order</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="formDecline" ng-submit="ConfirmDeclineOrder()">
+                        Please enter remark for declining Order.
+                        <br />
+                        <textarea ng-required="true" style="width: 100%;" ng-model="OrderDetail.DeclineRemark" id="Remark"></textarea>
+                        <br /><br />
+                        <button type="submit" class="btn btn-info">Decline Order</button>
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-danger">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </modal2>
 
-    <div id="modal-Ack" class="modal fade" role="dialog" visible="showModal">
+    <modal2 id="modal-Ack" class="modal fade" role="dialog" visible="showModal">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header" style="background-color:#353f4b; color:#ffffff;">
@@ -316,7 +334,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </modal2>
 
 </div>
 

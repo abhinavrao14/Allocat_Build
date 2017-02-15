@@ -28,7 +28,7 @@ namespace Allocat.Utility
                 // Subject and multipart/alternative Body
                 
                 GetMailBody(mb,out html,out Subject);
-
+                mailMsg.IsBodyHtml = true;
                 mailMsg.Subject = Subject;
 
                 mailMsg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));
@@ -50,36 +50,31 @@ namespace Allocat.Utility
         {
             html = "";
             Subject = "";
-            if (mb.MailType == "SendPassword")
+            if (mb.MailType == "changePass")
             {
-                //var appDomain = System.AppDomain.CurrentDomain;
-                //var basePath = appDomain.RelativeSearchPath ?? appDomain.BaseDirectory;
-                //StreamReader reader = new StreamReader(Path.Combine(basePath, "Template", "PO.html"));
-                //body = reader.ReadToEnd();
-
-                html = @"<p>Your password is " + mb.Password + ".Please click on following link to login.<br /> http://localhost:63729/Account </p>";
-                //html = @"<p>Your password is " + mb.Password + ".Please click on following link to login.<br /> http://allocat.net/Account </p>";
+               // html = @"<p>Your password is " + mb.Password + ".<br /> <a href='http://localhost:63729/Account'> Please click here to login.</a></p>";
+                html = @"<p>Dear " + mb.ContactPersonName + ",<br/>Your password has been modified.Your modified password is :" + mb.Password + ".</p>";
                 Subject = "Allocat - Password Changed.";
             }
             else if (mb.MailType == "VerifyUserRegistration")
             {
-                html = @"<p>Your password is " + mb.Password + ".Please click on following link to verify your account.<br />  http://localhost:63729/Response/TissueBank_Verification_Successful?response=true&UserId=" + mb.UserId + "</p>";
-                //html = @"<p>Your password is " + mb.Password + ".Please click on following link to verify your account.<br />  http://allocat.net/Response/TissueBank_Verification_Successful?response=true&UserId=" + mb.UserId + "</p>";
+               // html = @"<p>Your password is " + mb.Password + ".<br />  <a href='http://localhost:63729/Response/TissueBank_Verification_Successful?response=true&UserId=" + mb.UserId + ">Please click here to verify your account.</a></p>";
+                html = @"<p><a href='http://allocat.net/Response/TissueBank_Verification_Successful?response=true&UserId=" + mb.UserId + "'>Please click here to verify your account.</a><br/>Once you  verify your account after clicking on above link,use " + mb.Password + " as your temporary password to login.</p>";
                 Subject = "Allocat - Email Verification.";
             }
             else if (mb.MailType == "UpdateTissueBankDetail")
             {
-                html = @"<p>Your tissue bank detail is updated.Please check.</p>";
+                html = @"<p>Dear " + mb.ContactPersonName + ",<br/>Your tissue bank detail is updated.Please check.</p>";
                 Subject = "Allocat - Tissue Bank Detail Updated.";
             }
             else if (mb.MailType == "UpdateBillingDetail")
             {
-                html = @"<p>Billing information of your tissue Bank is updated.Please check.</p>";
+                html = @"<p>Dear " + mb.ContactPersonName + ",<br/>Billing information of your tissue Bank is updated.Please check.</p>";
                 Subject = "Allocat - Billig Detail of Tissue Bank Updated.";
             }
             else if (mb.MailType == "TissueBank_Add")
             {
-                html = @"<p>$25 is successfully deducted from your account.</p>";
+                html = @"<p>Dear "+mb.ContactPersonName+",<br/> Your transaction is successful and $25 is deducted from your account as registration fees.</p>";
                 Subject = "Allocat - Registration Confirmed!";
             }
 

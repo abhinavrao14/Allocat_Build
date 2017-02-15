@@ -5,82 +5,10 @@
 }
 <script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
 <script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+<link href="~/Assets/css/custom/user.css" rel="stylesheet" />
 
-<style>
-     @@media only screen and (max-width: 400px) {
-        #maintable {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 401px) {
-        #othertable {
-            display: none;
-        }
-    }
-
-    @@media only screen and (max-width: 1050px) {
-        #c1 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 1051px) {
-        #r1 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (max-width: 900px) {
-        #c2 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 901px) {
-        #r2 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (max-width: 850px) {
-        #c3 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 851px) {
-        #r3 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (max-width: 375px) {
-        #c4 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 376px) {
-        #r4 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (max-width: 400px) {
-        #c5 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 401px) {
-        #r5 {
-            display: none;
-        }
-    }
-</style>
 <div ng-controller="UserController">
-    <div class="loading-spiner-holder customloader" data-loading>
+    <div class="loading-spiner-holder customloader" id="loadingDiv" data-loading>
         <div class="loading-spiner">
             <img src="~/Assets/image/spin.gif" />
         </div>
@@ -108,39 +36,39 @@
     </div> <!-- / .page-header -->
 
     <div style="text-align:center; margin-bottom:30px; margin-top:30px;">
-        <h4><span style="font-size:20px">Company: </span> <b><i>@ViewBag.user.InfoName</i></b> </h4>
+        <h4><span style="font-size:20px">Tissue Bank: </span> <b><i>@ViewBag.user.InfoName</i></b> </h4>
     </div>
 
-    <div class="table-header" style="padding-bottom:0px;">
+    <div class="table-header" style="padding-bottom:0px">
         <div class="table-caption">
             <div class="row">
                 <div class="col-md-2" id="title">
                     Total Users({{TotalUsers}})
                 </div>
-                <div class="col-md-2" id="searchbox">
+                <div class="col-md-2" id="searchbox" style="margin-bottom:10px">
                     <a href="@Url.Action("Manage", "User", new { Area = "TissueBank" })">
                         <span class="btn btn-info"><span class="fa fa-user-plus"></span> Add User</span>
                     </a>
                 </div>
-                <div class="col-md-2" id="searchbox">
-                    <input class="form-control" ng-model="SearchBy" placeholder="Search" onfocus="this.placeholder=''" onblur="this.placeholder='Search'" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" />
+                <div class="col-md-2" id="searchbox" style="margin-bottom:10px">
+                    <input class="form-control" ng-model="SearchBy" placeholder="Search" onfocus="this.placeholder=''" onblur="this.placeholder='Search'" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); height:20px; width:85%;" ng-change="search(SearchBy)" />
                 </div>
-                <div class="col-md-4">
-                    <a href="#"><input type="button" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
-                    <a href="#"><input type="button" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
-                    <a href="#">{{CurrentPage}}/{{TotalPage}} </a>
-                    <a href="#"><input type="button" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»" /></a>
-                    <a href="#"><input type="button" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»»" /></a>
-                </div>
-                <div class="col-md-2">
+                <div class="col-md-3" style="margin-bottom:10px">
                     <label class="filter-col">Per Page: </label>
-                    <select class="form-control" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()" id="select"></select>
+                    <select class="form-control" style="width:45%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()" id="select"></select>
+                </div>
+                <div class="col-md-3" style="margin-bottom:10px">
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <span id="page">{{CurrentPage}}/{{TotalPage}}</span>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»»" /></a>
                 </div>
             </div>
         </div>
     </div>
 
-    <span ng-if="Users.length==0" style="color:darkgreen;">Sorry..No Users.</span>
+    <span ng-if="Users.length==0" style="color:darkgreen;">No users are available.</span>
     <table ng-if="Users.length!==0" class="table table-hover table-striped" id="tablestyle" style="text-align:left">
         <thead id="headerstyle">
             <tr>
@@ -175,78 +103,78 @@
 
             <tr ng-if="user.expanded" ng-repeat-end="">
                 <td colspan="7">
-                    <div class="col-md-12">
+                    <div class="row">
                         <div class="col-md-6">
-                            <table class="table table-hover table-striped" id="maintable">
+                            <table class="table table-hover" id="maintable">
                                 <tr id="r4">
-                                    <td><b>User Name</b></td>
+                                    <td><b>User Name :</b></td>
                                     <td><i>{{user.UserName}}</i></td>
                                 </tr>
                                 <tr id="r1">
-                                    <td><b>User Role</b></td>
+                                    <td><b>User Role :</b></td>
                                     <td><i><span ng-bind-html="user.UserRoles"></span></i></td>
                                 </tr>
                                 <tr id="r2">
-                                    <td><b>User Number</b></td>
+                                    <td><b>User Number :</b></td>
                                     <td><i>{{user.MobileNumber}}</i></td>
                                 </tr>
                                 <tr id="r3">
-                                    <td><b>User Email</b></td>
+                                    <td><b>User Email :</b></td>
                                     <td><i>{{user.EmailId}}</i></td>
                                 </tr>
                                 <tr>
-                                    <td><b>Locked Out</b></td>
+                                    <td><b>Locked Out :</b></td>
                                     <td><i>{{user.IsLockedOut}}</i></td>
                                 </tr>
                                 <tr>
-                                    <td><b>Last Login Date</b></td>
+                                    <td><b>Last Login Date :</b></td>
                                     <td><i>{{user.LastLoginDate | date:'yyyy-MM-dd HH:mm:ss'}}</i></td>
                                 </tr>
                                 <tr>
-                                    <td><b>Allow Login</b></td>
+                                    <td><b>Allow Login :</b></td>
                                     <td><i>{{user.AllowLogin}}</i></td>
                                 </tr>
                             </table>
 
-                            <table class="table table-hover table-striped" id="othertable">
+                            <table class="table table-hover" id="othertable">
                                 <tr id="r4">
-                                    <td><b>User Name</b></td>
+                                    <td><b>User Name :</b></td>
                                 </tr>
                                 <tr id="r4">
                                     <td>{{user.UserName}}</td>
                                 </tr>
                                 <tr id="r1">
-                                    <td><b>User Role</b></td>
+                                    <td><b>User Role :</b></td>
                                 </tr>
                                 <tr id="r1">
                                     <td><span ng-bind-html="user.UserRoles"></span></td>
                                 </tr>
                                 <tr id="r2">
-                                    <td><b>User Number</b></td>
+                                    <td><b>User Number :</b></td>
                                 </tr>
                                 <tr id="r2">
                                     <td>{{user.MobileNumber}}</td>
                                 </tr>
                                 <tr id="r3">
-                                    <td><b>User Email</b></td>
+                                    <td><b>User Email :</b></td>
                                 </tr>
                                 <tr id="r3">
                                     <td>{{user.EmailId}}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>Locked Out</b></td>
+                                    <td><b>Locked Out :</b></td>
                                 </tr>
                                 <tr>
                                     <td>{{user.IsLockedOut}}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>Last Login Date</b></td>
+                                    <td><b>Last Login Date :</b></td>
                                 </tr>
                                 <tr>
                                     <td>{{user.LastLoginDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                 </tr>
                                 <tr>
-                                    <td><b>Allow Login</b></td>
+                                    <td><b>Allow Login :</b></td>
                                 </tr>
                                 <tr>
                                     <td>{{user.AllowLogin}}</td>
@@ -259,31 +187,16 @@
         </tbody>
     </table>
 
-    <div class="table-footer" style="padding-bottom:0px;">
+    <div class="table-footer">
         <div class="table-caption">
             <div class="row">
-                <div class="col-md-2" id="title">
-                    Total Users({{TotalUsers}})
-                </div>
-                <div class="col-md-2" id="searchbox">
-                    <a href="@Url.Action("Manage", "User", new { Area = "TissueBank" })">
-                        <span class="btn btn-info"><span class="fa fa-user-plus"></span> Add User</span>
-                    </a>
-                </div>
-                <div class="col-md-2" id="searchbox">
-                    <input class="form-control" ng-model="SearchBy" placeholder="Search" onfocus="this.placeholder=''" onblur="this.placeholder='Search'" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" />
-                </div>
-                <div class="col-md-4">
-                    <a href="#"><input type="button" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
-                    <a href="#"><input type="button" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
-                    <a href="#">{{CurrentPage}}/{{TotalPage}} </a>
-                    <a href="#"><input type="button" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»" /></a>
-                    <a href="#"><input type="button" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»»" /></a>
-                </div>
-                <div class="col-md-2">
-                    <label class="filter-col">Per Page: </label>
-                    <select class="form-control" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()" id="select"></select>
-                </div>
+                <div class="col-md-3" style="float:right">
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination"  ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <span id="page">{{CurrentPage}}/{{TotalPage}}</span>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»»" /></a>
+                </div>   
             </div>
         </div>
     </div>

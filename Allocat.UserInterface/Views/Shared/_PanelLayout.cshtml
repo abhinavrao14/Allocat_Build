@@ -1,14 +1,14 @@
 ﻿<!DOCTYPE html>
 <html ng-app="AllocatApp">
 <head>
+    @* Allocat_Build_2.0.3 *@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <title>Allocat | @ViewBag.Title</title>
+    <title>Allocat_Build_2.0.3 | @ViewBag.Title</title>
 
-   
+
     <link href="~/Assets/css/lib/bootstrap-toggle.css" rel="stylesheet">
-    <link href="~/Assets/css/lib/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Assets/css/lib/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="~/Assets/css/lib/pixel-admin.min.css" rel="stylesheet" type="text/css">
     <link href="~/Assets/css/lib/widgets.min.css" rel="stylesheet" type="text/css">
@@ -83,6 +83,14 @@
 
     <script src="~/Assets/js/lib/ngDialog.js"></script>
     <script src="~/Assets/js/customJs/Common/CommonService.js"></script>
+
+    <script src="~/Assets/js/lib/angular-aria.min.js"></script>
+    <script src="~/Assets/js/lib/angular-animate.min.js"></script>
+    <script src="~/Assets/js/lib/angular-messages.min.js"></script>
+    <script src="~/Assets/js/lib/angular-material.min.js"></script>
+    <script src="~/Assets/js/lib/svg-assets-cache.js"></script>
+
+    <link href="~/Assets/css/lib/angular-material.min.css" rel="stylesheet" />
 </head>
 <body class="@(ViewBag.user.InfoId == 0 ? "theme-default main-menu-animated animate-mm-sm animate-mm-md animate-mm-lg animate-mm-sm animate-mm-md animate-mm-lg mmc" : "theme-default main-menu-animated animate-mm-sm animate-mm-md animate-mm-lg")">
 
@@ -107,8 +115,8 @@
 
                             <li>
                                 @*<a href="@Url.Action("Index", "ProductMaster", new { Area = "ProductCatalogue" })">
-                                    Products
-                                </a>*@
+                                        Products
+                                    </a>*@
                                 <a href="#">Products</a>
                             </li>
 
@@ -124,16 +132,16 @@
                             <ul class="nav navbar-nav pull-right right-navbar-nav">
 
                                 @*<li>
-                                    <div style="padding-top:10px">
-                                        <form action="" class="search-form">
-                                            <div class="form-group has-feedback">
-                                                <label for="search" class="sr-only">Search</label>
-                                                <input type="text" class="form-control" name="search" id="search" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'">
-                                                <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </li>*@
+                                        <div style="padding-top:10px">
+                                            <form action="" class="search-form">
+                                                <div class="form-group has-feedback">
+                                                    <label for="search" class="sr-only">Search</label>
+                                                    <input type="text" class="form-control" name="search" id="search" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'">
+                                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </li>*@
 
                                 <li class="nav-icon-btn nav-icon-btn-danger dropdown">
                                     @if (ViewBag.user.InfoId > 0)
@@ -162,61 +170,32 @@
                                     {
                                         <div class="dropdown-menu widget-notifications no-padding" style="width: 300px">
 
-                                            <div style="height:180px"class="slimScrollDiv">
+                                            <div style="height:180px" class="slimScrollDiv">
                                                 <div style="overflow-y: scroll; width: auto; height: 180px;" class="notifications-list" id="main-navbar-notifications">
                                                     <div class="notification">
-                                                        <div class="notification-description">You have <strong>9</strong> new orders.</div>
-
+                                                        <div class="notification-description">You have got a new Request for Quote from Life Net.</div>
                                                         <div class="notification-ago">12h ago</div>
-
-                                                        <div class="notification-icon fa fa-history bg-default"></div>
-
-                                                    </div> <!-- / .notification -->
-
-
+                                                        <div class="notification-icon fa fa-hdd-o bg-success"></div>
+                                                    </div>
                                                     <div class="notification">
-
-                                                        <div class="notification-description">You have <strong>9</strong> new orders.</div>
-
+                                                        <div class="notification-description">You have got a new Request for Quote from Life Net.</div>
                                                         <div class="notification-ago">12h ago</div>
-
-                                                        <div class="notification-icon fa fa-history bg-default"></div>
-
-                                                    </div> <!-- / .notification -->
-
-
-
+                                                        <div class="notification-icon fa fa-hdd-o bg-success"></div>
+                                                    </div>
                                                     <div class="notification">
-
-                                                        <div class="notification-description">You have <strong>9</strong> new orders.</div>
-
+                                                        <div class="notification-description">You have got a new Request for Quote from Life Net.</div>
                                                         <div class="notification-ago">12h ago</div>
-
-                                                        <div class="notification-icon fa fa-history bg-default"></div>
-
-                                                    </div> <!-- / .notification -->
-
-
-
+                                                        <div class="notification-icon fa fa-hdd-o bg-success"></div>
+                                                    </div>
                                                     <div class="notification">
-
-                                                        <div class="notification-description">You have <strong>9</strong> new orders.</div>
-
+                                                        <div class="notification-description">You have got a new Request for Quote from Life Net.</div>
                                                         <div class="notification-ago">12h ago</div>
-
-                                                        <div class="notification-icon fa fa-history bg-default"></div>
-
-                                                    </div> <!-- / .notification -->
-
-
-
-
+                                                        <div class="notification-icon fa fa-hdd-o bg-success"></div>
+                                                    </div>
                                                 </div>
 
-
-
                                                 <div style="background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;" class="slimScrollBar"></div><div style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;" class="slimScrollRail"></div>
-                                            </div> <!-- / .notifications-list -->
+                                            </div>
 
                                             <a href="#" class="notifications-link">MORE NOTIFICATIONS</a>
 
@@ -227,21 +206,77 @@
 
 
                                 <!-- /3. $END_NAVBAR_ICON_BUTTONS -->
+                                @*<li class="nav-icon-btn nav-icon-btn-danger dropdown">
+
+                                        <a href="#notifications" class="dropdown-toggle" data-toggle="dropdown">
+
+                                            <i class="nav-icon fa fa-cog"></i>
+
+                                            <span class="small-screen-text">Settings</span>
+
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+
+                                            <li><a href="#"><i class="fa fa-user"></i>&nbsp;&nbsp;@User.Identity.Name <text>'s Profile</text></a></li>
+                                            <li>
+                                                @{
+                                                    int pos = Array.IndexOf(ViewBag.user.roles, "TISSUE BANK SUPER ADMIN");
+                                                    if (pos > -1)
+                                                    {
+                                                        if (ViewBag.user.InfoId == 0)
+                                                        {
+                                                            <a href="@Url.Action("Index", "TissueBankProfile", new { Area = "TissueBank" })">
+                                                                <i class="dropdown-icon fa fa-user-plus"></i>
+                                                                &nbsp;&nbsp;Add Tissue Bank
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="@Url.Action("Index", "TissueBankProfile", new { Area = "TissueBank" })">
+                                                                <i class="dropdown-icon fa fa-user-plus"></i>
+                                                                &nbsp;&nbsp;Manage Tissue Bank Profile
+                                                            </a>
+                                                        }
+                                                    }
+                                                }
 
 
-                                <li class="nav-icon-btn nav-icon-btn-danger dropdown">
+                                            </li>
 
-                                    <a href="#notifications" class="dropdown-toggle" data-toggle="dropdown">
+                                            <li class="divider"></li>
 
+                                            <li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Account Settings</a></li>
+                                            <li>
+                                                @if (ViewBag.user.InfoId > 0)
+                                                {
+                                                    pos = Array.IndexOf(ViewBag.user.roles, "TISSUE BANK SUPER ADMIN");
+                                                    if (pos > -1)
+                                                    {
+                                                        <a href="@Url.Action("Index", "User", new { Area = "TissueBank" })">
+                                                            <i class="dropdown-icon fa fa-user-plus"></i>
+                                                            &nbsp;&nbsp;User Management
+                                                        </a>
+                                                    }
+                                                }
+                                            </li>
+                                        </ul>
+                                    </li>*@
+
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
                                         <i class="nav-icon fa fa-cog"></i>
-
-                                        <span class="small-screen-text">Settings</span>
-
+                                        <span class="small-screen-text" id="r1">Settings</span>
                                     </a>
-
                                     <ul class="dropdown-menu">
-
-                                        <li><a href="#"><i class="fa fa-user"></i>&nbsp;&nbsp;@User.Identity.Name <text>'s Profile</text></a></li>
+                                        @if (ViewBag.user.InfoId > 0)
+                                        {
+                                            <li>
+                                                <a href="@Url.Action("Index", "UserProfile", new { Area = "TissueBank" })">
+                                                    <i class="fa fa-user" style="padding-right:10px"></i>&nbsp;&nbsp;@User.Identity.Name <text>'s Profile</text>
+                                                </a>
+                                            </li>
+                                        }
                                         <li>
                                             @{
                                                 int pos = Array.IndexOf(ViewBag.user.roles, "TISSUE BANK SUPER ADMIN");
@@ -263,11 +298,7 @@
                                                     }
                                                 }
                                             }
-
-
                                         </li>
-
-                                        <li class="divider"></li>
 
                                         @*<li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Account Settings</a></li>*@
                                         <li>
@@ -277,7 +308,7 @@
                                                 if (pos > -1)
                                                 {
                                                     <a href="@Url.Action("Index", "User", new { Area = "TissueBank" })">
-                                                        <i class="dropdown-icon fa fa-user-plus"></i>
+                                                        <i class="fa fa-users"></i>
                                                         &nbsp;&nbsp;User Management
                                                     </a>
                                                 }
@@ -285,6 +316,7 @@
                                         </li>
                                     </ul>
                                 </li>
+
                                 <li class="nav-icon-btn nav-icon-btn-danger">
                                     <a href="@Url.Action("LogOut", "Account" , new { Area="" })">
                                         <i class="nav-icon fa fa-sign-out" style="font-size:22px;"></i><span class="small-screen-text">Log Out</span>

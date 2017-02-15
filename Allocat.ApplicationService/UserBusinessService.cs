@@ -55,7 +55,7 @@ namespace Allocat.ApplicationService
             return lstUser;
         }
 
-        public IEnumerable<sp_UserMngmt_TissueBank_GetByUserId_Result> GetUserDetail(int UserId, out TransactionalInformation transaction)
+        public IEnumerable<sp_UserMngmt_TissueBank_GetByUserId_Result> GetUserDetail(int UserId, int InfoId, string InfoType, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
@@ -66,7 +66,7 @@ namespace Allocat.ApplicationService
             {
                 userDataService.CreateSession();
 
-                userBusinessRule.ValidateUserDetailRequest(UserId);
+                userBusinessRule.ValidateUserDetailRequest(UserId,InfoId, InfoType);
 
                 if (userBusinessRule.ValidationStatus == true)
                 {
@@ -167,7 +167,7 @@ namespace Allocat.ApplicationService
             return lstTissueBankRoles;
         }
 
-        public void User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD, bool IsSendMail, out TransactionalInformation transaction)
+        public void User_CreateUpdateDelete(int UserId, string UserName, string Password, string FullName, string MobileNumber, string EmailId, int CreatedBy, int LastModifiedBy, int InfoId, string OperationType, bool AllowLogin, DataTable TempUser_CUD, bool IsSendMail, string PasswordQuestion, string PasswordAnswer, string SecurityQuestion, string SecurityAnswer, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             UserBusinessRule userBusinessRule = new UserBusinessRule(userDataService);
@@ -176,11 +176,11 @@ namespace Allocat.ApplicationService
             {
                 userDataService.CreateSession();
 
-                userBusinessRule.ValidateUser_CUD(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, IsSendMail);
+                userBusinessRule.ValidateUser_CUD(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, IsSendMail,  PasswordQuestion,  PasswordAnswer,  SecurityQuestion,  SecurityAnswer);
 
                 if (userBusinessRule.ValidationStatus == true)
                 {
-                    if (OperationType == "changePass")
+                    if (OperationType == "changePass" || OperationType == "UserUpdate")
                     {
                         if (TempUser_CUD == null)
                         {
@@ -210,7 +210,7 @@ namespace Allocat.ApplicationService
                                 TempUser_CUD.Rows[i]["UserId"] = UserId;
                         }
                     }
-                    int EffectedUserId = userDataService.User_CreateUpdateDelete(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD, out transaction);
+                    int EffectedUserId = userDataService.User_CreateUpdateDelete(UserId, UserName, Password, FullName, MobileNumber, EmailId, CreatedBy, LastModifiedBy, InfoId, OperationType, AllowLogin, TempUser_CUD,  PasswordQuestion,  PasswordAnswer,  SecurityQuestion,  SecurityAnswer, out transaction);
 
                     //send mail
                     if (OperationType == "changePass")
@@ -226,7 +226,7 @@ namespace Allocat.ApplicationService
                             mb.ContactPersonEmailId = user.EmailId;
                             mb.ContactPersonName = user.FullName;
                             mb.UserId = EffectedUserId;
-                            mb.MailType = "SendPassword";
+                            mb.MailType = "changePass";
 
                             email.sendMail(mb);
                         }

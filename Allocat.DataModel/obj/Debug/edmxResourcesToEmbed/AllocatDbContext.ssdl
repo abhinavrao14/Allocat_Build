@@ -130,7 +130,7 @@
     <Property Name="OrderLineTotal" Type="numeric" Precision="18" Scale="2" />
     <Property Name="PurchaseRequestId" Type="int" />
     <Property Name="RFQId" Type="int" />
-    <Property Name="AlloCATFees" Type="nchar" MaxLength="10" />
+    <Property Name="AlloCATFees" Type="numeric" Precision="18" Scale="2" />
     <Property Name="HospitalPoNumber" Type="nvarchar" MaxLength="20" />
     <Property Name="StatusId" Type="int" />
     <Property Name="DeclineRemark" Type="nvarchar" MaxLength="200" />
@@ -1059,6 +1059,12 @@
     <Parameter Name="ShippingMethod" Type="nvarchar" Mode="In" />
     <Parameter Name="TissueBankSendByDate" Type="date" Mode="In" />
     <Parameter Name="LastModifiedBy" Type="int" Mode="In" />
+    <Parameter Name="TransactionId" Type="int" Mode="In" />
+    <Parameter Name="AuthCode" Type="nvarchar" Mode="In" />
+    <Parameter Name="ResponseBody" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="AuthTransactionId" Type="nvarchar" Mode="In" />
+    <Parameter Name="TransactionStatusId" Type="int" Mode="In" />
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_Order_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TissueBankId" Type="int" Mode="In" />
@@ -1101,6 +1107,12 @@
   </Function>
   <Function Name="sp_RequestResponse_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_TissueBank_GetProductSizeByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankProductMasterId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_TissueBank_GetProductTypeByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankProductMasterId" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_TissueBankProduct_TissueBank_AddUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1148,6 +1160,10 @@
     <Parameter Name="InfoId" Type="int" Mode="In" />
     <Parameter Name="AllowLogin" Type="bit" Mode="In" />
     <Parameter Name="OperationType" Type="varchar" Mode="In" />
+    <Parameter Name="PasswordQuestion" Type="nvarchar" Mode="In" />
+    <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
+    <Parameter Name="SecurityQuestion" Type="varchar" Mode="In" />
+    <Parameter Name="SecurityAnswer" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_UserMngmt_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TissueBankId" Type="int" Mode="In" />
@@ -1164,20 +1180,6 @@
     <Parameter Name="TissueBankId" Type="int" Mode="In" />
     <Parameter Name="SearchBy" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="sp_UserProfile_TissueBank_UpdateByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
-    <Parameter Name="FullName" Type="nvarchar" Mode="In" />
-    <Parameter Name="MobileNumber" Type="varchar" Mode="In" />
-    <Parameter Name="EmailId" Type="nvarchar" Mode="In" />
-    <Parameter Name="IsMobileVerified" Type="bit" Mode="In" />
-    <Parameter Name="IsEmailVerified" Type="bit" Mode="In" />
-    <Parameter Name="LastLoginDate" Type="datetime" Mode="In" />
-    <Parameter Name="PasswordQuestion" Type="nvarchar" Mode="In" />
-    <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
-    <Parameter Name="SecurityQuestion" Type="varchar" Mode="In" />
-    <Parameter Name="SecurityAnswer" Type="varchar" Mode="In" />
-  </Function>
   <Function Name="sp_UserProfileDetail_TissueBank_GetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
@@ -1188,6 +1190,9 @@
     <Parameter Name="StackTrace" Type="nvarchar(max)" Mode="In" />
     <Parameter Name="TransactionId" Type="int" Mode="In" />
     <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_ProductMaster_GetBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SearchBy" Type="varchar" Mode="In" />
   </Function>
   <Function Name="usp_TissueBank_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TissueBankName" Type="nvarchar" Mode="In" />

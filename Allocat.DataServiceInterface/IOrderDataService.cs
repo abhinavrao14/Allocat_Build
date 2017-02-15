@@ -12,6 +12,10 @@ namespace Allocat.DataServiceInterface
     {
         IEnumerable<sp_Order_TissueBank_GetByTissueBankId_Result> GetOrderByTissueBankId(int TissueBankId, string SearchBy, int CurrentPage, int PageSize, string SortDirection, string SortExpression, out TransactionalInformation transaction);
         IEnumerable<sp_OrderDetail_TissueBank_GetByOrderId_Result> GetOrderDetailByOrderId(int OrderId, out TransactionalInformation transaction);
-        int Order_Ack_Decline(int OrderId, int StatusId, string DeclineRemark, string ShippingMethod, DateTime TissueBankSendByDate, int LastModifiedBy,out TransactionalInformation transaction);
+        int Order_Ack_Decline(int OrderId, int StatusId, string DeclineRemark, string ShippingMethod, DateTime TissueBankSendByDate, int LastModifiedBy, int TransactionId, string AuthCode, string ResponseBody,string AuthTransactionId, int TransactionStatusId,int TissueBankId, out TransactionalInformation transaction);
+        OrderCommisionDetail_TissueBank GetOrderCommisionDetail(int OrderId, out TransactionalInformation transaction);
+
+        bool ValidateOrderDetailRequest(int OrderId, int TissueBankId);
+
     }
 }

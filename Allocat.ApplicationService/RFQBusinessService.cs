@@ -42,7 +42,6 @@ namespace Allocat.ApplicationService
 
         }
 
-
         public IEnumerable<sp_RequestResponse_TissueBank_GetByTissueBankId_Result> GetRequestResponseByRequestForQuoteId(int RequestForQuoteId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
@@ -70,17 +69,28 @@ namespace Allocat.ApplicationService
 
         }
 
-
-        public IEnumerable<sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result> GetRfqDetailByRequestForQuoteId(int RequestForQuoteId, out TransactionalInformation transaction)
+        public IEnumerable<sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result> GetRfqDetailByRequestForQuoteId(int RequestForQuoteId, int InfoId, string InfoType, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
             IEnumerable<sp_RequestForQuoteDetail_TissueBank_GetByRequestForQuoteId_Result> RequestForQuoteDetail = null;
-
+            RFQBusinessRule rFQBusinessRule = new RFQBusinessRule(rfqDataService);
             try
             {
                 rfqDataService.CreateSession();
-                RequestForQuoteDetail = rfqDataService.GetRfqDetailByRequestForQuoteId(RequestForQuoteId, out transaction);
+
+                rFQBusinessRule.ValidRFQRequest(RequestForQuoteId,InfoId,InfoType);
+
+                if (rFQBusinessRule.ValidationStatus == true)
+                {
+                    RequestForQuoteDetail = rfqDataService.GetRfqDetailByRequestForQuoteId(RequestForQuoteId, out transaction);
+                }
+                else
+                {
+                    transaction.ReturnStatus = rFQBusinessRule.ValidationStatus;
+                    transaction.ReturnMessage = rFQBusinessRule.ValidationMessage;
+                    transaction.ValidationErrors = rFQBusinessRule.ValidationErrors;
+                }
             }
             catch (Exception ex)
             {
@@ -101,7 +111,7 @@ namespace Allocat.ApplicationService
         public void RequestForQuote_Edit(int TissueBankId, string ResponseBody, string AttachmentName, int CreatedBy, int LastModifiedBy, int RequestForQuoteId, int StatusId, string DeclineRemark, int Quantity, decimal UnitPrice, decimal LineTotal, decimal SalesTax, decimal Total, DateTime? TissueBankSendByDate, string ShippingMethod, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            RFQBusinessRule rFQBusinessRule = new RFQBusinessRule();
+            RFQBusinessRule rFQBusinessRule = new RFQBusinessRule(rfqDataService);
 
             try
             {

@@ -23,6 +23,10 @@ namespace Allocat.WebApi.WebApiModel
         public int PageSize { get; set; }
         public string SortDirection { get; set; }
         public string SortExpression { get; set; }
+
+        public int RequestUserId { get; set; }
+        public string InfoType { get; set; }
+        public string OperationType { get; set; }
     }
 
     public class UserMngmnt_User_CUD_DTO
@@ -40,5 +44,12 @@ namespace Allocat.WebApi.WebApiModel
         public string OperationType { get; set; }
         public bool AllowLogin { get; set; }
         public bool IsSendMail { get; set; }
+
+        public string PasswordQuestion { get; set; }
+        public string PasswordAnswer { get; set; }
+        public string SecurityQuestion { get; set; }
+        public string SecurityAnswer { get; set; }
+
+        public int InfoType { get; set; }
     }
 }

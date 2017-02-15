@@ -17,7 +17,7 @@ namespace Allocat.DataModel
         public Nullable<System.DateTime> OrderDate { get; set; }
         public Nullable<decimal> OrderLineTotal { get; set; }
         public Nullable<int> RFQId { get; set; }
-        public string AlloCATFees { get; set; }
+        public Nullable<decimal> AlloCATFees { get; set; }
         public string HospitalPoNumber { get; set; }
         public Nullable<int> StatusId { get; set; }
         public string DeclineRemark { get; set; }

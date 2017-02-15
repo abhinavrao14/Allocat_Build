@@ -1,0 +1,71 @@
+ @media only screen and (max-width: 400px) {
+        #maintable {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 401px) {
+        #othertable {
+            display: none;
+        }
+    }
+
+@media only screen and (max-width: 1050px) {
+        #c1 {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 1051px) {
+        #r1 {
+            display: none;
+        }
+    }
+
+@media only screen and (max-width: 900px) {
+        #c2 {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 901px) {
+        #r2 {
+            display: none;
+        }
+    }
+
+@media only screen and (max-width: 850px) {
+        #c3 {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 851px) {
+        #r3 {
+            display: none;
+        }
+    }
+
+@media only screen and (max-width: 375px) {
+        #c4 {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 376px) {
+        #r4 {
+            display: none;
+        }
+    }
+
+@media only screen and (max-width: 400px) {
+        #c5 {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 401px) {
+        #r5 {
+            display: none;
+        }
+    }

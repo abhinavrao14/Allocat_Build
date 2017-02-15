@@ -146,8 +146,15 @@ namespace Allocat.WebApi.Controllers
                     //if response is null then log error and update transaction too.
                     string errorMessage = errorBusinessService.Error_Create(status.StatusId, response.Message, "", TransactionId, tissueBankAdd_DTO.UserId, response.MessageCode);
 
+                    if (response.MessageCode == "E00039")
+                    {
+                        tbApiModel.ReturnMessage.Add("Information that you have entered is already exist. Please contact Administrator.");
+                    }
+                    else
+                    {
+                        tbApiModel.ReturnMessage.Add(response.Message);
+                    }
                     tbApiModel.ReturnStatus = transaction.ReturnStatus = false;
-                    tbApiModel.ReturnMessage.Add(response.Message);
                 }
             }
             else

@@ -135,7 +135,7 @@
           <Property Name="OrderLineTotal" Type="numeric" Precision="18" Scale="2" />
           <Property Name="PurchaseRequestId" Type="int" />
           <Property Name="RFQId" Type="int" />
-          <Property Name="AlloCATFees" Type="nchar" MaxLength="10" />
+          <Property Name="AlloCATFees" Type="numeric" Precision="18" Scale="2" />
           <Property Name="HospitalPoNumber" Type="nvarchar" MaxLength="20" />
           <Property Name="StatusId" Type="int" />
           <Property Name="DeclineRemark" Type="nvarchar" MaxLength="200" />
@@ -1064,6 +1064,12 @@
           <Parameter Name="ShippingMethod" Type="nvarchar" Mode="In" />
           <Parameter Name="TissueBankSendByDate" Type="date" Mode="In" />
           <Parameter Name="LastModifiedBy" Type="int" Mode="In" />
+          <Parameter Name="TransactionId" Type="int" Mode="In" />
+          <Parameter Name="AuthCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="ResponseBody" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="AuthTransactionId" Type="nvarchar" Mode="In" />
+          <Parameter Name="TransactionStatusId" Type="int" Mode="In" />
+          <Parameter Name="TissueBankId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_Order_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TissueBankId" Type="int" Mode="In" />
@@ -1106,6 +1112,12 @@
         </Function>
         <Function Name="sp_RequestResponse_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_TissueBank_GetProductSizeByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TissueBankProductMasterId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_TissueBank_GetProductTypeByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TissueBankProductMasterId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_TissueBankProduct_TissueBank_AddUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -1153,6 +1165,10 @@
           <Parameter Name="InfoId" Type="int" Mode="In" />
           <Parameter Name="AllowLogin" Type="bit" Mode="In" />
           <Parameter Name="OperationType" Type="varchar" Mode="In" />
+          <Parameter Name="PasswordQuestion" Type="nvarchar" Mode="In" />
+          <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
+          <Parameter Name="SecurityQuestion" Type="varchar" Mode="In" />
+          <Parameter Name="SecurityAnswer" Type="varchar" Mode="In" />
         </Function>
         <Function Name="sp_UserMngmt_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TissueBankId" Type="int" Mode="In" />
@@ -1169,20 +1185,6 @@
           <Parameter Name="TissueBankId" Type="int" Mode="In" />
           <Parameter Name="SearchBy" Type="varchar" Mode="In" />
         </Function>
-        <Function Name="sp_UserProfile_TissueBank_UpdateByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="UserId" Type="int" Mode="In" />
-          <Parameter Name="UserName" Type="nvarchar" Mode="In" />
-          <Parameter Name="FullName" Type="nvarchar" Mode="In" />
-          <Parameter Name="MobileNumber" Type="varchar" Mode="In" />
-          <Parameter Name="EmailId" Type="nvarchar" Mode="In" />
-          <Parameter Name="IsMobileVerified" Type="bit" Mode="In" />
-          <Parameter Name="IsEmailVerified" Type="bit" Mode="In" />
-          <Parameter Name="LastLoginDate" Type="datetime" Mode="In" />
-          <Parameter Name="PasswordQuestion" Type="nvarchar" Mode="In" />
-          <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
-          <Parameter Name="SecurityQuestion" Type="varchar" Mode="In" />
-          <Parameter Name="SecurityAnswer" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="sp_UserProfileDetail_TissueBank_GetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="int" Mode="In" />
         </Function>
@@ -1193,6 +1195,9 @@
           <Parameter Name="StackTrace" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="TransactionId" Type="int" Mode="In" />
           <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_ProductMaster_GetBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SearchBy" Type="varchar" Mode="In" />
         </Function>
         <Function Name="usp_TissueBank_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TissueBankName" Type="nvarchar" Mode="In" />
@@ -1683,7 +1688,7 @@
           <Property Name="OrderLineTotal" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PurchaseRequestId" Type="Int32" />
           <Property Name="RFQId" Type="Int32" />
-          <Property Name="AlloCATFees" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="AlloCATFees" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="HospitalPoNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="StatusId" Type="Int32" />
           <Property Name="DeclineRemark" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -2920,6 +2925,12 @@
             <Parameter Name="ShippingMethod" Mode="In" Type="String" />
             <Parameter Name="TissueBankSendByDate" Mode="In" Type="DateTime" />
             <Parameter Name="LastModifiedBy" Mode="In" Type="Int32" />
+            <Parameter Name="TransactionId" Mode="In" Type="Int32" />
+            <Parameter Name="AuthCode" Mode="In" Type="String" />
+            <Parameter Name="ResponseBody" Mode="In" Type="String" />
+            <Parameter Name="AuthTransactionId" Mode="In" Type="String" />
+            <Parameter Name="TransactionStatusId" Mode="In" Type="Int32" />
+            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_Order_TissueBank_GetByTissueBankId" ReturnType="Collection(AllocatDbModel.sp_Order_TissueBank_GetByTissueBankId_Result)">
             <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
@@ -2931,23 +2942,6 @@
           </FunctionImport>
           <FunctionImport Name="sp_OrderDetail_TissueBank_GetByOrderId" ReturnType="Collection(AllocatDbModel.sp_OrderDetail_TissueBank_GetByOrderId_Result)">
           <Parameter Name="OrderId" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_RequestForQuote_TissueBank_Edit">
-            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
-            <Parameter Name="ResponseBody" Mode="In" Type="String" />
-            <Parameter Name="AttachmentName" Mode="In" Type="String" />
-            <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
-            <Parameter Name="LastModifiedBy" Mode="In" Type="Int32" />
-            <Parameter Name="RequestForQuoteId" Mode="In" Type="Int32" />
-            <Parameter Name="StatusId" Mode="In" Type="Int32" />
-            <Parameter Name="DeclineRemark" Mode="In" Type="String" />
-            <Parameter Name="Quantity" Mode="In" Type="Int32" />
-            <Parameter Name="UnitPrice" Mode="In" Type="Decimal" />
-            <Parameter Name="LineTotal" Mode="In" Type="Decimal" />
-            <Parameter Name="SalesTax" Mode="In" Type="Decimal" />
-            <Parameter Name="Total" Mode="In" Type="Decimal" />
-            <Parameter Name="TissueBankSendByDate" Mode="In" Type="DateTime" />
-            <Parameter Name="ShippingMethod" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_RequestForQuote_TissueBank_GetByTissueBankId" ReturnType="Collection(AllocatDbModel.sp_RequestForQuote_TissueBank_GetByTissueBankId_Result)">
             <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
@@ -2964,6 +2958,17 @@
           <Parameter Name="RequestForQuoteId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_TissueBankProduct_TissueBank_AddUpdate" />
+          <FunctionImport Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" ReturnType="Collection(AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result)">
+          <Parameter Name="TissueBankProductMasterId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" ReturnType="Collection(AllocatDbModel.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result)">
+            <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
+            <Parameter Name="SearchBy" Mode="In" Type="String" />
+            <Parameter Name="CurrentPage" Mode="In" Type="Int32" />
+            <Parameter Name="PageSize" Mode="In" Type="Int32" />
+            <Parameter Name="SortDirection" Mode="In" Type="String" />
+            <Parameter Name="SortExpression" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="sp_User_Get" ReturnType="Collection(AllocatDbModel.sp_User_Get_Result)">
             <Parameter Name="RoleName" Mode="In" Type="String" />
             <Parameter Name="GetType" Mode="In" Type="String" />
@@ -2986,19 +2991,6 @@
           <FunctionImport Name="sp_UserMngmt_GetUserRoleByUserId" ReturnType="Collection(AllocatDbModel.sp_UserMngmt_GetUserRoleByUserId_Result)">
           <Parameter Name="UserId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_UserMngmt_TissueBank_CreateUpdateDelete">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="Password" Mode="In" Type="String" />
-            <Parameter Name="FullName" Mode="In" Type="String" />
-            <Parameter Name="MobileNumber" Mode="In" Type="String" />
-            <Parameter Name="EmailId" Mode="In" Type="String" />
-            <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
-            <Parameter Name="LastModifiedBy" Mode="In" Type="Int32" />
-            <Parameter Name="InfoId" Mode="In" Type="Int32" />
-            <Parameter Name="AllowLogin" Mode="In" Type="Boolean" />
-            <Parameter Name="OperationType" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="sp_UserMngmt_TissueBank_GetByTissueBankId" ReturnType="Collection(AllocatDbModel.sp_UserMngmt_TissueBank_GetByTissueBankId_Result)">
             <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
             <Parameter Name="SearchBy" Mode="In" Type="String" />
@@ -3013,20 +3005,6 @@
           <FunctionImport Name="sp_UserMngmt_TissueBank_GetCountByTissueBankId" ReturnType="Collection(Int32)">
             <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
             <Parameter Name="SearchBy" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="sp_UserProfile_TissueBank_UpdateByUserId">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="UserName" Mode="In" Type="String" />
-            <Parameter Name="FullName" Mode="In" Type="String" />
-            <Parameter Name="MobileNumber" Mode="In" Type="String" />
-            <Parameter Name="EmailId" Mode="In" Type="String" />
-            <Parameter Name="IsMobileVerified" Mode="In" Type="Boolean" />
-            <Parameter Name="IsEmailVerified" Mode="In" Type="Boolean" />
-            <Parameter Name="LastLoginDate" Mode="In" Type="DateTime" />
-            <Parameter Name="PasswordQuestion" Mode="In" Type="String" />
-            <Parameter Name="PasswordAnswer" Mode="In" Type="String" />
-            <Parameter Name="SecurityQuestion" Mode="In" Type="String" />
-            <Parameter Name="SecurityAnswer" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_UserProfileDetail_TissueBank_GetByUserId" ReturnType="Collection(AllocatDbModel.sp_UserProfileDetail_TissueBank_GetByUserId_Result)">
           <Parameter Name="UserId" Mode="In" Type="Int32" />
@@ -3131,16 +3109,48 @@
             <Parameter Name="ResponseBody" Mode="In" Type="String" />
             <Parameter Name="ReturnMessage" Mode="InOut" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" ReturnType="Collection(AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result)">
+          <FunctionImport Name="usp_ProductMaster_GetBySearch" ReturnType="Collection(String)">
+          <Parameter Name="SearchBy" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_TissueBank_GetProductSizeByTissueBankProductMasterId" ReturnType="Collection(String)">
           <Parameter Name="TissueBankProductMasterId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" ReturnType="Collection(AllocatDbModel.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result)">
+          <FunctionImport Name="sp_TissueBank_GetProductTypeByTissueBankProductMasterId" ReturnType="Collection(String)">
+          <Parameter Name="TissueBankProductMasterId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_RequestForQuote_TissueBank_Edit" ReturnType="Collection(String)">
             <Parameter Name="TissueBankId" Mode="In" Type="Int32" />
-            <Parameter Name="SearchBy" Mode="In" Type="String" />
-            <Parameter Name="CurrentPage" Mode="In" Type="Int32" />
-            <Parameter Name="PageSize" Mode="In" Type="Int32" />
-            <Parameter Name="SortDirection" Mode="In" Type="String" />
-            <Parameter Name="SortExpression" Mode="In" Type="String" />
+            <Parameter Name="ResponseBody" Mode="In" Type="String" />
+            <Parameter Name="AttachmentName" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
+            <Parameter Name="LastModifiedBy" Mode="In" Type="Int32" />
+            <Parameter Name="RequestForQuoteId" Mode="In" Type="Int32" />
+            <Parameter Name="StatusId" Mode="In" Type="Int32" />
+            <Parameter Name="DeclineRemark" Mode="In" Type="String" />
+            <Parameter Name="Quantity" Mode="In" Type="Int32" />
+            <Parameter Name="UnitPrice" Mode="In" Type="Decimal" />
+            <Parameter Name="LineTotal" Mode="In" Type="Decimal" />
+            <Parameter Name="SalesTax" Mode="In" Type="Decimal" />
+            <Parameter Name="Total" Mode="In" Type="Decimal" />
+            <Parameter Name="TissueBankSendByDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ShippingMethod" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_UserMngmt_TissueBank_CreateUpdateDelete">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FullName" Mode="In" Type="String" />
+            <Parameter Name="MobileNumber" Mode="In" Type="String" />
+            <Parameter Name="EmailId" Mode="In" Type="String" />
+            <Parameter Name="CreatedBy" Mode="In" Type="Int32" />
+            <Parameter Name="LastModifiedBy" Mode="In" Type="Int32" />
+            <Parameter Name="InfoId" Mode="In" Type="Int32" />
+            <Parameter Name="AllowLogin" Mode="In" Type="Boolean" />
+            <Parameter Name="OperationType" Mode="In" Type="String" />
+            <Parameter Name="PasswordQuestion" Mode="In" Type="String" />
+            <Parameter Name="PasswordAnswer" Mode="In" Type="String" />
+            <Parameter Name="SecurityQuestion" Mode="In" Type="String" />
+            <Parameter Name="SecurityAnswer" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_Order_TissueBank_GetByTissueBankId_Result">
@@ -3163,7 +3173,7 @@
           <Property Type="DateTime" Name="OrderDate" Nullable="true" Precision="23" />
           <Property Type="Decimal" Name="OrderLineTotal" Nullable="true" Precision="18" Scale="2" />
           <Property Type="Int32" Name="RFQId" Nullable="true" />
-          <Property Type="String" Name="AlloCATFees" Nullable="true" MaxLength="10" />
+          <Property Type="Decimal" Name="AlloCATFees" Nullable="true" Precision="18" Scale="2" />
           <Property Type="String" Name="HospitalPoNumber" Nullable="true" MaxLength="20" />
           <Property Type="Int32" Name="StatusId" Nullable="true" />
           <Property Type="String" Name="DeclineRemark" Nullable="true" MaxLength="200" />
@@ -3240,6 +3250,35 @@
           <Property Type="String" Name="Body" Nullable="true" />
           <Property Type="DateTime" Name="LastModifiedDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="AttachmentName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result">
+          <Property Type="Int32" Name="TissueBankProductId" Nullable="false" />
+          <Property Type="Int32" Name="TissueBankId" Nullable="true" />
+          <Property Type="Int32" Name="TissueBankProductMasterId" Nullable="true" />
+          <Property Type="String" Name="ProductType" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="ProductSize" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="PreservationType" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="UnitPrice" Nullable="true" Precision="18" Scale="2" />
+          <Property Type="Int32" Name="SourceId" Nullable="true" />
+          <Property Type="String" Name="SourceName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="IsAvailableForSale" Nullable="false" MaxLength="3" />
+          <Property Type="DateTime" Name="AvailabilityStartDate" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="AvailabilityEndDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="CreatedBy" Nullable="true" />
+          <Property Type="Int32" Name="LastModifiedBy" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result">
+          <Property Type="Int32" Name="StartLimit" Nullable="true" />
+          <Property Type="String" Name="ProductMasterName" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="TissueBankProductMasterId" Nullable="false" />
+          <Property Type="String" Name="DomainName" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ProductMasterImageName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProductMasterThumbnailImageName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ProductMasterDescription" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="ProductMasterFeatures" Nullable="true" MaxLength="300" />
+          <Property Type="Int32" Name="CountOfTbProducts" Nullable="true" />
         </ComplexType>
         <ComplexType Name="sp_User_Get_Result">
           <Property Type="Int64" Name="Sno" Nullable="true" />
@@ -3344,6 +3383,10 @@
           <Property Type="Int32" Name="FailedPasswordAnswerAttemptCount" Nullable="true" />
           <Property Type="Int32" Name="CreatedBy" Nullable="true" />
           <Property Type="Int32" Name="LastModifiedBy" Nullable="true" />
+          <Property Type="String" Name="PasswordQuestion" Nullable="true" MaxLength="256" />
+          <Property Type="String" Name="PasswordAnswer" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="SecurityQuestion" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SecurityAnswer" Nullable="true" MaxLength="100" />
           <Property Type="Int32" Name="InfoId" Nullable="true" />
           <Property Type="String" Name="DomainName" Nullable="true" MaxLength="100" />
         </ComplexType>
@@ -3391,34 +3434,6 @@
           <Property Type="Int32" Name="BillingStateId" Nullable="false" />
           <Property Type="String" Name="CreatedByUser" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="ModifiedByUser" Nullable="true" MaxLength="100" />
-        </ComplexType>
-        <ComplexType Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result">
-          <Property Type="Int32" Name="TissueBankProductId" Nullable="false" />
-          <Property Type="Int32" Name="TissueBankId" Nullable="true" />
-          <Property Type="Int32" Name="TissueBankProductMasterId" Nullable="true" />
-          <Property Type="String" Name="ProductType" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="ProductCode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="ProductSize" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="PreservationType" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="ProductDescription" Nullable="true" MaxLength="500" />
-          <Property Type="Decimal" Name="UnitPrice" Nullable="true" Precision="18" Scale="2" />
-          <Property Type="Int32" Name="SourceId" Nullable="true" />
-          <Property Type="String" Name="SourceName" Nullable="true" MaxLength="200" />
-          <Property Type="String" Name="IsAvailableForSale" Nullable="false" MaxLength="3" />
-          <Property Type="DateTime" Name="AvailabilityStartDate" Nullable="true" Precision="23" />
-          <Property Type="DateTime" Name="AvailabilityEndDate" Nullable="true" Precision="23" />
-          <Property Type="Int32" Name="CreatedBy" Nullable="true" />
-          <Property Type="Int32" Name="LastModifiedBy" Nullable="true" />
-        </ComplexType>
-        <ComplexType Name="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result">
-          <Property Type="Int32" Name="StartLimit" Nullable="true" />
-          <Property Type="String" Name="ProductMasterName" Nullable="true" MaxLength="100" />
-          <Property Type="Int32" Name="TissueBankProductMasterId" Nullable="false" />
-          <Property Type="String" Name="DomainName" Nullable="true" MaxLength="100" />
-          <Property Type="String" Name="ProductMasterImageName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ProductMasterThumbnailImageName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ProductMasterDescription" Nullable="true" MaxLength="300" />
-          <Property Type="String" Name="ProductMasterFeatures" Nullable="true" MaxLength="300" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -3983,7 +3998,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_Edit" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_Edit" />
           <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_GetByTissueBankId">
             <ResultMapping>
               <ComplexTypeMapping TypeName="AllocatDbModel.sp_RequestForQuote_TissueBank_GetByTissueBankId_Result">
@@ -4033,6 +4047,43 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_AddUpdate" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_AddUpdate" />
+          <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result">
+                <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+                <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+                <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+                <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+                <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
+                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+                <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+                <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
+                <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
+                <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result">
+                <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
+                <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+                <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+                <ScalarProperty Name="ProductMasterImageName" ColumnName="ProductMasterImageName" />
+                <ScalarProperty Name="ProductMasterThumbnailImageName" ColumnName="ProductMasterThumbnailImageName" />
+                <ScalarProperty Name="ProductMasterDescription" ColumnName="ProductMasterDescription" />
+                <ScalarProperty Name="ProductMasterFeatures" ColumnName="ProductMasterFeatures" />
+                <ScalarProperty Name="CountOfTbProducts" ColumnName="CountOfTbProducts" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_User_Get" FunctionName="AllocatDbModel.Store.sp_User_Get">
             <ResultMapping>
               <ComplexTypeMapping TypeName="AllocatDbModel.sp_User_Get_Result">
@@ -4100,7 +4151,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_CreateUpdateDelete" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_CreateUpdateDelete" />
           <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_GetByTissueBankId">
             <ResultMapping>
               <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserMngmt_TissueBank_GetByTissueBankId_Result">
@@ -4147,7 +4197,6 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_GetCountByTissueBankId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_GetCountByTissueBankId" />
-          <FunctionImportMapping FunctionImportName="sp_UserProfile_TissueBank_UpdateByUserId" FunctionName="AllocatDbModel.Store.sp_UserProfile_TissueBank_UpdateByUserId" />
           <FunctionImportMapping FunctionImportName="sp_UserProfileDetail_TissueBank_GetByUserId" FunctionName="AllocatDbModel.Store.sp_UserProfileDetail_TissueBank_GetByUserId">
             <ResultMapping>
               <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserProfileDetail_TissueBank_GetByUserId_Result">
@@ -4166,6 +4215,10 @@
                 <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+                <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+                <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+                <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
+                <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
                 <ScalarProperty Name="InfoId" ColumnName="InfoId" />
                 <ScalarProperty Name="DomainName" ColumnName="DomainName" />
               </ComplexTypeMapping>
@@ -4227,42 +4280,11 @@
           <FunctionImportMapping FunctionImportName="usp_TissueBank_User_Registration" FunctionName="AllocatDbModel.Store.usp_TissueBank_User_Registration" />
           <FunctionImportMapping FunctionImportName="usp_Transaction_Create" FunctionName="AllocatDbModel.Store.usp_Transaction_Create" />
           <FunctionImportMapping FunctionImportName="usp_Transaction_Update" FunctionName="AllocatDbModel.Store.usp_Transaction_Update" />
-          <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result">
-                <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
-                <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
-                <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
-                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
-                <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-                <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
-                <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
-                <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="SourceId" ColumnName="SourceId" />
-                <ScalarProperty Name="SourceName" ColumnName="SourceName" />
-                <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
-                <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
-                <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result">
-                <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
-                <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
-                <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
-                <ScalarProperty Name="DomainName" ColumnName="DomainName" />
-                <ScalarProperty Name="ProductMasterImageName" ColumnName="ProductMasterImageName" />
-                <ScalarProperty Name="ProductMasterThumbnailImageName" ColumnName="ProductMasterThumbnailImageName" />
-                <ScalarProperty Name="ProductMasterDescription" ColumnName="ProductMasterDescription" />
-                <ScalarProperty Name="ProductMasterFeatures" ColumnName="ProductMasterFeatures" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_ProductMaster_GetBySearch" FunctionName="AllocatDbModel.Store.usp_ProductMaster_GetBySearch" />
+          <FunctionImportMapping FunctionImportName="sp_TissueBank_GetProductSizeByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBank_GetProductSizeByTissueBankProductMasterId" />
+          <FunctionImportMapping FunctionImportName="sp_TissueBank_GetProductTypeByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBank_GetProductTypeByTissueBankProductMasterId" />
+          <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_Edit" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_Edit" />
+          <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_CreateUpdateDelete" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_CreateUpdateDelete" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

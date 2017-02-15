@@ -558,7 +558,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_Edit" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_Edit" />
     <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_GetByTissueBankId">
       <ResultMapping>
         <ComplexTypeMapping TypeName="AllocatDbModel.sp_RequestForQuote_TissueBank_GetByTissueBankId_Result">
@@ -608,6 +607,43 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_AddUpdate" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_AddUpdate" />
+    <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result">
+          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
+          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
+          <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+          <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
+          <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
+          <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result">
+          <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
+          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+          <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
+          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
+          <ScalarProperty Name="ProductMasterImageName" ColumnName="ProductMasterImageName" />
+          <ScalarProperty Name="ProductMasterThumbnailImageName" ColumnName="ProductMasterThumbnailImageName" />
+          <ScalarProperty Name="ProductMasterDescription" ColumnName="ProductMasterDescription" />
+          <ScalarProperty Name="ProductMasterFeatures" ColumnName="ProductMasterFeatures" />
+          <ScalarProperty Name="CountOfTbProducts" ColumnName="CountOfTbProducts" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_User_Get" FunctionName="AllocatDbModel.Store.sp_User_Get">
       <ResultMapping>
         <ComplexTypeMapping TypeName="AllocatDbModel.sp_User_Get_Result">
@@ -675,7 +711,6 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_CreateUpdateDelete" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_CreateUpdateDelete" />
     <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_GetByTissueBankId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_GetByTissueBankId">
       <ResultMapping>
         <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserMngmt_TissueBank_GetByTissueBankId_Result">
@@ -722,7 +757,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_GetCountByTissueBankId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_GetCountByTissueBankId" />
-    <FunctionImportMapping FunctionImportName="sp_UserProfile_TissueBank_UpdateByUserId" FunctionName="AllocatDbModel.Store.sp_UserProfile_TissueBank_UpdateByUserId" />
     <FunctionImportMapping FunctionImportName="sp_UserProfileDetail_TissueBank_GetByUserId" FunctionName="AllocatDbModel.Store.sp_UserProfileDetail_TissueBank_GetByUserId">
       <ResultMapping>
         <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserProfileDetail_TissueBank_GetByUserId_Result">
@@ -741,6 +775,10 @@
           <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
           <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
+          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
+          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
+          <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
+          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
           <ScalarProperty Name="InfoId" ColumnName="InfoId" />
           <ScalarProperty Name="DomainName" ColumnName="DomainName" />
         </ComplexTypeMapping>
@@ -802,41 +840,10 @@
     <FunctionImportMapping FunctionImportName="usp_TissueBank_User_Registration" FunctionName="AllocatDbModel.Store.usp_TissueBank_User_Registration" />
     <FunctionImportMapping FunctionImportName="usp_Transaction_Create" FunctionName="AllocatDbModel.Store.usp_Transaction_Create" />
     <FunctionImportMapping FunctionImportName="usp_Transaction_Update" FunctionName="AllocatDbModel.Store.usp_Transaction_Update" />
-    <FunctionImportMapping FunctionImportName="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result">
-          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
-          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
-          <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
-          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
-          <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
-          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
-          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
-          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
-          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-          <ScalarProperty Name="SourceId" ColumnName="SourceId" />
-          <ScalarProperty Name="SourceName" ColumnName="SourceName" />
-          <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
-          <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
-          <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" FunctionName="AllocatDbModel.Store.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="AllocatDbModel.sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId_Result">
-          <ScalarProperty Name="StartLimit" ColumnName="StartLimit" />
-          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
-          <ScalarProperty Name="TissueBankProductMasterId" ColumnName="TissueBankProductMasterId" />
-          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
-          <ScalarProperty Name="ProductMasterImageName" ColumnName="ProductMasterImageName" />
-          <ScalarProperty Name="ProductMasterThumbnailImageName" ColumnName="ProductMasterThumbnailImageName" />
-          <ScalarProperty Name="ProductMasterDescription" ColumnName="ProductMasterDescription" />
-          <ScalarProperty Name="ProductMasterFeatures" ColumnName="ProductMasterFeatures" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_ProductMaster_GetBySearch" FunctionName="AllocatDbModel.Store.usp_ProductMaster_GetBySearch" />
+    <FunctionImportMapping FunctionImportName="sp_TissueBank_GetProductSizeByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBank_GetProductSizeByTissueBankProductMasterId" />
+    <FunctionImportMapping FunctionImportName="sp_TissueBank_GetProductTypeByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBank_GetProductTypeByTissueBankProductMasterId" />
+    <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_Edit" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_Edit" />
+    <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_CreateUpdateDelete" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_CreateUpdateDelete" />
   </EntityContainerMapping>
 </Mapping>

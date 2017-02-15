@@ -1,9 +1,14 @@
-﻿app.controller("ProductController", function ($scope, ProductService, $window, MsgService, ResourceService) {
+﻿app.controller("ProductController", function ($scope, ProductService, $window, MsgService, ResourceService, $timeout, $q, $log,$http) {
 
     var TissueBankId = document.getElementById("TissueBankId").value;
 
     if (TissueBankId != "") {
         $scope.TissueBankId = TissueBankId;
+    }
+
+    var InfoType = document.getElementById("InfoType").value;
+    if (InfoType != "") {
+        $scope.InfoType = InfoType;
     }
 
     $scope.webApiRootPath = ResourceService.webApiRootPath;
@@ -18,13 +23,93 @@
     $scope.PageSize = $scope.PageSizes[0];
     $scope.TotalPage = 0;
 
-    $scope.SortOptions = ['ProductMasterName-A To Z', 'ProductMasterName-Z To A', 'ProductType-A To Z',
-    'ProductType-Z To A', 'ProductCode-A To Z', 'ProductCode-Z To A', 'PreservationType-A To Z',
-    'PreservationType-Z To A', 'UnitPrice-High To Low', 'UnitPrice-Low To High', ];
+    //$scope.SortOptions = ['ProductMasterName-A To Z', 'ProductMasterName-Z To A', 'ProductType-A To Z',
+    //'ProductType-Z To A', 'ProductCode-A To Z', 'ProductCode-Z To A', 'PreservationType-A To Z',
+    //'PreservationType-Z To A', 'UnitPrice-High To Low', 'UnitPrice-Low To High', ];
 
-    $scope.SortOption = $scope.SortOptions[0];
+    //$scope.SortOption = $scope.SortOptions[0];
 
     $scope.editMode = false;
+
+    //new
+    $scope.simulateQuery = true;
+    $scope.AllTbProductMasters = loadAllProducts($http);
+    $scope.querySearch = querySearch;
+    $scope.selectedItemChange = selectedItemChange;
+    $scope.searchTextChange = searchTextChange;
+    function querySearch(query) {
+        var results = query ? $scope.AllTbProductMasters.filter(createFilterFor(query)) : $scope.AllTbProductMasters, deferred;
+        if ($scope.simulateQuery) {
+            deferred = $q.defer();
+            $timeout(function () { deferred.resolve(results); }, Math.random() * 1000, false);
+            return deferred.promise;
+        } else {
+            return results;
+        }
+    }
+
+    function loadAllProducts() {
+        var productList_TissueBank_DTO = new Object();
+
+        productList_TissueBank_DTO.TissueBankId = TissueBankId;
+        productList_TissueBank_DTO.CurrentPage = 1;
+        productList_TissueBank_DTO.SortExpression = 'ProductMasterName';
+        productList_TissueBank_DTO.SortDirection = 'ASC';
+        productList_TissueBank_DTO.PageSize = 100000;
+        productList_TissueBank_DTO.SearchBy = '';
+        productList_TissueBank_DTO.OperationType = 'GetAll';
+
+        var allProducts = [];
+        var url = '';
+        var result = [];
+        url = ResourceService.webApiRootPath + "ProductApi";
+        $http({
+            method: 'GET',
+            url: url,
+            params: productList_TissueBank_DTO
+        }).then(function successCallback(response) {
+            console.log(response.data.TbProductMasters);
+            allProducts = response.data.TbProductMasters;
+            angular.forEach(allProducts, function (product, key) {
+                result.push(
+                    {
+                        value: product.ProductMasterName.toLowerCase(),
+                        display: product.ProductMasterName
+                    });
+            });
+        }, function errorCallback(response) {
+            console.log('Oops! Something went wrong while fetching the data. Status Code: ' + response.status + ' Status statusText: ' + response.statusText);
+        });
+        return result;
+    }
+
+    function createFilterFor(query) {
+        //var lowercaseQuery = angular.lowercase(query);
+        return function filterFn(product) {
+            return (product.value.indexOf(query) === 0);
+        };
+
+    }
+
+    function searchTextChange(text) {
+        $log.info('Text changed to ' + text);
+    }
+
+    function selectedItemChange(item) {
+        $log.info('Item changed to ' + JSON.stringify(item));
+        if (item != null) {
+            $scope.SearchBy = item.value;
+        }
+        else {
+            $scope.SearchBy = '';
+
+        }
+        getTbProductMasters($scope.SearchBy, 1, $scope.PageSize, $scope.SortExpression, $scope.SortDirection);
+        $scope.CurrentPage = 1;
+        $scope.PageSize = $scope.PageSizes[0];
+    }
+    //new end
+    
 
     function getTbProductMasters(SearchBy, CurrentPage, PageSize, SortExpression, SortDirection) {
         var productList_TissueBank_DTO = new Object();
@@ -35,6 +120,7 @@
         productList_TissueBank_DTO.SortDirection = SortDirection;
         productList_TissueBank_DTO.PageSize = PageSize;
         productList_TissueBank_DTO.SearchBy = SearchBy;
+        productList_TissueBank_DTO.OperationType = 'GetAll';
 
         var response = ProductService.getTbProductMasters(productList_TissueBank_DTO);
 
@@ -57,22 +143,32 @@
 
 
     $scope.GetTbProduct = function (TissueBankProductMasterId) {
-        var response = ProductService.GetTbProduct(TissueBankProductMasterId);
 
-        response
-        .success(function (data, status, headers, config) {
-            var str = data.ReturnMessage[0];
-            var arr = str.split(" ");
+        if (TissueBankProductMasterId != "" && TissueBankId != "" && InfoType != "") {
 
-            $scope.TotalTbProducts = arr[0];
-            console.log(data.TbProducts);
-            $scope.TbProducts = data.TbProducts;
-        }).error(function (data, status, headers, config) {
-            var Message = MsgService.makeMessage(data.ReturnMessage)
-            message('error', 'Error!', Message);
-        }).finally(function () {
-            $scope.dataLoading = false;
-        });
+            var productList_TissueBank_DTO = new Object();
+            productList_TissueBank_DTO.TissueBankProductMasterId = TissueBankProductMasterId;
+            productList_TissueBank_DTO.TissueBankId = TissueBankId;
+            productList_TissueBank_DTO.InfoType = InfoType;
+            productList_TissueBank_DTO.OperationType = 'GetById';
+
+            var response = ProductService.GetTbProduct(productList_TissueBank_DTO);
+
+            response
+            .success(function (data, status, headers, config) {
+                var str = data.ReturnMessage[0];
+                var arr = str.split(" ");
+
+                $scope.TotalTbProducts = arr[0];
+                console.log(data.TbProducts);
+                $scope.TbProducts = data.TbProducts;
+            }).error(function (data, status, headers, config) {
+                var Message = MsgService.makeMessage(data.ReturnMessage)
+                message('error', 'Error!', Message);
+            }).finally(function () {
+                $scope.dataLoading = false;
+            });
+        }
     };
 
 
@@ -156,26 +252,35 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
     $scope.TissueBankId = document.getElementById("TissueBankId").value;
     $scope.CreatedBy = document.getElementById("UserId").value;
     $scope.LastModifiedBy = document.getElementById("UserId").value;
+    $scope.TbProducts = [];
+
+    var InfoType = document.getElementById("InfoType").value;
+    if (InfoType != "") {
+        $scope.InfoType = InfoType;
+    }
+
+    var TissueBankId = document.getElementById("TissueBankId").value;
+    if (TissueBankId != "") {
+        $scope.TissueBankId = TissueBankId;
+    }
 
     var TissueBankProductMasterId = document.getElementById("TissueBankProductMasterId").value;
-    if (TissueBankProductMasterId != "") {
-        GetTissueBankProductsByProductMasterId(TissueBankProductMasterId);
+    if (TissueBankProductMasterId != "" && TissueBankId != "" && InfoType != "") {
+        $scope.TissueBankProductMasterId = TissueBankProductMasterId;
+
+        var productList_TissueBank_DTO = new Object();
+        productList_TissueBank_DTO.TissueBankProductMasterId = TissueBankProductMasterId;
+        productList_TissueBank_DTO.TissueBankId = TissueBankId;
+        productList_TissueBank_DTO.InfoType = InfoType;
+        productList_TissueBank_DTO.OperationType = 'GetById';
+
+        GetTissueBankProductsByProductMasterId(productList_TissueBank_DTO);
     }
 
     var ProductMasterGetByIdDTO = {
         Id: TissueBankProductMasterId,
         OperationType: "GetByTissueBankProductMasterId"
     };
-
-
-    ProductMasterService.getProductMasterById(ProductMasterGetByIdDTO)
-        .success(function (data, status, headers, config) {
-            $scope.ProductMaster_TissueBank = data.ProductMaster_TissueBank;
-        })
-        .error(function (data, status, headers, config) {
-            var Message = MsgService.makeMessage(data.ReturnMessage)
-            message('error', 'Error!', Message);
-        });
 
     ProductDetailService.GetPreservationTypes()
         .success(function (data, status, headers, config) {
@@ -214,13 +319,24 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
         });
 
 
-    function GetTissueBankProductsByProductMasterId(TissueBankProductMasterId) {
+    function GetTissueBankProductsByProductMasterId(productList_TissueBank_DTO) {
 
-        var response = ProductDetailService.GetTissueBankProductsByProductMasterId(TissueBankProductMasterId);
+        var response = ProductDetailService.GetTissueBankProductsByProductMasterId(productList_TissueBank_DTO);
 
         response.success(function (data, status, headers, config) {
             $scope.TbProducts = data.TbProducts;
             console.log(data.TbProducts);
+
+            ProductMasterService.getProductMasterById(ProductMasterGetByIdDTO)
+                   .success(function (data2, status, headers, config) {
+                       $scope.ProductMaster_TissueBank = data2.ProductMaster_TissueBank;
+                   })
+                   .error(function (data2, status, headers, config) {
+                       var Message = MsgService.makeMessage(data2.ReturnMessage)
+                       message('error', 'Error!', Message);
+                   });
+
+
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
@@ -233,15 +349,14 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
         var errStr = '';
         var Products = $scope.TbProducts;
 
-        
+
 
         //  if ($scope.form_ConfirmOnExit.$dirty == true && $scope.form_ConfirmOnExit.$pristine == false) {
         //-------change LastModifiedBy of every row
         for (var i = 0; i < Products.length; i++) {
 
             Products[i].LastModifiedBy = $scope.LastModifiedBy;
-            if(countInArray(Products,Products[i].ProductCode)>1)
-            {
+            if (countInArray(Products, Products[i].ProductCode) > 1) {
                 errStr = errStr + 'Product Code :' + Products[i].ProductCode + ' exists twice <br />';
             }
 
@@ -281,23 +396,29 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
 
         if (errStr == '') {
             console.log(Products);
-           // var response = ProductDetailService.saveTissueBankProducts(Products);
+            var response = ProductDetailService.saveTissueBankProducts(Products);
 
-           // response
-           //.success(function (data, status, headers, config) {
-           //    var Message = MsgService.makeMessage(data.ReturnMessage)
-           //    message('success', 'Success!', Message);
+            response
+           .success(function (data, status, headers, config) {
+               var Message = MsgService.makeMessage(data.ReturnMessage)
+               message('success', 'Success!', Message);
 
-           //    $scope.editMode = false;
-           //    $scope.form_ConfirmOnExit.$dirty = false;
+               $scope.editMode = false;
+               $scope.form_ConfirmOnExit.$dirty = false;
 
-           //    //-------get data again from database
-           //    GetTissueBankProductsByProductMasterId(TissueBankProductMasterId);
-           //})
-           //.error(function (data, status, headers, config) {
-           //    var Message = MsgService.makeMessage(data.ReturnMessage)
-           //    message('error', 'Error!', Message);
-           //});
+               //-------get data again from database
+               var productList_TissueBank_DTO = new Object();
+               productList_TissueBank_DTO.TissueBankProductMasterId = TissueBankProductMasterId;
+               productList_TissueBank_DTO.TissueBankId = TissueBankId;
+               productList_TissueBank_DTO.InfoType = InfoType;
+               productList_TissueBank_DTO.OperationType = 'GetById';
+
+               GetTissueBankProductsByProductMasterId(productList_TissueBank_DTO);
+           })
+           .error(function (data, status, headers, config) {
+               var Message = MsgService.makeMessage(data.ReturnMessage)
+               message('error', 'Error!', Message);
+           });
         }
         else {
             message('error', 'Error!', errStr);
@@ -319,7 +440,7 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
         $scope.TbProducts.push({
             'TissueBankProductId': "0",
             'TissueBankId': $scope.TissueBankId,
-            'TissueBankProductMasterId': $scope.TbProducts[0].TissueBankProductMasterId,
+            'TissueBankProductMasterId': TissueBankProductMasterId,
             'ProductType': "",
             'ProductCode': "",
             'ProductSize': "",
@@ -457,6 +578,12 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
     if (TissueBankId != "") {
         $scope.TissueBankId = TissueBankId;
     }
+
+    var InfoType = document.getElementById("InfoType").value;
+    if (InfoType != "") {
+        $scope.InfoType = InfoType;
+    }
+
     $scope.webApiRootPath = ResourceService.webApiRootPath;
     $scope.webApiContentRootPath = ResourceService.webApiContentRootPath;
 
@@ -482,6 +609,8 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
         rfq_TissueBank_DTO.SortDirection = SortDirection;
         rfq_TissueBank_DTO.PageSize = PageSize;
         rfq_TissueBank_DTO.SearchBy = SearchBy;
+        rfq_TissueBank_DTO.OperationType = "GetAll";
+
 
         RFQService.getRFQs(rfq_TissueBank_DTO)
         .success(function (data, status, headers, config) {
@@ -552,15 +681,24 @@ app.controller("RFQController", function ($scope, RFQService, MsgService, $windo
     };
 
     $scope.GetRequestDetail = function (RequestForQuoteId) {
-        GetRequestDetailByRequestForQuoteId(RequestForQuoteId);
+        var rfq_TissueBank_DTO = new Object();
+
+        rfq_TissueBank_DTO.RequestForQuoteId = RequestForQuoteId;
+        rfq_TissueBank_DTO.TissueBankId = TissueBankId;
+        rfq_TissueBank_DTO.InfoType = InfoType;
+        rfq_TissueBank_DTO.OperationType = "GetById";
+
+        GetRequestDetailByRequestForQuoteId(rfq_TissueBank_DTO);
+
         GetRequestResponseByRequestForQuoteId(RequestForQuoteId);
     };
 
-    GetRequestDetailByRequestForQuoteId = function (RequestForQuoteId) {
+    GetRequestDetailByRequestForQuoteId = function (rfq_TissueBank_DTO) {
 
-        RFQService.GetRfqDetailByRequestForQuoteId(RequestForQuoteId)
+        RFQService.GetRfqDetailByRequestForQuoteId(rfq_TissueBank_DTO)
         .success(function (data, status, headers, config) {
             $scope.RFQDetail = data.RequestForQuoteDetail[0];
+
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
@@ -602,11 +740,29 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
         $scope.TissueBankId = TissueBankId;
     }
 
+    var InfoType = document.getElementById("InfoType").value;
+    if (InfoType != "") {
+        $scope.InfoType = InfoType;
+    }
+
+    var ResRFQSalesTaxPercentage = document.getElementById("ResRFQSalesTaxPercentage").value;
+    if (ResRFQSalesTaxPercentage != "") {
+        $scope.ResRFQSalesTaxPercentage = ResRFQSalesTaxPercentage;
+    }
+
     var RequestForQuoteId = document.getElementById("RequestForQuoteId").value;
-    if (RequestForQuoteId != "") {
+    if (RequestForQuoteId != "" && TissueBankId != "" && InfoType != "") {
         $scope.RequestForQuoteId = RequestForQuoteId;
 
-        GetRequestDetailByRequestForQuoteId(RequestForQuoteId);
+        var rfq_TissueBank_DTO = new Object();
+
+        rfq_TissueBank_DTO.RequestForQuoteId = $scope.RequestForQuoteId;
+        rfq_TissueBank_DTO.TissueBankId = TissueBankId;
+        rfq_TissueBank_DTO.InfoType = InfoType;
+        rfq_TissueBank_DTO.OperationType = "GetById";
+
+        GetRequestDetailByRequestForQuoteId(rfq_TissueBank_DTO);
+
         GetRequestResponseByRequestForQuoteId(RequestForQuoteId);
     }
 
@@ -615,8 +771,8 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
         $scope.editMode = editMode;
     }
 
-    function GetRequestDetailByRequestForQuoteId(RequestForQuoteId) {
-        RFQService.GetRfqDetailByRequestForQuoteId(RequestForQuoteId)
+    function GetRequestDetailByRequestForQuoteId(rfq_TissueBank_DTO) {
+        RFQService.GetRfqDetailByRequestForQuoteId(rfq_TissueBank_DTO)
         .success(function (data, status, headers, config) {
             $scope.RFQDetail = data.RequestForQuoteDetail[0];
         }).error(function (data, status, headers, config) {
@@ -628,12 +784,14 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
     };
 
     $scope.CalculateTotal = function () {
+        
         if ($scope.RFQDetail.UnitPrice != null && $scope.RFQDetail.UnitPrice != '') {
             $scope.RFQDetail.LineTotal = $scope.RFQDetail.Quantity * $scope.RFQDetail.UnitPrice;
         }
         else {
             $scope.RFQDetail.LineTotal = 0;
         }
+        $scope.RFQDetail.SalesTax = ($scope.RFQDetail.LineTotal * $scope.ResRFQSalesTaxPercentage) / 100;
         $scope.RFQDetail.Total = $scope.RFQDetail.SalesTax + $scope.RFQDetail.LineTotal;
     };
 
@@ -693,7 +851,14 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
                 $scope.form_ConfirmOnExit.$dirty = false;
 
                 //get data again from db
-                GetRequestDetailByRequestForQuoteId(RequestForQuoteId);
+                var rfq_TissueBank_DTO = new Object();
+
+                rfq_TissueBank_DTO.RequestForQuoteId = $scope.RequestForQuoteId;
+                rfq_TissueBank_DTO.TissueBankId = TissueBankId;
+                rfq_TissueBank_DTO.InfoType = InfoType;
+                rfq_TissueBank_DTO.OperationType = "GetById";
+
+                GetRequestDetailByRequestForQuoteId(rfq_TissueBank_DTO);
                 $scope.ResponseBody = '';
                 $scope.editMode = !$scope.editMode;
 
@@ -762,7 +927,15 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
            $scope.form_ConfirmOnExit.$dirty = false;
            //default values
            $scope.ResponseBody = '';
-           GetRequestDetailByRequestForQuoteId(RequestForQuoteId);
+           var rfq_TissueBank_DTO = new Object();
+
+           rfq_TissueBank_DTO.RequestForQuoteId = $scope.RequestForQuoteId;
+           rfq_TissueBank_DTO.TissueBankId = TissueBankId;
+           rfq_TissueBank_DTO.InfoType = InfoType;
+           rfq_TissueBank_DTO.OperationType = "GetById";
+
+           GetRequestDetailByRequestForQuoteId(rfq_TissueBank_DTO);
+
            GetRequestResponseByRequestForQuoteId(RequestForQuoteId);
            var Message = MsgService.makeMessage(data.ReturnMessage)
            message('success', 'Success!', Message);
@@ -791,8 +964,8 @@ app.controller("OrderController", function ($scope, OrderService, MsgService, $w
     if (TissueBankId != "") {
         $scope.TissueBankId = TissueBankId;
     }
-    $scope.SortDirection = '';
-    $scope.SortExpression = '';
+    $scope.SortDirection = 'ASC';
+    $scope.SortExpression = 'ProductMasterName';
     $scope.CurrentPage = 1;
     $scope.SearchBy = "";
     $scope.descriptionLimit = 15;
@@ -813,6 +986,7 @@ app.controller("OrderController", function ($scope, OrderService, MsgService, $w
         order_TissueBank_DTO.SortDirection = SortDirection;
         order_TissueBank_DTO.PageSize = PageSize;
         order_TissueBank_DTO.SearchBy = SearchBy;
+        order_TissueBank_DTO.OperationType = 'GetAll';
 
         OrderService.GetOrders(order_TissueBank_DTO)
         .success(function (data, status, headers, config) {
@@ -903,21 +1077,34 @@ app.controller("OrderDetailController", function ($scope, OrderService, MsgServi
     $scope.ShippingMethod = '';
     $scope.webApiRootPath = ResourceService.webApiRootPath;
     $scope.dataLoading = true;
+    $scope.showDeclineModal = false;
+    $scope.showModal = false;
 
     var TissueBankId = document.getElementById("TissueBankId").value;
     if (TissueBankId != "") {
         $scope.TissueBankId = TissueBankId;
     }
 
-    var OrderId = document.getElementById("OrderId").value;
-    if (OrderId != "") {
-        $scope.OrderId = OrderId;
-
-        GetOrderDetailByOrderId(OrderId);
+    var InfoType = document.getElementById("InfoType").value;
+    if (InfoType != "") {
+        $scope.InfoType = InfoType;
     }
 
-    function GetOrderDetailByOrderId(OrderId) {
-        OrderService.GetOrderDetailByOrderId(OrderId)
+    var OrderId = document.getElementById("OrderId").value;
+    if (OrderId != "" && TissueBankId != "" && InfoType != "") {
+        $scope.OrderId = OrderId;
+        var order_TissueBank_DTO = new Object();
+
+        order_TissueBank_DTO.OrderId = $scope.OrderId;
+        order_TissueBank_DTO.TissueBankId = TissueBankId;
+        order_TissueBank_DTO.InfoType = InfoType;
+        order_TissueBank_DTO.OperationType = 'GetById';
+
+        GetOrderDetailByOrderId(order_TissueBank_DTO);
+    }
+
+    function GetOrderDetailByOrderId(order_TissueBank_DTO) {
+        OrderService.GetOrderDetailByOrderId(order_TissueBank_DTO)
         .success(function (data, status, headers, config) {
             $scope.OrderDetail = data.OrderDetail[0];
         }).error(function (data, status, headers, config) {
@@ -954,8 +1141,13 @@ app.controller("OrderDetailController", function ($scope, OrderService, MsgServi
         $scope.$emit('notify', notify);
     };
 
-    $scope.declineOrder = function () {
+    $scope.DeclineOrder = function () {
+        $scope.showDeclineModal = true;
+    };
+
+    $scope.ConfirmDeclineOrder = function () {
         Order_Ack_Decline(5);
+        $scope.showDeclineModal = false;
     };
 
     function Order_Ack_Decline(StatusId) {
@@ -976,7 +1168,14 @@ app.controller("OrderDetailController", function ($scope, OrderService, MsgServi
            var Message = MsgService.makeMessage(data.ReturnMessage)
            message('success', 'Success!', Message);
            //default values
-           GetOrderDetailByOrderId(OrderId);
+           var order_TissueBank_DTO = new Object();
+
+           order_TissueBank_DTO.OrderId = $scope.OrderId;
+           order_TissueBank_DTO.TissueBankId = TissueBankId;
+           order_TissueBank_DTO.InfoType = InfoType;
+           order_TissueBank_DTO.OperationType = 'GetById';
+
+           GetOrderDetailByOrderId(order_TissueBank_DTO);
        })
        .error(function (data, status, headers, config) {
            var Message = MsgService.makeMessage(data.ReturnMessage)
@@ -984,6 +1183,39 @@ app.controller("OrderDetailController", function ($scope, OrderService, MsgServi
        });
         $scope.OrderDetail.DeclineRemark = '';
     }
+
+    $scope.Received = function () {
+        var order_Ack_Decline_DTO = {};
+        order_Ack_Decline_DTO.OrderId = $scope.OrderId;
+        order_Ack_Decline_DTO.StatusId = 1009;
+        order_Ack_Decline_DTO.ShippingMethod = $scope.OrderDetail.ShippingMethod;
+        order_Ack_Decline_DTO.TissueBankSendByDate = $scope.OrderDetail.TissueBankSendByDate;
+        order_Ack_Decline_DTO.LastModifiedBy = $scope.LastModifiedBy;
+
+        console.log(order_Ack_Decline_DTO);
+
+        var response = OrderService.Order_Ack_Decline(order_Ack_Decline_DTO);
+
+        response
+       .success(function (data, status, headers, config) {
+           var Message = MsgService.makeMessage(data.ReturnMessage)
+           message('success', 'Success!', Message);
+           //default values
+           var order_TissueBank_DTO = new Object();
+
+           order_TissueBank_DTO.OrderId = $scope.OrderId;
+           order_TissueBank_DTO.TissueBankId = TissueBankId;
+           order_TissueBank_DTO.InfoType = InfoType;
+           order_TissueBank_DTO.OperationType = 'GetById';
+
+           GetOrderDetailByOrderId(order_TissueBank_DTO);
+       })
+       .error(function (data, status, headers, config) {
+           var Message = MsgService.makeMessage(data.ReturnMessage)
+           message('error', 'Error!', Message);
+       });
+        $scope.OrderDetail.DeclineRemark = '';
+    };
 });
 
 app.controller("UserController", function ($scope, UserService, MsgService, $window, $sce, ResourceService) {
@@ -1000,7 +1232,7 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
     $scope.editMode = false;
     $scope.TotalPage = 0;
 
-    $scope.PageSizes = [3,10, 20, 50, 100];
+    $scope.PageSizes = [3, 10, 20, 50, 100];
     $scope.PageSize = $scope.PageSizes[0];
 
     var msg = document.getElementById("msg").value;
@@ -1020,6 +1252,7 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
         user_DTO.SortDirection = SortDirection;
         user_DTO.PageSize = PageSize;
         user_DTO.SearchBy = SearchBy;
+        user_DTO.OperationType = 'GetAll';
 
         UserService.GetUsers(user_DTO)
         .success(function (data, status, headers, config) {
@@ -1122,7 +1355,6 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
     $scope.validateFullName = /^[A-Za-z\s]+$/;
     $scope.validateEmail = /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
 
-    $scope.InfoId = document.getElementById("InfoId").value;
     $scope.CreatedBy = document.getElementById("LoggedUserId").value;
     $scope.LastModifiedBy = document.getElementById("LoggedUserId").value;
     $scope.phoneNumberPattern = InputService.phoneNumberPattern;
@@ -1133,22 +1365,38 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
 
     GetTissueBankRoles();
 
-    var S_UserId = document.getElementById("S_UserId").value;
+    var InfoType = document.getElementById("InfoType").value;
+    if (InfoType != "") {
+        $scope.InfoType = InfoType;
+    }
 
-    if (S_UserId != "") {
+    var InfoId = document.getElementById("InfoId").value;
+    if (InfoId != "") {
+        $scope.InfoId = InfoId;
+    }
+
+    var S_UserId = document.getElementById("S_UserId").value;
+    if (S_UserId != "" && InfoId != "" && InfoType != "") {
         $scope.S_UserId = S_UserId;
-        GetUserDetail($scope.S_UserId);
+
+        var user_DTO = new Object();
+
+        user_DTO.RequestUserId = $scope.S_UserId;
+        user_DTO.TissueBankId = InfoId;
+        user_DTO.InfoType = InfoType;
+        user_DTO.OperationType = 'GetById';
+        GetUserDetail(user_DTO);
         $scope.Operation = 'Manage User';
     }
 
 
-    function GetUserDetail(UserId) {
-        UserDetailService.GetUserDetail(UserId, "getUserDetail")
+    function GetUserDetail(user_DTO) {
+        UserDetailService.GetUserDetail(user_DTO)
         .success(function (data, status, headers, config) {
             $scope.UserDetail = data.UserDetail[0];
 
             console.log(data.UserDetail[0]);
-            GetUserRoles(UserId);
+            GetUserRoles(user_DTO);
 
             if (data.UserDetail[0].AllowLogin) {
                 $scope.UserDetail.AllowLogin_Convert = 'Yes';
@@ -1164,8 +1412,10 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
         });
     };
 
-    function GetUserRoles(UserId) {
-        UserDetailService.GetUserRoles(UserId, "getUserRole")
+    function GetUserRoles(user_DTO) {
+        user_DTO.OperationType = 'GetUserRole';
+
+        UserDetailService.GetUserRoles(user_DTO)
         .success(function (data, status, headers, config) {
             $scope.UserRoles = data.UserRoles;
             console.log(data.UserRoles);
@@ -1387,6 +1637,8 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
         var err = '';
         err = ValidateTbSubmit();
 
+        err = ValidateTbBillingDetailSubmit();
+
         if (err == '') {
             var tissueBankAdd_DTO = {
                 TissueBankName: $scope.tissueBank.TissueBankName,
@@ -1515,6 +1767,8 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
             }
         }
 
+       
+
         return err;
     }
 
@@ -1633,81 +1887,107 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
     };
 
     $scope.UpdateBillingDetail = function () {
-        $scope.dataLoading = true;
-        var tissueBankAdd_DTO = {
+        var err = ValidateTbBillingDetailSubmit();
+        if (err == '') {
+            $scope.dataLoading = true;
+            var tissueBankAdd_DTO = {
 
-            OperationType: 'UpdateBillingDetail'
-           , TissueBankId: document.getElementById("TissueBankId").value
-           , UserId: document.getElementById("LoggedUserId").value
+                OperationType: 'UpdateBillingDetail'
+               , TissueBankId: document.getElementById("TissueBankId").value
+               , UserId: document.getElementById("LoggedUserId").value
 
-                     , TissueBankName: $scope.tissueBank.TissueBankName
-            , ContactPersonFirstName: $scope.tissueBank.ContactPersonFirstName
-            , ContactPersonLastName: $scope.tissueBank.ContactPersonLastName
-            //            , ContactPersonNumber: $scope.tissueBank.ContactPersonNumber
-            //            , ContactPersonEmailId: $scope.tissueBank.ContactPersonEmailId
-            //            , FaxNumber: $scope.tissueBank.FaxNumber
-            //            , TissueBankEmailId: $scope.tissueBank.TissueBankEmailId
-            //            , BusinessURL: $scope.tissueBank.BusinessURL
-            //            , TissueBankAddress: $scope.tissueBank.TissueBankAddress
-            //            , CityId: $scope.tissueBank.CityId
-            //            , ZipCode: $scope.tissueBank.ZipCode
-            //, CustomerServiceLandLineNumber: $scope.tissueBank.CustomerServiceLandLineNumber
-            //, TaxPayerId: $scope.tissueBank.TaxPayerId
-            //, TissueBankStateLicense: $scope.tissueBank.TissueBankStateLicense
-            //, AATBLicenseNumber: $scope.tissueBank.AATBLicenseNumber
-            //, AATBExpirationDate: $scope.tissueBank.AATBExpirationDate
-            //, AATBAccredationDate: $scope.tissueBank.AATBAccredationDate
-, CreditCardNumber: $scope.tissueBank.CreditCardNumber
+                         , TissueBankName: $scope.tissueBank.TissueBankName
+                , ContactPersonFirstName: $scope.tissueBank.ContactPersonFirstName
+                , ContactPersonLastName: $scope.tissueBank.ContactPersonLastName
+                //            , ContactPersonNumber: $scope.tissueBank.ContactPersonNumber
+                //            , ContactPersonEmailId: $scope.tissueBank.ContactPersonEmailId
+                //            , FaxNumber: $scope.tissueBank.FaxNumber
+                //            , TissueBankEmailId: $scope.tissueBank.TissueBankEmailId
+                //            , BusinessURL: $scope.tissueBank.BusinessURL
+                //            , TissueBankAddress: $scope.tissueBank.TissueBankAddress
+                //            , CityId: $scope.tissueBank.CityId
+                //            , ZipCode: $scope.tissueBank.ZipCode
+                //, CustomerServiceLandLineNumber: $scope.tissueBank.CustomerServiceLandLineNumber
+                //, TaxPayerId: $scope.tissueBank.TaxPayerId
+                //, TissueBankStateLicense: $scope.tissueBank.TissueBankStateLicense
+                //, AATBLicenseNumber: $scope.tissueBank.AATBLicenseNumber
+                //, AATBExpirationDate: $scope.tissueBank.AATBExpirationDate
+                //, AATBAccredationDate: $scope.tissueBank.AATBAccredationDate
+    , CreditCardNumber: $scope.tissueBank.CreditCardNumber
 
-, CreditCardType: $scope.tissueBank.CreditCardType
-, ExpiryDate: $scope.expiryMonth.toString() + $scope.expiryYear.toString()
-, CardCode: $scope.tissueBank.CardCode
-, CustomerProfileId: $scope.tissueBank.CustomerProfileId
-, CustomerPaymentProfileIds: $scope.tissueBank.CustomerPaymentProfileIds
-            , BillingAddress: $scope.tissueBank.BillingAddress
-, BillingCityId: $scope.tissueBank.BillingCityId
-            , BillingZipCode: $scope.tissueBank.BillingZipCode
-            , BillingFaxNumber: $scope.tissueBank.BillingFaxNumber
-            , BillingEmailId: $scope.tissueBank.BillingEmailId
-            , BillingContactNumber: $scope.tissueBank.BillingContactNumber
-            //, BillingCity: $scope.tissueBank.BillingCity
-            //, BillingState: $scope.tissueBank.BillingState
-, BillingStateId: $scope.tissueBank.BillingStateId
-            //, State: $scope.tissueBank.State
-            //, City: $scope.tissueBank.City
-            , TransactionId: $scope.tissueBank.TransactionId
-            , AuthTransactionId: $scope.tissueBank.AuthTransactionId
-            , AuthCode: $scope.tissueBank.AuthCode
-            , StatusId: $scope.tissueBank.StatusId
-            , TransactionCompleteDate: $scope.tissueBank.TransactionCompleteDate
+    , CreditCardType: $scope.tissueBank.CreditCardType
+    , ExpiryDate: $scope.expiryMonth.toString() + $scope.expiryYear.toString()
+    , CardCode: $scope.tissueBank.CardCode
+    , CustomerProfileId: $scope.tissueBank.CustomerProfileId
+    , CustomerPaymentProfileIds: $scope.tissueBank.CustomerPaymentProfileIds
+                , BillingAddress: $scope.tissueBank.BillingAddress
+    , BillingCityId: $scope.tissueBank.BillingCityId
+                , BillingZipCode: $scope.tissueBank.BillingZipCode
+                , BillingFaxNumber: $scope.tissueBank.BillingFaxNumber
+                , BillingEmailId: $scope.tissueBank.BillingEmailId
+                , BillingContactNumber: $scope.tissueBank.BillingContactNumber
+                //, BillingCity: $scope.tissueBank.BillingCity
+                //, BillingState: $scope.tissueBank.BillingState
+    , BillingStateId: $scope.tissueBank.BillingStateId
+                //, State: $scope.tissueBank.State
+                //, City: $scope.tissueBank.City
+                , TransactionId: $scope.tissueBank.TransactionId
+                , AuthTransactionId: $scope.tissueBank.AuthTransactionId
+                , AuthCode: $scope.tissueBank.AuthCode
+                , StatusId: $scope.tissueBank.StatusId
+                , TransactionCompleteDate: $scope.tissueBank.TransactionCompleteDate
+            }
+
+            //delete $scope.tissueBank.BillingCity;
+            //delete $scope.tissueBank.BillingState;
+
+            //$scope.tissueBank.OperationType = 'UpdateBillingDetail';
+            //$scope.tissueBank.TissueBankId = document.getElementById("TissueBankId").value;
+            //$scope.tissueBank.UserId = document.getElementById("LoggedUserId").value;
+            //$scope.tissueBank.ExpiryDate = $scope.expiryMonth.toString() + $scope.expiryYear.toString();
+            //NOTE: billing City name and billing state name is going empty
+            console.log(tissueBankAdd_DTO);
+
+            var response = TissueBankService.UpdateTbDetail(tissueBankAdd_DTO);
+            response.success(function (data, status, headers, config) {
+                console.log(data);
+                var Message = MsgService.makeMessage(data.ReturnMessage)
+                message('success', 'Success!', Message);
+
+                //get tb details
+                GetTissueBankById($scope.tissueBank.TissueBankId);
+            }).error(function (data, status, headers, config) {
+                console.log(data.ReturnMessage);
+                var Message = MsgService.makeMessage(data.ReturnMessage)
+                message('error', 'Error!', Message);
+            }).finally(function () {
+                $scope.dataLoading = false;
+            });
+        }
+        else
+        {
+            message('error', 'Error!', err);
+        }
+    };
+
+    function ValidateTbBillingDetailSubmit() {
+        var err = '';
+        var currentYear = new Date().getFullYear().toString().substr(2, 2)
+        var expiryMonth = parseInt($scope.expiryMonth);
+        var d = new Date();
+
+        var currentMonth = d.getMonth();
+        //0=January, 1=February etc.
+        if ($scope.expiryYear == currentYear)
+        {
+            if(currentMonth+1>expiryMonth)
+            {
+                err='Invalid Expiry Month and Year. Select again.'
+            }
         }
 
-        //delete $scope.tissueBank.BillingCity;
-        //delete $scope.tissueBank.BillingState;
-
-        //$scope.tissueBank.OperationType = 'UpdateBillingDetail';
-        //$scope.tissueBank.TissueBankId = document.getElementById("TissueBankId").value;
-        //$scope.tissueBank.UserId = document.getElementById("LoggedUserId").value;
-        //$scope.tissueBank.ExpiryDate = $scope.expiryMonth.toString() + $scope.expiryYear.toString();
-        //NOTE: billing City name and billing state name is going empty
-        console.log(tissueBankAdd_DTO);
-
-        var response = TissueBankService.UpdateTbDetail(tissueBankAdd_DTO);
-        response.success(function (data, status, headers, config) {
-            console.log(data);
-            var Message = MsgService.makeMessage(data.ReturnMessage)
-            message('success', 'Success!', Message);
-
-            //get tb details
-            GetTissueBankById($scope.tissueBank.TissueBankId);
-        }).error(function (data, status, headers, config) {
-            console.log(data.ReturnMessage);
-            var Message = MsgService.makeMessage(data.ReturnMessage)
-            message('error', 'Error!', Message);
-        }).finally(function () {
-            $scope.dataLoading = false;
-        });
-    };
+        return err;
+    }
 
     GetCities = function (stateId) {
         if (stateId != null) {
@@ -1783,6 +2063,206 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
         };
         $scope.$emit('notify', notify);
     }
+});
+
+app.controller("UserProfileController", function ($scope, UserDetailService, MsgService, $window, $timeout, InputService, KeyValueService) {
+    $scope.UserDetail = {};
+    $scope.UserRoles = [];
+    $scope.Password = '';
+    $scope.dataLoading = true;
+
+    var PreviousEmailId = $scope.UserDetail.EmailId;
+
+    $scope.InfoId = document.getElementById("InfoId").value;
+    $scope.LoggedUserId = document.getElementById("LoggedUserId").value;
+    $scope.phoneNumberPattern = InputService.phoneNumberPattern;
+    $scope.emailPattern = InputService.emailPattern;
+    $scope.name_AlphaSpacesPattern = InputService.name_AlphaSpacesPattern;
+    $scope.userNamePattern = InputService.userNamePattern;
+    $scope.phoneNumberLength = InputService.phoneNumberLength;
+    $scope.AnswerPattern = InputService.AnswerPattern;
+    $scope.AnswerLength = InputService.AnswerLength;
+
+    var InfoType = document.getElementById("InfoType").value;
+    if (InfoType != "") {
+        $scope.InfoType = InfoType;
+    }
+
+    if ($scope.LoggedUserId != "" && InfoId != "" && InfoType != "") {
+        var user_DTO = new Object();
+
+        user_DTO.RequestUserId = $scope.LoggedUserId;
+        user_DTO.TissueBankId = $scope.InfoId;
+        user_DTO.InfoType = InfoType;
+        user_DTO.OperationType = 'GetById';
+
+        GetUserDetail(user_DTO);
+    }
+
+
+    function GetUserDetail(user_DTO) {
+        UserDetailService.GetUserDetail(user_DTO)
+        .success(function (data, status, headers, config) {
+            $scope.UserDetail = data.UserDetail[0];
+
+            GetUserRoles(user_DTO);
+
+            KeyValueService.getKeyValue("Question")
+       .success(function (data2, status, headers, config) {
+
+           $scope.SecurityQuestions = data2.KeyValues;
+           $scope.PasswordQuestions = data2.KeyValues;
+
+
+           $scope.SecurityQuestion = { Key: $scope.UserDetail.SecurityQuestion };
+           $scope.PasswordQuestion = { Key: $scope.UserDetail.PasswordQuestion };
+
+
+       }).error(function (data2, status, headers, config) {
+           var Message = MsgService.makeMessage(data2.ReturnMessage)
+           message('error', 'Error!', Message);
+       });
+
+
+
+        }).error(function (data, status, headers, config) {
+            var Message = MsgService.makeMessage(data.ReturnMessage)
+            message('error', 'Error!', Message);
+        }).finally(function () {
+            $scope.dataLoading = false;
+        });
+    };
+
+    function GetUserRoles(user_DTO) {
+        user_DTO.OperationType = 'GetUserRole';
+        UserDetailService.GetUserRoles(user_DTO)
+        .success(function (data, status, headers, config) {
+            $scope.UserRoles = data.UserRoles;
+            console.log(data.UserRoles);
+        }).error(function (data, status, headers, config) {
+            var Message = MsgService.makeMessage(data.ReturnMessage)
+            message('error', 'Error!', Message);
+        });
+    };
+
+    $scope.Submit = function () {
+        var err = ValidateSubmit($scope);
+        if (err == '') {
+            var userMngmnt_User_CUD_DTO = {};
+            userMngmnt_User_CUD_DTO.UserId = $scope.LoggedUserId;
+            userMngmnt_User_CUD_DTO.UserName = $scope.UserDetail.UserName;
+            userMngmnt_User_CUD_DTO.FullName = $scope.UserDetail.FullName;
+            userMngmnt_User_CUD_DTO.MobileNumber = $scope.UserDetail.MobileNumber;
+            userMngmnt_User_CUD_DTO.EmailId = $scope.UserDetail.EmailId;
+            userMngmnt_User_CUD_DTO.LastModifiedBy = $scope.LoggedUserId;
+            userMngmnt_User_CUD_DTO.InfoId = $scope.InfoId;
+            if ($scope.SecurityQuestion != null)
+                userMngmnt_User_CUD_DTO.SecurityQuestion = $scope.SecurityQuestion.Key;
+
+            userMngmnt_User_CUD_DTO.SecurityAnswer = $scope.UserDetail.SecurityAnswer;
+
+            if ($scope.SecurityQuestion != null)
+                userMngmnt_User_CUD_DTO.PasswordQuestion = $scope.PasswordQuestion.Key;
+
+            userMngmnt_User_CUD_DTO.PasswordAnswer = $scope.UserDetail.PasswordAnswer;
+
+            userMngmnt_User_CUD_DTO.OperationType = 'UserUpdate';
+            console.log(userMngmnt_User_CUD_DTO);
+
+            var response = UserDetailService.SubmitUser(userMngmnt_User_CUD_DTO);
+
+            response
+           .success(function (data, status, headers, config) {
+               var Message = MsgService.makeMessage(data.ReturnMessage)
+               message('success', 'Success!', Message);
+               //default values
+               GetUserDetail($scope.LoggedUserId);
+               // $window.location.href = '/TissueBank/User/Index?msg=success';
+               console.log(data);
+           })
+           .error(function (data, status, headers, config) {
+               var Message = MsgService.makeMessage(data.ReturnMessage)
+               message('error', 'Error!', Message);
+           });
+        }
+        else {
+            message('error', 'Error!', err);
+        }
+    }
+
+    function ValidateSubmit($scope) {
+        var err = '';
+        if ((($scope.UserDetail.SecurityAnswer != null && $scope.UserDetail.SecurityAnswer != '') && $scope.SecurityQuestion.Key != null) || (($scope.UserDetail.SecurityAnswer == null || $scope.UserDetail.SecurityAnswer == '') && $scope.SecurityQuestion.Key == null)) {
+
+        }
+        else {
+            err = 'Please fill both Security Answer and Security Question';
+        }
+
+        if ((($scope.UserDetail.PasswordAnswer != null && $scope.UserDetail.PasswordAnswer != '') && $scope.PasswordQuestion.Key != null) || (($scope.UserDetail.PasswordAnswer == null || $scope.UserDetail.PasswordAnswer == '') && $scope.PasswordQuestion.Key == null)) {
+
+        }
+        else {
+            if (err == '') {
+                err = 'Please fill both Password Answer and Password Question';
+            }
+            else {
+                err = err + '<br /> Please fill both Password Answer and Password Question';
+            }
+        }
+        return err;
+    }
+
+    $scope.OpenPasswordModel = function () {
+        $scope.showModal = true;
+
+    };
+
+    $scope.PasswordSubmit = function (IsSendMail) {
+        var userMngmnt_User_CUD_DTO = {};
+        userMngmnt_User_CUD_DTO.UserId = $scope.LoggedUserId;
+        userMngmnt_User_CUD_DTO.LastModifiedBy = $scope.LoggedUserId;
+        userMngmnt_User_CUD_DTO.Password = $scope.UserDetail.Password;
+        userMngmnt_User_CUD_DTO.IsSendMail = true;
+        userMngmnt_User_CUD_DTO.OperationType = 'changePass';
+
+        console.log(userMngmnt_User_CUD_DTO);
+
+        var response = UserDetailService.SubmitUser(userMngmnt_User_CUD_DTO);
+
+        response
+       .success(function (data, status, headers, config) {
+           var Message = MsgService.makeMessage(data.ReturnMessage)
+           message('success', 'Success!', Message);
+           $scope.showModal = false;
+       })
+       .error(function (data, status, headers, config) {
+           var Message = MsgService.makeMessage(data.ReturnMessage)
+           message('error', 'Error!', Message);
+       });
+
+        $scope.UserDetail.Password = "";
+        $scope.password_verify = "";
+        $scope.IsSendMail = "";
+    };
+
+    $scope.PasswordCancel = function () {
+        $scope.showModal = false;
+        $scope.UserDetail.Password = "";
+        $scope.password_verify = "";
+        $scope.IsSendMail = "";
+    };
+
+    function message(type, title, content) {
+        var notify = {
+            type: type,
+            title: title,
+            content: content
+        };
+        $scope.$emit('notify', notify);
+    };
+
+
 });
 
 app.filter('updateById', function () {

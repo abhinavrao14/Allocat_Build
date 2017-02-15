@@ -1,0 +1,221 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+<script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
+<script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+<link href="~/Assets/css/custom/user.css" rel="stylesheet" />
+
+<div ng-controller="UserController">
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner" id="imagediv">
+            <img src="~/Assets/image/spin.gif" class="loader" />
+        </div>
+    </div>
+    <input type="hidden" for="InfoId" id="InfoId" value="@ViewBag.user.InfoId" />
+    @if (ViewBag.msg != "")
+    {
+        <input type="hidden" for="msg" id="msg" value="@ViewBag.msg" />
+    }
+    <ul class="breadcrumb breadcrumb-page">
+        <div class="breadcrumb-label text-light-gray">You are here: </div>
+        <li>
+            <a href="@Url.Action("Index", "Home", new { Area = "TissueBank" })">
+                <u>Home</u>
+            </a>
+        </li>
+        <li class="active"><a href="#">User Management</a></li>
+    </ul>
+    <div class="page-header">
+        <div class="row">
+            <span ng-if="showMessage" style="color:green">Operation successful!</span>
+            <!-- Page header, center on small screens -->
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm">User Management</h1>
+        </div>
+    </div> <!-- / .page-header -->
+
+    <div style="text-align:center; margin-bottom:30px; margin-top:30px;">
+        <h4><span style="font-size:20px">Tissue Bank: </span> <b><i>@ViewBag.user.InfoName</i></b> </h4>
+    </div>
+
+    <div class="table-header">
+        <div class="table-caption">
+            <div class="row">
+                <div class="col-md-2" id="title">
+                    Total Users({{TotalUsers}})
+                </div>
+                <div class="col-md-2" id="searchbox" style="margin-bottom:5px">
+                    <a href="@Url.Action("Manage", "User", new { Area = "TissueBank" })">
+                        <span class="btn btn-info"><span class="fa fa-user-plus"></span> Add User</span>
+                    </a>
+                </div>
+                <div class="col-md-2" id="searchbox" style="margin-bottom:5px">
+                    <input class="form-control" ng-model="SearchBy" placeholder="Search" onfocus="this.placeholder=''" onblur="this.placeholder='Search'" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" />
+                </div>
+                <div class="col-md-3" style="margin-bottom:5px">
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <span id="page">{{CurrentPage}}/{{TotalPage}}</span>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»»" /></a>
+                </div>
+                <div class="col-md-3">
+                    <label class="filter-col">Per Page: </label>
+                    <select class="form-control" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()" id="select"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <span ng-if="Users.length==0" style="color:darkgreen;">Sorry..No Users.</span>
+    <table ng-if="Users.length!==0" class="table table-hover table-striped" id="tablestyle" style="text-align:left">
+        <thead id="headerstyle">
+            <tr>
+                <th>Full Name</th>
+                <th id="c4">User Name</th>
+                <th id="c3">User Email</th>
+                <th id="c2">User Number</th>
+                <th id="c1">User Role</th>
+                <th style="text-align:center">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat-start="user in Users">
+                <td class="userfname">
+                    <button class="icn" ng-if="user.expanded" ng-click="user.expanded = false" style="display: inline;" id="button1">-</button>
+                    <button class="icn" ng-if="!user.expanded" ng-click="user.expanded = true" style="display: inline;" id="button2">+</button>
+                    <p style="display: inline;">{{user.FullName}}</p>
+                </td>
+                <td id="c4" class="username">{{user.UserName}} </td>
+                <td id="c3" class="userid" >{{user.EmailId}}</td>
+                <td id="c2" class="usernumber">{{user.MobileNumber}}</td>
+                <td id="c1" class="userrole" ><span ng-bind-html="user.UserRoles" ></span></td>
+                <td class="useraction">
+                    @{
+                        var ManageUrl = Url.Action("Manage", "User", new { UserId = "{{user.UserId}}" });
+                        ManageUrl = HttpUtility.UrlDecode(ManageUrl);
+                    }
+                    <a data-ng-href="@ManageUrl"><span title="Manage" style="cursor:pointer"><i class="fa fa-pencil-square-o" style="font-size:18px; color:#4bacd0"></i></span></a>
+                </td>
+            </tr>
+
+            <tr ng-if="user.expanded" ng-repeat-end="">
+                <td colspan="7">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-hover" id="maintable">
+                                <tr id="r4">
+                                    <td><b>User Name :</b></td>
+                                    <td><i>{{user.UserName}}</i></td>
+                                </tr>
+                                <tr id="r1">
+                                    <td><b>User Role :</b></td>
+                                    <td><i><span ng-bind-html="user.UserRoles"></span></i></td>
+                                </tr>
+                                <tr id="r2">
+                                    <td><b>User Number :</b></td>
+                                    <td><i>{{user.MobileNumber}}</i></td>
+                                </tr>
+                                <tr id="r3">
+                                    <td><b>User Email :</b></td>
+                                    <td><i>{{user.EmailId}}</i></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Locked Out :</b></td>
+                                    <td><i>{{user.IsLockedOut}}</i></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Last Login Date :</b></td>
+                                    <td><i>{{user.LastLoginDate | date:'yyyy-MM-dd HH:mm:ss'}}</i></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Allow Login :</b></td>
+                                    <td><i>{{user.AllowLogin}}</i></td>
+                                </tr>
+                            </table>
+
+                            <table class="table table-hover" id="othertable">
+                                <tr id="r4">
+                                    <td><b>User Name :</b></td>
+                                </tr>
+                                <tr id="r4">
+                                    <td>{{user.UserName}}</td>
+                                </tr>
+                                <tr id="r1">
+                                    <td><b>User Role :</b></td>
+                                </tr>
+                                <tr id="r1">
+                                    <td><span ng-bind-html="user.UserRoles"></span></td>
+                                </tr>
+                                <tr id="r2">
+                                    <td><b>User Number :</b></td>
+                                </tr>
+                                <tr id="r2">
+                                    <td>{{user.MobileNumber}}</td>
+                                </tr>
+                                <tr id="r3">
+                                    <td><b>User Email :</b></td>
+                                </tr>
+                                <tr id="r3">
+                                    <td>{{user.EmailId}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Locked Out :</b></td>
+                                </tr>
+                                <tr>
+                                    <td>{{user.IsLockedOut}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Last Login Date :</b></td>
+                                </tr>
+                                <tr>
+                                    <td>{{user.LastLoginDate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Allow Login :</b></td>
+                                </tr>
+                                <tr>
+                                    <td>{{user.AllowLogin}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="table-footer">
+        <div class="table-caption">
+            <div class="row">
+                <div class="col-md-2" id="title">
+                    @*Total Users({{TotalUsers}})*@
+                </div>
+                <div class="col-md-2" id="title" style="margin-bottom:5px">
+                    <a href="@Url.Action("Manage", "User", new { Area = "TissueBank" })">
+                        <span class="btn btn-info"><span class="fa fa-user-plus"></span> Add User</span>
+                    </a>
+                </div>
+                <div class="col-md-2" id="searchbox" style="margin-bottom:5px">
+                    &nbsp;@*<input class="form-control" ng-model="SearchBy" placeholder="Search" onfocus="this.placeholder=''" onblur="this.placeholder='Search'" type="search" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" />*@
+                </div>
+                <div class="col-md-3" style="margin-bottom:5px">
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination"  ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <span id="page">{{CurrentPage}}/{{TotalPage}}</span>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalUsers" value="»»" /></a>
+                </div>
+                <div class="col-md-3">
+                    &nbsp;@*<label class="filter-col">Per Page: </label>
+    <select class="form-control" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged()" id="select"></select>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notifies" notifybar></div>
+</div>
+

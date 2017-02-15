@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Admin\Desktop\Allocat_Build_5Feb2017\Allocat.DataModel\AllocatDbContext.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Admin\Desktop\Allocat_Build_9Feb2017\Allocat_Build_8Feb2017\Allocat.DataModel\AllocatDbContext.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

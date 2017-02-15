@@ -17,7 +17,7 @@ namespace Allocat.ApplicationService
         public IEnumerable<sp_Order_TissueBank_GetByTissueBankId_Result> GetOrderByTissueBankId(int TissueBankId, string SearchBy, int CurrentPage, int PageSize, string SortDirection, string SortExpression, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            OrderBusinessRule orderBusinessRule = new OrderBusinessRule();
+            OrderBusinessRule orderBusinessRule = new OrderBusinessRule(orderDataService);
 
             IEnumerable<sp_Order_TissueBank_GetByTissueBankId_Result> lstOrder = null;
 
@@ -53,18 +53,18 @@ namespace Allocat.ApplicationService
             return lstOrder;
         }
 
-        public IEnumerable<sp_OrderDetail_TissueBank_GetByOrderId_Result> GetOrderDetailByOrderId(int OrderId, out TransactionalInformation transaction)
+        public IEnumerable<sp_OrderDetail_TissueBank_GetByOrderId_Result> GetOrderDetailByOrderId(int OrderId, int InfoId, string InfoType, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
             IEnumerable<sp_OrderDetail_TissueBank_GetByOrderId_Result> OrderDetail = null;
-            OrderBusinessRule orderBusinessRule = new OrderBusinessRule();
+            OrderBusinessRule orderBusinessRule = new OrderBusinessRule(orderDataService);
 
             try
             {
                 orderDataService.CreateSession();
 
-                orderBusinessRule.ValidateOrderDetailRequest(OrderId);
+                orderBusinessRule.ValidateOrderDetailRequest(OrderId, InfoId, InfoType);
 
                 if (orderBusinessRule.ValidationStatus == true)
                 {
@@ -95,10 +95,10 @@ namespace Allocat.ApplicationService
 
         }
 
-        public void Order_Ack_Decline(int OrderId, int StatusId, string DeclineRemark, string ShippingMethod, DateTime TissueBankSendByDate,int LastModifiedBy, out TransactionalInformation transaction)
+        public void Order_Ack_Decline(int OrderId, int StatusId, string DeclineRemark, string ShippingMethod, DateTime TissueBankSendByDate, int LastModifiedBy, int TransactionId, string AuthCode, string ResponseBody, string AuthTransactionId, int TransactionStatusId, int TissueBankId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            OrderBusinessRule orderBusinessRule = new OrderBusinessRule();
+            OrderBusinessRule orderBusinessRule = new OrderBusinessRule(orderDataService);
 
             try
             {
@@ -108,7 +108,7 @@ namespace Allocat.ApplicationService
 
                 if (orderBusinessRule.ValidationStatus == true)
                 {
-                    orderDataService.Order_Ack_Decline(OrderId, StatusId, DeclineRemark, ShippingMethod, TissueBankSendByDate, LastModifiedBy,out transaction);
+                    orderDataService.Order_Ack_Decline(OrderId, StatusId, DeclineRemark, ShippingMethod, TissueBankSendByDate, LastModifiedBy, TransactionId, AuthCode, ResponseBody,  AuthTransactionId,  TransactionStatusId,  TissueBankId, out transaction);
                 }
                 else
                 {
@@ -129,6 +129,33 @@ namespace Allocat.ApplicationService
             {
                 orderDataService.CloseSession();
             }
+        }
+
+        public OrderCommisionDetail_TissueBank GetOrderCommisionDetail(int OrderId, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            OrderCommisionDetail_TissueBank orderCommisionDetail = new OrderCommisionDetail_TissueBank();
+
+            try
+            {
+                orderDataService.CreateSession();
+
+                orderCommisionDetail = orderDataService.GetOrderCommisionDetail(OrderId, out transaction);
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
+            }
+            finally
+            {
+                orderDataService.CloseSession();
+            }
+
+            return orderCommisionDetail;
         }
     }
 }

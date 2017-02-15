@@ -104,6 +104,7 @@
     <Compile Include="Order.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="OrderCommisionDetail_TissueBank.cs" />
     <Compile Include="OrderDetail.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>

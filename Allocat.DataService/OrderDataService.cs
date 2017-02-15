@@ -35,7 +35,7 @@ namespace Allocat.DataService
             return OrderDetail;
         }
 
-        public int Order_Ack_Decline(int OrderId, int StatusId, string DeclineRemark, string ShippingMethod, DateTime TissueBankSendByDate, int LastModifiedBy,out TransactionalInformation transaction)
+        public int Order_Ack_Decline(int OrderId, int StatusId, string DeclineRemark, string ShippingMethod, DateTime TissueBankSendByDate, int LastModifiedBy, int TransactionId, string AuthCode, string ResponseBody, string AuthTransactionId, int TransactionStatusId, int TissueBankId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
             int rowAffected = 0;
@@ -66,7 +66,34 @@ namespace Allocat.DataService
             var parameterLastModifiedBy = new SqlParameter("@LastModifiedBy", SqlDbType.Int);
             parameterLastModifiedBy.Value = LastModifiedBy;
 
-            rowAffected = dbConnection.Database.ExecuteSqlCommand("exec dbo.sp_Order_TissueBank_Ack_Decline @OrderId, @StatusId, @DeclineRemark, @ShippingMethod, @TissueBankSendByDate, @LastModifiedBy", parameterOrderId, parameterStatusId, parameterDeclineRemark, parameterShippingMethod, parameterTissueBankSendByDate, parameterLastModifiedBy);
+            var parameteTransactionId = new SqlParameter("@TransactionId", SqlDbType.VarChar);
+            if (TransactionId != 0)
+                parameteTransactionId.Value = TransactionId;
+            else
+                parameteTransactionId.Value = DBNull.Value;
+
+            parameteTransactionId.Value = TransactionId;
+
+            var parameterAuthCode = new SqlParameter("@AuthCode", SqlDbType.VarChar);
+            parameterAuthCode.Value = AuthCode;
+
+            var parameterResponseBody = new SqlParameter("@ResponseBody", SqlDbType.VarChar);
+            parameterResponseBody.Value = ResponseBody;
+
+            var parameterAuthTransactionId = new SqlParameter("@AuthTransactionId", SqlDbType.VarChar);
+            parameterAuthTransactionId.Value = AuthTransactionId;
+
+            var parameterTransactionStatusId = new SqlParameter("@TransactionStatusId", SqlDbType.VarChar);
+            if (TransactionStatusId != 0)
+                parameterTransactionStatusId.Value = TransactionStatusId;
+            else
+                parameterTransactionStatusId.Value = DBNull.Value;
+
+            var parameterTissueBankId = new SqlParameter("@TissueBankId", SqlDbType.VarChar);
+            parameterTissueBankId.Value = TissueBankId;
+
+
+            rowAffected = dbConnection.Database.ExecuteSqlCommand("exec dbo.sp_Order_TissueBank_Ack_Decline @OrderId, @StatusId, @DeclineRemark, @ShippingMethod, @TissueBankSendByDate, @LastModifiedBy, @TransactionId , @AuthCode , @ResponseBody, @AuthTransactionId, @TransactionStatusId, @TissueBankId", parameterOrderId, parameterStatusId, parameterDeclineRemark, parameterShippingMethod, parameterTissueBankSendByDate, parameterLastModifiedBy,parameteTransactionId,parameterAuthCode, parameterResponseBody, parameterAuthTransactionId, parameterTransactionStatusId, parameterTissueBankId);
 
             if (rowAffected > 0)
             {
@@ -81,5 +108,48 @@ namespace Allocat.DataService
 
             return rowAffected;
         }
+
+        public OrderCommisionDetail_TissueBank GetOrderCommisionDetail(int OrderId, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+            OrderCommisionDetail_TissueBank orderCommisionDetail = (from o in dbConnection.Order
+                                                                    join od in dbConnection.OrderDetail on o.OrderId equals od.OrderId
+                                                                    join pe in dbConnection.ProductEntity on od.ProductEntityId equals pe.ProductEntityId
+                                                                    join tb in dbConnection.TissueBank on pe.TissueBankId equals tb.TissueBankId
+                                                                    where o.OrderId == OrderId
+                                                                    select new OrderCommisionDetail_TissueBank
+                                                                    {
+                                                                        AlloCATFees = o.AlloCATFees,
+                                                                        CustomerProfileId = tb.CustomerProfileId,
+                                                                        CustomerPaymentProfileIds = tb.CustomerPaymentProfileIds,
+                                                                        TissueBankId=tb.TissueBankId
+                                                                    }).FirstOrDefault();
+
+            transaction.ReturnStatus = true;
+            transaction.ReturnMessage.Add("orderCommisionDetail found.");
+
+            return orderCommisionDetail;
+        }
+
+        public bool ValidateOrderDetailRequest(int OrderId, int TissueBankId)
+        {
+            int count = (from o in dbConnection.Order
+                         join od in dbConnection.OrderDetail on o.OrderId equals od.OrderId
+                         join pe in dbConnection.ProductEntity on od.ProductEntityId equals pe.ProductEntityId
+                         join tb in dbConnection.TissueBank on pe.TissueBankId equals tb.TissueBankId
+                         where o.OrderId == OrderId && pe.TissueBankId == TissueBankId
+                         select o).Count();
+
+            if (count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+     
     }
 }

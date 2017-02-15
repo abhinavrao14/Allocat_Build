@@ -181,6 +181,7 @@
     <Compile Include="Areas\TissueBank\Controllers\TissueBankProfileController.cs" />
     <Compile Include="Areas\TissueBank\Controllers\RequestForQuoteController.cs" />
     <Compile Include="Areas\TissueBank\Controllers\UserController.cs" />
+    <Compile Include="Areas\TissueBank\Controllers\UserProfileController.cs" />
     <Compile Include="Areas\TissueBank\TissueBankAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -190,7 +191,18 @@
     </Compile>
     <Compile Include="Models\ConfigurationReader.cs" />
     <Compile Include="Models\Consumer.cs" />
+    <Compile Include="Models\CustomActionFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\ErrorMsg.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorMsg.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\ResDefaultValues.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResDefaultValues.resx</DependentUpon>
+    </Compile>
     <Compile Include="Security\BaseViewPage.cs" />
     <Compile Include="Security\CustomAuthorizeAttribute.cs" />
     <Compile Include="Security\CustomPrincipal.cs" />
@@ -199,6 +211,10 @@
     <Compile Include="ViewModel\LoginViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\css\custom\order.css" />
+    <Content Include="Assets\css\custom\rfq.css" />
+    <Content Include="Assets\css\custom\user.css" />
+    <Content Include="Assets\css\lib\angular-material.min.css" />
     <Content Include="Assets\css\lib\bootstrap.min.css" />
     <Content Include="Assets\css\lib\pixel-admin.min.css" />
     <Content Include="Assets\css\lib\rtl.min.css" />
@@ -232,13 +248,19 @@
     <Content Include="Assets\image\allocat_bg.jpg" />
     <Content Include="Assets\image\attachmentIcon.png" />
     <Content Include="Assets\image\back_go.png" />
+    <Content Include="Assets\image\billing.jpg" />
+    <Content Include="Assets\image\credit.jpg" />
     <Content Include="Assets\image\icon.jpg" />
+    <Content Include="Assets\image\license.jpg" />
     <Content Include="Assets\image\license.png" />
     <Content Include="Assets\image\loader.gif" />
+    <Content Include="Assets\image\no_product.png" />
     <Content Include="Assets\image\product.jpg" />
+    <Content Include="Assets\image\profile.jpg" />
     <Content Include="Assets\image\spin.gif" />
     <Content Include="Assets\image\user.png" />
     <Content Include="Assets\image\vcard-512.png" />
+    <Content Include="Assets\js\angular-material.min.css" />
     <Content Include="Assets\js\customJs\Common\CommonService.js" />
     <Content Include="Assets\js\customJs\Hospital\HospitalController.js" />
     <Content Include="Assets\js\customJs\Hospital\HospitalService.js" />
@@ -254,7 +276,12 @@
     <Content Include="Assets\js\customJs\photoModule\photoManagerClient.js" />
     <Content Include="Assets\js\customJs\photoModule\photos.html" />
     <Content Include="Assets\js\customJs\photoModule\photos.js" />
+    <Content Include="Assets\js\lib\angular-animate.min.js" />
+    <Content Include="Assets\js\lib\angular-aria.min.js" />
     <Content Include="Assets\js\lib\angular-filter.js" />
+    <Content Include="Assets\js\lib\angular-material.min.css" />
+    <Content Include="Assets\js\lib\angular-material.min.js" />
+    <Content Include="Assets\js\lib\angular-messages.min.js" />
     <Content Include="Assets\js\lib\angular-resource.js" />
     <Content Include="Assets\js\lib\angular-trix.js" />
     <Content Include="Assets\js\lib\angularjs-datetime-picker.js" />
@@ -304,6 +331,7 @@
     <Content Include="Assets\js\lib\responsive-nav.js" />
     <Content Include="Assets\js\lib\script.js" />
     <Content Include="Assets\js\lib\scroll.js" />
+    <Content Include="Assets\js\lib\svg-assets-cache.js" />
     <Content Include="Assets\js\lib\trix.js" />
     <Content Include="Assets\js\lib\ui-bootstrap-0.7.0.js" />
     <Content Include="Assets\js\lib\ui-bootstrap-tpls-0.7.0.js" />
@@ -334,6 +362,7 @@
     <Content Include="Areas\TissueBank\Views\TissueBankProfile\Index.cshtml" />
     <Content Include="Assets\css\lib\ui-grid.ttf" />
     <Content Include="Assets\css\lib\ui-grid.woff" />
+    <Content Include="Areas\TissueBank\Views\UserProfile\Index.cshtml" />
     <None Include="Assets\js\lib\_references.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -351,8 +380,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <None Include="Properties\PublishProfiles\Allocat - Web Deploy %282%29.pubxml" />
@@ -361,8 +388,11 @@
     <Content Include="Views\Response\TissueBankUser_SignUp_Successful.cshtml" />
     <Content Include="Views\Response\TissueBank_Registration_Successful.cshtml" />
     <Content Include="Views\Response\AccessDenied.cshtml" />
-    <Content Include="Views\Shared\_PanelLayout.cshtml" />
     <Content Include="Views\Response\TissueBank_Verification_Successful.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_PanelLayout.cshtml" />
+    <Content Include="Views\Shared\_PanelLayout.cshtml.bak" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -400,6 +430,16 @@
       <Project>{f2b58162-f0e9-4f50-b516-54dfe81a1fac}</Project>
       <Name>Allocat.WebApi</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\ErrorMsg.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMsg.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\ResDefaultValues.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResDefaultValues.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

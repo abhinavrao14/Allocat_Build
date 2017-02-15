@@ -1,0 +1,349 @@
+﻿
+@{
+    ViewBag.Title = "SubmitResponse";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+
+}
+<script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
+<script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+<link href="~/Assets/css/custom/order.css" rel="stylesheet" />
+
+<div ng-controller="OrderDetailController">
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner" id="imagediv">
+            <img src="~/Assets/image/spin.gif" class="loader" />
+        </div>
+    </div>
+    @if (@ViewBag.user.InfoId != null)
+    {
+        <input type="hidden" for="OrderId" id="OrderId" value="@ViewBag.OrderId" />
+        <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
+        <input type="hidden" for="UserId" id="UserId" value="@ViewBag.user.UserId" />
+        <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
+    }
+    else
+    {
+        <input type="hidden" for="ProductMasterId" id="ProductMasterId" value="" />
+    }
+
+    <ul class="breadcrumb breadcrumb-page">
+        <div class="breadcrumb-label text-light-gray">You are here: </div>
+        <li>
+            <a href="@Url.Action("Index", "Home", new { Area = "TissueBank" })">
+                <span class="mm-text"><u>Home</u></span>
+            </a>
+        </li>
+        <li class="active"><a href="#"><u>Reports Panel</u></a></li>
+        <li class="active">
+            <a href="@Url.Action("Index", "Order", new { Area = "TissueBank" })">
+                <span class="mm-text"><u>Purchase Order</u></span>
+            </a>
+        </li>
+        <li class="active"><a href="#">Order Details</a></li>
+    </ul>
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm">Order Details</h1>
+        </div>
+    </div> <!-- / .page-header -->
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="panel">
+                <div class="panel-body panel-padding">
+                    <div id="margin">
+                        <label id="span">Status :</label>
+                        <span id="padding">
+                            <span class="label label-pa-purple" ng-if="OrderDetail.StatusName == 'Acknowledged'">
+                                Acknowledged
+                            </span>
+                        </span>
+                        <span>
+                            <span class="label label-danger" ng-if="OrderDetail.StatusName == 'Pending'">
+                                Pending
+                            </span>
+                        </span>
+                        <span>
+                            <span class="label label-success" ng-if="OrderDetail.StatusName == 'Received'">
+                                Received
+                            </span>
+                        </span>
+                        <span>
+                            <span class="label label-warning" ng-if="OrderDetail.StatusName == 'Declined By TissueBank'">
+                                Declined By Tissue Bank
+                            </span>
+                        </span>
+                    </div>
+                    <div id="margin"><label id="span">Need By  Date :</label> <span id="padding"> {{OrderDetail.NeedByDate | date:'yyyy-MM-dd'}}</span></div>
+                    <div id="margin"><label id="span">Allocat PO Number :</label> <span id="padding"> {{OrderDetail.OrderId}}</span></div>
+                    <div id="margin"><label id="span">PO Number :</label> <span id="padding"> {{OrderDetail.HospitalPoNumber ==null ? 'N/A' : OrderDetail.HospitalPoNumber}}</span></div>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-heading">
+                    <span style="font-size:15px; font-weight:600">Address</span>
+                </div>
+                <div class="panel-body panel-padding">
+                    <div class="row">
+                        <div class="col-md-6" id="margin">
+                            <div>
+                                <span ng-if="OrderDetail.StatusName=='Acknowledged'">
+                                    <span><b>Billing Address : </b></span>
+                                    <div>{{OrderDetail.HospitalName}},</div>
+                                    <div>{{OrderDetail.billingHospitalAddress}}</div>
+                                    <div>
+                                        {{OrderDetail.billingCityName}},
+                                        {{OrderDetail.billingStateName}},{{OrderDetail.billingZipCode}}
+                                    </div>
+                                    <div>Fax Number: {{OrderDetail.billingFaxNumber}}</div>
+                                    <div>{{OrderDetail.billingContactPersonName}}-{{OrderDetail.billingContactPersonNumber}}</div>
+                                </span>
+                            </div>
+                            <div ng-if="OrderDetail.StatusName!='Acknowledged'">
+                                <span><b>Billed To : </b></span>
+                                <div>XXXXXXXXXXX,</div>
+                                <div>XXXXXXXXXXXXXXX</div>
+                                <div>XXXXXXXXXX</div>
+                                <div>XXXXX-XXXXXXXXXX</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                <span ng-if="OrderDetail.StatusName=='Acknowledged'">
+                                    <span><b>Ship To : </b></span>
+                                    <div>{{OrderDetail.HospitalName}},</div>
+                                    <div>{{OrderDetail.shippingHospitalAddress}}</div>
+                                    <div>{{OrderDetail.shippingFaxNumber}}</div>
+                                    <div>{{OrderDetail.shippingContactPersonName}}-{{OrderDetail.shippingContactPersonNumber}}</div>
+                                </span>
+                            </div>
+                            <div ng-if="OrderDetail.StatusName!='Acknowledged'">
+                                <span><b>Ship To : </b></span>
+                                <div>XXXXXXXXXXX,</div>
+                                <div>XXXXXXXXXXXXXXX</div>
+                                <div>XXXXXXXXXX</div>
+                                <div>XXXXX-XXXXXXXXXX</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-6">
+            <div class="panel" style="min-height:363px">
+                <div class="panel-heading">
+                    <span style="font-size:15px; font-weight:600">Buyer Information</span>
+                </div>
+                <div class="panel-body panel-padding">
+                    <div><b>Date : </b> {{OrderDetail.OrderDate | date:'yyyy-MM-dd HH:mm:ss'}}</div></br>
+                    <span ng-if="OrderDetail.StatusName=='Acknowledged'">
+                        <div><b>{{OrderDetail.HospitalName}}</b></div>
+                        <div>
+                            {{OrderDetail.billingHospitalAddress}}, {{OrderDetail.billingCityName}},
+                            {{OrderDetail.billingStateName}},{{OrderDetail.billingZipCode}}
+                        </div>
+                        <div>Landline No: {{OrderDetail.HospitalLandLineNo}}</div>
+                        <div>Phone: {{OrderDetail.HospitalLandLineNo}}</div></br>
+
+                        <div class="note note-warning">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img src="~/Assets/image/user.png" alt="" class="img-circle" />
+                                </div>
+                                <div class="col-md-10">
+                                    <label>Contact Person</label>
+                                    <div><b>{{OrderDetail.billingContactPersonName}}</b></div>
+                                    <div>Phone: {{OrderDetail.billingContactPersonNumber}}&nbsp;&nbsp;&nbsp;Fax: {{OrderDetail.billingFaxNumber}}</div>
+                                    <div>Email: {{OrderDetail.HospitalEmailId}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                    <span ng-if="OrderDetail.StatusName!='Acknowledged'">
+                        <div><b>XXXXXXXXXXX</b></div>
+                        <div>
+                            XXXXXXXXXXX, XXXXXXXXXX, {{OrderDetail.billingCityName}},
+                        </div>
+                        <div>Landline No: XXXXXXXXXX</div>
+                        <div>Phone: XXXXXXXXXX</div><br/>
+
+                        <div class="note note-warning">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img src="~/Assets/image/user.png" alt="" class="img-circle" />
+                                </div>
+                                <div class="col-md-10">
+                                    <label>Contact Person</label>
+                                    <div><b>XXXXXXXX</b></div>
+                                    <div>Phone: XXXXXXXXXX&nbsp;&nbsp;&nbsp;Fax: XXXXXXXXXX</div>
+                                    <div>Email: XXXX@XXXX.com</div>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-hover table-striped maintable" id="tablestyle">
+        <thead id="headerstyle">
+            <tr>
+                <th>Quantity</th>
+                <th>TB Product ID</th>
+                <th>Product Name</th>
+                <th>Unit Price</th>
+                <th>Line Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{OrderDetail.Quantity}}</td>
+                <td>{{OrderDetail.TissueBankProductId}}</td>
+                <td>{{OrderDetail.ProductMasterName}}</td>
+                <td>{{OrderDetail.UnitPrice | currency}}</td>
+                <td>{{OrderDetail.LineTotal | currency}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row othertable">
+        <div class="col-md-12">
+            <table class="table table-hover table-striped" id="tablestyle">
+                <tr id="r1">
+                    <td><b>Quantity</b></td>
+                    <td><i>{{OrderDetail.Quantity}}</i></td>
+                </tr>
+                <tr id="r2">
+                    <td><b>TB Product ID</b></td>
+                    <td><i>{{OrderDetail.TissueBankProductId}}</i></td>
+                </tr>
+                <tr id="r3">
+                    <td><b>Product Name</b></td>
+                    <td><i>{{OrderDetail.ProductMasterName}}</i></td>
+                </tr>
+                <tr id="r4">
+                    <td><b>Unit Price</b></td>
+                    <td><i>{{OrderDetail.UnitPrice | currency}}</i></td>
+                </tr>
+                <tr id="r5">
+                    <td><b>Line Total</b></td>
+                    <td><i>{{OrderDetail.LineTotal | currency}}</i></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+
+    <form id="form_Ack" ng-submit="Acknowledge()">
+        <div class="row" id="price">
+            <div class="col-md-12" style="padding-right:50px;">
+                <div class="col-md-4" style="float:right">
+                    <ul class="list-group">
+                        <li class="list list-group-item  no-border-hr padding-xs-hr no-bg no-border-radius">
+                            Sub Total <span class="pull-right">{{OrderDetail.LineTotal | currency}}</span>
+                        </li>
+                        <li class="list-group-item no-border-hr padding-xs-hr no-bg">
+                            Sales Tax <span class="pull-right">{{OrderDetail.SalesTax | currency}}</span>
+                        </li>
+                        <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
+                            Total <span class="pull-right">{{OrderDetail.Total | currency}}</span>
+                        </li>
+                        <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
+                            Shipping Method 
+                            <span class="pull-right">
+                                <span ng-if="OrderDetail.StatusName.indexOf('Pending')==-1">{{OrderDetail.ShippingMethod}}</span>
+                                <input style="width:150px;color: black;" type="text" ng-if="OrderDetail.StatusName.indexOf('Pending')>-1" ng-model="OrderDetail.ShippingMethod" ng-required="true" />
+                            </span>
+                        </li>
+                        <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg" style="margin-bottom:5px">
+                            Tissue Bank Send by Date 
+                            <span class="pull-right">
+                                <span ng-if="OrderDetail.StatusName.indexOf('Pending')==-1">{{OrderDetail.TissueBankSendByDate | date:'yyyy-MM-dd'}}</span>
+                                <input style="width:150px;color: black;" ng-if="OrderDetail.StatusName.indexOf('Pending')>-1" ng-model="OrderDetail.TissueBankSendByDate" ng-required="true" datetime-picker="" date-format="yyyy-MM-dd" close-on-select="false" size="30" class="ng-pristine ng-valid ng-valid-date ng-touched">
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-if="OrderDetail.StatusName.indexOf('Pending')>-1">
+            <button type="submit" class="btn btn-info">Acknowledge</button>
+            <button type="button" ng-click="DeclineOrder()" class="btn btn-danger">Decline Order</button>
+        </div>
+        <button type="button" ng-click="Received()" ng-if="OrderDetail.StatusName.indexOf('Acknowledged')>-1" class="btn btn-success">Received</button>
+    </form>
+
+    <div class="notifies" notifybar></div>
+    @*<div id="modal-decline" class="modal fade" role="dialog" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#353f4b; color:#ffffff;">
+                    <h4 class="modal-title">Decline Order</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="formDecline" ng-submit="declineOrder()">
+                        Please enter remark for declining Order.
+                        <br />
+                        <textarea ng-required="true" style="width: 100%;" ng-model="OrderDetail.DeclineRemark" id="Remark"></textarea>
+                        <br /><br />
+                        <button type="submit" class="btn btn-info">Decline Order</button>
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-danger">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>*@
+    <modal2 id="modal-Decline" class="modal fade" role="dialog" visible="showDeclineModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#353f4b; color:#ffffff;">
+                    <h4 class="modal-title">Decline Order</h4>
+                </div>
+                <div class="modal-body">
+                    <form name="formDecline" ng-submit="ConfirmDeclineOrder()">
+                        Please enter remark for declining Order.
+                        <br />
+                        <textarea ng-required="true" style="width: 100%;" ng-model="OrderDetail.DeclineRemark" id="Remark"></textarea>
+                        <br /><br />
+                        <button type="submit" class="btn btn-info">Decline Order</button>
+                        <button type="button" data-dismiss="modal" aria-hidden="true" class="btn btn-danger">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </modal2>
+
+    <modal2 id="modal-Ack" class="modal fade" role="dialog" visible="showModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#353f4b; color:#ffffff;">
+                    <h4 class="modal-title">Acknowledgement Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="bootbox-body">
+                        Are you sure you want to acknowledge this purchase order?
+                        <br /><br />On successful Acknowledgement we will charge your Credit card as per prevailing rates in your agreement contract!
+                        <br /><br />
+                        <button type="button" class="btn btn-info" ng-click="ConfirmAcknowledge()">ConfirmAcknowledge</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </modal2>
+
+</div>
+
+
+
+
+
+
+
+
+
+

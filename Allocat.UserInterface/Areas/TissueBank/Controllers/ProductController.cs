@@ -1,13 +1,16 @@
-﻿using Allocat.Web.Security;
+﻿using Allocat.UserInterface.Models;
+using Allocat.Web.Security;
 using Newtonsoft.Json;
 using System.Web.Mvc;
 using System.Web.Security;
 
 namespace Allocat.UserInterface.Areas.TissueBank.Controllers
 {
+    [CustomAuthorize(Roles = "TISSUE BANK SUPER ADMIN, TISSUE BANK INVENTORY MANAGER")]
+    [CustomActionFilter]
     public class ProductController : Controller
     {
-        [CustomAuthorize(Roles = "TISSUE BANK SUPER ADMIN, TISSUE BANK INVENTORY MANAGER")]
+        
         [HttpGet]
         public ActionResult Index()
         {

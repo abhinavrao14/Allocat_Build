@@ -46,16 +46,31 @@ namespace Allocat.ApplicationService
             return lstTbProductMasters;
         }
 
-        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> GetTissueBankProductsByTissueBankProductMasterId(int TissueBankProductMasterId, out TransactionalInformation transaction)
+        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> GetTissueBankProductsByTissueBankProductMasterId(int TissueBankProductMasterId,int InfoId,string InfoType, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
             IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> lstTbProducts = null;
 
+            ProductBusinessRule productBusinessRule = new ProductBusinessRule(_productDataService);
+
             try
             {
                 _productDataService.CreateSession();
-                lstTbProducts = _productDataService.GetTissueBankProductsByTissueBankProductMasterId(TissueBankProductMasterId, out transaction);
+
+                productBusinessRule.ValidTissueBankProductMasterRequest(TissueBankProductMasterId, InfoId, InfoType);
+
+                if (productBusinessRule.ValidationStatus == true)
+                {
+                    _productDataService.CreateSession();
+                    lstTbProducts = _productDataService.GetTissueBankProductsByTissueBankProductMasterId(TissueBankProductMasterId, out transaction);
+                }
+                else
+                {
+                    transaction.ReturnStatus = productBusinessRule.ValidationStatus;
+                    transaction.ReturnMessage = productBusinessRule.ValidationMessage;
+                    transaction.ValidationErrors = productBusinessRule.ValidationErrors;
+                }
             }
             catch (Exception ex)
             {
@@ -68,7 +83,6 @@ namespace Allocat.ApplicationService
             {
                 _productDataService.CloseSession();
             }
-
             return lstTbProducts;
         }
 
@@ -208,6 +222,32 @@ namespace Allocat.ApplicationService
             return lstProductType;
         }
 
-      
+        public string GetProductMasterBySearch(string SearchBY, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            string pp = "";
+
+            try
+            {
+                _productDataService.CreateSession();
+                pp = _productDataService.GetProductMasterBySearch(SearchBY, out transaction);
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
+            }
+            finally
+            {
+                _productDataService.CloseSession();
+            }
+
+            return pp;
+        }
+
+
     }
 }

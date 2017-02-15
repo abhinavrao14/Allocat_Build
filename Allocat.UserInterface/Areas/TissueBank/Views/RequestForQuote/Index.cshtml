@@ -6,74 +6,17 @@
 <script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
 <script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
 <link href="~/Assets/css/lib/trix.css" rel="stylesheet" />
-
-<style>
-    table {
-        width: 100%;
-    }
-
-    @@media only screen and (min-width: 851px) {
-        .icn {
-            display: none;
-        }
-    }
-
-    @@media only screen and (max-width: 850px) {
-        #c1 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 851px) {
-        #r1 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (max-width: 800px) {
-        #c2 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 801px) {
-        #r2 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (max-width: 750px) {
-        #c3 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 751px) {
-        #r3 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (max-width: 700px) {
-        #c4 {
-            display: none;
-        }
-    }
-
-    @@media only screen and (min-width: 701px) {
-        #r4 {
-            display: none;
-        }
-    }
-</style>
+<link href="~/Assets/css/custom/rfq.css" rel="stylesheet" />
 
 <div ng-controller="RFQController">
-    <div class="loading-spiner-holder customloader" data-loading>
+    <div class="loading-spiner-holder customloader" id="loadingDiv" data-loading>
         <div class="loading-spiner">
             <img src="~/Assets/image/spin.gif" />
         </div>
     </div>
     <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
+    <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
+    <input type="hidden" for="RequestForQuoteId" id="RequestForQuoteId" value="@ViewBag.RequestForQuoteId" />
     <ul class="breadcrumb breadcrumb-page">
         <div class="breadcrumb-label text-light-gray">You are here: </div>
         <li>
@@ -86,31 +29,30 @@
     </ul>
     <div class="page-header">
         <div class="row">
-            <!-- Page header, center on small screens -->
             <h1 class="col-sm-4 text-center text-left-sm">RFQ</h1>
         </div>
     </div>
-    <div class="table-header" style="padding-bottom:0px;" ng-if="dataLoading!=true">
+    <div class="table-header" ng-if="dataLoading!=true">
         <div class="table-caption">
             <div class="row">
                 <div class="col-md-2" id="title">
                     Total RFQs({{TotalRFQs}})
                 </div>
-                <div class="col-md-5" id="searchbox">
+                <div class="col-md-4" id="searchbox" style="margin-bottom:5px">
                     <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'" />
                 </div>
-
                 <div class="col-md-3">
-                    <a href="#"><input type="button" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
-                    <a href="#"><input type="button" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
-                    <a href="#">{{CurrentPage}}/{{TotalPage}} </a>
-                    <a href="#"><input type="button" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
-                    <a href="#"><input type="button" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
-                </div>
-                <div class="col-md-2">
                     <label class="filter-col">Per Page: </label>
-                    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged(PageSize)"></select>
+                    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:45%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged(PageSize)"></select>
                 </div>
+                <div class="col-md-3" style="margin-bottom:5px">
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <span id="page">{{CurrentPage}}/{{TotalPage}}</span>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -121,49 +63,49 @@
         <thead id="headerstyle">
             <tr>
                 <th></th>
-                <th style="text-align:center">
+                <th>
                     <div style="cursor:pointer" ng-click="Sort('RequestForQuoteId')">
                         <span ng-show="SortExpression  == 'RequestForQuoteId' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
                         <span ng-show="SortExpression == 'RequestForQuoteId' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
                         RFQ ID
                     </div>
                 </th>
-                <th style="text-align:center" id="c1">
+                <th id="c1">
                     <div style="cursor:pointer" ng-click="Sort('CreatedDate')">
                         <span ng-show="SortExpression  == 'CreatedDate' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
                         <span ng-show="SortExpression == 'CreatedDate' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
                         Submitted Date
                     </div>
                 </th>
-                <th style="text-align:center" id="c2">
+                <th id="c2">
                     <div style="cursor:pointer" ng-click="Sort('LastModifiedDate')">
                         <span ng-show="SortExpression  == 'LastModifiedDate' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
                         <span ng-show="SortExpression == 'LastModifiedDate' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
                         Last Modified Date
                     </div>
                 </th>
-                <th style="text-align:center" id="c4">
+                <th id="c4">
                     <div style="cursor:pointer" ng-click="Sort('ProductCode')">
                         <span ng-show="SortExpression  == 'ProductCode' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
                         <span ng-show="SortExpression == 'ProductCode' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
                         Product Code
                     </div>
                 </th>
-                <th style="text-align:center" id="c3">
+                <th id="c3">
                     <div style="cursor:pointer" ng-click="Sort('ProductMasterName')">
                         <span ng-show="SortExpression  == 'ProductMasterName' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
                         <span ng-show="SortExpression == 'ProductMasterName' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
                         Product Name
                     </div>
                 </th>
-                <th style="text-align:center">
+                <th>
                     <div style="cursor:pointer" ng-click="Sort('StatusName')">
                         <span ng-show="SortExpression  == 'StatusName' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
                         <span ng-show="SortExpression == 'StatusName' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
                         Status
                     </div>
                 </th>
-                <th style="text-align:center">Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -204,33 +146,45 @@
                     </div>
                 </td>
                 <td style="vertical-align:middle">
-                    <span title="Quick View" style="cursor:pointer" data-toggle="modal" data-target="#uidemo-modals-alerts-info" ng-if="RequestForQuote.StatusName.indexOf('Declined')<0" ng-click="GetRequestDetail(RequestForQuote.RequestForQuoteId)"><i class="fa fa-eye" style="font-size:20px; color:#4bacd0; padding-right:15px;"></i></span>
-                    @{
-                        var ViewCompleteUrl = Url.Action("Manage", "RequestForQuote", new { RequestForQuoteId = "{{RequestForQuote.RequestForQuoteId}}", editMode = "false" });
-                        ViewCompleteUrl = HttpUtility.UrlDecode(ViewCompleteUrl);
-                    }
-                    <a data-ng-href="@ViewCompleteUrl" style="display:inline"><span title="Manage" style="cursor:pointer"><i class="fa fa-pencil-square-o" style="font-size:18px; color:#4bacd0"></i></span></a>
+                    <div>
+                        <div style="display:inline; float:left; padding-right:6px">
+                            <span title="Quick View" style="cursor:pointer" data-toggle="modal" data-target="#uidemo-modals-alerts-info" ng-if="RequestForQuote.StatusName.indexOf('Declined')<0" ng-click="GetRequestDetail(RequestForQuote.RequestForQuoteId)">
+                                <i class="fa fa-eye" style="font-size:20px; color:#4bacd0;"></i>
+                            </span>
+                        </div>
+                        @{
+                            var ViewCompleteUrl = Url.Action("Manage", "RequestForQuote", new { RequestForQuoteId = "{{RequestForQuote.RequestForQuoteId}}", editMode = "false" });
+                            ViewCompleteUrl = HttpUtility.UrlDecode(ViewCompleteUrl);
+                        }
+                        <div style="display:inline; float:right">
+                            <a data-ng-href="@ViewCompleteUrl" style="display:inline">
+                                <span title="Manage" style="cursor:pointer">
+                                    <i class="fa fa-pencil-square-o" style="font-size:18px; color:#4bacd0"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr ng-if="RequestForQuote.expanded" ng-repeat-end="">
                 <td colspan="7">
-                    <div class="col-md-12">
+                    <div class="row">
                         <div class="col-md-6">
-                            <table class="table table-hover table-striped">
+                            <table class="table table-hover">
                                 <tr id="r1">
-                                    <td><b>Submitted Date</b></td>
+                                    <td><b>Submitted Date :</b></td>
                                     <td><i>{{RequestForQuote.CreatedDate | date : 'yyyy-MM-dd HH:mm:ss'}}</i></td>
                                 </tr>
                                 <tr id="r2">
-                                    <td><b>Last Modified Date</b></td>
+                                    <td><b>Last Modified Date:</b></td>
                                     <td><i>{{RequestForQuote.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss'}}</i></td>
                                 </tr>
                                 <tr id="r3">
-                                    <td><b>Product Name</b></td>
+                                    <td><b>Product Name :</b></td>
                                     <td><i>{{RequestForQuote.ProductMasterName}}</i></td>
                                 </tr>
                                 <tr id="r4">
-                                    <td><b>Product Code</b></td>
+                                    <td><b>Product Code :</b></td>
                                     <td><i>{{RequestForQuote.ProductCode}}</i></td>
                                 </tr>
                             </table>
@@ -240,27 +194,16 @@
             </tr>
         </tbody>
     </table>
-    <div ng-if="(RequestForQuotes.length==0 && dataLoading) || RequestForQuotes.length==0" style="color:darkgreen;">Sorry..No RFQ.</div>
-    <div class="table-footer" style="padding-bottom:0px;" ng-if="dataLoading!=true">
+    <div ng-if="(RequestForQuotes.length==0 && dataLoading) || RequestForQuotes.length==0" style="color:darkgreen;">No RFQ are available.</div>
+    <div class="table-footer" ng-if="dataLoading!=true">
         <div class="table-caption">
             <div class="row">
-                <div class="col-md-2" id="title">
-                    Total RFQs({{TotalRFQs}})
-                </div>
-                <div class="col-md-5" id="searchbox">
-                    <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'" />
-                </div>
-
-                <div class="col-md-3">
-                    <a href="#"><input type="button" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
-                    <a href="#"><input type="button" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
-                    <a href="#">{{CurrentPage}}/{{TotalPage}} </a>
-                    <a href="#"><input type="button" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
-                    <a href="#"><input type="button" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
-                </div>
-                <div class="col-md-2">
-                    <label class="filter-col">Per Page: </label>
-                    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged(PageSize)"></select>
+                <div class="col-md-3" style="float:right">
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <span id="page">{{CurrentPage}}/{{TotalPage}}</span>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
                 </div>
             </div>
         </div>
@@ -272,7 +215,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    Quick View
+                   Quick View
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                 </div>
                 <div class="modal-body">
                     <div class="row" style="margin-bottom:20px;">
@@ -314,10 +258,10 @@
 
                     <div class="row">
                         <div class="panel widget-chat">
-                            <div class="panel-heading" style="background-color:#353f4b; color:#ffffff!important">
+                            <div class="panel-heading" id="headerstyle">
                                 <span class="panel-title" style="font-size:13px">Clinical Questions</span>
                             </div>
-                            <div class="panel-body" ng-if="RequestResponses.length>0" style="padding:30px; height:200px; overflow-y:auto">
+                            <div class="panel-body" ng-if="RequestResponses.length>0" id="chatview">
                                 <span ng-repeat="item in RequestResponses">
                                     <div class="message" ng-if="item.BodyType=='Request'">
                                         @*<img src="~/Assets/image/user.png" alt="" class="message-avatar">*@
@@ -326,7 +270,7 @@
                                             <div class="message-heading">
                                                 <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
                                             </div>
-                                            <div class="message-text" style="margin-bottom:10px;">
+                                            <div class="message-text" id="margin">
                                                 {{item.Body}}
                                                 <div ng-if="item.AttachmentName!=null && item.AttachmentName!=''">
                                                     <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="{{webApiContentRootPath}}Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>
@@ -342,7 +286,7 @@
                                             <div class="message-heading" style="text-align:right">
                                                 <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
                                             </div>
-                                            <div class="message-text" style="border:1px solid #4bacd0; margin-bottom:10px;text-align:right">
+                                            <div class="message-text" id="chatresponse">
                                                 {{item.Body}}
                                                 <div ng-if="item.AttachmentName!=null && item.AttachmentName!=''">
                                                     <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="{{webApiContentRootPath}}Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>

@@ -21,5 +21,6 @@ namespace Allocat.DataModel
         public string ProductMasterThumbnailImageName { get; set; }
         public string ProductMasterDescription { get; set; }
         public string ProductMasterFeatures { get; set; }
+        public Nullable<int> CountOfTbProducts { get; set; }
     }
 }

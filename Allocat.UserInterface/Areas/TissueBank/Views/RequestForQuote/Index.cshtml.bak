@@ -1,0 +1,331 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+
+}
+<script src="~/Assets/js/customJs/TissueBank/TissueBankController.js"></script>
+<script src="~/Assets/js/customJs/TissueBank/TissueBankService.js"></script>
+<link href="~/Assets/css/lib/trix.css" rel="stylesheet" />
+<link href="~/Assets/css/custom/rfq.css" rel="stylesheet" />
+
+<div ng-controller="RFQController">
+    <div class="loading-spiner-holder customloader" data-loading>
+        <div class="loading-spiner" id="imagediv">
+            <img src="~/Assets/image/spin.gif" class="loader" />
+        </div>
+    </div>
+    <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
+    <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
+    <input type="hidden" for="RequestForQuoteId" id="RequestForQuoteId" value="@ViewBag.RequestForQuoteId" />
+    <ul class="breadcrumb breadcrumb-page">
+        <div class="breadcrumb-label text-light-gray">You are here: </div>
+        <li>
+            <a tabindex="-1" href="@Url.Action("Index", "Home", new { Area = "TissueBank" })">
+                <span class="mm-text"><u>Home</u></span>
+            </a>
+        </li>
+        <li class="active"><a href=""><u>Reports Panel</u></a></li>
+        <li class="active"><a href="">RFQ</a></li>
+    </ul>
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-sm-4 text-center text-left-sm">RFQ</h1>
+        </div>
+    </div>
+    <div class="table-header" ng-if="dataLoading!=true">
+        <div class="table-caption">
+            <div class="row">
+                <div class="col-md-2" id="title">
+                    Total RFQs({{TotalRFQs}})
+                </div>
+                <div class="col-md-3" id="searchbox" style="margin-bottom:5px">
+                    <input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'" />
+                </div>
+
+                <div class="col-md-4" style="margin-bottom:5px">
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <span id="page">{{CurrentPage}}/{{TotalPage}}</span>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
+                </div>
+                <div class="col-md-3">
+                    <label class="filter-col">Per Page: </label>
+                    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged(PageSize)"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<span ng-if="dataLoading" style="color:darkgreen;">Please Wait..</span>*@
+    @*<span ng-if="(RequestForQuotes.length==0 && dataLoading) || RequestForQuotes.length==0" style="color:darkgreen;">Sorry..No Products.</span>*@
+    <table ng-if="dataLoading!=true || RequestForQuotes!=null" class="table table-hover table-striped" id="tablestyle">
+        <thead id="headerstyle">
+            <tr>
+                <th></th>
+                <th>
+                    <div style="cursor:pointer" ng-click="Sort('RequestForQuoteId')">
+                        <span ng-show="SortExpression  == 'RequestForQuoteId' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'RequestForQuoteId' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        RFQ ID
+                    </div>
+                </th>
+                <th id="c1">
+                    <div style="cursor:pointer" ng-click="Sort('CreatedDate')">
+                        <span ng-show="SortExpression  == 'CreatedDate' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'CreatedDate' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        Submitted Date
+                    </div>
+                </th>
+                <th id="c2">
+                    <div style="cursor:pointer" ng-click="Sort('LastModifiedDate')">
+                        <span ng-show="SortExpression  == 'LastModifiedDate' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'LastModifiedDate' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        Last Modified Date
+                    </div>
+                </th>
+                <th id="c4">
+                    <div style="cursor:pointer" ng-click="Sort('ProductCode')">
+                        <span ng-show="SortExpression  == 'ProductCode' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'ProductCode' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        Product Code
+                    </div>
+                </th>
+                <th id="c3">
+                    <div style="cursor:pointer" ng-click="Sort('ProductMasterName')">
+                        <span ng-show="SortExpression  == 'ProductMasterName' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'ProductMasterName' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        Product Name
+                    </div>
+                </th>
+                <th>
+                    <div style="cursor:pointer" ng-click="Sort('StatusName')">
+                        <span ng-show="SortExpression  == 'StatusName' && SortDirection=='DESC'" class="fa fa-caret-down"></span>
+                        <span ng-show="SortExpression == 'StatusName' && SortDirection=='ASC'" class="fa fa-caret-up"></span>
+                        Status
+                    </div>
+                </th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat-start="RequestForQuote in RequestForQuotes">
+                <td style="vertical-align:middle">
+                    <button class="icn" ng-if="RequestForQuote.expanded" ng-click="RequestForQuote.expanded = false" id="button1">-</button>
+                    <button class="icn" ng-if="!RequestForQuote.expanded" ng-click="RequestForQuote.expanded = true" id="button2">+</button>
+                </td>
+                <td style="vertical-align:middle">{{RequestForQuote.RequestForQuoteId}}</td>
+                <td id="c1" style="vertical-align:middle">{{RequestForQuote.CreatedDate | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td id="c2" style="vertical-align:middle">{{RequestForQuote.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td id="c4" style="vertical-align:middle">{{RequestForQuote.ProductCode}}</td>
+                <td id="c3" style="vertical-align:middle">{{RequestForQuote.ProductMasterName}}</td>
+                <td id="statusstyle">
+                    <div id="declined" ng-if="RequestForQuote.StatusName == 'Declined By TissueBank'">
+                        Declined By Tissue Bank
+                    </div>
+                    <div id="declined" ng-if="RequestForQuote.StatusName == 'Declined By Hospital'">
+                        Declined By Hospital
+                    </div>
+                    <div id="declined" ng-if="RequestForQuote.StatusName == 'Declined By AllocatStaff'">
+                        Declined By AllocatStaff
+                    </div>
+                    <div id="received" ng-if="RequestForQuote.StatusName == 'Sent to TissueBank'">
+                        Received
+                    </div>
+                    <div id="negotiation" ng-if="RequestForQuote.StatusName == 'In-Negotiation'">
+                        In-Negotiation
+                    </div>
+                    <div id="sent" ng-if="RequestForQuote.StatusName == 'Sent to Hospital'">
+                        Sent
+                    </div>
+                    <div id="placed" ng-if="RequestForQuote.StatusName == 'Placed PR'">
+                        Closed Placed PR
+                    </div>
+                    <div id="placed" ng-if="RequestForQuote.StatusName == 'Placed PO'">
+                        Closed Placed PO
+                    </div>
+                </td>
+                <td style="vertical-align:middle">
+                    <div style="width:93%">
+                        <div style="display:inline; float:left">
+                            <span title="Quick View" style="cursor:pointer" data-toggle="modal" data-target="#uidemo-modals-alerts-info" ng-if="RequestForQuote.StatusName.indexOf('Declined')<0" ng-click="GetRequestDetail(RequestForQuote.RequestForQuoteId)">
+                                <i class="fa fa-eye" style="font-size:20px; color:#4bacd0;"></i>
+                            </span>
+                        </div>
+                        @{
+                            var ViewCompleteUrl = Url.Action("Manage", "RequestForQuote", new { RequestForQuoteId = "{{RequestForQuote.RequestForQuoteId}}", editMode = "false" });
+                            ViewCompleteUrl = HttpUtility.UrlDecode(ViewCompleteUrl);
+                        }
+                        <div style="display:inline; float:right">
+                            <a data-ng-href="@ViewCompleteUrl" style="display:inline">
+                                <span title="Manage" style="cursor:pointer">
+                                    <i class="fa fa-pencil-square-o" style="font-size:18px; color:#4bacd0"></i>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-if="RequestForQuote.expanded" ng-repeat-end="">
+                <td colspan="7">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-hover">
+                                <tr id="r1">
+                                    <td><b>Submitted Date :</b></td>
+                                    <td><i>{{RequestForQuote.CreatedDate | date : 'yyyy-MM-dd HH:mm:ss'}}</i></td>
+                                </tr>
+                                <tr id="r2">
+                                    <td><b>Last Modified Date:</b></td>
+                                    <td><i>{{RequestForQuote.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss'}}</i></td>
+                                </tr>
+                                <tr id="r3">
+                                    <td><b>Product Name :</b></td>
+                                    <td><i>{{RequestForQuote.ProductMasterName}}</i></td>
+                                </tr>
+                                <tr id="r4">
+                                    <td><b>Product Code :</b></td>
+                                    <td><i>{{RequestForQuote.ProductCode}}</i></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div ng-if="(RequestForQuotes.length==0 && dataLoading) || RequestForQuotes.length==0" style="color:darkgreen;">Sorry..No RFQ.</div>
+    <div class="table-footer" ng-if="dataLoading!=true">
+        <div class="table-caption">
+            <div class="row">
+                <div class="col-md-2" id="title">
+                    &nbsp;@*Total RFQs({{TotalRFQs}})*@
+                </div>
+                <div class="col-md-3" id="searchbox" style="margin-bottom:5px">
+                    &nbsp;@*<input class="form-control" ng-model="SearchBy" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13);" ng-change="search(SearchBy)" placeholder="Search here..." onfocus="this.placeholder=''" onblur="this.placeholder='Search here...'" />*@
+                </div>
+
+                <div class="col-md-4" style="margin-bottom:5px">
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getFirstPage()" ng-disabled="CurrentPage<=1" value="««" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getPreviousPage()" ng-disabled="CurrentPage<=1" value="«" /></a>
+                    <span id="page">{{CurrentPage}}/{{TotalPage}}</span>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getNextPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»" /></a>
+                    <a href="#"><input type="button" class="btn btn-flat" id="pagination" ng-click="getLastPage()" ng-disabled="CurrentPage*PageSize>TotalRFQs" value="»»" /></a>
+                </div>
+                <div class="col-md-3">
+                    &nbsp;@*<label class="filter-col">Per Page: </label>
+    <select class="form-control" style="box-shadow: inset 0 1px 5px rgba(0,0,0,.13); display:inline-block; width:50%" ng-disabled="TotalRFQs<1" ng-options="item for item in PageSizes" ng-model="PageSize" ng-change="PageSizeChanged(PageSize)"></select>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- $MODAL_POPUP ==========================================================================    -->
+    <div class="notifies" notifybar></div>
+    <div id="uidemo-modals-alerts-info" class="modal modal-alert modal-info fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Quick View
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="margin-bottom:20px;">
+                        <div class="col-md-5">
+                            <ul>
+                                <li id="margin"><b>Product : </b> {{RFQDetail.ProductMasterName}}/ {{RFQDetail.ProductCode}} </li>
+                                <li id="margin"><b>RFQ ID : </b> {{RFQDetail.RequestForQuoteId}} </li>
+                                <li id="margin"><b>Quantity : </b> {{RFQDetail.Quantity==null ? 'N/A' : RFQDetail.Quantity}} </li>
+                                <li id="margin"><b>Need By Date : </b> {{RFQDetail.NeedByDate==null ? 'N/A' : RFQDetail.NeedByDate | date : 'yyyy-MM-dd'}} </li>
+                                <li id="margin"><b>Tissue Bank Send Date : </b> {{RFQDetail.TissueBankSendByDate==null ? 'N/A' : RFQDetail.TissueBankSendByDate | date : 'yyyy-MM-dd'}}  </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <ul>
+                                <li id="margin"><b>Unit Price : </b> {{RFQDetail.UnitPrice | currency}} </li>
+                                <li id="margin"><b>Line Total : </b> {{RFQDetail.LineTotal==null ? 'N/A' : RFQDetail.LineTotal | currency}} </li>
+                                <li id="margin"><b>Total Amount : </b> {{RFQDetail.Total==null ? 'N/A' : RFQDetail.Total | currency}} </li>
+                                <li id="margin"><b>Sales Tax : </b> {{RFQDetail.SalesTax==null ? 'N/A' : RFQDetail.SalesTax | currency}} </li>
+                                <li id="margin"><b>Shipping Details :</b> {{RFQDetail.ShippingMethod==null ? 'N/A' : RFQDetail.ShippingMethod}}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3" id="statusdiv">
+                            <div id="innerdiv">
+                                <span>
+                                    <b style="padding-right:15px;">Status: </b>
+                                    <div id="received" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Sent to TissueBank'">Received</div>
+                                    <div id="sent" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Sent to Hospital'">Sent</div>
+                                    <div id="negotiation" style="display:inline-block" ng-if="RFQDetail.StatusName == 'In-Negotiation'">In-Negotiation</div>
+                                    <div id="declined" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Declined By TissueBank'">Declined By Tissue Bank</div>
+                                    <div id="declined" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Declined By Hospital'">Declined By Hospital</div>
+                                    <div id="declined" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Declined By AllocatStaff'">Declined By AllocatStaff</div>
+                                    <div id="placed" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Placed PR'">Closed Placed PR</div>
+                                    <div id="placed" style="display:inline-block" ng-if="RFQDetail.StatusName == 'Placed PO'">Closed Placed PO</div>
+                                </span> <br /><br />
+                                <span><b><u style="color:#4bacd0">View Product Details</u> </b></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="panel widget-chat">
+                            <div class="panel-heading" id="headerstyle">
+                                <span class="panel-title" style="font-size:13px">Clinical Questions</span>
+                            </div>
+                            <div class="panel-body" ng-if="RequestResponses.length>0" id="chatview">
+                                <span ng-repeat="item in RequestResponses">
+                                    <div class="message" ng-if="item.BodyType=='Request'">
+                                        @*<img src="~/Assets/image/user.png" alt="" class="message-avatar">*@
+                                        <div class="circle chat-img pull-left">{{item.Initial}}</div>
+                                        <div class="message-body">
+                                            <div class="message-heading">
+                                                <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
+                                            </div>
+                                            <div class="message-text" id="margin">
+                                                {{item.Body}}
+                                                <div ng-if="item.AttachmentName!=null && item.AttachmentName!=''">
+                                                    <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="{{webApiContentRootPath}}Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="message right" ng-if="item.BodyType=='Response'">
+                                        @*<img src="~/Assets/image/user.png" alt="" class="message-avatar">*@
+                                        <div class="circle chat-img pull-right">{{item.Initial}}</div>
+                                        <div class="message-body">
+                                            <div class="message-heading" style="text-align:right">
+                                                <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
+                                            </div>
+                                            <div class="message-text" id="chatresponse">
+                                                {{item.Body}}
+                                                <div ng-if="item.AttachmentName!=null && item.AttachmentName!=''">
+                                                    <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="{{webApiContentRootPath}}Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                            <div ng-if="RequestResponses.length<1">
+                                No Clinical questions asked for this RFQ yet.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @{
+                        var ReplyUrl = Url.Action("Manage", "RequestForQuote", new { RequestForQuoteId = "{{RFQDetail.RequestForQuoteId}}", editMode = "true" });
+                        ReplyUrl = HttpUtility.UrlDecode(ReplyUrl);
+                    }
+                    <a data-ng-href="@ReplyUrl" class="btn btn-info">Reply</a>
+                    @{
+                        var ViewUrl = Url.Action("Manage", "RequestForQuote", new { RequestForQuoteId = "{{RFQDetail.RequestForQuoteId}}", editMode = "false" });
+                        ViewUrl = HttpUtility.UrlDecode(ViewUrl);
+                    }
+                    <a data-ng-href="@ViewUrl" class="btn btn-info">Manage RFQ</a>
+                </div>
+            </div> <!-- / .modal-content -->
+        </div> <!-- / .modal-dialog -->
+    </div> <!-- / .modal -->
+    <!--  $END_MODAL_POPUP -->
+</div>

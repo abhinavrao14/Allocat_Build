@@ -3,7 +3,13 @@
     ViewBag.Title = "TissueBank_Verification_Successful";
 }
 
-<h2>TissueBank Verification Successful</h2>
-<a href="~/Account">Click here to login</a>
+<link href="~/Assets/css/custom/style.css" rel="stylesheet" />
 
-<p>@ViewBag.message</p>
+<div id="verification">
+    <h2 style="margin-bottom:35px">TissueBank Verification Successful</h2>
+ 
+        <a href="~/Account">
+            <input type="button" class="btn btn-flat" style="height:40px; font-size:15px; font-weight:600" value="Click here to login" />
+        </a>
+        <p>@ViewBag.message</p>
+</div>

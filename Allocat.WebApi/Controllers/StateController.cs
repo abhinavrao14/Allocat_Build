@@ -2,6 +2,7 @@
 using Allocat.DataModel;
 using Allocat.DataService;
 using Allocat.DataServiceInterface;
+using Allocat.WebApi.CustomService;
 using Allocat.WebApi.WebApiModel;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,14 @@ namespace Allocat.WebApi.Controllers
 
             var badResponse = Request.CreateResponse<CommonApiModel>(HttpStatusCode.BadRequest, commonApiModel);
             return badResponse;
+        }
+
+        public HttpResponseMessage Get(string cusId)
+        {
+            CustomService.AllocatCustomServiceClient obj = new AllocatCustomServiceClient();
+            var response = obj.RetrieveCustomerProfile(cusId);
+
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@using ResDefaultValues = Allocat.UserInterface.Resources.ResDefaultValues
 @{
     ViewBag.Title = "SubmitResponse";
     Layout = "~/Views/Shared/_PanelLayout.cshtml";
@@ -9,7 +9,7 @@
 <link href="~/Assets/css/lib/trix.css" rel="stylesheet" />
 
 <div ng-controller="RFQDetailController">
-    <div class="loading-spiner-holder customloader" data-loading>
+    <div class="loading-spiner-holder customloader" id="loadingDiv" data-loading>
         <div class="loading-spiner">
             <img src="~/Assets/image/spin.gif" />
         </div>
@@ -19,12 +19,15 @@
         <input type="hidden" for="RequestForQuoteId" id="RequestForQuoteId" value="@ViewBag.RequestForQuoteId" />
         <input type="hidden" for="TissueBankId" id="TissueBankId" value="@ViewBag.user.InfoId" />
         <input type="hidden" for="UserId" id="UserId" value="@ViewBag.user.UserId" />
+        <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
         <input type="hidden" for="editMode" id="editMode" value="@ViewBag.editMode" />
+        <input type="hidden" for="ResRFQSalesTaxPercentage" id="ResRFQSalesTaxPercentage" value="@ResDefaultValues.RFQSalesTaxPercentage" />
     }
     else
     {
         <input type="hidden" for="ProductMasterId" id="ProductMasterId" value="" />
     }
+   
 
     <ul class="breadcrumb breadcrumb-page">
         <div class="breadcrumb-label text-light-gray">You are here: </div>
@@ -51,22 +54,22 @@
     <form name="form_ConfirmOnExit" confirm-on-exit ng-submit="submitResponse()">
         <div class="panel">
             <div class="panel-heading">
-                <div style="float:left; padding-right: 10px;"><b>From :</b></div>
-                <div style="display: inline-block;">
+                <div style="float:left; padding-right:10px;"><b>From :</b></div>
+                <div style="display:inline-block;">
                     <span ng-if="RFQDetail.StatusName=='Placed PR'|| RFQDetail.StatusName=='Placed PO'">{{RFQDetail.HospitalName}},</span>
                     <span ng-if="RFQDetail.StatusName!='Placed PR' && RFQDetail.StatusName!='Placed PO'">XXXXXXXXX Hospital</span>
                     <br />{{RFQDetail.CityName}}
                 </div>
             </div>
             <div class="panel-body panel-padding">
-                <div class="row" style="margin-bottom:10px;">
-                    <div class="col-md-2" style="margin-bottom:10px">
+                <div class="row" id="margin">
+                    <div class="col-md-2" id="margin">
                         <b>RFQ ID :</b> {{RFQDetail.RequestForQuoteId}}
                     </div>
-                    <div class="col-md-3" style="margin-bottom:10px">
+                    <div class="col-md-3" id="margin">
                         <b>Submitted Date :</b> {{RFQDetail.CreatedDate | date : 'yyyy-MM-dd HH:mm:ss'}}
                     </div>
-                    <div class="col-md-4" style="margin-bottom:10px">
+                    <div class="col-md-4" id="margin">
                         <b>Last Modified Date :</b> {{RFQDetail.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss'}}
                     </div>
                     <div class="col-md-3"></div>
@@ -98,19 +101,19 @@
                         </tr>
                     </thead>
                     <tr>
-                        <td style="padding-left:25px"><b>Quantity</b></td>
+                        <td id="padding"><b>Quantity</b></td>
                         <td>{{RFQDetail.Quantity}}</td>
                     </tr>
                     <tr>
-                        <td style="padding-left:25px"><b>TB Product Code</b></td>
+                        <td id="padding"><b>TB Product Code</b></td>
                         <td>{{RFQDetail.ProductCode}}</td>
                     </tr>
                     <tr>
-                        <td style="padding-left:25px"><b>Product Name</b></td>
+                        <td id="padding"><b>Product Name</b></td>
                         <td>{{RFQDetail.ProductMasterName}}</td>
                     </tr>
                     <tr>
-                        <td style="padding-left:25px"><b>Needed By Date</b></td>
+                        <td id="padding"><b>Needed By Date</b></td>
                         <td>{{RFQDetail.NeedByDate==null ? 'N/A' : RFQDetail.NeedByDate | date:'yyyy-MM-dd'}}</td>
                     </tr>
                 </table>
@@ -130,7 +133,7 @@
                                     <span style="padding-left:15px">
                                         <label ng-if="!editMode">{{RFQDetail.TissueBankSendByDate==null ? 'N/A' : RFQDetail.TissueBankSendByDate | date:'yyyy-MM-dd'}}</label>
                                         <div ng-if="editMode" class="input-group date" id="bs-datepicker-component" style="display:inline-block;">
-                                            <input ng-model="RFQDetail.TissueBankSendByDate" datetime-picker="" date-format="yyyy-MM-dd" close-on-select="false" size="30" class="ng-pristine ng-valid ng-valid-date ng-touched">
+                                            <input ng-model="RFQDetail.TissueBankSendByDate" id="RFQShipPicker" datetime-picker="" date-format="yyyy-MM-dd" close-on-select="false" size="30" class="ng-pristine ng-valid ng-valid-date ng-touched">
                                         </div>
                                     </span>
                                 </div>
@@ -156,17 +159,32 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="background-color:#353f4b; color:#ffffff">
-                            <div style="float:left">  
-                                    <label id="span" style="width:115px">Total Amount :</label> 
+                        <td id="headerstyle">
+                            <div id="desktop">
+                                <div style="float:left">
+                                    <label id="span" style="width:115px">Total Amount :</label>
                                     <span style="padding-left:15px"><label> {{RFQDetail.Total==null ? 'N/A' : RFQDetail.Total | currency}}</label></span>
-                            </div>
-                            <div style="float:right">
-                                    <label id="span" style="width:115px">Shippng Method :</label> 
+                                </div>
+                                <div style="float:right">
+                                    <label id="span" style="width:115px">Shippng Method :</label>
                                     <span style="padding-left:15px">
                                         <label ng-if="!editMode">{{RFQDetail.ShippingMethod==null ? 'N/A' : RFQDetail.ShippingMethod}}</label>
                                         <input style="color:black" ng-if="editMode" type="text" ng-model="RFQDetail.ShippingMethod" />
                                     </span>
+                                </div>
+                            </div>
+                            <div id="mobile">
+                                <div style="float:left">
+                                    <label id="span" style="width:115px">Total Amount :</label>
+                                    <span style="padding-left:15px"><label> {{RFQDetail.Total==null ? 'N/A' : RFQDetail.Total | currency}}</label></span>
+                                </div><br/>
+                                <div style="float:left">
+                                    <label id="span" style="width:115px">Shippng Method :</label>
+                                    <span style="padding-left:15px">
+                                        <label ng-if="!editMode">{{RFQDetail.ShippingMethod==null ? 'N/A' : RFQDetail.ShippingMethod}}</label>
+                                        <input style="color:black" ng-if="editMode" type="text" ng-model="RFQDetail.ShippingMethod" />
+                                    </span>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -177,8 +195,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="panel widget-chat">
-                    <div class="panel-heading" style="background-color:#353f4b; color:#ffffff!important">
-                        <span class="panel-title">Clinical Questions</span>
+                    <div class="panel-heading" id="headerstyle">
+                        <span class="panel-title" style="font-size:14px">Clinical Questions</span>
                     </div>
                     <div class="panel-body" ng-if="RequestResponses.length>0" style="padding:30px; height:300px; overflow-y:auto">
                         <span ng-repeat="item in RequestResponses">
@@ -189,7 +207,7 @@
                                     <div class="message-heading">
                                         <span>{{item.LastModifiedDate | date : 'yyyy-MM-dd HH:mm:ss' }}</span>
                                     </div>
-                                    <div class="message-text" style="margin-bottom:10px;">
+                                    <div class="message-text" id="margin">
                                         {{item.Body}}
                                         <div ng-if="item.AttachmentName!=null && item.AttachmentName!=''">
                                             <img src="~/Assets/image/attachmentIcon.png" />  <a target="_blank" href="{{webApiContentRootPath}}Content/AttachmentFiles/{{item.AttachmentName}}">{{item.AttachmentName}}</a>

@@ -1,0 +1,65 @@
+@media only screen and (min-width: 851px) {
+        .icn {
+            display: none;
+        }
+    }
+
+@media only screen and (max-width: 850px) {
+        #c1 {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 851px) {
+        #r1 {
+            display: none;
+        }
+    }
+
+@media only screen and (max-width: 800px) {
+        #c2 {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 801px) {
+        #r2 {
+            display: none;
+        }
+    }
+
+@media only screen and (max-width: 750px) {
+        #c3 {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 751px) {
+        #r3 {
+            display: none;
+        }
+    }
+
+@media only screen and (max-width: 700px) {
+        #c4 {
+            display: none;
+        }
+    }
+
+@media only screen and (min-width: 701px) {
+        #r4 {
+            display: none;
+        }
+    }
+#chatview{
+    padding:30px; height:200px; overflow-y:auto
+}
+#chatresponse{
+    border:1px solid #4bacd0; margin-bottom:10px;text-align:right
+}
+#margin{
+    margin-bottom:10px
+}
+#padding{
+    padding-left:25px
+}

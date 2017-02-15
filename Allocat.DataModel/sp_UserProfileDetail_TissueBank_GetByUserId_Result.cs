@@ -28,6 +28,10 @@ namespace Allocat.DataModel
         public Nullable<int> FailedPasswordAnswerAttemptCount { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public Nullable<int> LastModifiedBy { get; set; }
+        public string PasswordQuestion { get; set; }
+        public string PasswordAnswer { get; set; }
+        public string SecurityQuestion { get; set; }
+        public string SecurityAnswer { get; set; }
         public Nullable<int> InfoId { get; set; }
         public string DomainName { get; set; }
     }

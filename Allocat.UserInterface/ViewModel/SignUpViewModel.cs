@@ -14,7 +14,7 @@ namespace Allocat.Web.Models
         public string FullName { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Only alphabets allowed")]
+        [RegularExpression(@"^[a-zA-Z0-9]+$", ErrorMessage = "Only alphabets and numbers are allowed")]
         [Display(Name = "User Name")]
         public string UserName { get; set; }
 

@@ -130,7 +130,7 @@
     <Property Name="OrderLineTotal" Type="numeric" Precision="18" Scale="2" />
     <Property Name="PurchaseRequestId" Type="int" />
     <Property Name="RFQId" Type="int" />
-    <Property Name="AlloCATFees" Type="nchar" MaxLength="10" />
+    <Property Name="AlloCATFees" Type="numeric" Precision="18" Scale="2" />
     <Property Name="HospitalPoNumber" Type="nvarchar" MaxLength="20" />
     <Property Name="StatusId" Type="int" />
     <Property Name="DeclineRemark" Type="nvarchar" MaxLength="200" />
@@ -366,7 +366,7 @@
     </Key>
     <Property Name="TissueBankProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TissueBankId" Type="int" />
-    <Property Name="ProductMasterId" Type="int" />
+    <Property Name="TissueBankProductMasterId" Type="int" />
     <Property Name="ProductType" Type="nvarchar" MaxLength="200" />
     <Property Name="ProductCode" Type="varchar" MaxLength="20" />
     <Property Name="ProductSize" Type="nvarchar" MaxLength="500" />
@@ -383,6 +383,19 @@
     <Property Name="CreatedBy" Type="int" />
     <Property Name="LastModifiedDate" Type="datetime" />
     <Property Name="LastModifiedBy" Type="int" />
+  </EntityType>
+  <EntityType Name="TissueBankProductMaster">
+    <Key>
+      <PropertyRef Name="TissueBankProductMasterId" />
+    </Key>
+    <Property Name="TissueBankProductMasterId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TissueBankId" Type="int" Nullable="false" />
+    <Property Name="ProductMasterId" Type="int" Nullable="false" />
+    <Property Name="IsActive" Type="bit" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="int" Nullable="false" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedBy" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Transaction">
     <Key>
@@ -859,18 +872,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_TissueBankProduct_ProductMaster">
-    <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="0..1" />
-    <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ProductMaster">
-        <PropertyRef Name="ProductMasterId" />
-      </Principal>
-      <Dependent Role="TissueBankProduct">
-        <PropertyRef Name="ProductMasterId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_TissueBankProduct_Source">
     <End Role="Source" Type="Self.Source" Multiplicity="0..1" />
     <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
@@ -892,6 +893,66 @@
       </Principal>
       <Dependent Role="TissueBankProduct">
         <PropertyRef Name="TissueBankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBankProduct_TissueBankProduct">
+    <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="0..1" />
+    <End Role="TissueBankProduct" Type="Self.TissueBankProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TissueBankProductMaster">
+        <PropertyRef Name="TissueBankProductMasterId" />
+      </Principal>
+      <Dependent Role="TissueBankProduct">
+        <PropertyRef Name="TissueBankProductMasterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBankProductMaster_ProductMaster">
+    <End Role="ProductMaster" Type="Self.ProductMaster" Multiplicity="1" />
+    <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProductMaster">
+        <PropertyRef Name="ProductMasterId" />
+      </Principal>
+      <Dependent Role="TissueBankProductMaster">
+        <PropertyRef Name="ProductMasterId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBankProductMaster_TissueBankProductMaster">
+    <End Role="TissueBank" Type="Self.TissueBank" Multiplicity="1" />
+    <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TissueBank">
+        <PropertyRef Name="TissueBankId" />
+      </Principal>
+      <Dependent Role="TissueBankProductMaster">
+        <PropertyRef Name="TissueBankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBankProductMaster_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TissueBankProductMaster">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TissueBankProductMaster_User1">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="TissueBankProductMaster" Type="Self.TissueBankProductMaster" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="TissueBankProductMaster">
+        <PropertyRef Name="ModifiedBy" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -998,6 +1059,12 @@
     <Parameter Name="ShippingMethod" Type="nvarchar" Mode="In" />
     <Parameter Name="TissueBankSendByDate" Type="date" Mode="In" />
     <Parameter Name="LastModifiedBy" Type="int" Mode="In" />
+    <Parameter Name="TransactionId" Type="int" Mode="In" />
+    <Parameter Name="AuthCode" Type="nvarchar" Mode="In" />
+    <Parameter Name="ResponseBody" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="AuthTransactionId" Type="nvarchar" Mode="In" />
+    <Parameter Name="TransactionStatusId" Type="int" Mode="In" />
+    <Parameter Name="TissueBankId" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_Order_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TissueBankId" Type="int" Mode="In" />
@@ -1041,18 +1108,23 @@
   <Function Name="sp_RequestResponse_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="RequestForQuoteId" Type="int" Mode="In" />
   </Function>
+  <Function Name="sp_TissueBank_GetProductSizeByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankProductMasterId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_TissueBank_GetProductTypeByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankProductMasterId" Type="int" Mode="In" />
+  </Function>
   <Function Name="sp_TissueBankProduct_TissueBank_AddUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="sp_TissueBankProduct_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+  <Function Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TissueBankProductMasterId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_TissueBankProductMaster_TissueBank_GetTissueBankProductMastersByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TissueBankId" Type="int" Mode="In" />
     <Parameter Name="SearchBy" Type="varchar" Mode="In" />
     <Parameter Name="CurrentPage" Type="int" Mode="In" />
     <Parameter Name="PageSize" Type="int" Mode="In" />
     <Parameter Name="SortDirection" Type="varchar" Mode="In" />
     <Parameter Name="SortExpression" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByProductMasterId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="TissueBankId" Type="int" Mode="In" />
-    <Parameter Name="ProductMasterId" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_User_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="RoleName" Type="varchar" Mode="In" />
@@ -1088,6 +1160,10 @@
     <Parameter Name="InfoId" Type="int" Mode="In" />
     <Parameter Name="AllowLogin" Type="bit" Mode="In" />
     <Parameter Name="OperationType" Type="varchar" Mode="In" />
+    <Parameter Name="PasswordQuestion" Type="nvarchar" Mode="In" />
+    <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
+    <Parameter Name="SecurityQuestion" Type="varchar" Mode="In" />
+    <Parameter Name="SecurityAnswer" Type="varchar" Mode="In" />
   </Function>
   <Function Name="sp_UserMngmt_TissueBank_GetByTissueBankId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TissueBankId" Type="int" Mode="In" />
@@ -1104,20 +1180,6 @@
     <Parameter Name="TissueBankId" Type="int" Mode="In" />
     <Parameter Name="SearchBy" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="sp_UserProfile_TissueBank_UpdateByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-    <Parameter Name="UserName" Type="nvarchar" Mode="In" />
-    <Parameter Name="FullName" Type="nvarchar" Mode="In" />
-    <Parameter Name="MobileNumber" Type="varchar" Mode="In" />
-    <Parameter Name="EmailId" Type="nvarchar" Mode="In" />
-    <Parameter Name="IsMobileVerified" Type="bit" Mode="In" />
-    <Parameter Name="IsEmailVerified" Type="bit" Mode="In" />
-    <Parameter Name="LastLoginDate" Type="datetime" Mode="In" />
-    <Parameter Name="PasswordQuestion" Type="nvarchar" Mode="In" />
-    <Parameter Name="PasswordAnswer" Type="nvarchar" Mode="In" />
-    <Parameter Name="SecurityQuestion" Type="varchar" Mode="In" />
-    <Parameter Name="SecurityAnswer" Type="varchar" Mode="In" />
-  </Function>
   <Function Name="sp_UserProfileDetail_TissueBank_GetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
@@ -1128,6 +1190,9 @@
     <Parameter Name="StackTrace" Type="nvarchar(max)" Mode="In" />
     <Parameter Name="TransactionId" Type="int" Mode="In" />
     <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_ProductMaster_GetBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="SearchBy" Type="varchar" Mode="In" />
   </Function>
   <Function Name="usp_TissueBank_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TissueBankName" Type="nvarchar" Mode="In" />
@@ -1252,6 +1317,7 @@
     <EntitySet Name="TissueBank" EntityType="Self.TissueBank" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TissueBankCreditCard" EntityType="Self.TissueBankCreditCard" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TissueBankProduct" EntityType="Self.TissueBankProduct" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TissueBankProductMaster" EntityType="Self.TissueBankProductMaster" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
@@ -1395,10 +1461,6 @@
       <End Role="TissueBank" EntitySet="TissueBank" />
       <End Role="TissueBankCreditCard" EntitySet="TissueBankCreditCard" />
     </AssociationSet>
-    <AssociationSet Name="FK_TissueBankProduct_ProductMaster" Association="Self.FK_TissueBankProduct_ProductMaster">
-      <End Role="ProductMaster" EntitySet="ProductMaster" />
-      <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
-    </AssociationSet>
     <AssociationSet Name="FK_TissueBankProduct_Source" Association="Self.FK_TissueBankProduct_Source">
       <End Role="Source" EntitySet="Source" />
       <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
@@ -1406,6 +1468,26 @@
     <AssociationSet Name="FK_TissueBankProduct_TissueBank" Association="Self.FK_TissueBankProduct_TissueBank">
       <End Role="TissueBank" EntitySet="TissueBank" />
       <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBankProduct_TissueBankProduct" Association="Self.FK_TissueBankProduct_TissueBankProduct">
+      <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+      <End Role="TissueBankProduct" EntitySet="TissueBankProduct" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBankProductMaster_ProductMaster" Association="Self.FK_TissueBankProductMaster_ProductMaster">
+      <End Role="ProductMaster" EntitySet="ProductMaster" />
+      <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBankProductMaster_TissueBankProductMaster" Association="Self.FK_TissueBankProductMaster_TissueBankProductMaster">
+      <End Role="TissueBank" EntitySet="TissueBank" />
+      <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBankProductMaster_User" Association="Self.FK_TissueBankProductMaster_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TissueBankProductMaster_User1" Association="Self.FK_TissueBankProductMaster_User1">
+      <End Role="User" EntitySet="User" />
+      <End Role="TissueBankProductMaster" EntitySet="TissueBankProductMaster" />
     </AssociationSet>
     <AssociationSet Name="FK_Transaction_Status" Association="Self.FK_Transaction_Status">
       <End Role="Status" EntitySet="Status" />

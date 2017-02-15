@@ -152,6 +152,8 @@
     color: #ffffff;
     border-color: #ffffff;
     border-radius: 5px;
+    height: 25px;
+    font-size: 15px;
 }
 
 #button2 {
@@ -159,6 +161,8 @@
     color: #ffffff;
     border-color: #ffffff;
     border-radius: 5px;
+    height: 25px;
+    font-size: 15px;
 }
 
 #declined {
@@ -374,3 +378,79 @@
         background: #5bc0de;
     }
 /*end*/
+/*  Author: Sneha
+    Created Date : 4 Feb 2017
+    Modified By : 
+    MOdified Date :
+*/
+/*start*/
+
+   @media only screen and (max-width: 410px) {
+        #desktop {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: 411px) {
+        #mobile {
+            display: none;
+        }
+    }
+
+/*end*/
+
+#pagination{
+    height:32px; background-color:#abb6c4; border-color:#abb6c4; color:#ffffff; font-size:15px
+}
+#pagination:hover{
+    background-color:#abb6c4; border-color:#4bacd0; color:#111111;
+}
+#page{
+    background-color:#4bacd0; padding:8px; color:#ffffff; font-weight:600;
+}
+#verification{
+    border:1px solid #ccc; padding:40px; background-color:#4bacd0; width:65%; color:#ffffff; box-shadow:0px 3px 10px 9px rgba(0, 0, 0, 0.21); margin:auto; text-align:center;
+}
+.blink_me {
+        animation: blinker 1s linear infinite;
+    }
+ @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+ #registration{
+     border:10px solid rgba(0,0,0,.1); width:45%; margin:auto; padding:20px; box-shadow:0px 5px 3px 20px rgba(255,255,255,.1); text-align:center
+ }
+ #registrationtext{
+     color:#ffffff;text-align:center;font-size:18px
+ }
+ /*#imagediv {
+  height: 600px;
+  position: relative;
+}
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -32px;
+  margin-top: -32px;
+}*/
+.image {
+        padding: 2px;
+        border: 1px solid #777;
+        background-color: #999;
+    }
+#divstyle{
+    border:1px solid #aaa; box-shadow:0px 2px 2px #888888;
+}
+#loadingDiv{
+  position:fixed;
+  top:50%;
+  right:50%;
+  left:50%;
+  width:100%;
+  height:100%;
+  background-position:center;
+  z-index:10000000;
+}

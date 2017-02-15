@@ -76,7 +76,19 @@ app.service("DomainScopeService", function ($http, ResourceService) {
     this.getAllDomainScope = function () {
         var response = $http({
             method: 'Get',
-            url: ResourceService.webApiRootPath + 'DomainScope/',
+            url: ResourceService.webApiRootPath + 'DomainScope/'
+        });
+        return response;
+    };
+});
+
+app.service("KeyValueService", function ($http, ResourceService) {
+
+    this.getKeyValue = function (Type) {
+        var response = $http({
+            method: 'Get',
+            url: ResourceService.webApiRootPath + 'KeyValue/',
+            params: { Type: Type }
         });
         return response;
     };
@@ -84,11 +96,11 @@ app.service("DomainScopeService", function ($http, ResourceService) {
 
 app.factory('ResourceService', function () {
     return {
-        //webApiRootPath: 'http://allocat.net/Webapi/api/',
-        //webApiContentRootPath: 'http://allocat.net/Webapi/'
-        webApiContentRootPath: 'http://localhost:63744/',
+     //  webApiRootPath: 'http://allocat.net/Webapi/api/',
+     //   webApiContentRootPath: 'http://allocat.net/Webapi/'
+        webApiRootPath: 'http://localhost:63744/api/',
+        webApiContentRootPath: 'http://localhost:63744/'
         //rootPath: 'http://allocat.net/',
-        webApiRootPath: 'http://localhost:63744/api/'
         //rootPath: 'http://localhost:63744/',
     };
 });
@@ -107,8 +119,8 @@ app.factory('InputService', function () {
         , addressPattern: /^[A-Za-z0-9\s]+$/
         , userNamePattern: /^[A-Za-z0-9]+$/
         , emailPattern: /^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
-        , phoneNumberPattern: /^\d{3}\d{3}\d{4}/
-        , phoneNumberLength: 10
+        , phoneNumberPattern: /^\d{3}\d{3}\d{5}/
+        , phoneNumberLength: 11
         , faxNumberPattern: /^\d+$/
         , ZipCodePattern: /^\d+$/
         , CustomerServiceLandLineNumberPattern: /^\d+$/
@@ -116,6 +128,7 @@ app.factory('InputService', function () {
         , expiryLength: 4
         , AATBLicenseNumberPattern: /^[A-Za-z0-9\s]+$/
         , TissueBankStateLicensePattern: /^[A-Za-z0-9\s]+$/
-        //FaxNumberPattern: '^\+[0-9]{1,3}\([0-9]{3}\)[0-9]{7}$'
+        , AnswerPattern: /^[A-Za-z0-9\s]+$/
+        , AnswerLength: 100
     };
 });

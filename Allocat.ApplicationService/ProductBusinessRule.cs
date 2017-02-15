@@ -53,13 +53,29 @@ namespace Allocat.ApplicationService
             }
         }
 
-        //private void ValidateUniqueProductCodeInTissueBank(string ProductCode, int TissueBankId)
-        //{
-        //    Boolean valid = productDataService.ValidateUniqueProductCodeInTissueBank(ProductCode, TissueBankId);
-        //    if (valid == false)
-        //    {
-        //        AddValidationError("ProductCode", "ProductCode : " + ProductCode + " already exists.");
-        //    }
-        //}
+        public void ValidTissueBankProductMasterRequest(int TissueBankProductMasterId, int InfoId, string InfoType)
+        {
+            //Required Validations
+            if (ValidateRequired(TissueBankProductMasterId, "TissueBank Product Master Id"))
+            {
+                //Regular Expression Validations
+                if (ValidateNumeric(TissueBankProductMasterId, "TissueBank Product Master Id"))
+                {
+                    if (InfoType == "TISSUEBANK")
+                    {
+                        ValidTissueBankProductMasterRequest(TissueBankProductMasterId, InfoId);
+                    }
+                }
+            }
+        }
+
+        private void ValidTissueBankProductMasterRequest(int TissueBankProductMasterId, int TissueBankId)
+        {
+            Boolean valid = productDataService.ValidTissueBankProductMasterRequest(TissueBankProductMasterId, TissueBankId);
+            if (valid == false)
+            {
+                AddValidationError("TissueBankProductMasterId", "Access Denied");
+            }
+        }
     }
 }

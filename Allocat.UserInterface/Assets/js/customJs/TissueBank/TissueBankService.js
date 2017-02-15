@@ -9,11 +9,11 @@
         return response;
     };
 
-    this.GetTbProduct = function (TissueBankProductMasterId) {
+    this.GetTbProduct = function (productList_TissueBank_DTO) {
         var response = $http({
             method: "Get",
             url: ResourceService.webApiRootPath + "ProductApi",
-            params: { TissueBankProductMasterId: TissueBankProductMasterId }
+            params: productList_TissueBank_DTO
         });
         return response;
     };
@@ -21,13 +21,11 @@
 
 app.service("ProductDetailService", function ($http, ResourceService) {
 
-    this.GetTissueBankProductsByProductMasterId = function (TissueBankProductMasterId) {
+    this.GetTissueBankProductsByProductMasterId = function (productList_TissueBank_DTO) {
         var response = $http({
             method: "Get",
             url: ResourceService.webApiRootPath + "ProductApi",
-            params: {
-                TissueBankProductMasterId: TissueBankProductMasterId,
-            }
+            params: productList_TissueBank_DTO
         });
         return response;
     };
@@ -96,11 +94,11 @@ app.service("RFQService", function ($http, ResourceService) {
         return response;
     };
 
-    this.GetRfqDetailByRequestForQuoteId = function (RequestForQuoteId) {
+    this.GetRfqDetailByRequestForQuoteId = function (rfq_TissueBank_DTO) {
         var response = $http({
             method: "Get",
             url: ResourceService.webApiRootPath + "RFQ",
-            params: { RequestForQuoteId: RequestForQuoteId }
+            params: rfq_TissueBank_DTO
         });
         return response;
     };
@@ -140,11 +138,11 @@ app.service("OrderService", function ($http, ResourceService) {
         return response;
     };
 
-    this.GetOrderDetailByOrderId = function (OrderId) {
+    this.GetOrderDetailByOrderId = function (order_TissueBank_DTO) {
         var response = $http({
             method: "Get",
             url: ResourceService.webApiRootPath + "Order",
-            params: { OrderId: OrderId }
+            params: order_TissueBank_DTO
         });
         return response;
     };
@@ -178,20 +176,20 @@ app.service("UserService", function ($http, ResourceService) {
 
 app.service("UserDetailService", function ($http, ResourceService) {
 
-    this.GetUserDetail = function (UserId, type) {
+    this.GetUserDetail = function (user_DTO) {
         var response = $http({
             method: "Get",
             url: ResourceService.webApiRootPath + "User",
-            params: { UserId: UserId, type: type }
+            params: user_DTO
         });
         return response;
     };
 
-    this.GetUserRoles = function (UserId, type) {
+    this.GetUserRoles = function (user_DTO) {
         var response = $http({
             method: "Get",
             url: ResourceService.webApiRootPath + "User",
-            params: { UserId: UserId, type: type }
+            params: user_DTO
         });
         return response;
     };
@@ -249,6 +247,41 @@ app.service("TissueBankService", function ($http, ResourceService) {
             url: ResourceService.webApiRootPath + "TissueBank",
             dataType: 'json',
             data: tissueBankUpdate_DTO,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        return response;
+    };
+});
+
+
+app.service("UserProfileService", function ($http, ResourceService) {
+
+    this.GetUserDetail = function (UserId, type) {
+        var response = $http({
+            method: "Get",
+            url: ResourceService.webApiRootPath + "User",
+            params: { UserId: UserId, type: type }
+        });
+        return response;
+    };
+
+    this.GetUserRoles = function (UserId, type) {
+        var response = $http({
+            method: "Get",
+            url: ResourceService.webApiRootPath + "User",
+            params: { UserId: UserId, type: type }
+        });
+        return response;
+    };
+
+    this.SubmitUser = function (userMngmnt_User_CUD_DTO) {
+        var response = $http({
+            url: ResourceService.webApiRootPath + "User",
+            dataType: 'json',
+            method: 'POST',
+            data: userMngmnt_User_CUD_DTO,
             headers: {
                 "Content-Type": "application/json"
             }
