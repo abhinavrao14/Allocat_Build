@@ -196,6 +196,7 @@
     <Compile Include="Controllers\PhotoController.cs" />
     <Compile Include="Controllers\PreservationTypeController.cs" />
     <Compile Include="Controllers\ProductApiController.cs" />
+    <Compile Include="Controllers\ProductHospitalController.cs" />
     <Compile Include="Controllers\ProductMasterController.cs" />
     <Compile Include="Controllers\ProductSizeController.cs" />
     <Compile Include="Controllers\ProductTypeController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="WebApiModel\CommonApiModel.cs" />
     <Compile Include="WebApiModel\ProductMasterApiModel.cs" />
     <Compile Include="WebApiModel\Order_TissueBankApiModel.cs" />
+    <Compile Include="WebApiModel\Product_HospitalApiModel.cs" />
     <Compile Include="WebApiModel\RFQ_TissueBankApiModel.cs" />
     <Compile Include="WebApiModel\Product_TissueBankApiModel.cs" />
     <Compile Include="WebApiModel\HospitalApiModel.cs" />

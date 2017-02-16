@@ -6,6 +6,7 @@
     using System.Data.Entity.Core.Objects;
     using System.Data.Entity.ModelConfiguration.Conventions;
     using System.Data.SqlClient;
+    using System.Data;
 
     public partial class AllocatDbEntities : DbContext
     {
@@ -21,6 +22,7 @@
         }
 
         public virtual DbSet<City> City { get; set; }
+        public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<DomainScope> DomainScope { get; set; }
         public virtual DbSet<Entity> Entity { get; set; }
         public virtual DbSet<EntityType> EntityType { get; set; }
@@ -160,19 +162,6 @@
                 new SqlParameter("OrderId", typeof(int));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_OrderDetail_TissueBank_GetByOrderId_Result>("sp_OrderDetail_TissueBank_GetByOrderId @OrderId", orderIdParameter);
-        }
-
-        public virtual ObjectResult<sp_UserDetail_GetByUserId_Result> sp_UseDetail_GetByUserId(Nullable<int> userId, string infoType)
-        {
-            var userIdParameter = userId.HasValue ?
-                new SqlParameter("UserId", userId) :
-                new SqlParameter("UserId", typeof(int));
-
-            var infoTypeParameter = infoType != null ?
-                new SqlParameter("InfoType", infoType) :
-                new SqlParameter("InfoType", typeof(string));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<sp_UserDetail_GetByUserId_Result>("sp_UserDetail_GetByUserId @UserId , @InfoType", userIdParameter, infoTypeParameter);
         }
 
         public virtual ObjectResult<sp_User_Get_Result> sp_User_Get(string roleName, string getType, string searchBy, Nullable<int> currentPage, Nullable<int> pageSize, string sortDirection, string sortExpression)
@@ -786,14 +775,6 @@
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_Order_TissueBank_Ack_Decline", orderIdParameter, statusIdParameter, declineRemarkParameter, shippingMethodParameter, tissueBankSendByDateParameter, lastModifiedByParameter, transactionIdParameter, authCodeParameter, responseBodyParameter, authTransactionIdParameter, transactionStatusIdParameter, tissueBankIdParameter);
         }
 
-        public virtual ObjectResult<sp_UserProfileDetail_TissueBank_GetByUserId_Result> sp_UserProfileDetail_TissueBank_GetByUserId(Nullable<int> userId)
-        {
-            var userIdParameter = userId.HasValue ?
-                new ObjectParameter("UserId", userId) :
-                new ObjectParameter("UserId", typeof(int));
-
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_UserProfileDetail_TissueBank_GetByUserId_Result>("sp_UserProfileDetail_TissueBank_GetByUserId", userIdParameter);
-        }
         public virtual ObjectResult<string> usp_ProductMaster_GetBySearch(string searchBy)
         {
             var searchByParameter = searchBy != null ?
@@ -949,6 +930,66 @@
                 new ObjectParameter("SecurityAnswer", typeof(string));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_UserMngmt_TissueBank_CreateUpdateDelete", userIdParameter, userNameParameter, passwordParameter, fullNameParameter, mobileNumberParameter, emailIdParameter, createdByParameter, lastModifiedByParameter, infoIdParameter, allowLoginParameter, operationTypeParameter, passwordQuestionParameter, passwordAnswerParameter, securityQuestionParameter, securityAnswerParameter);
+        }
+
+        public virtual ObjectResult<Nullable<bool>> usp_IsUserEntityAdmin(string infoType, Nullable<int> userId, Nullable<int> infoId)
+        {
+            var infoTypeParameter = infoType != null ?
+                new SqlParameter("InfoType", infoType) :
+                new SqlParameter("InfoType", typeof(string));
+
+            var userIdParameter = userId.HasValue ?
+                new SqlParameter("UserId", userId) :
+                new SqlParameter("UserId", typeof(int));
+
+            var infoIdParameter = infoId.HasValue ?
+                new SqlParameter("InfoId", infoId) :
+                new SqlParameter("InfoId", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<Nullable<bool>>("usp_IsUserEntityAdmin @InfoType, @UserId , @InfoId", infoTypeParameter, userIdParameter, infoIdParameter);
+        }
+
+        public virtual ObjectResult<usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result> usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital(string productMasterName)
+        {
+            var productMasterNameParameter = productMasterName != null ?
+                new SqlParameter("ProductMasterName", productMasterName) :
+                new SqlParameter("ProductMasterName", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result>("usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital @ProductMasterName", productMasterNameParameter);
+        }
+
+        public virtual ObjectResult<usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital_Result> usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital(string productMasterName)
+        {
+            var productMasterNameParameter = productMasterName != null ?
+                new SqlParameter("ProductMasterName", productMasterName) :
+                new SqlParameter("ProductMasterName", typeof(string));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital_Result>("usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital @ProductMasterName", productMasterNameParameter);
+        }
+
+        public virtual ObjectResult<usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result> usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital(string productMasterName, string productType, string productSize, string preservationType, string sourceName)
+        {
+            var productMasterNameParameter = productMasterName != null ?
+                new SqlParameter("ProductMasterName", productMasterName) :
+                new SqlParameter("ProductMasterName", typeof(string));
+    
+            var productTypeParameter = productType != null ?
+                new SqlParameter("ProductType", productType) :
+                new SqlParameter("ProductType", typeof(string));
+    
+            var productSizeParameter = productSize != null ?
+                new SqlParameter("ProductSize", productSize) :
+                new SqlParameter("ProductSize", typeof(string));
+    
+            var preservationTypeParameter = preservationType != null ?
+                new SqlParameter("PreservationType", preservationType) :
+                new SqlParameter("PreservationType", typeof(string));
+    
+            var sourceNameParameter = sourceName != null ?
+                new SqlParameter("SourceName", sourceName) :
+                new SqlParameter("SourceName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result>("usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital @ProductMasterName , @ProductType , @ProductSize , @PreservationType , @SourceName", productMasterNameParameter, productTypeParameter, productSizeParameter, preservationTypeParameter, sourceNameParameter);
         }
     }
 }

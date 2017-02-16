@@ -33,3 +33,8 @@ C:\Users\Admin\Desktop\Allocat_Build_9Feb2017\Allocat_Build_8Feb2017\Allocat.Uti
 C:\Users\Admin\Desktop\Allocat_Build_9Feb2017\Allocat_Build_8Feb2017\Allocat.Utility\obj\Debug\Allocat.Utility.csprojResolveAssemblyReference.cache
 C:\Users\Admin\Desktop\Allocat_Build_9Feb2017\Allocat_Build_8Feb2017\Allocat.Utility\obj\Debug\Allocat.Utility.dll
 C:\Users\Admin\Desktop\Allocat_Build_9Feb2017\Allocat_Build_8Feb2017\Allocat.Utility\obj\Debug\Allocat.Utility.pdb
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.Utility\bin\Debug\Allocat.Utility.dll
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.Utility\bin\Debug\Allocat.Utility.pdb
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.Utility\obj\Debug\Allocat.Utility.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.Utility\obj\Debug\Allocat.Utility.dll
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.Utility\obj\Debug\Allocat.Utility.pdb

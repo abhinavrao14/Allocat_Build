@@ -194,6 +194,15 @@ app.service("UserDetailService", function ($http, ResourceService) {
         return response;
     };
 
+    this.IsUserInfoAdmin = function (user_DTO) {
+        var response = $http({
+            method: "Get",
+            url: ResourceService.webApiRootPath + "User",
+            params: user_DTO
+        });
+        return response;
+    };
+
     this.GetTissueBankRoles = function (type) {
         var response = $http({
             method: "Get",

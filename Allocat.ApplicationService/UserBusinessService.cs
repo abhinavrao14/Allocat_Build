@@ -180,6 +180,8 @@ namespace Allocat.ApplicationService
 
                 if (userBusinessRule.ValidationStatus == true)
                 {
+                  //  TempUser_CUD.Columns.Remove("Disable");
+
                     if (OperationType == "changePass" || OperationType == "UserUpdate")
                     {
                         if (TempUser_CUD == null)
@@ -300,6 +302,44 @@ namespace Allocat.ApplicationService
             {
                 userDataService.CloseSession();
             }
+        }
+
+        public bool IsUserInfoAdmin(int UserId,int InfoId, string InfoType, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+            UserBusinessRule userBusinessRule = new UserBusinessRule(userDataService);
+            bool IsUserInfoAdmin = false;
+            try
+            {
+                userDataService.CreateSession();
+
+                userBusinessRule.ValidateIsUserInfoAdmin(UserId,InfoId, InfoType);
+
+                if (userBusinessRule.ValidationStatus == true)
+                {
+                    IsUserInfoAdmin=userDataService.IsUserInfoAdmin(InfoType, UserId, InfoId, out transaction);
+                }
+                else
+                {
+                    transaction.ReturnStatus = userBusinessRule.ValidationStatus;
+                    transaction.ReturnMessage = userBusinessRule.ValidationMessage;
+                    transaction.ValidationErrors = userBusinessRule.ValidationErrors;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
+            }
+            finally
+            {
+                userDataService.CloseSession();
+            }
+
+            return IsUserInfoAdmin;
         }
     }
 }

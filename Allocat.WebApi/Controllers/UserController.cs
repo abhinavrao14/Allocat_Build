@@ -39,22 +39,32 @@ namespace Allocat.WebApi.Controllers
                     (user_DTO.TissueBankId, user_DTO.SearchBy, user_DTO.CurrentPage, user_DTO.PageSize, user_DTO.SortDirection, user_DTO.SortExpression, out transaction);
 
                 userApiModel.Users = Users;
-                userApiModel.ReturnStatus = transaction.ReturnStatus;
-                userApiModel.ReturnMessage = transaction.ReturnMessage;
-                userApiModel.IsAuthenicated = true;
+              
             }
             else if (user_DTO.OperationType == "GetUserRole")
             {
                 IEnumerable<sp_UserMngmt_GetUserRoleByUserId_Result> UserRoles = userBusinessService.GetUserRoleByUserId
                    (user_DTO.RequestUserId, out transaction);
+
                 userApiModel.UserRoles = UserRoles;
             }
             else if (user_DTO.OperationType == "GetById")
             {
                 IEnumerable<sp_UserMngmt_TissueBank_GetByUserId_Result> UserDetail = userBusinessService.GetUserDetail
                     (user_DTO.RequestUserId, user_DTO.TissueBankId, user_DTO.InfoType, out transaction);
+
                 userApiModel.UserDetail = UserDetail;
             }
+            else if (user_DTO.OperationType == "IsUserInfoAdmin")
+            {
+                bool IsUserInfoAdmin = userBusinessService.IsUserInfoAdmin
+                    (user_DTO.RequestUserId, user_DTO.TissueBankId, user_DTO.InfoType, out transaction);
+
+                userApiModel.IsUserInfoAdmin = IsUserInfoAdmin;
+            }
+
+            userApiModel.ReturnStatus = transaction.ReturnStatus;
+            userApiModel.ReturnMessage = transaction.ReturnMessage;
 
             if (transaction.ReturnStatus == true)
             {

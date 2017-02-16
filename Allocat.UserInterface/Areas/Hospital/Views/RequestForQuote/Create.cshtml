@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+<h2>Create</h2>
+<script src="~/Assets/js/customJs/Hospital/HospitalController.js"></script>
+<script src="~/Assets/js/customJs/Hospital/HospitalService.js"></script>
+<div ng-controller="RFQCreateHospitalController">
+    @{
+        int i = 0;
+    }
+    @*@foreach (int TissueBankProductId in ViewBag.SelectedTissueBankProductIds)
+    {
+        i = i + 1;
+        <input type="hidden" id="TissueBankProductId+@i" value="@TissueBankProductId" />
+    }*@
+
+    <input type="hidden" id="count" value="@i" />
+
+    <span id="singleFieldTags"></span>
+    </div>
+

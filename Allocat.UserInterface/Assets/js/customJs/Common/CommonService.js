@@ -51,7 +51,7 @@ app.service("MsgService", function () {
 
 app.service("ProductMasterService", function ($http, ResourceService) {
 
-    this.getProductMasterById = function (productMasterGetByIdDTO) {
+    this.Get = function (productMasterGetByIdDTO) {
         var response = $http({
             method: "get",
             url: ResourceService.webApiRootPath + 'ProductMaster/',

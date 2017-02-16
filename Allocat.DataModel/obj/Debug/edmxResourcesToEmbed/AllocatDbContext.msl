@@ -672,37 +672,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_User_GetRoleByUserName" FunctionName="AllocatDbModel.Store.sp_User_GetRoleByUserName" />
-    <FunctionImportMapping FunctionImportName="sp_UserDetail_GetByUserId" FunctionName="AllocatDbModel.Store.sp_UserDetail_GetByUserId">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserDetail_GetByUserId_Result">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="EntityID" ColumnName="EntityID" />
-          <ScalarProperty Name="DomainScopeID" ColumnName="DomainScopeID" />
-          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-          <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
-          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
-          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
-          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
-          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
-          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
-          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
-          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
-          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
-          <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
-          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
-          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
-          <ScalarProperty Name="EntityTypeId" ColumnName="EntityTypeId" />
-          <ScalarProperty Name="InfoId" ColumnName="InfoId" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_UserMngmt_GetUserRoleByUserId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_GetUserRoleByUserId">
       <ResultMapping>
         <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserMngmt_GetUserRoleByUserId_Result">
@@ -757,33 +726,6 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_GetCountByTissueBankId" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_GetCountByTissueBankId" />
-    <FunctionImportMapping FunctionImportName="sp_UserProfileDetail_TissueBank_GetByUserId" FunctionName="AllocatDbModel.Store.sp_UserProfileDetail_TissueBank_GetByUserId">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="AllocatDbModel.sp_UserProfileDetail_TissueBank_GetByUserId_Result">
-          <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="UserName" ColumnName="UserName" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-          <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-          <ScalarProperty Name="IsMobileVerified" ColumnName="IsMobileVerified" />
-          <ScalarProperty Name="IsEmailVerified" ColumnName="IsEmailVerified" />
-          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
-          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
-          <ScalarProperty Name="LastPasswordChangedDate" ColumnName="LastPasswordChangedDate" />
-          <ScalarProperty Name="LastLockoutDate" ColumnName="LastLockoutDate" />
-          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
-          <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="LastModifiedBy" ColumnName="LastModifiedBy" />
-          <ScalarProperty Name="PasswordQuestion" ColumnName="PasswordQuestion" />
-          <ScalarProperty Name="PasswordAnswer" ColumnName="PasswordAnswer" />
-          <ScalarProperty Name="SecurityQuestion" ColumnName="SecurityQuestion" />
-          <ScalarProperty Name="SecurityAnswer" ColumnName="SecurityAnswer" />
-          <ScalarProperty Name="InfoId" ColumnName="InfoId" />
-          <ScalarProperty Name="DomainName" ColumnName="DomainName" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="usp_Error_Create" FunctionName="AllocatDbModel.Store.usp_Error_Create" />
     <FunctionImportMapping FunctionImportName="usp_TissueBank_Add" FunctionName="AllocatDbModel.Store.usp_TissueBank_Add" />
     <FunctionImportMapping FunctionImportName="usp_TissueBank_Get" FunctionName="AllocatDbModel.Store.usp_TissueBank_Get">
@@ -845,5 +787,47 @@
     <FunctionImportMapping FunctionImportName="sp_TissueBank_GetProductTypeByTissueBankProductMasterId" FunctionName="AllocatDbModel.Store.sp_TissueBank_GetProductTypeByTissueBankProductMasterId" />
     <FunctionImportMapping FunctionImportName="sp_RequestForQuote_TissueBank_Edit" FunctionName="AllocatDbModel.Store.sp_RequestForQuote_TissueBank_Edit" />
     <FunctionImportMapping FunctionImportName="sp_UserMngmt_TissueBank_CreateUpdateDelete" FunctionName="AllocatDbModel.Store.sp_UserMngmt_TissueBank_CreateUpdateDelete" />
+    <FunctionImportMapping FunctionImportName="usp_IsUserEntityAdmin" FunctionName="AllocatDbModel.Store.usp_IsUserEntityAdmin" />
+    <FunctionImportMapping FunctionImportName="usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital" FunctionName="AllocatDbModel.Store.usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result">
+          <ScalarProperty Name="ProductMasterId" ColumnName="ProductMasterId" />
+          <ScalarProperty Name="ProductMasterName" ColumnName="ProductMasterName" />
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
+          <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+          <ScalarProperty Name="ProductMasterImageName" ColumnName="ProductMasterImageName" />
+          <ScalarProperty Name="ProductMasterThumbnailImageName" ColumnName="ProductMasterThumbnailImageName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital" FunctionName="AllocatDbModel.Store.usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital_Result">
+          <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+          <ScalarProperty Name="ProductSize" ColumnName="ProductSize" />
+          <ScalarProperty Name="PreservationType" ColumnName="PreservationType" />
+          <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital" FunctionName="AllocatDbModel.Store.usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AllocatDbModel.usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result">
+          <ScalarProperty Name="TissueBankProductId" ColumnName="TissueBankProductId" />
+          <ScalarProperty Name="TissueBankId" ColumnName="TissueBankId" />
+          <ScalarProperty Name="ProductDescription" ColumnName="ProductDescription" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+          <ScalarProperty Name="IsAvailableForSale" ColumnName="IsAvailableForSale" />
+          <ScalarProperty Name="AvailabilityStartDate" ColumnName="AvailabilityStartDate" />
+          <ScalarProperty Name="AvailabilityEndDate" ColumnName="AvailabilityEndDate" />
+          <ScalarProperty Name="SourceName" ColumnName="SourceName" />
+          <ScalarProperty Name="CityName" ColumnName="CityName" />
+          <ScalarProperty Name="StateName" ColumnName="StateName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

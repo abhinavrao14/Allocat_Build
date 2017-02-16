@@ -115,6 +115,7 @@
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductMaster_TissueBank.cs" />
+    <Compile Include="Product_Hospital.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseRequest.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
@@ -164,9 +165,6 @@
     <Compile Include="sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
-    <Compile Include="sp_UserDetail_GetByUserId_Result.cs">
-      <DependentUpon>AllocatDbContext.tt</DependentUpon>
-    </Compile>
     <Compile Include="sp_UserMngmt_GetUserRoleByUserId_Result.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
@@ -174,9 +172,6 @@
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_UserMngmt_TissueBank_GetByUserId_Result.cs">
-      <DependentUpon>AllocatDbContext.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_UserProfileDetail_TissueBank_GetByUserId_Result.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_User_GetEntityInfoByUserName_Result.cs">
@@ -215,6 +210,15 @@
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="UserRole.cs">
+      <DependentUpon>AllocatDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result.cs">
+      <DependentUpon>AllocatDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital_Result.cs">
+      <DependentUpon>AllocatDbContext.tt</DependentUpon>
+    </Compile>
+    <Compile Include="usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
     <Compile Include="usp_TissueBank_Get_Result.cs">

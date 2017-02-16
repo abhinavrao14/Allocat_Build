@@ -24,5 +24,12 @@ namespace Allocat.DataServiceInterface
         //bool ValidateUniqueProductCodeInTissueBank(string ProductCode, int TissueBankId);
 
         bool ValidTissueBankProductMasterRequest(int TissueBankProductMasterId, int TissueBankId);
+
+
+        //hospital
+        List<usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result> GetProductSubstitutesByProductMasterName_Hospital(string ProductMasterName, out TransactionalInformation transaction);
+        List<usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital_Result> GetProductVariationsByProductMasterName_Hospital(string ProductMasterName, out TransactionalInformation transaction);
+        List<usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result> GetTbOfferingForTissueBankProduct_Hospital(string ProductMasterName, string ProductType, string ProductSize, string PreservationType, string SourceName, out TransactionalInformation transaction);
+        List<Product_Hospital> GetAllProductMasters(out TransactionalInformation transaction);
     }
 }

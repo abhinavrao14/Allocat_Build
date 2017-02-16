@@ -21,5 +21,7 @@ namespace Allocat.DataServiceInterface
         bool ValidateSingleUserName(string UserName, int UserId);
 
         bool ValidateUserDetailRequest(int UserId, int TissueBankId);
+
+        bool IsUserInfoAdmin(string InfoType, int UserId, int InfoId, out TransactionalInformation transaction);
     }
 }

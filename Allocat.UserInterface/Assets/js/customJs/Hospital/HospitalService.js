@@ -13,3 +13,15 @@
         return response;
     };
 });
+
+app.service("Product_HospitalService", function ($http, ResourceService) {
+
+    this.Get = function (product_Hospital_DTO) {
+        var response = $http({
+            method: "Get",
+            url: ResourceService.webApiRootPath + "ProductHospital",
+            params: product_Hospital_DTO
+        });
+        return response;
+    };
+});

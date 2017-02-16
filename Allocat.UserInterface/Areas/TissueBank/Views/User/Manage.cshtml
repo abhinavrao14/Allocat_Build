@@ -72,8 +72,13 @@
                                 <div ng-repeat="tbRole in TissueBankRoles track by tbRole.RoleId">
                                     <input type="checkbox"
                                            value="{{tbRole.RoleId}}"
+                                           ng-disabled="isDisable(tbRole)"
                                            ng-checked="isChecked(tbRole)"
                                            ng-click="Check(tbRole)" /> {{tbRole.RoleName}}
+                                    @*<input type="checkbox"
+                                           value="{{tbRole.RoleId}}"
+                                           ng-checked="isChecked(tbRole)"
+                                           ng-click="Check(tbRole)" /> {{tbRole.RoleName}}*@
                                 </div>
                             </div>
                         </div>

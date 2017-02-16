@@ -43,5 +43,29 @@ namespace Allocat.ApplicationService
 
             return productMaster_TissueBank;
         }
+
+        public ProductMaster_Hospital GetProductMasterByProductMasterName(string ProductMasterName, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            ProductMaster_Hospital productMaster_Hospital = new ProductMaster_Hospital();
+
+            try
+            {
+                _productMasterDataService.CreateSession();
+                productMaster_Hospital = _productMasterDataService.GetProductMasterByProductMasterName(ProductMasterName, out transaction);
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(ex.Message);
+            }
+            finally
+            {
+                _productMasterDataService.CloseSession();
+            }
+
+            return productMaster_Hospital;
+        }
     }
 }

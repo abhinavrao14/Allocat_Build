@@ -1141,10 +1141,6 @@
   <Function Name="sp_User_GetRoleByUserName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserName" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="sp_UserDetail_GetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-    <Parameter Name="InfoType" Type="varchar" Mode="In" />
-  </Function>
   <Function Name="sp_UserMngmt_GetUserRoleByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="UserId" Type="int" Mode="In" />
   </Function>
@@ -1180,9 +1176,6 @@
     <Parameter Name="TissueBankId" Type="int" Mode="In" />
     <Parameter Name="SearchBy" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="sp_UserProfileDetail_TissueBank_GetByUserId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="UserId" Type="int" Mode="In" />
-  </Function>
   <Function Name="usp_Error_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="StatusId" Type="int" Mode="In" />
     <Parameter Name="ErrorCode" Type="nvarchar" Mode="In" />
@@ -1190,6 +1183,11 @@
     <Parameter Name="StackTrace" Type="nvarchar(max)" Mode="In" />
     <Parameter Name="TransactionId" Type="int" Mode="In" />
     <Parameter Name="UserId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="usp_IsUserEntityAdmin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="InfoType" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="InfoId" Type="int" Mode="In" />
   </Function>
   <Function Name="usp_ProductMaster_GetBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="SearchBy" Type="varchar" Mode="In" />
@@ -1269,6 +1267,19 @@
     <Parameter Name="SecurityQuestion" Type="nvarchar" Mode="In" />
     <Parameter Name="SecurityAnswer" Type="nvarchar" Mode="In" />
     <Parameter Name="Password" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ProductMasterName" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ProductMasterName" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ProductMasterName" Type="varchar" Mode="In" />
+    <Parameter Name="ProductType" Type="varchar" Mode="In" />
+    <Parameter Name="ProductSize" Type="varchar" Mode="In" />
+    <Parameter Name="PreservationType" Type="varchar" Mode="In" />
+    <Parameter Name="SourceName" Type="varchar" Mode="In" />
   </Function>
   <Function Name="usp_Transaction_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TransactionInitiateDate" Type="datetime" Mode="In" />

@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+<script src="~/Assets/js/customJs/Hospital/HospitalController.js"></script>
+<script src="~/Assets/js/customJs/Hospital/HospitalService.js"></script>
+<style>
+    table {
+        width: 100%;
+    }
+
+    @@media only screen and (min-width: 801px) {
+        .othertable {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 800px) {
+        .maintable {
+            display: none;
+        }
+    }
+
+    @@media only screen and (min-width: 651px) {
+        .icn {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 650px) {
+        #c1 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (min-width: 651px) {
+        #r1 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 600px) {
+        #c2 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (min-width: 601px) {
+        #r2 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (max-width: 550px) {
+        #c3 {
+            display: none;
+        }
+    }
+
+    @@media only screen and (min-width: 551px) {
+        #r3 {
+            display: none;
+        }
+    }
+</style>
+
+<div ng-controller="ProductManageHospitalController">
+    <div class="loading-spiner-holder customloader" id="loadingDiv" data-loading>
+        <div class="loading-spiner">
+            <img src="~/Assets/image/spin.gif" />
+        </div>
+    </div>
+    <input type="hidden" for="InfoId" id="InfoId" value="@ViewBag.user.InfoId" />
+    <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
+    <input type="hidden" for="ProductMasterName" id="ProductMasterName" value="@ViewBag.ProductMasterName" />
+    <input type="hidden" for="ProductType" id="ProductType" value="@ViewBag.ProductType" />
+    <input type="hidden" for="ProductSize" id="ProductSize" value="@ViewBag.ProductSize" />
+    <input type="hidden" for="PreservationType" id="PreservationType" value="@ViewBag.PreservationType" />
+    <input type="hidden" for="SourceName" id="SourceName" value="@ViewBag.SourceName" />
+
+
+    <ul class="breadcrumb breadcrumb-page">
+        <div class="breadcrumb-label text-light-gray">You are here: </div>
+        <li><a href="@Url.Action("Index", "Home", new { Area = "Hospital" })"><u>Home</u></a></li>
+        <li>
+            <a href="@Url.Action("Index", "Product", new { Area = "Hospital" })"><u>Product Management</u></a>
+        </li>
+        <li class="active"><a href="#">Manage</a></li>
+    </ul>
+
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm">Manage</h1>
+        </div>
+    </div>
+    <div class="panel" ng-if="dataLoading!=true">
+        <div class="panel-heading" >
+            <div class="row">
+                <div class="col-md-6" id="title" style="font-size:15px; font-weight:600">
+                    ProductMasterName : {{ProductMasterName}}<br />
+                    ProductType : {{ProductType}}<br />
+                    ProductSize : {{ProductSize}}<br />
+                    PreservationType : {{PreservationType}}<br />
+                    SourceName : {{SourceName}}<br />
+                </div>
+                <div class="col-md-6" id="title" style="font-size:15px; font-weight:600">
+                    ProductMasterDescription : {{ProductMasterDetail.ProductMasterDescription}}<br />
+                    ProductMasterFeatures : {{ProductMasterDetail.ProductMasterFeatures}}<br />
+                    DomainName : {{ProductMasterDetail.DomainName}}<br />
+                    FamilyProductMasterName : {{ProductMasterDetail.FamilyProductMasterName}}<br />
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body panel-padding">
+            <div ng-if="(TbOfferings.length==0 && dataLoading) || TbOfferings.length==0" style="color:darkgreen;">No tissue banks are available.</div>
+            <div ng-if="TbOfferings.length!=0 && !dataLoading && TbOfferings!=null" class="row">
+
+                <div class="panel-group panel-group-default">
+                    <div class="panel">
+                        <div class="panel-body">
+                            Number of Tissue Banks Offering this products: {{TbOfferings.length}}
+                            <table class="table table-striped maintable" id="tablestyle">
+                                <thead style="background-color: #52606f; color: #ffffff;">
+                                    <tr>
+                                        <th style="text-align:center"></th>
+                                        <th style="text-align:center">Tissue Bank</th>
+                                        <th style="text-align:center">City</th>
+                                        <th style="text-align:center">UnitPrice</th>
+                                        <th style="text-align:center">IsAvailableForSale</th>
+                                        <th style="text-align:center">ProductDescription</th>
+                                        <th style="text-align:center">Remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="TbOffering in TbOfferings">
+                                        <td><input type="checkbox" ng-click="TbOfferingChecked(TbOffering)"  /></td>
+                                        <td>XXXXXXXXXXXXX</td>
+                                        <td>{{TbOffering.CityName}},{{TbOffering.StateName}}</td>
+                                        <td>{{TbOffering.UnitPrice | currency}}</td>
+                                        <td>{{TbOffering.IsAvailableForSale}}</td>
+                                        <td>
+                                            {{TbOffering.ProductDescription==null ? 'N/A' : TbOffering.ProductDescription}}
+                                        </td>
+                                        <td>
+                                            {{TbOffering.Remark==null ? 'N/A' : TbOffering.Remark}}
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            @*<table class="table table-hover othertable" id="tablestyle">
+                                    <tbody>
+                                        <tr ng-repeat="ProductVariation in ProductVariations | unique:'ProductType'">
+                                            <td>
+                                                <label>Product Type :</label> {{ProductVariation.ProductType}}
+                                                <table class="table table-default" id="tablestyle" style="text-align:left">
+                                                    <thead style="background-color: #5e6e80; color: #ffffff;">
+                                                        <tr>
+                                                            <th></th>
+                                                            <th>Product Size</th>
+                                                            <th id="c2">Preservation Type</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat-start="SubProductVariation in ProductVariations | filter:{'ProductType': ProductVariation.ProductType}:true">
+                                                            <td>
+                                                                <button class="icn" ng-if="SubProductVariation.expanded" ng-click="SubProductVariation.expanded = false" id="button1">-</button>
+                                                                <button class="icn" ng-if="!SubProductVariation.expanded" ng-click="SubProductVariation.expanded = true" id="button2">+</button>
+                                                            </td>
+                                                            <td>{{SubProductVariation.ProductSize}}</td>
+                                                            <td id="c2">{{SubProductVariation.PreservationType}}</td>
+                                                        </tr>
+                                                        <tr ng-if="SubProductVariation.expanded" ng-repeat-end="">
+                                                            <td colspan="4">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table class="table table-hover">
+                                                                            <tr id="r2">
+                                                                                <td><b>Preservation Type:</b></td>
+                                                                                <td><i>{{SubProductVariation.PreservationType}}</i></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <input type="button" value="Send RFQ" ng-click="SendRFQ()" />
+    <div class="notifies" notifybar></div>
+</div>

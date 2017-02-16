@@ -25,18 +25,20 @@ namespace Allocat.WebApi.Controllers
         {
             ProductMasterApiModel productMasterApiModel = new ProductMasterApiModel();
             TransactionalInformation transaction = new TransactionalInformation();
-
             ProductMasterBusinessService productMasterBusinessService = new ProductMasterBusinessService(productMasterDataService);
-            ProductMaster_TissueBank productMaster_TissueBank = new ProductMaster_TissueBank();
+
 
             if (productMasterGetByIdDTO.OperationType == "GetByTissueBankProductMasterId")
             {
-                productMaster_TissueBank = productMasterBusinessService.GetProductMaster_DomainFamily_ByTissueBankProductMasterId
+                productMasterApiModel.ProductMaster_TissueBank = productMasterBusinessService.GetProductMaster_DomainFamily_ByTissueBankProductMasterId
                     (productMasterGetByIdDTO.Id, out transaction);
             }
-
-            productMasterApiModel.ProductMaster_TissueBank = productMaster_TissueBank;
-            productMasterApiModel.IsAuthenicated = true;
+            else if (productMasterGetByIdDTO.OperationType == "GetByProductMasterName")
+            {
+                productMasterApiModel.ProductMaster_Hospital = productMasterBusinessService.GetProductMasterByProductMasterName
+                    (productMasterGetByIdDTO.Name, out transaction);
+            }
+           
             productMasterApiModel.ReturnStatus = transaction.ReturnStatus;
             productMasterApiModel.ReturnMessage = transaction.ReturnMessage;
 
@@ -49,6 +51,5 @@ namespace Allocat.WebApi.Controllers
             var badResponse = Request.CreateResponse<ProductMasterApiModel>(HttpStatusCode.BadRequest, productMasterApiModel);
             return badResponse;
         }
-
     }
 }

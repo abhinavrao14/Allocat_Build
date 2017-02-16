@@ -88,3 +88,13 @@ C:\Users\Admin\Desktop\Allocat_Build_9Feb2017\Allocat_Build_8Feb2017\Allocat.Dat
 C:\Users\Admin\Desktop\Allocat_Build_9Feb2017\Allocat_Build_8Feb2017\Allocat.DataModel\obj\Debug\Allocat.DataModel.csprojResolveAssemblyReference.cache
 C:\Users\Admin\Desktop\Allocat_Build_9Feb2017\Allocat_Build_8Feb2017\Allocat.DataModel\obj\Debug\Allocat.DataModel.dll
 C:\Users\Admin\Desktop\Allocat_Build_9Feb2017\Allocat_Build_8Feb2017\Allocat.DataModel\obj\Debug\Allocat.DataModel.pdb
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\bin\Debug\Allocat.DataModel.dll.config
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\bin\Debug\Allocat.DataModel.dll
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\bin\Debug\Allocat.DataModel.pdb
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\bin\Debug\EntityFramework.dll
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\bin\Debug\EntityFramework.xml
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\obj\Debug\Allocat.DataModel.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\obj\Debug\Allocat.DataModel.dll
+C:\Users\Admin\Desktop\Allocat_15Feb2017\Allocat.DataModel\obj\Debug\Allocat.DataModel.pdb

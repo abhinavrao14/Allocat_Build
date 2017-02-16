@@ -107,13 +107,13 @@ namespace Allocat.DataService
         public List<string> GetProductSizes(int TissueBankProductMasterId, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            
+
             //List<string> lstProductSize = ((from tbp in dbConnection.TissueBankProduct
             //                                join tbpm in dbConnection.TissueBankProductMaster on tbp.TissueBankProductMasterId equals tbpm.TissueBankProductMasterId
             //                                join pm in dbConnection.ProductMaster on tbpm.ProductMasterId equals pm.ProductMasterId
             //                                where tbpm.TissueBankProductMasterId == TissueBankProductMasterId
             //                                select tbp.ProductSize).Distinct()).ToList();
-            List<string> lstProductSize= dbConnection.sp_TissueBank_GetProductSizeByTissueBankProductMasterId(TissueBankProductMasterId).ToList();
+            List<string> lstProductSize = dbConnection.sp_TissueBank_GetProductSizeByTissueBankProductMasterId(TissueBankProductMasterId).ToList();
             transaction.ReturnStatus = true;
             transaction.ReturnMessage.Add(lstProductSize.Count.ToString() + " preservation-types found.");
 
@@ -164,6 +164,58 @@ namespace Allocat.DataService
             transaction.ReturnMessage.Add(" TB Products found.");
 
             return rr;
+        }
+
+        //Hospital
+        public List<usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result> GetProductSubstitutesByProductMasterName_Hospital(string ProductMasterName, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            List<usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result> ProductSubstitutes = dbConnection.usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital(ProductMasterName).ToList();
+
+            transaction.ReturnStatus = true;
+            transaction.ReturnMessage.Add(ProductSubstitutes.Count + " Product Substitutes found.");
+
+            return ProductSubstitutes;
+        }
+        public List<usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital_Result> GetProductVariationsByProductMasterName_Hospital(string ProductMasterName, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            List<usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital_Result> ProductVariations = dbConnection.usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital(ProductMasterName).ToList();
+
+            transaction.ReturnStatus = true;
+            transaction.ReturnMessage.Add(ProductVariations.Count + " Product Variations found.");
+
+            return ProductVariations;
+        }
+        public List<usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result> GetTbOfferingForTissueBankProduct_Hospital(string ProductMasterName, string ProductType, string ProductSize, string PreservationType, string SourceName, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            List<usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result> TbOfferings = dbConnection.usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital(ProductMasterName, ProductType, ProductSize, PreservationType, SourceName).ToList();
+
+            transaction.ReturnStatus = true;
+            transaction.ReturnMessage.Add(TbOfferings.Count + " Tb Offerings found.");
+
+            return TbOfferings;
+        }
+
+        public List<Product_Hospital> GetAllProductMasters(out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            List<Product_Hospital> AllProductMasters = (from pm in dbConnection.ProductMaster
+                                                        select new Product_Hospital
+                                                        {
+                                                            ProductMasterId = pm.ProductMasterId,
+                                                            ProductMasterName = pm.ProductMasterName
+                                                        }).ToList();
+
+            transaction.ReturnStatus = true;
+            transaction.ReturnMessage.Add(AllProductMasters.Count + " Tb Offerings found.");
+
+            return AllProductMasters;
         }
 
         //public bool ValidateUniqueProductCodeInTissueBank(string ProductCode, int TissueBankId)

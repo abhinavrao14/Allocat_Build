@@ -1,4 +1,4 @@
-﻿app.controller("ProductController", function ($scope, ProductService, $window, MsgService, ResourceService, $timeout, $q, $log,$http) {
+﻿app.controller("ProductController", function ($scope, ProductService, $window, MsgService, ResourceService, $timeout, $q, $log, $http) {
 
     var TissueBankId = document.getElementById("TissueBankId").value;
 
@@ -109,7 +109,7 @@
         $scope.PageSize = $scope.PageSizes[0];
     }
     //new end
-    
+
 
     function getTbProductMasters(SearchBy, CurrentPage, PageSize, SortExpression, SortDirection) {
         var productList_TissueBank_DTO = new Object();
@@ -279,7 +279,7 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
 
     var ProductMasterGetByIdDTO = {
         Id: TissueBankProductMasterId,
-        OperationType: "GetByTissueBankProductMasterId"
+        OperationType: "GetByProductMasterName"
     };
 
     ProductDetailService.GetPreservationTypes()
@@ -327,7 +327,7 @@ app.controller("ProductDetailController", function ($filter, $scope, ProductDeta
             $scope.TbProducts = data.TbProducts;
             console.log(data.TbProducts);
 
-            ProductMasterService.getProductMasterById(ProductMasterGetByIdDTO)
+            ProductMasterService.Get(ProductMasterGetByIdDTO)
                    .success(function (data2, status, headers, config) {
                        $scope.ProductMaster_TissueBank = data2.ProductMaster_TissueBank;
                    })
@@ -784,7 +784,7 @@ app.controller("RFQDetailController", function ($scope, RFQService, MsgService, 
     };
 
     $scope.CalculateTotal = function () {
-        
+
         if ($scope.RFQDetail.UnitPrice != null && $scope.RFQDetail.UnitPrice != '') {
             $scope.RFQDetail.LineTotal = $scope.RFQDetail.Quantity * $scope.RFQDetail.UnitPrice;
         }
@@ -1238,10 +1238,9 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
     var msg = document.getElementById("msg").value;
 
     if (msg != "") {
+        $scope.Message = msg;
         document.getElementById("msg").value = '';
-        $scope.showMessage = true;
     }
-
 
     function GetUsers(SearchBy, CurrentPage, PageSize, SortExpression, SortDirection) {
         var user_DTO = new Object();
@@ -1333,6 +1332,9 @@ app.controller("UserController", function ($scope, UserService, MsgService, $win
         });
     };
 
+
+
+
     function message(type, title, content) {
         var notify = {
             type: type,
@@ -1398,6 +1400,8 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
             console.log(data.UserDetail[0]);
             GetUserRoles(user_DTO);
 
+
+
             if (data.UserDetail[0].AllowLogin) {
                 $scope.UserDetail.AllowLogin_Convert = 'Yes';
             }
@@ -1418,7 +1422,11 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
         UserDetailService.GetUserRoles(user_DTO)
         .success(function (data, status, headers, config) {
             $scope.UserRoles = data.UserRoles;
-            console.log(data.UserRoles);
+
+
+
+            IsUserInfoAdmin(user_DTO);
+
         }).error(function (data, status, headers, config) {
             var Message = MsgService.makeMessage(data.ReturnMessage)
             message('error', 'Error!', Message);
@@ -1437,11 +1445,44 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
         });
     };
 
+    function IsUserInfoAdmin(user_DTO) {
+
+        user_DTO.OperationType = 'IsUserInfoAdmin';
+
+        UserDetailService.IsUserInfoAdmin(user_DTO)
+        .success(function (data, status, headers, config) {
+
+            console.log('IsUserInfoAdmin : ' + data.IsUserInfoAdmin);
+            if (data.IsUserInfoAdmin) {
+                for (var i = 0; i < $scope.UserRoles.length; ++i) {
+                    $scope.UserRoles[i].Disable = true;
+                }
+            }
+        }).error(function (data, status, headers, config) {
+            var Message = MsgService.makeMessage(data.ReturnMessage)
+            message('error', 'Error!', Message);
+        });
+    };
+
+
+
     $scope.isChecked = function (tbRole) {
         if (typeof $scope.UserRoles != 'undefined') {
             var UserRoles = $scope.UserRoles;
             for (var i = 0; i < UserRoles.length; i++) {
                 if (tbRole.RoleId == UserRoles[i].RoleId)
+                    return true;
+            }
+
+            return false;
+        }
+    };
+
+    $scope.isDisable = function (tbRole) {
+        if (typeof $scope.UserRoles != 'undefined') {
+            var UserRoles = $scope.UserRoles;
+            for (var i = 0; i < UserRoles.length; i++) {
+                if (tbRole.RoleId == UserRoles[i].RoleId && UserRoles[i].Disable == true)
                     return true;
             }
 
@@ -1493,11 +1534,11 @@ app.controller("UserDetailController", function ($scope, UserDetailService, MsgS
 
             response
            .success(function (data, status, headers, config) {
-               //var Message = MsgService.makeMessage(data.ReturnMessage)
+               var Message = MsgService.makeMessage(data.ReturnMessage)
                //message('success', 'Success!', Message);
                ////default values
                //GetUserDetail($scope.S_UserId);
-               $window.location.href = '/TissueBank/User/Index?msg=success';
+               $window.location.href = '/TissueBank/User/Index?msg=' + Message;
                console.log(data);
            })
            .error(function (data, status, headers, config) {
@@ -1767,7 +1808,7 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
             }
         }
 
-       
+
 
         return err;
     }
@@ -1964,8 +2005,7 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
                 $scope.dataLoading = false;
             });
         }
-        else
-        {
+        else {
             message('error', 'Error!', err);
         }
     };
@@ -1978,11 +2018,9 @@ app.controller("TissueBankProfileController", function ($scope, TissueBankServic
 
         var currentMonth = d.getMonth();
         //0=January, 1=February etc.
-        if ($scope.expiryYear == currentYear)
-        {
-            if(currentMonth+1>expiryMonth)
-            {
-                err='Invalid Expiry Month and Year. Select again.'
+        if ($scope.expiryYear == currentYear) {
+            if (currentMonth + 1 > expiryMonth) {
+                err = 'Invalid Expiry Month and Year. Select again.'
             }
         }
 

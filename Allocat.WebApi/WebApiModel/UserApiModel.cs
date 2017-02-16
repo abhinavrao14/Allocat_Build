@@ -13,6 +13,7 @@ namespace Allocat.WebApi.WebApiModel
         public IEnumerable<sp_UserMngmt_TissueBank_GetByUserId_Result> UserDetail;
         public IEnumerable<sp_UserMngmt_GetUserRoleByUserId_Result> UserRoles;
         public IEnumerable<TissueBankRoles_TissueBank> TissueBankRoles;
+        public bool IsUserInfoAdmin;
     }
 
     public class UserMngmt_DTO

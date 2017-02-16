@@ -9,6 +9,7 @@ namespace Allocat.WebApi.WebApiModel
     public class ProductMasterApiModel : TransactionalInformation
     {
         public ProductMaster_TissueBank ProductMaster_TissueBank;
+        public ProductMaster_Hospital ProductMaster_Hospital;
 
         public ProductMasterApiModel()
         {
@@ -35,6 +36,7 @@ namespace Allocat.WebApi.WebApiModel
     public class ProductMasterGetByIdDTO
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string OperationType { get; set; }
     }
 }

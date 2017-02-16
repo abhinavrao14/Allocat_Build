@@ -52,11 +52,11 @@ namespace Allocat.UserInterface.Controllers
                     {
                         var roles = Context.sp_User_GetRoleByUserName(user.UserName).ToArray();
 
-                        var lstUser = (from u in Context.User
-                                       join e in Context.Entity on u.EntityID equals e.EntityId
-                                       join tb in Context.TissueBank on e.InfoId equals tb.TissueBankId
-                                       where u.UserId == user.UserId
-                                       select u).ToList();
+                        var ExistInfo = (from u in Context.User
+                                         join e in Context.Entity on u.EntityID equals e.EntityId
+                                         join et in Context.EntityType on e.EntityTypeId equals et.EntityTypeId
+                                         where u.UserId == user.UserId
+                                         select new { e.InfoId, et.EntityTypeName }).FirstOrDefault();
 
                         CustomPrincipalSerializeModel serializeModel = new CustomPrincipalSerializeModel();
                         serializeModel.UserId = user.UserId;
@@ -65,18 +65,17 @@ namespace Allocat.UserInterface.Controllers
 
                         List<sp_User_GetEntityInfoByUserName_Result> EntityInfo = new List<sp_User_GetEntityInfoByUserName_Result>();
 
-                        if (lstUser.Count != 0)
+                        if (ExistInfo.InfoId != null)
                         {
                             EntityInfo = Context.sp_User_GetEntityInfoByUserName(user.UserName).ToList();
                         }
                         else
                         {
                             sp_User_GetEntityInfoByUserName_Result obj = new sp_User_GetEntityInfoByUserName_Result();
-                            obj.InfoType = "TISSUEBANK";
+                            obj.InfoType = ExistInfo.EntityTypeName;
                             obj.InfoId = 0;
                             obj.InfoName = "";
                             EntityInfo.Add(obj);
-
                         }
 
                         serializeModel.InfoType = EntityInfo[0].InfoType;

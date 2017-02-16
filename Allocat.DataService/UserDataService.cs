@@ -159,6 +159,7 @@ namespace Allocat.DataService
                 if (OperationType == "changePass")
                 {
                     EffectedUserId = UserId;
+                    transaction.ReturnMessage.Add("Password is changed successfully.");
                 }
                 else if (OperationType == "insert")
                 {
@@ -166,10 +167,22 @@ namespace Allocat.DataService
                                  where u.UserName == UserName
                                  select u).FirstOrDefault();
                     EffectedUserId = user.UserId;
-                }
 
+                    transaction.ReturnMessage.Add("User is added successfully.");
+                }
+                else if (OperationType == "delete")
+                {
+                    transaction.ReturnMessage.Add("User is deleted successfully.");
+                }
+                else if (OperationType == "UserUpdate")
+                {
+                    transaction.ReturnMessage.Add("Your details are added successfully.");
+                }
+                else if (OperationType == "update")
+                {
+                    transaction.ReturnMessage.Add("User is updated successfully.");
+                }
                 transaction.ReturnStatus = true;
-                transaction.ReturnMessage.Add("Operation is executed successfully.");
             }
             else
             {
@@ -271,5 +284,31 @@ namespace Allocat.DataService
             }
         }
 
+        public bool IsUserInfoAdmin(string InfoType, int UserId, int InfoId, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            bool? IsUserInfoAdmin = dbConnection.usp_IsUserEntityAdmin(InfoType, UserId, InfoId).FirstOrDefault();
+
+            if (IsUserInfoAdmin != null)
+            {
+                transaction.ReturnStatus = true;
+                if (IsUserInfoAdmin==true)
+                {
+                    transaction.ReturnMessage.Add("User is Info Admin");
+                    return true;
+                }
+                else
+                {
+                    transaction.ReturnMessage.Add("User is not Info Admin");
+                    return false;
+                }
+            }
+            else {
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add("Database error");
+                return false;
+            }
+        }
     }
 }

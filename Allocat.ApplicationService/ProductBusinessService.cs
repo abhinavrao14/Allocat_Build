@@ -236,9 +236,8 @@ namespace Allocat.ApplicationService
             catch (Exception ex)
             {
                 transaction.ReturnMessage = new List<string>();
-                string errorMessage = ex.Message;
                 transaction.ReturnStatus = false;
-                transaction.ReturnMessage.Add(errorMessage);
+                transaction.ReturnMessage.Add(ex.Message);
             }
             finally
             {
@@ -249,5 +248,105 @@ namespace Allocat.ApplicationService
         }
 
 
+
+        //HOSPITAL
+        public List<usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result> GetProductSubstitutesByProductMasterName_Hospital(string ProductMasterName, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            List<usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result> ProductSubstitutes = null;
+
+            try
+            {
+                _productDataService.CreateSession();
+                ProductSubstitutes = _productDataService.GetProductSubstitutesByProductMasterName_Hospital(ProductMasterName, out transaction);
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(ex.Message);
+            }
+            finally
+            {
+                _productDataService.CloseSession();
+            }
+
+            return ProductSubstitutes;
+        }
+
+        public List<usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital_Result> GetProductVariationsByProductMasterName_Hospital(string ProductMasterName, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            List<usp_TissueBankProduct_GetProductVariationsByProductMasterName_Hospital_Result> ProductVariations = null;
+
+            try
+            {
+                _productDataService.CreateSession();
+                ProductVariations = _productDataService.GetProductVariationsByProductMasterName_Hospital(ProductMasterName, out transaction);
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(ex.Message);
+            }
+            finally
+            {
+                _productDataService.CloseSession();
+            }
+
+            return ProductVariations;
+        }
+
+        public List<usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result> GetTbOfferingForTissueBankProduct_Hospital(string ProductMasterName, string ProductType, string ProductSize, string PreservationType, string SourceName, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            List<usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result> TbOfferings = null;
+
+            try
+            {
+                _productDataService.CreateSession();
+                TbOfferings = _productDataService.GetTbOfferingForTissueBankProduct_Hospital(ProductMasterName, ProductType, ProductSize, PreservationType, SourceName, out transaction);
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(ex.Message);
+            }
+            finally
+            {
+                _productDataService.CloseSession();
+            }
+
+            return TbOfferings;
+        }
+
+        public List<Product_Hospital> GetAllProductMasters(out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            List<Product_Hospital> AllProductMasters = null;
+
+            try
+            {
+                _productDataService.CreateSession();
+                AllProductMasters = _productDataService.GetAllProductMasters(out transaction);
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(ex.Message);
+            }
+            finally
+            {
+                _productDataService.CloseSession();
+            }
+
+            return AllProductMasters;
+        }
     }
 }

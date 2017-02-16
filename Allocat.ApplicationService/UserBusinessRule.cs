@@ -106,5 +106,15 @@ namespace Allocat.ApplicationService
         {
 
         }
+
+        public void ValidateIsUserInfoAdmin(int UserId, int InfoId, string EntityTypeName)
+        {
+            ValidateRequired(UserId, "UserId");
+            ValidateRequired(InfoId, "InfoId");
+            ValidateRequired(EntityTypeName, "EntityTypeName");
+
+            ValidateNumeric(UserId, "UserId");
+            ValidateNumeric(InfoId, "InfoId");
+        }
     }
 }
