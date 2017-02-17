@@ -1,23 +1,173 @@
-﻿@{
+﻿@using ResDefaultValues = Allocat.UserInterface.Resources.ResDefaultValues
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 <script src="~/Assets/js/customJs/Hospital/HospitalController.js"></script>
 <script src="~/Assets/js/customJs/Hospital/HospitalService.js"></script>
+<link href="~/Assets/css/lib/trix.css" rel="stylesheet" />
 <div ng-controller="RFQCreateHospitalController">
     @{
         int i = 0;
     }
     @foreach (int TissueBankProductId in ViewBag.SelectedTissueBankProductIds)
-        {
-            i = i + 1;
-            <input type="hidden" id="TissueBankProductId+@i" value="@TissueBankProductId" />
-        }
+    {
+        i = i + 1;
+        <input type="hidden" id="TissueBankProductId+@i" value="@TissueBankProductId" />
+    }
 
     <input type="hidden" id="count" value="@i" />
 
-    <div ng-repeat="TissueBankProductId in TissueBankProductIds">
-        <input value="{{TissueBankProductId}}" type="text" />
-    </div>
-</div>
 
+    <div class="loading-spiner-holder customloader" id="loadingDiv" data-loading>
+        <div class="loading-spiner">
+            <img src="~/Assets/image/spin.gif" />
+        </div>
+    </div>
+    @if (@ViewBag.user.InfoId != null)
+    {
+        <input type="hidden" for="RequestForQuoteId" id="RequestForQuoteId" value="@ViewBag.RequestForQuoteId" />
+        <input type="hidden" for="HospitalId" id="HospitalId" value="@ViewBag.user.InfoId" />
+        <input type="hidden" for="UserId" id="UserId" value="@ViewBag.user.UserId" />
+        <input type="hidden" for="InfoType" id="InfoType" value="@ViewBag.user.InfoType" />
+        <input type="hidden" for="ResRFQSalesTaxPercentage" id="ResRFQSalesTaxPercentage" value="@ResDefaultValues.RFQSalesTaxPercentage" />
+    }
+    <ul class="breadcrumb breadcrumb-page">
+        <div class="breadcrumb-label text-light-gray">You are here: </div>
+        <li>
+            <a tabindex="-1" href="@Url.Action("Index", "Home", new { Area = "TissueBank" })">
+                <span class="mm-text"><u>Home</u></span>
+            </a>
+        </li>
+        <li class="active"><a href=""><u>Reports Panel</u></a></li>
+        <li class="active">
+            <a tabindex="-1" href="@Url.Action("Index", "RequestForQuote", new { Area = "TissueBank" })">
+                <span class="mm-text"><u>RFQ</u></span>
+            </a>
+        </li>
+        <li class="active"><a href="">Manage RFQ</a></li>
+    </ul>
+    <div class="page-header">
+        <div class="row">
+            <!-- Page header, center on small screens -->
+            <h1 class="col-sm-4 text-center text-left-sm">Create RFQ</h1>
+        </div>
+    </div>
+    <div style="float:right">
+        <a href="#">View Complete Product Details</a>
+    </div>
+    <form name="form_ConfirmOnExit" confirm-on-exit ng-submit="submitResponse()">
+        <div class="panel">
+            <div class="panel-body panel-padding">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span>
+                            <b style="padding-right:15px;">Status: </b>
+                            Pending
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="margin-bottom:30px;">
+            <div class="col-md-12">
+                <table class="table table-striped" id="tablestyle" style="text-align:left; min-height:230px;">
+                    <thead id="headerstyle">
+                        <tr>
+                            <th></th>
+                            <th>ProductCode</th>
+                            <th>ProductDescription</th>
+                            <th>Quantity</th>
+                            <th>UnitPrice</th>
+                            <th>Line Total</th>
+                            <th>Sales Tax</th>
+                            <th>Total</th>
+                            <th>Remark</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="TbOfferingForRFQ in TbOfferingsForRFQ">
+                            <td><input type="checkbox" checked="checked" ng-click="TbOfferingForRFQChecked(TbOfferingForRFQ)" /></td>
+                            <td>{{TbOfferingForRFQ.ProductCode}}</td>
+                            <td>{{TbOfferingForRFQ.ProductDescription}}</td>
+                            <td>{{TbOfferingForRFQ.Quantity}}</td>
+                            <td>{{TbOfferingForRFQ.UnitPrice | currency}}</td>
+                            <td>{{TbOfferingForRFQ.LineTotal | currency}}</td>
+                            <td>{{TbOfferingForRFQ.SalesTax | currency}}</td>
+                            <td>{{TbOfferingForRFQ.Total | currency}}</td>
+                            <td>{{TbOfferingForRFQ.Remark}}</td>
+                        </tr>
+                    </tbody>
+                    </table>
+            </div>
+        </div>
+
+        <div class="row" style="margin-bottom:30px;">
+            <div class="col-md-12">
+                <table class="table table-striped" id="tablestyle" style="text-align:left;">
+                    <thead id="headerstyle">
+                        <tr>
+                            <th colspan="4"> Product Requested</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td id="padding"><b>Quantity</b></td>
+                        <td>
+                            <input type="number" ng-model="Quantity" name="Quantity" ng-required="true" ng-change="CalculateTbPrice(Quantity)" /><br />
+                            <span class="error-msg" ng-show="form_ConfirmOnExit.Quantity.$error.required">Please enter desired quantity</span>
+                        </td>
+                        <td id="padding"><b>Needed By Date</b></td>
+                        <td><input ng-model="NeedByDate" id="RFQNeedByDatePicker" datetime-picker="" date-format="yyyy-MM-dd" close-on-select="false" size="30" class="ng-pristine ng-valid ng-valid-date ng-touched"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <span><b>Clinical Question</b></span>
+                        </div>
+                        <div class="panel-body">
+                            <span class="error-msg" ng-show="form_ConfirmOnExit.trix.$error.required">Please write your request</span>
+                            <trix-editor style="height: 176px;overflow: auto;" spellcheck="true" name="trix" ng-required="true" class="trix-content" ng-model="trix" angular-trix trix-initialize="trixInitialize(e, editor);" trix-change="trixChange(e, editor);" placeholder="Write something.."></trix-editor><br />
+                            {{UploadedAttachmentName}}
+                            <span ng-if="!UploadedAttachmentName">{{UploadedAttachmentName}}</span>
+                            <eg-photo-uploader></eg-photo-uploader>
+                            <div class="col-md-3 hidden-sm hidden-xs" style="width: 150px; margin-bottom: 5px;">
+                                <img ng-src="album/{{vm.previewPhoto.name}}" style="max-height: 150px" ng-show="vm.previewPhoto" class="img-responsive" alt="vm.previewPhoto.name" />
+                            </div>
+                            <div class="col-md-12">
+                                <eg-app-status></eg-app-status>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12" style="text-align:center">
+                <button type="submit" class="btn btn-success" ng-disabled="form_ConfirmOnExit.$invalid || SelectedTbOfferingsForRFQ.length==0" >Submit Response</button>
+                <button type="button" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="notifies" notifybar></div>
+    <modal2 id="modal-Ack" class="modal fade" role="dialog" visible="showModal">
+        <div class="modal-header">
+            <h4 class="modal-title">Attachment Alert!</h4>
+        </div>
+        <div class="modal-body">
+            <div class="bootbox-body">
+                <p style="color:red">To send an attachment in response, you need to write something in reply box.</p>
+                You have an attachment attached right now.Do you want to discard the attachment and update this request for quote?
+                <button type="button" class="btn btn-primary" ng-click="ConfirmSubmit()">ConfirmAcknowledge</button>
+                <button type="button" ng-click="CancelSubmit()" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </modal2>
+
+</div>

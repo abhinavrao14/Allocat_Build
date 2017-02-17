@@ -478,7 +478,7 @@ app.controller("ProductManageHospitalController", function ($scope, Product_Hosp
     };
 
     $scope.SendRFQ = function () {
-        $window.location.href = '/Hospital/RequestForQuote/Create?TBPIds=' + SelectedTissueBankProductIds;
+        $window.location.href = '/Hospital/RF/Index?TBPIds=' + SelectedTissueBankProductIds;
     };
 
     function message(type, title, content) {
@@ -492,26 +492,209 @@ app.controller("ProductManageHospitalController", function ($scope, Product_Hosp
 });
 
 
-app.controller("RFQCreateHospitalController", function ($scope, Product_HospitalService, ProductMasterService, $window, MsgService, ResourceService, $timeout, $q, $log, $http) {
-        var SelectedTissueBankProductIds = [];
-        var count = document.getElementById("count").value;
-        $scope.TissueBankProductIds=[];
-        for (var i=1;i<=count;++i)
-        {
-            var value = document.getElementById("TissueBankProductId+" + i).value;
-            $scope.TissueBankProductIds.push(value);
-        }
+app.controller("RFQCreateHospitalController", function ($scope, RFQHospitalService, ProductMasterService,appInfo, $window, MsgService, ResourceService, $timeout, $q, $log, $http) {
 
-});
-app.filter('updateById', function () {
-    return function (input, id, data) {
-        var i = 0, len = input.length;
-        for (; i < len; i++) {
-            if (+input[i].HospitalProductId == +id) {
-                input[i].ProductDescription = data;
-                return input;
+    var count = document.getElementById("count").value;
+    var RFQSalesTaxPercentage = document.getElementById("ResRFQSalesTaxPercentage").value;
+    $scope.HospitalId = document.getElementById("HospitalId").value;
+
+    $scope.CreatedBy = document.getElementById("UserId").value;
+    $scope.LastModifiedBy = document.getElementById("UserId").value;
+    $scope.webApiRootPath = ResourceService.webApiRootPath;
+    $scope.webApiContentRootPath = ResourceService.webApiContentRootPath;
+    $scope.dataLoading = true;
+    $scope.SelectedTbOfferingsForRFQ = [];
+
+    appInfo.setInfo({ message: "No file selected." });
+    appInfo.setInfo({ busy: false });
+
+    var InfoType = document.getElementById("InfoType").value;
+    if (InfoType != "") {
+        $scope.InfoType = InfoType;
+    }
+    $scope.TissueBankProductIds = [];
+
+    for (var i=1;i<=count;++i)
+    {
+        var value = document.getElementById("TissueBankProductId+" + i).value;
+        $scope.TissueBankProductIds.push(value);
+    }
+
+    GetTbOfferingsForRFQ();
+
+    function GetTbOfferingsForRFQ() {
+
+        var product_Hospital_DTO = {
+            OperationType: "GetTbOfferingForRFQ",
+            TissueBankProductIds: $scope.TissueBankProductIds
+        };
+
+        var response = RFQHospitalService.Get(product_Hospital_DTO);
+
+        response
+       .success(function (data, status, headers, config) {
+           var str = data.ReturnMessage[0];
+           var arr = str.split(" ");
+           $scope.TotalTbOfferingsForRFQ = arr[0];
+
+           $scope.TbOfferingsForRFQ = data.TbOfferingsForRFQ;
+
+           //setting default values
+           for (var i = 0; i < $scope.TbOfferingsForRFQ.length; ++i)
+           {
+               $scope.TbOfferingsForRFQ[i].Quantity = 0;
+               $scope.TbOfferingsForRFQ[i].LineTotal = 0;
+               $scope.TbOfferingsForRFQ[i].SalesTax = 0;
+               $scope.TbOfferingsForRFQ[i].Total = 0;
+           }
+
+           $scope.SelectedTbOfferingsForRFQ = $scope.TbOfferingsForRFQ.slice();
+           console.log('SelectedTbOfferingsForRFQ' + $scope.SelectedTbOfferingsForRFQ.length);
+       })
+       .error(function (data, status, headers, config) {
+           var Message = MsgService.makeMessage(data.ReturnMessage)
+           message('error', 'Error!', Message);
+       });
+    }
+
+
+    $scope.CalculateTbPrice = function (Quantity) {
+        if ($scope.SelectedTbOfferingsForRFQ.length > 0) {
+            for (var i = 0; i < $scope.SelectedTbOfferingsForRFQ.length; ++i) {
+                $scope.SelectedTbOfferingsForRFQ[i].Quantity = Quantity;
+                $scope.SelectedTbOfferingsForRFQ[i].LineTotal = $scope.SelectedTbOfferingsForRFQ[i].Quantity * $scope.SelectedTbOfferingsForRFQ[i].UnitPrice;
+                $scope.SelectedTbOfferingsForRFQ[i].SalesTax = ($scope.SelectedTbOfferingsForRFQ[i].LineTotal * RFQSalesTaxPercentage) / 100;
+                $scope.SelectedTbOfferingsForRFQ[i].Total = $scope.SelectedTbOfferingsForRFQ[i].LineTotal + $scope.SelectedTbOfferingsForRFQ[i].SalesTax;
             }
         }
-        return null;
+        else
+        {
+            message('error', 'Error!', 'Select atleast one tissue bank');
+            $scope.Quantity = '';
+        }
+        //$scope.SelectedTbOfferingsForRFQ = $scope.TbOfferingsForRFQ.slice();
+        console.log('SelectedTbOfferingsForRFQ' + $scope.SelectedTbOfferingsForRFQ.length);
+    };
+
+    $scope.TbOfferingForRFQChecked = function (TbOfferingForRFQ) {
+        var found = false;
+        var i;
+        for (i = 0; i < $scope.SelectedTbOfferingsForRFQ.length; i++) {
+            if ($scope.SelectedTbOfferingsForRFQ[i] == TbOfferingForRFQ) {
+                found = true;
+                break;
+            }
+        }
+        if (found == true) {
+            $scope.SelectedTbOfferingsForRFQ.splice(i, 1);
+        }
+        else {
+            $scope.SelectedTbOfferingsForRFQ.push(TbOfferingForRFQ);
+
+            $scope.SelectedTbOfferingsForRFQ[i].Quantity = $scope.Quantity;
+            $scope.SelectedTbOfferingsForRFQ[i].LineTotal = $scope.SelectedTbOfferingsForRFQ[i].Quantity * $scope.SelectedTbOfferingsForRFQ[i].UnitPrice;
+            $scope.SelectedTbOfferingsForRFQ[i].SalesTax = ($scope.SelectedTbOfferingsForRFQ[i].LineTotal * RFQSalesTaxPercentage) / 100;
+            $scope.SelectedTbOfferingsForRFQ[i].Total = $scope.SelectedTbOfferingsForRFQ[i].LineTotal + $scope.SelectedTbOfferingsForRFQ[i].SalesTax;
+        }
+
+        if ($scope.SelectedTbOfferingsForRFQ.length == 0)
+        {
+            $scope.Quantity = '';
+        }
+
+        console.log('SelectedTbOfferingsForRFQ' + $scope.SelectedTbOfferingsForRFQ.length);
+    };
+
+    function message(type, title, content) {
+        var notify = {
+            type: type,
+            title: title,
+            content: content
+        };
+        $scope.$emit('notify', notify);
+    }
+
+
+
+    $scope.trixChange = function (e, editor) {
+        var document = editor.getDocument()
+        $scope.RequestBody = document.toString();
+    }
+
+    $scope.submitResponse = function () {
+        if ($window.UploadedAttachmentName != null && $window.UploadedAttachmentName != "") {
+            if ($scope.RequestBody == null || $scope.RequestBody == '') {
+                $scope.showModal = true;
+            }
+            else {
+                console.log('attachment with reply')
+                SubmitResponse(2);
+            }
+        }
+        else {
+            console.log('no attachment')
+            SubmitResponse(2);
+        }
+    };
+
+    $scope.CancelSubmit = function () {
+        $scope.showModal = false;
+    }
+
+    $scope.ConfirmSubmit = function () {
+        $scope.showModal = false;
+        SubmitResponse(2);
+    };
+
+    function ResetPhoto($scope) {
+        $window.UploadedAttachmentName = null;
+        $scope.showModal = false;
+        appInfo.setInfo({ message: "No file selected." });
+        appInfo.setInfo({ busy: false });
+    };
+
+    $scope.DeclineRFQ = function () {
+        SubmitResponse(6);
+    };
+
+    function SubmitResponse(StatusId) {
+        if ($scope.SelectedTbOfferingsForRFQ.NeedByDate != '' && $scope.SelectedTbOfferingsForRFQ.NeedByDate != null) {
+            if (isNaN(Date.parse($scope.SelectedTbOfferingsForRFQ.NeedByDate))) {
+                message('error', 'Error!', 'Invalid Need By Date');
+                console.log('Invalid date');
+                return;
+            }
+        }
+
+        for (var i = 0; i < $scope.SelectedTbOfferingsForRFQ.length; ++i) {
+
+            $scope.SelectedTbOfferingsForRFQ[i].LastModifiedBy = $scope.LastModifiedBy;
+            $scope.SelectedTbOfferingsForRFQ[i].CreatedBy = $scope.CreatedBy;
+            $scope.SelectedTbOfferingsForRFQ[i].LastModifiedDate = new Date();
+            $scope.SelectedTbOfferingsForRFQ[i].CreatedDate = new Date();
+            $scope.SelectedTbOfferingsForRFQ[i].AttachmentName = $window.UploadedAttachmentName;
+            $scope.SelectedTbOfferingsForRFQ[i].RequestBody = $scope.RequestBody;
+            $scope.SelectedTbOfferingsForRFQ[i].StatusId = StatusId;
+            $scope.SelectedTbOfferingsForRFQ[i].NeedByDate = $scope.NeedByDate;
+            $scope.SelectedTbOfferingsForRFQ[i].HospitalId = $scope.HospitalId;
+        }
+        
+        console.log($scope.SelectedTbOfferingsForRFQ);
+
+        var response = RFQHospitalService.saveTbOfferingsForRFQ($scope.SelectedTbOfferingsForRFQ);
+
+        ResetPhoto($scope);
+
+        response
+       .success(function (data, status, headers, config) {
+           //redirect to RFQ index page with message from DB
+           console.log(data);
+           //var Message = MsgService.makeMessage(data.ReturnMessage)
+           //message('success', 'Success!', Message);
+       })
+       .error(function (data, status, headers, config) {
+           var Message = MsgService.makeMessage(data.ReturnMessage)
+           message('error', 'Error!', Message);
+       });
     }
 });

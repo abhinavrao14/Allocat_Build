@@ -972,24 +972,34 @@
             var productMasterNameParameter = productMasterName != null ?
                 new SqlParameter("ProductMasterName", productMasterName) :
                 new SqlParameter("ProductMasterName", typeof(string));
-    
+
             var productTypeParameter = productType != null ?
                 new SqlParameter("ProductType", productType) :
                 new SqlParameter("ProductType", typeof(string));
-    
+
             var productSizeParameter = productSize != null ?
                 new SqlParameter("ProductSize", productSize) :
                 new SqlParameter("ProductSize", typeof(string));
-    
+
             var preservationTypeParameter = preservationType != null ?
                 new SqlParameter("PreservationType", preservationType) :
                 new SqlParameter("PreservationType", typeof(string));
-    
+
             var sourceNameParameter = sourceName != null ?
                 new SqlParameter("SourceName", sourceName) :
                 new SqlParameter("SourceName", typeof(string));
-    
+
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteStoreQuery<usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result>("usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital @ProductMasterName , @ProductType , @ProductSize , @PreservationType , @SourceName", productMasterNameParameter, productTypeParameter, productSizeParameter, preservationTypeParameter, sourceNameParameter);
+        }
+
+        public virtual int usp_TissueBank_Hospital_GetTbOfferingForRFQ()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_TissueBank_Hospital_GetTbOfferingForRFQ");
+        }
+
+        public virtual int usp_RequestForQuote_Hospital_Create()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_RequestForQuote_Hospital_Create");
         }
     }
 }

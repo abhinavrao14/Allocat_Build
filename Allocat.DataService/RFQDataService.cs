@@ -55,7 +55,7 @@ namespace Allocat.DataService
                                 select rfq).Count();
 
             transaction.ReturnStatus = true;
-            transaction.ReturnMessage.Add(numberOfRows.ToString()+ " Request For Quote found.");
+            transaction.ReturnMessage.Add(numberOfRows.ToString() + " Request For Quote found.");
 
             return lstRfq;
         }
@@ -63,7 +63,7 @@ namespace Allocat.DataService
         public void RequestForQuote_Edit(int TissueBankId, string ResponseBody, string AttachmentName, int CreatedBy, int LastModifiedBy, int RequestForQuoteId, int StatusId, string DeclineRemark, int Quantity, decimal UnitPrice, decimal LineTotal, decimal SalesTax, decimal Total, DateTime? TissueBankSendByDate, string ShippingMethod, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
-            IEnumerable<string> IEmessage = dbConnection.sp_RequestForQuote_TissueBank_Edit( TissueBankId, ResponseBody, AttachmentName,  CreatedBy,  LastModifiedBy,  RequestForQuoteId,  StatusId, DeclineRemark,  Quantity,  UnitPrice,  LineTotal,  SalesTax,  Total,  TissueBankSendByDate, ShippingMethod);
+            IEnumerable<string> IEmessage = dbConnection.sp_RequestForQuote_TissueBank_Edit(TissueBankId, ResponseBody, AttachmentName, CreatedBy, LastModifiedBy, RequestForQuoteId, StatusId, DeclineRemark, Quantity, UnitPrice, LineTotal, SalesTax, Total, TissueBankSendByDate, ShippingMethod);
 
             string message = IEmessage.FirstOrDefault();
 
@@ -140,7 +140,7 @@ namespace Allocat.DataService
             //    parameterShippingMethod.Value = DBNull.Value;
 
             //rowAffected = dbConnection.Database.ExecuteSqlCommand("exec dbo.sp_RequestForQuote_TissueBank_Edit @TissueBankId,@ResponseBody,@AttachmentName,@CreatedBy,@LastModifiedBy,@RequestForQuoteId,@StatusId,@DeclineRemark,@Quantity,@UnitPrice,@LineTotal,@SalesTax,@Total,@TissueBankSendByDate,@ShippingMethod", parameterTissueBankId, parameterResponseBody, parameterAttachmentName, parameterCreatedBy, parameterLastModifiedBy, parameterRequestForQuoteId, parameterStatusId, parameterDeclineRemark, parameterQuantity, parameterUnitPrice, parameterLineTotal, parameterSalesTax, parameterTotal, parameterTissueBankSendByDate, parameterShippingMethod);
- 
+
             //if (rowAffected > 0)
             //{
             //    transaction.ReturnStatus = true;
@@ -171,6 +171,28 @@ namespace Allocat.DataService
             {
                 return false;
             }
+        }
+
+
+        //hospital
+        public void RequestForQuote_Hospital_Create(DataTable temp_RequestForQuote_Hospital_Create, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+            var parameter = new SqlParameter("@temp", SqlDbType.Structured);
+            parameter.Value = temp_RequestForQuote_Hospital_Create;
+            parameter.TypeName = "dbo.temp_RequestForQuote_Hospital_Create";
+
+            string message = dbConnection.Database.SqlQuery<string>("usp_RequestForQuote_Hospital_Create @temp", parameter).FirstOrDefault();
+
+            if (message.Contains("Error"))
+            {
+                transaction.ReturnStatus = false;
+            }
+            else
+            {
+                transaction.ReturnStatus = true;
+            }
+            transaction.ReturnMessage.Add(message);
         }
     }
 }

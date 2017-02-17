@@ -16,5 +16,10 @@ namespace Allocat.DataServiceInterface
         void RequestForQuote_Edit(int TissueBankId, string ResponseBody, string AttachmentName, int CreatedBy, int LastModifiedBy, int RequestForQuoteId, int StatusId, string DeclineRemark, int Quantity, decimal UnitPrice, decimal LineTotal, decimal SalesTax, decimal Total, DateTime? TissueBankSendByDate, string ShippingMethod, out TransactionalInformation transaction);
 
         bool ValidRFQRequest(int RFQId, int TissueBankId);
+
+
+        //hospital
+        void RequestForQuote_Hospital_Create(DataTable temp_RequestForQuote_Hospital_Create, out TransactionalInformation transaction);
+
     }
 }

@@ -60,6 +60,13 @@ namespace Allocat.WebApi.Controllers
 
                 product_HospitalApiModel.TbOfferings = TbOfferings;
             }
+            else  if (product_Hospital_DTO.OperationType == "GetTbOfferingForRFQ")
+            {
+                List<TbOfferingForRFQ_Hospital> TbOfferingsForRFQ = productBusinessService.GetTbOfferingForRFQ
+                (product_Hospital_DTO.TissueBankProductIds, out transaction);
+
+                product_HospitalApiModel.TbOfferingsForRFQ = TbOfferingsForRFQ;
+            }
 
             product_HospitalApiModel.ReturnStatus = transaction.ReturnStatus;
             product_HospitalApiModel.ReturnMessage = transaction.ReturnMessage;

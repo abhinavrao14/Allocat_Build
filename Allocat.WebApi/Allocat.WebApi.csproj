@@ -202,6 +202,7 @@
     <Compile Include="Controllers\ProductTypeController.cs" />
     <Compile Include="Controllers\RequestResponseController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\RFQHospitalController.cs" />
     <Compile Include="Controllers\RFQController.cs" />
     <Compile Include="Controllers\SourceController.cs" />
     <Compile Include="Controllers\HospitalTypeController.cs" />
@@ -229,6 +230,7 @@
     <Compile Include="WebApiModel\ProductMasterApiModel.cs" />
     <Compile Include="WebApiModel\Order_TissueBankApiModel.cs" />
     <Compile Include="WebApiModel\Product_HospitalApiModel.cs" />
+    <Compile Include="WebApiModel\RFQ_HospitalApiModel.cs" />
     <Compile Include="WebApiModel\RFQ_TissueBankApiModel.cs" />
     <Compile Include="WebApiModel\Product_TissueBankApiModel.cs" />
     <Compile Include="WebApiModel\HospitalApiModel.cs" />

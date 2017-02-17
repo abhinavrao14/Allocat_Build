@@ -1197,6 +1197,7 @@
         <Function Name="usp_ProductMaster_GetBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SearchBy" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="usp_RequestForQuote_Hospital_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="usp_TissueBank_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TissueBankName" Type="nvarchar" Mode="In" />
           <Parameter Name="ContactPersonFirstName" Type="nvarchar" Mode="In" />
@@ -1234,6 +1235,7 @@
         <Function Name="usp_TissueBank_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="TissuebankId" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_TissueBank_Hospital_GetTbOfferingForRFQ" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="usp_TissueBank_UpdateTissueBankBillingDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="ContactPersonFirstName" Type="nvarchar" Mode="In" />
           <Parameter Name="ContactPersonLastName" Type="nvarchar" Mode="In" />
@@ -3174,6 +3176,8 @@
             <Parameter Name="PreservationType" Mode="In" Type="String" />
             <Parameter Name="SourceName" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="usp_TissueBank_Hospital_GetTbOfferingForRFQ" />
+          <FunctionImport Name="usp_RequestForQuote_Hospital_Create" />
         </EntityContainer>
         <ComplexType Name="sp_Order_TissueBank_GetByTissueBankId_Result">
           <Property Type="Int64" Name="Sno" Nullable="true" />
@@ -4270,6 +4274,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_TissueBank_Hospital_GetTbOfferingForRFQ" FunctionName="AllocatDbModel.Store.usp_TissueBank_Hospital_GetTbOfferingForRFQ" />
+          <FunctionImportMapping FunctionImportName="usp_RequestForQuote_Hospital_Create" FunctionName="AllocatDbModel.Store.usp_RequestForQuote_Hospital_Create" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

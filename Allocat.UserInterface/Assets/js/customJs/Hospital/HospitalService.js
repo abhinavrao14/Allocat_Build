@@ -25,3 +25,28 @@ app.service("Product_HospitalService", function ($http, ResourceService) {
         return response;
     };
 });
+
+app.service("RFQHospitalService", function ($http, ResourceService) {
+
+    this.Get = function (product_Hospital_DTO) {
+        var response = $http({
+            method: "Get",
+            url: ResourceService.webApiRootPath + "ProductHospital",
+            params: product_Hospital_DTO
+        });
+        return response;
+    };
+
+    this.saveTbOfferingsForRFQ = function (TbOfferingsForRFQ) {
+        var response = $http({
+            url: ResourceService.webApiRootPath + "RFQHospital",
+            dataType: 'json',
+            method: 'POST',
+            data: TbOfferingsForRFQ,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        return response;
+    };
+});

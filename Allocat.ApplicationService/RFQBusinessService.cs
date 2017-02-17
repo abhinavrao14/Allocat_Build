@@ -2,7 +2,7 @@
 using Allocat.DataServiceInterface;
 using System;
 using System.Collections.Generic;
-
+using System.Data;
 
 namespace Allocat.ApplicationService
 {
@@ -131,6 +131,44 @@ namespace Allocat.ApplicationService
                 //    transaction.ValidationErrors = productBusinessRule.ValidationErrors;
                 //}
 
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                string errorMessage = ex.Message;
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(errorMessage);
+            }
+            finally
+            {
+                rfqDataService.CloseSession();
+            }
+        }
+
+
+        //hospital
+        public void RequestForQuote_Hospital_Create(DataTable temp_RequestForQuote_Hospital_Create, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            RFQBusinessRule rFQBusinessRule = new RFQBusinessRule(rfqDataService);
+
+            try
+            {
+                rfqDataService.CreateSession();
+
+                rFQBusinessRule.ValidateTemp_RequestForQuote_Hospital_Create(temp_RequestForQuote_Hospital_Create);
+
+                if (rFQBusinessRule.ValidationStatus == true)
+                {
+                    rfqDataService.RequestForQuote_Hospital_Create(temp_RequestForQuote_Hospital_Create, out transaction);
+                }
+                else
+                {
+                    transaction.ReturnStatus = rFQBusinessRule.ValidationStatus;
+                    transaction.ReturnMessage = rFQBusinessRule.ValidationMessage;
+                    transaction.ValidationErrors = rFQBusinessRule.ValidationErrors;
+                }
             }
             catch (Exception ex)
             {

@@ -189,6 +189,7 @@
     <Compile Include="TaggedNotification.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="TbOfferingForRFQ_Hospital.cs" />
     <Compile Include="TissueBank.cs">
       <DependentUpon>AllocatDbContext.tt</DependentUpon>
     </Compile>

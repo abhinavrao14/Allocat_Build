@@ -46,7 +46,7 @@ namespace Allocat.ApplicationService
             return lstTbProductMasters;
         }
 
-        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> GetTissueBankProductsByTissueBankProductMasterId(int TissueBankProductMasterId,int InfoId,string InfoType, out TransactionalInformation transaction)
+        public IEnumerable<sp_TissueBankProduct_TissueBank_GetTissueBankProductsByTissueBankProductMasterId_Result> GetTissueBankProductsByTissueBankProductMasterId(int TissueBankProductMasterId, int InfoId, string InfoType, out TransactionalInformation transaction)
         {
             transaction = new TransactionalInformation();
 
@@ -347,6 +347,42 @@ namespace Allocat.ApplicationService
             }
 
             return AllProductMasters;
+        }
+
+
+        public List<TbOfferingForRFQ_Hospital> GetTbOfferingForRFQ(int[] TissueBankProductIds, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            List<TbOfferingForRFQ_Hospital> TbOfferingsForRFQ = null;
+
+            try
+            {
+                _productDataService.CreateSession();
+
+                //convert array into datatable
+                DataTable dtTissueBankProductId = new DataTable();
+                dtTissueBankProductId.Columns.Add("TissueBankProductId", typeof(int));
+
+                foreach (int TissueBankProductId in TissueBankProductIds)
+                {
+                    dtTissueBankProductId.Rows.Add(TissueBankProductId);
+                }
+
+                TbOfferingsForRFQ = _productDataService.GetTbOfferingForRFQ(dtTissueBankProductId, out transaction);
+            }
+            catch (Exception ex)
+            {
+                transaction.ReturnMessage = new List<string>();
+                transaction.ReturnStatus = false;
+                transaction.ReturnMessage.Add(ex.Message);
+            }
+            finally
+            {
+                _productDataService.CloseSession();
+            }
+
+            return TbOfferingsForRFQ;
         }
     }
 }

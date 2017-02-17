@@ -5,6 +5,7 @@ using System.Linq;
 using Allocat.DataModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Allocat.DataService
 {
@@ -217,6 +218,31 @@ namespace Allocat.DataService
 
             return AllProductMasters;
         }
+
+        public List<TbOfferingForRFQ_Hospital> GetTbOfferingForRFQ(DataTable dtTissueBankProductId, out TransactionalInformation transaction)
+        {
+            transaction = new TransactionalInformation();
+
+            //DataTable dt = new DataTable();
+            //dt.Columns.Add("TissueBankProductId", typeof(int));
+            //dt.Rows.Add(1031);
+            //dt.Rows.Add(1032);
+          
+            var parameter = new SqlParameter("@temp", SqlDbType.Structured);
+            parameter.Value = dtTissueBankProductId;
+            parameter.TypeName = "dbo.temp_TissueBankProductId";
+
+            var result = dbConnection.Database.SqlQuery<TbOfferingForRFQ_Hospital>("usp_TissueBank_Hospital_GetTbOfferingForRFQ @temp",parameter).ToList();
+
+            List<TbOfferingForRFQ_Hospital> TbOfferingsForRFQ = result.ToList();
+
+            transaction.ReturnStatus = true;
+            transaction.ReturnMessage.Add(TbOfferingsForRFQ.Count + " Tb Offerings found.");
+
+            return TbOfferingsForRFQ;
+        }
+
+
 
         //public bool ValidateUniqueProductCodeInTissueBank(string ProductCode, int TissueBankId)
         //{

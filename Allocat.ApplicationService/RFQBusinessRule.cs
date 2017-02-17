@@ -47,5 +47,40 @@ namespace Allocat.ApplicationService
                 AddValidationError("RequestForQuoteId", "Access Denied");
             }
         }
+
+        public void ValidateTemp_RequestForQuote_Hospital_Create(DataTable temp_RequestForQuote_Hospital_Create)
+        {
+            foreach (DataRow dr in temp_RequestForQuote_Hospital_Create.AsEnumerable())
+            {
+                //Required Validations
+                ValidateRequired(dr["TissueBankProductId"], "Tissue Bank Product Id");
+                ValidateRequired(dr["TissueBankId"], "Tissue Bank ID");
+                ValidateRequired(dr["HospitalId"], "Hospital ID");
+                ValidateRequired(dr["Quantity"], "Quantity");
+                ValidateRequired(dr["UnitPrice"], "Unit Price");
+                ValidateRequired(dr["LineTotal"], "Line Total");
+                ValidateRequired(dr["SalesTax"], "Sales Tax");
+                ValidateRequired(dr["Total"], "Total");
+                ValidateRequired(dr["StatusId"], "Status Id");
+                ValidateRequired(dr["RequestBody"], "Request Body");
+                ValidateRequired(dr["CreatedDate"], "Created Date");
+                ValidateRequired(dr["CreatedBy"], "Created By");
+                ValidateRequired(dr["LastModifiedDate"], "Last Modified Date");
+                ValidateRequired(dr["LastModifiedBy"], "Last Modified By");
+
+                //Regular Expression Validations
+
+                ValidateNumeric(dr["TissueBankProductId"], "Tissue Bank Product Id");
+                ValidateNumeric(dr["TissueBankId"], "TissueBank Id");
+                ValidateNumeric(dr["HospitalId"], "Hospital Id");
+                ValidateNumeric(dr["StatusId"], "Status Id");
+                ValidateNumeric(dr["CreatedBy"], "Created By");
+                ValidateNumeric(dr["LastModifiedBy"], "Last Modified By");
+
+                ValidateIsDate(dr["CreatedDate"], "Created Date");
+                ValidateIsDate(dr["LastModifiedDate"], "Last Modified Date");
+                ValidateIsDateOrNullOrEmptyDate(dr["NeedByDate"], "Need By Date");
+            }
+        }
     }
 }

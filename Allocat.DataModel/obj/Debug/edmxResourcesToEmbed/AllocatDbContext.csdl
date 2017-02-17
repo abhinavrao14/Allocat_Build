@@ -1632,6 +1632,8 @@
       <Parameter Name="PreservationType" Mode="In" Type="String" />
       <Parameter Name="SourceName" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="usp_TissueBank_Hospital_GetTbOfferingForRFQ" />
+    <FunctionImport Name="usp_RequestForQuote_Hospital_Create" />
   </EntityContainer>
   <ComplexType Name="sp_Order_TissueBank_GetByTissueBankId_Result">
     <Property Type="Int64" Name="Sno" Nullable="true" />

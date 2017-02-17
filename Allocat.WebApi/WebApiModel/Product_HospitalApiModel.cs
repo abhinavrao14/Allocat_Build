@@ -10,6 +10,7 @@ namespace Allocat.WebApi.WebApiModel
         public List<usp_TissueBankProduct_GetProductSubstitutesByProductMasterName_Hospital_Result> ProductSubstitutes;
         public List<usp_TissueBankProduct_GetTbOfferingForTissueBankProduct_Hospital_Result> TbOfferings;
         public List<Product_Hospital> AllProductMasters;
+        public List<TbOfferingForRFQ_Hospital> TbOfferingsForRFQ;
         public string ProductMasterCommaSeparated;
     }
 
@@ -22,5 +23,11 @@ namespace Allocat.WebApi.WebApiModel
         public string PreservationType { get; set; }
         public string SourceName { get; set; }
         public string OperationType { get; set; }
+        public int[] TissueBankProductIds { get; set; }
+    }
+
+    public class TissueBankProductIds_Hospital
+    {
+        public int TissueBankProductId { get; set; }
     }
 }

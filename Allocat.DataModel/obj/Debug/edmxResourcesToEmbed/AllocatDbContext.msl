@@ -829,5 +829,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="usp_TissueBank_Hospital_GetTbOfferingForRFQ" FunctionName="AllocatDbModel.Store.usp_TissueBank_Hospital_GetTbOfferingForRFQ" />
+    <FunctionImportMapping FunctionImportName="usp_RequestForQuote_Hospital_Create" FunctionName="AllocatDbModel.Store.usp_RequestForQuote_Hospital_Create" />
   </EntityContainerMapping>
 </Mapping>

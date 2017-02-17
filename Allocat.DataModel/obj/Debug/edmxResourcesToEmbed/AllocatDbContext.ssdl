@@ -1192,6 +1192,7 @@
   <Function Name="usp_ProductMaster_GetBySearch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="SearchBy" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="usp_RequestForQuote_Hospital_Create" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="usp_TissueBank_Add" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TissueBankName" Type="nvarchar" Mode="In" />
     <Parameter Name="ContactPersonFirstName" Type="nvarchar" Mode="In" />
@@ -1229,6 +1230,7 @@
   <Function Name="usp_TissueBank_Get" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="TissuebankId" Type="int" Mode="In" />
   </Function>
+  <Function Name="usp_TissueBank_Hospital_GetTbOfferingForRFQ" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="usp_TissueBank_UpdateTissueBankBillingDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="ContactPersonFirstName" Type="nvarchar" Mode="In" />
     <Parameter Name="ContactPersonLastName" Type="nvarchar" Mode="In" />
