@@ -35,7 +35,7 @@ namespace Allocat.Utility
 
                 // Init SmtpClient and send
                 SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
-                System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("sindhut", "Sindhu@1234");
+                System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("XXXXX", "XXXXXXX");
                 smtpClient.Credentials = credentials;
 
                 smtpClient.Send(mailMsg);
